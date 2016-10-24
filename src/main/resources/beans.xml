@@ -7,12 +7,12 @@
 
 
     <!-- bean configuration using XML-->
-    <bean id="hello" class="pkg.Hello">
+    <!--bean id="hello" class="pkg.Hello">
         <property name="message" value="pkg.Hello world!"/>
     </bean>
     <bean id="main" class="pkg.Main">
         <property name="bean" ref="hello"/>
-    </bean>
+    </bean-->
 
     <!-- bean configuration using annotations -->
     <context:annotation-config/>
