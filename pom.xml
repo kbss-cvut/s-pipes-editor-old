@@ -67,6 +67,11 @@
         <!-- JOPA -->
         <dependency>
             <groupId>cz.cvut.kbss.jopa</groupId>
+            <artifactId>jopa-api</artifactId>
+            <version>${jopaVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>cz.cvut.kbss.jopa</groupId>
             <artifactId>jopa-impl</artifactId>
             <version>${jopaVersion}</version>
         </dependency>
