@@ -3,6 +3,18 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <packaging>war</packaging>
+    <groupId>cz.cvut.fel</groupId>
+    <artifactId>sped</artifactId>
+    <version>0.1</version>
+
+    <properties>
+        <springVersion>4.3.2.RELEASE</springVersion>
+        <jopaVersion>0.8.6</jopaVersion>
+        <scalaVersion>2.11.8</scalaVersion>
+        <jsonVersion>2.7.3</jsonVersion>
+        <servletApiVersion>3.1.0</servletApiVersion>
+    </properties>
 
     <repositories>
         <repository>
@@ -14,51 +26,50 @@
 
     <dependencies>
 
+        <!-- JSON -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jsonVersion}</version>
+        </dependency>
+
+        <!-- Servlet-API for webapp -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servletApiVersion}</version>
+        </dependency>
+
         <!-- Scala -->
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
-            <version>2.11.8</version>
+            <version>${scalaVersion}</version>
         </dependency>
 
         <!-- Spring -->
-        <!--dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-            <version>4.3.2.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aspects</artifactId>
-            <version>4.3.2.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>4.3.2.RELEASE</version>
-        </dependency-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
-            <version>4.3.2.RELEASE</version>
+            <version>${springVersion}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>4.3.2.RELEASE</version>
+            <version>${springVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${springVersion}</version>
         </dependency>
 
         <!-- JOPA -->
         <dependency>
             <groupId>cz.cvut.kbss.jopa</groupId>
             <artifactId>jopa-impl</artifactId>
-            <version>0.8.6</version>
+            <version>${jopaVersion}</version>
         </dependency>
     </dependencies>
-
-    <groupId>cz.cvut.fel</groupId>
-    <artifactId>sped</artifactId>
-    <version>0.1</version>
-
 
 </project>
