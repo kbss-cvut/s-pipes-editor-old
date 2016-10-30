@@ -47,6 +47,13 @@
             <version>${scalaVersion}</version>
         </dependency>
 
+        <!-- JSON parsing -->
+        <dependency>
+            <groupId>org.scala-lang.modules</groupId>
+            <artifactId>scala-parser-combinators_2.11</artifactId>
+            <version>1.0.4</version>
+        </dependency>
+
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
