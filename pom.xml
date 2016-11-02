@@ -13,13 +13,14 @@
         <jopaVersion>0.8.6</jopaVersion>
         <scalaVersion>2.11.8</scalaVersion>
         <jsonVersion>2.7.3</jsonVersion>
+        <jaxbJsonldVersion>0.0.6</jaxbJsonldVersion>
         <servletApiVersion>3.1.0</servletApiVersion>
     </properties>
 
     <repositories>
         <repository>
-            <id>jopa</id>
-            <name>JOPA repo</name>
+            <id>kbss</id>
+            <name>KBSS repo</name>
             <url>http://kbss.felk.cvut.cz/m2repo</url>
         </repository>
     </repositories>
@@ -52,6 +53,13 @@
             <groupId>org.scala-lang.modules</groupId>
             <artifactId>scala-parser-combinators_2.11</artifactId>
             <version>1.0.4</version>
+        </dependency>
+
+        <!-- JSON-LD -->
+        <dependency>
+            <groupId>cz.cvut.kbss</groupId>
+            <artifactId>jaxb-jsonld-jackson</artifactId>
+            <version>${jaxbJsonldVersion}</version>
         </dependency>
 
         <!-- Spring -->
