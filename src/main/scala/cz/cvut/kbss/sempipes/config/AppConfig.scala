@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc
   */
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = Array("spring"))
+@ComponentScan(basePackages = Array("cz.cvut.kbss.sempipes"))
 class AppConfig {
 
 }
