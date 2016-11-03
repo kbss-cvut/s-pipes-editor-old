@@ -9,12 +9,12 @@
     <version>0.1</version>
 
     <properties>
-        <springVersion>4.3.2.RELEASE</springVersion>
+        <org.springframework.version>4.3.2.RELEASE</org.springframework.version>
         <cz.cvut.kbss.jopa.version>0.8.6</cz.cvut.kbss.jopa.version>
-        <scalaVersion>2.11.8</scalaVersion>
-        <jsonVersion>2.7.3</jsonVersion>
-        <jaxbJsonldVersion>0.0.6</jaxbJsonldVersion>
-        <servletApiVersion>3.1.0</servletApiVersion>
+        <org.scala-lang.version>2.11.8</org.scala-lang.version>
+        <com.fasterxml.json.version>2.7.3</com.fasterxml.json.version>
+        <cz.cvut.kbss.jaxb-jsonld-jackson.version>0.0.6</cz.cvut.kbss.jaxb-jsonld-jackson.version>
+        <javax.servlet.servlet-api.version>3.1.0</javax.servlet.servlet-api.version>
     </properties>
 
     <repositories>
@@ -51,21 +51,21 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jsonVersion}</version>
+            <version>${com.fasterxml.json.version}</version>
         </dependency>
 
         <!-- Servlet-API for webapp -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>${servletApiVersion}</version>
+            <version>${javax.servlet.servlet-api.version}</version>
         </dependency>
 
         <!-- Scala -->
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
-            <version>${scalaVersion}</version>
+            <version>${org.scala-lang.version}</version>
         </dependency>
 
         <!-- JSON parsing -->
@@ -79,24 +79,24 @@
         <dependency>
             <groupId>cz.cvut.kbss</groupId>
             <artifactId>jaxb-jsonld-jackson</artifactId>
-            <version>${jaxbJsonldVersion}</version>
+            <version>${cz.cvut.kbss.jaxb-jsonld-jackson.version}</version>
         </dependency>
 
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
-            <version>${springVersion}</version>
+            <version>${org.springframework.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>${springVersion}</version>
+            <version>${org.springframework.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>${springVersion}</version>
+            <version>${org.springframework.version}</version>
         </dependency>
 
         <!-- JOPA -->
