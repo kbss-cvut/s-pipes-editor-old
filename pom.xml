@@ -20,10 +20,30 @@
     <repositories>
         <repository>
             <id>kbss</id>
-            <name>KBSS repo</name>
+            <name>KBSS Maven 2 Repository</name>
             <url>http://kbss.felk.cvut.cz/m2repo</url>
+            <snapshots>
+                <checksumPolicy>warn</checksumPolicy>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
         </repository>
     </repositories>
+
+    <!-- For the JOPA maven plugin -->
+    <pluginRepositories>
+        <pluginRepository>
+            <id>kbss</id>
+            <name>KBSS Maven 2 Repository</name>
+            <url>http://kbss.felk.cvut.cz/m2repo</url>
+            <snapshots>
+                <checksumPolicy>warn</checksumPolicy>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
 
     <dependencies>
 
@@ -98,7 +118,7 @@
                 <!-- Generate entity classes from OWL integrity constraints -->
                 <groupId>cz.cvut.kbss.jopa</groupId>
                 <artifactId>jopa-maven-plugin</artifactId>
-                <version>0.8.4</version>
+                <version>${cz.cvut.kbss.jopa.version}</version>
                 <configuration>
                     <package>cz.cvut.kbss.sempipes.model</package>
                     <output-directory>${project.basedir}/src/main/generated-sources</output-directory>
