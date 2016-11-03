@@ -11,10 +11,9 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix owlTime: <http://www.w3.org/2006/time#> .
-@prefix organization: <http://onto.fel.cvut.cz/ontologies/organization/> .
+@prefix sempipes: <http://onto.fel.cvut.cz/ontologies/sempipes/> .
 
-<http://onto.fel.cvut.cz/ontologies/organization> a owl:Ontology ;
-	owl:imports <http://onto.fel.cvut.cz/ontologies/ufo> , <http://www.w3.org/ns/org#> .
+sempipes:model a owl:Ontology .
 # 
 # 
 # #################################################################
@@ -24,37 +23,58 @@
 # #################################################################
 # 
 # 
-# http://www.w3.org/ns/org#changedBy
+# http://onto.fel.cvut.cz/ontologies/sempipes/has-destination-node
 
-:changedBy rdfs:subPropertyOf <http://onto.fel.cvut.cz/ontologies/ufo/is_participant_of> .
+sempipes:has-destination-node a owl:ObjectProperty ;
+	rdfs:domain sempipes:edge ;
+	rdfs:range sempipes:node .
 # 
-# http://www.w3.org/ns/org#hasMember
+# http://onto.fel.cvut.cz/ontologies/sempipes/has-source-node
 
-:hasMember rdfs:subPropertyOf <http://onto.fel.cvut.cz/ontologies/ufo/has_object_part> .
+sempipes:has-source-node a owl:ObjectProperty ;
+	rdfs:domain sempipes:edge ;
+	rdfs:range sempipes:node .
 # 
-# http://www.w3.org/ns/org#hasPost
-
-:hasPost rdfs:subPropertyOf <http://onto.fel.cvut.cz/ontologies/ufo/has_object_part> .
 # 
-# http://www.w3.org/ns/org#hasSubOrganization
-
-:hasSubOrganization rdfs:subPropertyOf <http://onto.fel.cvut.cz/ontologies/ufo/has_object_part> .
 # 
-# http://www.w3.org/ns/org#memberOf
-
-:memberOf rdfs:subPropertyOf <http://onto.fel.cvut.cz/ontologies/ufo/is_object_part_of> .
+# #################################################################
+# #
+# #    Data properties
+# #
+# #################################################################
 # 
-# http://www.w3.org/ns/org#postIn
-
-:postIn rdfs:subPropertyOf <http://onto.fel.cvut.cz/ontologies/ufo/is_object_part_of> .
 # 
-# http://www.w3.org/ns/org#resultingOrganization
+# http://onto.fel.cvut.cz/ontologies/sempipes/has-coordinate
 
-:resultingOrganization rdfs:subPropertyOf <http://onto.fel.cvut.cz/ontologies/ufo/has_participant> .
+sempipes:has-coordinate a owl:DatatypeProperty ;
+	rdfs:domain sempipes:node ;
+	rdfs:range xsd:int .
 # 
-# http://www.w3.org/ns/org#transitiveSubOrganizationOf
+# http://onto.fel.cvut.cz/ontologies/sempipes/has-input-parameter
 
-:transitiveSubOrganizationOf rdfs:subPropertyOf <http://onto.fel.cvut.cz/ontologies/ufo/has_object_part> .
+sempipes:has-input-parameter a owl:DatatypeProperty ;
+	rdfs:subPropertyOf sempipes:has-parameter .
+# 
+# http://onto.fel.cvut.cz/ontologies/sempipes/has-output-parameter
+
+sempipes:has-output-parameter a owl:DatatypeProperty ;
+	rdfs:subPropertyOf sempipes:has-parameter .
+# 
+# http://onto.fel.cvut.cz/ontologies/sempipes/has-parameter
+
+sempipes:has-parameter a owl:DatatypeProperty ;
+	rdfs:domain sempipes:node ;
+	rdfs:range xsd:string .
+# 
+# http://onto.fel.cvut.cz/ontologies/sempipes/has-x-coordinate
+
+sempipes:has-x-coordinate a owl:DatatypeProperty ;
+	rdfs:subPropertyOf sempipes:has-coordinate .
+# 
+# http://onto.fel.cvut.cz/ontologies/sempipes/has-y-coordinate
+
+sempipes:has-y-coordinate a owl:DatatypeProperty ;
+	rdfs:subPropertyOf sempipes:has-coordinate .
 # 
 # 
 # 
@@ -65,51 +85,14 @@
 # #################################################################
 # 
 # 
-# http://onto.fel.cvut.cz/ontologies/organization/organization-part
+# http://onto.fel.cvut.cz/ontologies/sempipes/edge
 
-organization:organization-part a owl:Class ;
-	rdfs:subClassOf <http://onto.fel.cvut.cz/ontologies/ufo/Agent> ;
-	rdfs:comment "Organization part"@en ;
-	rdfs:label "Část organizace"@cs .
+sempipes:edge a owl:Class ;
+	rdfs:label "Graph edge" .
 # 
-# http://www.w3.org/ns/org#ChangeEvent
+# http://onto.fel.cvut.cz/ontologies/sempipes/node
 
-:ChangeEvent rdfs:subClassOf <http://onto.fel.cvut.cz/ontologies/ufo/Object_change_event> .
-# 
-# http://www.w3.org/ns/org#Membership
-
-:Membership rdfs:subClassOf <http://onto.fel.cvut.cz/ontologies/ufo/Object> .
-# 
-# http://www.w3.org/ns/org#Organization
-
-:Organization rdfs:subClassOf <http://onto.fel.cvut.cz/ontologies/ufo/Organization> .
-# 
-# http://www.w3.org/ns/org#Post
-
-:Post rdfs:subClassOf <http://onto.fel.cvut.cz/ontologies/ufo/Object> .
-# 
-# http://www.w3.org/ns/org#Role
-
-:Role rdfs:subClassOf <http://onto.fel.cvut.cz/ontologies/ufo/Object> .
-# 
-# http://www.w3.org/ns/org#Site
-
-:Site rdfs:subClassOf <http://onto.fel.cvut.cz/ontologies/ufo/Object> .
-# 
-# http://www.w3.org/ns/prov#Activity
-
-prov:Activity rdfs:subClassOf <http://onto.fel.cvut.cz/ontologies/ufo/Event> .
-# 
-# http://xmlns.com/foaf/0.1/Agent
-
-foaf:Agent rdfs:subClassOf <http://onto.fel.cvut.cz/ontologies/ufo/Agent> .
-# 
-# http://xmlns.com/foaf/0.1/Organization
-
-foaf:Organization rdfs:subClassOf <http://onto.fel.cvut.cz/ontologies/ufo/Organization> .
-# 
-# http://xmlns.com/foaf/0.1/Person
-
-foaf:Person rdfs:subClassOf <http://onto.fel.cvut.cz/ontologies/ufo/Person> .
+sempipes:node a owl:Class ;
+	rdfs:label "Graph node" .
 # 
 # Generated by the OWL API (version 4.2.5.20160517-0735) https://github.com/owlcs/owlapi
