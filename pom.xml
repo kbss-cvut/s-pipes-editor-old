@@ -122,7 +122,7 @@
                 <configuration>
                     <package>cz.cvut.kbss.sempipes.model</package>
                     <output-directory>${project.basedir}/src/main/generated-sources</output-directory>
-                    <ontology-iri>tp://onto.fel.cvut.cz/ontologies/sempipes/model</ontology-iri>
+                    <ontology-iri>http://onto.fel.cvut.cz/ontologies/sempipes/model</ontology-iri>
                     <mapping-file>${project.basedir}/src/main/resources/mapping</mapping-file>
                     <whole-ontology-as-ics>true</whole-ontology-as-ics>
                     <!--<context-name>eccairs-model</context-name>-->
