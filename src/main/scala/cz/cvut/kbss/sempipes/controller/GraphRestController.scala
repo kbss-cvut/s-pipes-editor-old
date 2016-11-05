@@ -2,8 +2,8 @@ package cz.cvut.kbss.sempipes.controller
 
 import cz.cvut.kbss.jsonld.JsonLd
 import cz.cvut.kbss.sempipes.dao.GraphDao
+import cz.cvut.kbss.sempipes.dto.GraphDto
 import cz.cvut.kbss.sempipes.model.graph.{Edge, Node}
-import dto.GraphDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
 import org.springframework.web.bind.annotation._

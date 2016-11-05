@@ -1,4 +1,4 @@
-package spring.config
+package cz.cvut.kbss.sempipes.config
 
 import org.springframework.context.annotation.{ComponentScan, Configuration}
 import org.springframework.web.servlet.config.annotation.EnableWebMvc
