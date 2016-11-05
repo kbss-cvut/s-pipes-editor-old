@@ -47,11 +47,16 @@
 
     <dependencies>
 
-        <!-- JSON -->
+        <!-- Logging -->
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${com.fasterxml.json.version}</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.18</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.1.6</version>
         </dependency>
 
         <!-- Servlet-API for webapp -->
@@ -68,11 +73,11 @@
             <version>${org.scala-lang.version}</version>
         </dependency>
 
-        <!-- JSON parsing -->
+        <!-- JSON -->
         <dependency>
-            <groupId>org.scala-lang.modules</groupId>
-            <artifactId>scala-parser-combinators_2.11</artifactId>
-            <version>1.0.4</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${com.fasterxml.json.version}</version>
         </dependency>
 
         <!-- JSON-LD -->
