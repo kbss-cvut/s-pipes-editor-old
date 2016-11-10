@@ -2,7 +2,7 @@ package cz.cvut.kbss.sempipes.dao
 
 import java.net.URI
 
-import cz.cvut.kbss.sempipes.model.graph.Node
+import spring.model.graph.Node
 import org.springframework.stereotype.Repository
 
 import scala.collection.mutable.{Set => MutableSet}
@@ -13,5 +13,5 @@ import scala.collection.mutable.{Set => MutableSet}
 @Repository
 class GraphDao {
   def getNodeByURI(uri: URI) =
-    Node(uri, "Label", 0, 0, MutableSet(), MutableSet(), MutableSet())
+    new Node(uri, 0, 0, Set(), Set(), Set())
 }

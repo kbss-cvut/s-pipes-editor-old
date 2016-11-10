@@ -10,14 +10,14 @@ import scala.beans.BeanProperty
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 28.10.16.
   */
-@OWLClass(iri = Vocabulary.s_c_edge)
+//@OWLClass(iri = Vocabulary.s_c_edge)
 class Edge( @BeanProperty
             @Id(generated = true)
             uri: URI,
             @BeanProperty
-            @OWLObjectProperty(iri = Vocabulary.s_p_has_source_node)
+            //@OWLObjectProperty(iri = Vocabulary.s_p_has_source_node)
             from: Node,
-            @OWLObjectProperty(iri = Vocabulary.s_p_has_destination_node)
+            //@OWLObjectProperty(iri = Vocabulary.s_p_has_destination_node)
             @BeanProperty to: Node) {
 
 }

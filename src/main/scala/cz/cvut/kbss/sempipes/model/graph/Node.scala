@@ -10,24 +10,24 @@ import scala.beans.BeanProperty
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 28.10.16.
   */
-@OWLClass(iri = Vocabulary.s_c_node)
+//@OWLClass(iri = Vocabulary.s_c_node)
 class Node(@BeanProperty
            @Id(generated = true)
            uri: URI,
            @BeanProperty
-           @OWLDataProperty(iri = Vocabulary.s_p_has_x_coordinate)
+           //@OWLDataProperty(iri = Vocabulary.s_p_has_x_coordinate)
            x: Double,
            @BeanProperty
-           @OWLDataProperty(iri = Vocabulary.s_p_has_y_coordinate)
+           //@OWLDataProperty(iri = Vocabulary.s_p_has_y_coordinate)
            y: Double,
            @BeanProperty
            @Types
            nodeType: Set[String],
            @BeanProperty
-           @OWLDataProperty(iri = Vocabulary.s_p_has_input_parameter)
+           //@OWLDataProperty(iri = Vocabulary.s_p_has_input_parameter)
            inParameters: Set[String],
            @BeanProperty
-           @OWLDataProperty(iri = Vocabulary.s_p_has_output_parameter)
+           //@OWLDataProperty(iri = Vocabulary.s_p_has_output_parameter)
            outParameters: Set[String]) {}
 
 object Node {

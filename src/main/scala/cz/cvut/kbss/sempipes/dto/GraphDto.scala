@@ -1,6 +1,6 @@
 package cz.cvut.kbss.sempipes.dto
 
-import cz.cvut.kbss.sempipes.model.graph.{Edge, Node}
+import spring.model.graph.{Edge, Node}
 import org.springframework.stereotype.Repository
 
 /**
