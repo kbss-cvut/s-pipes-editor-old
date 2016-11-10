@@ -11,10 +11,12 @@
     <properties>
         <org.springframework.version>4.3.2.RELEASE</org.springframework.version>
         <cz.cvut.kbss.jopa.version>0.8.6</cz.cvut.kbss.jopa.version>
-        <org.scala-lang.version>2.11.8</org.scala-lang.version>
+        <org.scala-lang.version>2.12.0</org.scala-lang.version>
         <com.fasterxml.json.version>2.7.3</com.fasterxml.json.version>
         <cz.cvut.kbss.jaxb-jsonld-jackson.version>0.0.6</cz.cvut.kbss.jaxb-jsonld-jackson.version>
         <javax.servlet.servlet-api.version>3.1.0</javax.servlet.servlet-api.version>
+        <junit.junit.version>4.12</junit.junit.version>
+
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
@@ -48,6 +50,13 @@
 
 
     <dependencies>
+
+        <!-- Junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.junit.version}</version>
+        </dependency>
 
         <!-- Logging -->
         <dependency>
@@ -116,12 +125,6 @@
             <groupId>cz.cvut.kbss.jopa</groupId>
             <artifactId>jopa-impl</artifactId>
             <version>${cz.cvut.kbss.jopa.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
