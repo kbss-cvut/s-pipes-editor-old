@@ -1,6 +1,7 @@
 package cz.cvut.kbss.sempipes.model.graph;
 
 import cz.cvut.kbss.jopa.model.annotations.Id;
+import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
 import cz.cvut.kbss.jopa.model.annotations.Types;
 import cz.cvut.kbss.sempipes.model.Vocabulary;
@@ -11,6 +12,7 @@ import java.util.Set;
 /**
  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 10.11.16.
  */
+@OWLClass(iri = Vocabulary.s_c_node)
 public class Node {
 
     @Id(generated = true)
@@ -27,6 +29,9 @@ public class Node {
     private Set<String> inParameters;
     @OWLDataProperty(iri = Vocabulary.s_p_has_output_parameter)
     private Set<String> outParameters;
+
+    public Node() {
+    }
 
     public Node(URI uri, String label, double x, double y, Set<String> nodeType, Set<String> inParameters, Set<String> outParameters) {
         this.uri = uri;
@@ -92,5 +97,18 @@ public class Node {
 
     public void setOutParameters(Set<String> outParameters) {
         this.outParameters = outParameters;
+    }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "uri=" + uri +
+                ", label='" + label + '\'' +
+                ", x=" + x +
+                ", y=" + y +
+                ", nodeType=" + nodeType +
+                ", inParameters=" + inParameters +
+                ", outParameters=" + outParameters +
+                '}';
     }
 }
