@@ -1,7 +1,6 @@
 import com.github.jsonldjava.core.JsonLdProcessor;
 import com.github.jsonldjava.utils.JsonUtils;
 import cz.cvut.kbss.jsonld.deserialization.JsonLdDeserializer;
-import cz.cvut.kbss.sempipes.model.Employee;
 import cz.cvut.kbss.sempipes.model.TestNode;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,17 +19,6 @@ public class JsonLD2JavaConverterTest {
     public void setUp() {
         this.deserializer = JsonLdDeserializer.createExpandedDeserializer();
     }
-
-
-    @Test
-    public void testDeserializeInstanceWithSingularObjectProperty() throws Exception {
-        final Object input = readAndExpand("objectWithSingularReference.json");
-        final Employee result = deserializer.deserialize(input, Employee.class);
-//        verifyUserAttributes(USERS.get(HALSEY_URI), result);
-//        assertNotNull(result.getEmployer());
-//        verifyOrganizationAttributes(result.getEmployer());
-    }
-
 
     @Test
     public void testDeserializeNode() throws Exception {
