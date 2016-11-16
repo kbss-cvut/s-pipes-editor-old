@@ -5,6 +5,7 @@ import java.net.URI
 import cz.cvut.kbss.sempipes.model.graph.Node
 import org.springframework.stereotype.Repository
 
+import scala.collection.JavaConverters._
 import scala.collection.mutable.{Set => MutableSet}
 
 /**
@@ -13,5 +14,5 @@ import scala.collection.mutable.{Set => MutableSet}
 @Repository
 class GraphDao {
   def getNodeByURI(uri: URI) =
-    Node(uri, "Label", 0, 0, MutableSet(), MutableSet(), MutableSet())
+    new Node(uri, "Label", 0, 0, MutableSet[String]().asJava, MutableSet[String]().asJava, MutableSet[String]().asJava)
 }
