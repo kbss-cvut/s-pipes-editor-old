@@ -20,11 +20,11 @@ public class Node {
     @OWLDataProperty(iri = Vocabulary.s_p_label)
     private String label;
     @OWLDataProperty(iri = Vocabulary.s_p_has_x_coordinate)
-    private double x;
+    private Double x;
     @OWLDataProperty(iri = Vocabulary.s_p_has_y_coordinate)
-    private double y;
+    private Double y;
     @Types
-    private Set<String> nodeType;
+    private Set<String> nodeTypes;
     @OWLDataProperty(iri = Vocabulary.s_p_has_input_parameter)
     private Set<String> inParameters;
     @OWLDataProperty(iri = Vocabulary.s_p_has_output_parameter)
@@ -33,12 +33,12 @@ public class Node {
     public Node() {
     }
 
-    public Node(URI uri, String label, double x, double y, Set<String> nodeType, Set<String> inParameters, Set<String> outParameters) {
+    public Node(URI uri, String label, double x, double y, Set<String> nodeTypes, Set<String> inParameters, Set<String> outParameters) {
         this.uri = uri;
         this.label = label;
         this.x = x;
         this.y = y;
-        this.nodeType = nodeType;
+        this.nodeTypes = nodeTypes;
         this.inParameters = inParameters;
         this.outParameters = outParameters;
     }
@@ -75,12 +75,12 @@ public class Node {
         this.y = y;
     }
 
-    public Set<String> getNodeType() {
-        return nodeType;
+    public Set<String> getNodeTypes() {
+        return nodeTypes;
     }
 
-    public void setNodeType(Set<String> nodeType) {
-        this.nodeType = nodeType;
+    public void setNodeTypes(Set<String> nodeTypes) {
+        this.nodeTypes = nodeTypes;
     }
 
     public Set<String> getInParameters() {
@@ -106,7 +106,7 @@ public class Node {
                 ", label='" + label + '\'' +
                 ", x=" + x +
                 ", y=" + y +
-                ", nodeType=" + nodeType +
+                ", nodeTypes=" + nodeTypes +
                 ", inParameters=" + inParameters +
                 ", outParameters=" + outParameters +
                 '}';
