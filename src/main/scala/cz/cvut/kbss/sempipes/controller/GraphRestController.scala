@@ -7,6 +7,7 @@ import cz.cvut.kbss.sempipes.model.graph.{Edge, Node}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
 import org.springframework.web.bind.annotation._
+import scala.collection.JavaConverters._
 
 import scala.beans.BeanProperty
 
@@ -26,8 +27,10 @@ class GraphRestController {
 
 
   @PostMapping(path = Array("/nodes"), consumes = Array(JsonLd.MEDIA_TYPE), produces = Array(JsonLd.MEDIA_TYPE))
-  def createNodes(@RequestBody nodes: Seq[Node]) =
-    new ResponseEntity(graphDto persistNodes nodes, HttpStatus.CREATED)
+  def createNodes(@RequestBody nodes: java.util.List[Node]) = {
+    nodes.asScala foreach println
+    new ResponseEntity(graphDto persistNodes nodes.asScala, HttpStatus.CREATED)
+  }
 
   @DeleteMapping(path = Array("/nodes"))
   def deleteNodes(@RequestBody nodes: Seq[Node]) =
