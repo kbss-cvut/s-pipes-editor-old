@@ -28,7 +28,7 @@
           settings('labelSizeRatio') * size;
 
     // Label background:
-    context.font = (fontStyle ? fontStyle + ' ' : '') +
+/*    context.font = (fontStyle ? fontStyle + ' ' : '') +
       fontSize + 'px ' + (settings('hoverFont') || settings('font'));
 
     context.beginPath();
@@ -66,10 +66,10 @@
       context.shadowOffsetX = 0;
       context.shadowOffsetY = 0;
       context.shadowBlur = 0;
-    }
+    }*/
 
     // Node border:
-    if (settings('borderSize') > 0) {
+    /*if (settings('borderSize') > 0) {
       context.beginPath();
       context.fillStyle = settings('nodeBorderColor') === 'node' ?
         (node.color || settings('defaultNodeColor')) :
@@ -84,10 +84,10 @@
       );
       context.closePath();
       context.fill();
-    }
+    }*/
 
     // Node:
-    var nodeRenderer = sigma.canvas.nodes[node.type] || sigma.canvas.nodes.def;
+    /*var nodeRenderer = sigma.canvas.nodes[node.type] || sigma.canvas.nodes.def;
     nodeRenderer(node, context, settings);
 
     // Display the label:
@@ -101,6 +101,6 @@
         Math.round(node[prefix + 'x'] + size + 3),
         Math.round(node[prefix + 'y'] + fontSize / 3)
       );
-    }
+    }*/
   };
 }).call(this);
