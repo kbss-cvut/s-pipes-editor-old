@@ -14,5 +14,5 @@ import scala.collection.mutable.{Set => MutableSet}
 @Repository
 class GraphDao {
   def getNodeByURI(uri: URI) =
-    new Node(uri, "Label", 0, 0, MutableSet[String]().asJava, MutableSet[String]().asJava, MutableSet[String]().asJava)
+    new Node(uri, "Label", 1, 2, MutableSet[String]("type").asJava, MutableSet[String]("in").asJava, MutableSet[String]("out").asJava)
 }
