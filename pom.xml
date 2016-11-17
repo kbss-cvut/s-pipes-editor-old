@@ -131,6 +131,19 @@
             <artifactId>jopa-impl</artifactId>
             <version>${cz.cvut.kbss.jopa.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${org.springframework.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Mockito for REST testing -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.10.19</version>
+        </dependency>
     </dependencies>
 
     <build>
