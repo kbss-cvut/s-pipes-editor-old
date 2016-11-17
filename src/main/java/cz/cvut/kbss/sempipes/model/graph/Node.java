@@ -111,4 +111,33 @@ public class Node {
                 ", outParameters=" + outParameters +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Node node = (Node) o;
+
+        if (uri != null ? !uri.equals(node.uri) : node.uri != null) return false;
+        if (label != null ? !label.equals(node.label) : node.label != null) return false;
+        if (x != null ? !x.equals(node.x) : node.x != null) return false;
+        if (y != null ? !y.equals(node.y) : node.y != null) return false;
+        if (nodeTypes != null ? !nodeTypes.equals(node.nodeTypes) : node.nodeTypes != null) return false;
+        if (inParameters != null ? !inParameters.equals(node.inParameters) : node.inParameters != null) return false;
+        return outParameters != null ? outParameters.equals(node.outParameters) : node.outParameters == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = uri != null ? uri.hashCode() : 0;
+        result = 31 * result + (label != null ? label.hashCode() : 0);
+        result = 31 * result + (x != null ? x.hashCode() : 0);
+        result = 31 * result + (y != null ? y.hashCode() : 0);
+        result = 31 * result + (nodeTypes != null ? nodeTypes.hashCode() : 0);
+        result = 31 * result + (inParameters != null ? inParameters.hashCode() : 0);
+        result = 31 * result + (outParameters != null ? outParameters.hashCode() : 0);
+        return result;
+    }
 }

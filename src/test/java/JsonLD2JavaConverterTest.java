@@ -1,7 +1,6 @@
 import com.github.jsonldjava.core.JsonLdProcessor;
 import com.github.jsonldjava.utils.JsonUtils;
 import cz.cvut.kbss.jsonld.deserialization.JsonLdDeserializer;
-import cz.cvut.kbss.sempipes.model.TestNode;
 import cz.cvut.kbss.sempipes.model.graph.Node;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,15 +29,12 @@ public class JsonLD2JavaConverterTest {
     @Test
     public void testDeserializeNodeWithoutType() throws Exception {
         final Object input = readAndExpand("createNodeSample.json");
-        final TestNode result = deserializer.deserialize(input, TestNode.class);
-        TestNode control = new TestNode();
+        final Node result = deserializer.deserialize(input, Node.class);
+        Node control = new Node();
         control.setUri(new URI("/nodes/12034"));
         control.setLabel("create name");
         control.setX(1.0);
         control.setY(2.2);
-        Set<String> types = new HashSet<>();
-        types.add("a");
-        types.add("b");
         Set<String> in = new HashSet<>();
         in.add("a");
         in.add("b");
@@ -47,8 +43,6 @@ public class JsonLD2JavaConverterTest {
         out.add("d");
         control.setInParameters(in);
         control.setOutParameters(out);
-        System.err.println("Test node " + result);
-        System.err.println("Test node " + control);
 
         assertTrue(result.equals(control));
     }
