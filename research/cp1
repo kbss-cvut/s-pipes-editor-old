@@ -1,0 +1,32 @@
+OVERALL FUNCTIONALITY:
+ * See pipelines
+ * Create form (execute pipeline)
+ * Alter pipelines
+ ? Save/load pipelines
+
+USER TYPES:
+ - Unauthorized
+  * See pipelines
+  ? Create form (execute pipeline)
+  ? Alter pipelines
+  ? Load pipelines
+ - Authorized
+  * See pipelines
+  * Create form (execute pipeline)
+  * Alter pipelines
+  ? Save/load pipelines
+
+GET
+ ? Load graph
+ * Create form (execute pipeline)
+POST
+ * Create node
+ ? Create edge
+ ? Save pipeline
+PUT
+ * Alter node
+ ? Update saved pipeline
+DELETE
+ * Delete node
+ ? Delete edge
+ ? Delete saved pipeline
