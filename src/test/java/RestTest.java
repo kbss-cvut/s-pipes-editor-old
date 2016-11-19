@@ -31,17 +31,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {RestConfig.class})
+@ContextConfiguration(classes = RestConfig.class)
 @WebAppConfiguration
 public class RestTest {
 
     @Autowired
-    protected WebApplicationContext webApplicationContext;
+    private WebApplicationContext webApplicationContext;
 
     @Autowired
-    GraphDao graphDao;
+    private GraphDao graphDao;
 
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     private JsonLdDeserializer deserializer;
 
