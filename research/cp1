@@ -33,9 +33,9 @@ DELETE
  * Delete saved pipeline
 
 SRS: 
-1. EXTREMELY SHORT annotation + version (YD)
+DONE: 1. EXTREMELY SHORT annotation + version (YD)
 2. Intended audience (YD)
-3. References (YD)
+DONE: 3. References (YD)
 4. Product scope + product perspective (why and what) (YD)
 5. Product functions (high level summary) (AK)
 6. User types (+ description) (AK)
