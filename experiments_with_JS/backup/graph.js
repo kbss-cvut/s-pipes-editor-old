@@ -1,46 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Demonstration</title>
-  <style type="text/css">
-    body {
-      margin: 0;
-    }
-    #container {
-      position: absolute;
-      width: 90%;
-      height: 80%;
-      margin-top: 30px;
-      border: solid 2px black;
-    }
-  </style>
-</head>
-<body>
 
-
-
-  <!-- - - - - - - - - - - - - -
-  Store imgs here
-   - - - - - - - - - - - - - -->
-  <div style="display:none;">
-    <img id="img1" src="1.png">
-    <img id="img2" src="2.png">
-    <img id="img3" src="3.png">
-  </div>
-
-  <div id="container"></div>
-  <!-- main script -->
-  <script src="sigma.js/build/sigma.min.js"></script> 
-  <!-- dragNodes plugin -->
-  <script src="sigma.js/plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
-  <!-- custom shapes plugin-->
-  <script src="sigma.js/plugins/sigma.renderers.customShapes/shape-library.js"></script>
-  <script src="sigma.js/plugins/sigma.renderers.customShapes/sigma.renderers.customShapes.js"></script>
-
-  <!-- changed way how to show labels when node is hovered (actualy not to show anything) -->
-  <script src="sigma.js/src/renderers/canvas/sigma.canvas.hovers.def.js"></script>
-  
-  <script>
 
 sigma.utils.pkg('sigma.canvas.nodes');
 sigma.utils.pkg('sigma.canvas.labels');
@@ -57,7 +15,39 @@ sigma.canvas.nodes.def = (function() {
         outParams = node.outParams;
     size = node[prefix + 'size'];
     textWidth = context.measureText(node.label).width;
+
+
     textWidthLabel = context.measureText(node.label).width;
+
+    var allInsLength = 0;
+    for (i = 0; i < inParams.length; i++)
+      allInsLength += inParams[i].length;
+
+    var allOutsLength = 0;
+    for (i = 0; i < outParams.length; i++)
+      allOutsLength += outParams[i].length;
+
+    if (textWidthLabel > allInsLength*6 && textWidthLabel > allOutsLength*6)
+      textWidth = textWidthLabel;
+    else if (textWidthLabel > allInsLength*6 && textWidthLabel < allOutsLength*6)
+      textWidth = allOutsLength*6;
+    else if (textWidthLabel < allInsLength*6 && textWidthLabel > allOutsLength*6)
+      textWidth = allOutsLength*6;
+    else if (textWidthLabel < allInsLength*6 && textWidthLabel < allOutsLength*6 && allInsLength < allOutsLength)
+      textWidth = allOutsLength*6;
+    else if (textWidthLabel < allInsLength*6 && textWidthLabel < allOutsLength*6 && allOutsLength < allInsLength)
+      textWidth = allInsLength*6;
+
+    console.log(
+    "textWidthLabel=",
+    textWidthLabel,
+    " allInsLength=",
+    allInsLength,
+    " allOutsLength=",
+    allOutsLength,
+    " textWidth=",
+    textWidth
+  );
 
     var nodeXX = (node[prefix + 'x'] - (textWidth * 1.2) * 0.5) - 50,
         nodeYY = node[prefix + 'y'] - size * 1.2 * 0.8,
@@ -83,11 +73,8 @@ sigma.canvas.nodes.def = (function() {
     context.stroke();
 
     //draw upper rect(s)
-    var allInsLength = 0;
+    
     var temp = 0;
-    for (i = 0; i < inParams.length; i++)
-      allInsLength += inParams[i].length;
-
     for (i = 0; i < inParams.length; i++){
         temp = 0;
         context.fillStyle = node.color;
@@ -148,10 +135,9 @@ sigma.canvas.nodes.def = (function() {
     }
 
     // draw bottom rect(s)
-    var allOutsLength = 0;
+    
     var temp = 0;
-    for (i = 0; i < outParams.length; i++)
-      allOutsLength += outParams[i].length;
+    
 
     for (i = 0; i < outParams.length; i++){
         temp = 0;
@@ -171,7 +157,7 @@ sigma.canvas.nodes.def = (function() {
           context.fillText(
             outParams[i],
             nodeXX + (nodeWidth * outParams[0].length / allOutsLength) * 0.5,
-            nodeYY + nodeHeight + 11.5
+            nodeYY + nodeHeight + 10.5
           );
         } else if (i == 1){
             context.rect(
@@ -187,7 +173,7 @@ sigma.canvas.nodes.def = (function() {
             context.fillText(
               outParams[i],
               nodeXX + ( nodeWidth * outParams[i-1].length / allOutsLength ) + (nodeWidth * outParams[1].length / allOutsLength) * 0.5,
-              nodeYY + nodeHeight + 11.5
+              nodeYY + nodeHeight + 10.5
             );
           }
           else {
@@ -207,7 +193,7 @@ sigma.canvas.nodes.def = (function() {
             context.fillText(
               outParams[i],
               nodeXX + temp + (nodeWidth * outParams[i-1].length / allOutsLength) + ((nodeWidth * outParams[i].length / allOutsLength)*0.5),
-              nodeYY+ nodeHeight + 11.5
+              nodeYY+ nodeHeight + 10.5
             );
           }
     }
@@ -220,17 +206,6 @@ sigma.canvas.nodes.def = (function() {
       size * 1.6,
       size * 1.6
     );
-
-  
-
-  console.log(
-    "textWidthLabel=",
-    textWidthLabel,
-    " allInsLength=",
-    allInsLength,
-    " allOutsLength=",
-    allOutsLength
-  );
 }
 
   return renderer;
@@ -282,7 +257,7 @@ sigma.canvas.labels.def = function(node, context, settings) {
           label: 'ahjbfgvjhgfvbhbvjfhbvkfhbvjfbvdfhkbvfghbv' + id,
           x: 0 + id/5,
           y: 0+ id/5,
-          size: 60,
+          size: 15,
           color: '#f5ceca',
           url: 'img1',
           forceLabel: true,
@@ -298,7 +273,7 @@ sigma.canvas.labels.def = function(node, context, settings) {
           label: 'nodeeee' + id,
           x: 0 + id/5,
           y: 0+ id/5,
-          size: 60,
+          size: 15,
           color: '#dfcde0',
           url: 'img2',
           inParams: ['in1', 'in2', 'in3'],
@@ -313,10 +288,10 @@ sigma.canvas.labels.def = function(node, context, settings) {
           label: 'n' + id,
           x: 0 + id/5,
           y: 0+ id/5,
-          size: 60,
+          size: 15,
           color: '#e5f98d',
           url: 'img3',
-          inParams: ['in11111', 'in2', 'in3', 'in4'],
+          inParams: ['in1111111', 'innnnnnnn2', 'in33', '4444444444444444444444444444444444444444444444'],
           outParams: ['out1'],
         });
         break
@@ -333,7 +308,7 @@ sigma.canvas.labels.def = function(node, context, settings) {
           label: ' ',
           x: 0,
           y: 0,
-          size: 60,
+          size: 15,
           color: '#e5f98d',
           url: 'img3',
           inParams: ['in1', 'in2', 'in3', 'in4'],
@@ -364,8 +339,8 @@ sigma.canvas.labels.def = function(node, context, settings) {
       }
     });
 
-
-
+    //get the popup box
+    var modal = document.getElementById('myModal');
 
     var dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
     dragListener.bind('drop', function(event) {
@@ -373,9 +348,16 @@ sigma.canvas.labels.def = function(node, context, settings) {
     });
 
     s.bind('doubleClickNode', function(e) {
-      alert(e.type + e.data.node.label);
+      modal.style.display = "block"; //show modal
       console.log(e.type, e.data.node.label, e.data.captor);
     });
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
 
     s.bind('overNode', function(e) {
       document.body.style.cursor = 'move';
@@ -386,18 +368,3 @@ sigma.canvas.labels.def = function(node, context, settings) {
 
     CustomShapes.init(s);
     s.refresh();
-
-
-    
-
-  </script>
-
-  <div id="panel">
-    <input id="clickMe" type="button" value="Add node type 1" onclick="newNode(1)" />
-    <input id="clickMe" type="button" value="Add node type 2" onclick="newNode(2)" />
-    <input id="clickMe" type="button" value="Add node type 3" onclick="newNode(3)" />
-  </div>
-  <script>
-    
-  </script>
-</body>

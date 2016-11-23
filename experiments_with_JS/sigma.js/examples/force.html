@@ -73,8 +73,8 @@
 var i,
     s,
     o,
-    N = 1000,
-    E = 5000,
+    N = 10,
+    E = 8,
     C = 5,
     d = 0.5,
     cs = [],
@@ -126,9 +126,7 @@ for (i = 0; i < E; i++) {
 s = new sigma({
   graph: g,
   container: 'graph-container',
-  settings: {
-    drawEdges: false
-  }
+  
 });
 
 // Start the ForceAtlas2 algorithm:

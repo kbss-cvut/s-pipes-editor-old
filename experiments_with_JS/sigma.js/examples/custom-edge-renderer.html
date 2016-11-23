@@ -107,6 +107,9 @@ sigma.canvas.edges.t = function(edge, source, target, context, settings) {
   context.lineTo(
     target[prefix + 'x'],
     target[prefix + 'y']
+  );  context.lineTo(
+    target[prefix + 'x'],
+    target[prefix + 'y']
   );
   context.stroke();
 };
@@ -114,8 +117,8 @@ sigma.canvas.edges.t = function(edge, source, target, context, settings) {
 // Now, let's use the renderer
 var i,
     s,
-    N = 50,
-    E = 150,
+    N = 7,
+    E = 5,
     g = {
       nodes: [],
       edges: []
