@@ -55,6 +55,15 @@ Authorization capabilities are enabled by Spring Security on the backend. From t
     \item The link for unauthorization is shown to an authorized user
 \end{itemize}
 \subsection{Operating Environment}
+Operating environment consists of several parts:
+\begin{itemize}
+    \item Application Server
+	The software is meant to be run inside of a container like an application server. Originaly Semantic Pipelines Editor was designed to run inside of Tomcat 8 application server, but should work in any other.
+    \item Database Server
+	The application is designed to work with RDF4J ontology storage.
+    \item Semantic Forms
+	Functionality is partially dependent on the Semantic Forms to be available as a web service.
+\end{itemize}
 \subsection{Design and Implementation Constraints}
 \section{External Interface Requirements}
 \subsection{User Interfaces}
@@ -78,6 +87,13 @@ Pipelines can be modified by adding or deleting modules, changing their properti
 \section{Other Requirements}
 \section*{Appendix A: Glossary}
 \addcontentsline{toc}{section}{Appendix A: Glossary}
+\textbf{API} - Application Programming Interface\\
+\textbf{JOPA} - Java OWL Persistence API\\
+\textbf{JSON} - JavaScript Object Notation\\
+\textbf{JSON-LD} - JavaScript Object Notation for Linked Data\\
+\textbf{REST} - Representational State Transfer\\
+\textbf{RDF} - Resource Description Framework\\
+\textbf{OWL} - Web Ontology Language
 \section*{Appendix B: Analysis Models}
 \addcontentsline{toc}{section}{Appendix B: Analysis Models}
 \end{document}
