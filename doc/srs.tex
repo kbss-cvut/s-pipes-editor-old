@@ -5,17 +5,17 @@
 \begin{document}
 \pagenumbering{gobble}
 \begin{center}
-\rule{0pt}{0pt}
-\vfill
-\includegraphics[scale=0.9]{logo.png}\\
-{\huge Software Requirements Specification\\}
-for project\\
-{\Large Semantic Pipelines Editor\\}
-by\\
-{\large\href{mailto:kelpeart@fel.cvut.cz}{Artem Kelpe}, \href{mailto:dorosyan@fel.cvut.cz}{Yan Doroshenko}\\}
-\vfill
-\rule{0pt}{90pt}\\
-{\large Czech Technical University in Prague\\} \today
+    \rule{0pt}{0pt}
+    \vfill
+    \includegraphics[scale=0.9]{logo.png}\\
+    {\huge Software Requirements Specification\\}
+    for project\\
+    {\Large Semantic Pipelines Editor\\}
+    by\\
+    {\large\href{mailto:kelpeart@fel.cvut.cz}{Artem Kelpe}, \href{mailto:dorosyan@fel.cvut.cz}{Yan Doroshenko}\\}
+    \vfill
+    \rule{0pt}{90pt}\\
+    {\large Czech Technical University in Prague\\} \today
 \end{center}
 \newpage
 \tableofcontents
@@ -30,14 +30,54 @@ This document describes the Semantic Pipelines Editor software, a specialized gr
 \href{http://json-ld.org/primer/latest/}{JSON-LD Primer}\\
 \href{https://www.w3.org/TR/rdf11-primer/}{RDF Primer}\\
 \href{http://ieeexplore.ieee.org/document/6011704/?arnumber=6011704\&tag=1}{\textit{P. Křemen, Z. Kouba}, Ontology-Driven Information System Design}\\
-\href{http://2016.eswc-conferences.org/sites/default/files/papers/Accepted\%20Posters\%20and\%20Demos/ESWC2016_DEMO_JOPA.pdf}{ESWC 2016, JOPA: Efficient Ontology-based Information System Design}
+\href{http://2016.eswc-conferences.org/sites/default/files/papers/Accepted\%20Posters\%20and\%20Demos/ESWC2016\_DEMO\_JOPA.pdf}{ESWC 2016, JOPA: Efficient Ontology-based Information System Design}
 \section{Overall Description}
+\subsection{Product Scope}
+Semantic Pipelines Editor is an application, whose purpose is to be integrated with Semantic Pipelines framework and to provide a graphical editor in form of an oriented graph for it with a possibility to execute pipelines from the editor itself. It is also capable of module saving and loaging, which is provided by persisting data into the ontology storage. The main goal is to provide a free and open source software edition tool for the abovestated framework and to enable developers to interact and manage pipelines in a self-explanatory and convinient way without having to deal with proprietary software or restrictive licenses.
+\subsection{Product Functions}
+Product functions can be divided into two groups:
+\begin{itemize}
+    \item Graph CRUD operations
+    \item Pipeline execution
+\end{itemize}
+Functions will be described in more detail in chapter \hyperref[sec:features]{System Feautures}.
+\subsection{User Classes and Characteristics}
+There are two user roles defines:
+\begin{itemize}
+    \item Unauthorized
+	Any user that did not log in with has permissions to create new pipelines, edit and execute them, but has no read/write access to the ontology storage and therefore can not save or load pipelines.
+    \item Authorized 
+	Logged in users can see, modify and create pipelines as well as save and load them.
+\end{itemize}
+Authorization capabilities are enabled by Spring Security on the backend. From the UI standpoint the difference is the following:
+\begin{itemize}
+    \item There are no Save/Load features shown to an unauthorized user
+    \item The link for unauthorization is shown to an authorized user
+\end{itemize}
+\subsection{Operating Environment}
+\subsection{Design and Implementation Constraints}
 \section{External Interface Requirements}
+\subsection{User Interfaces}
+Interaction with the user is provided by a web-interface, built around the JavaScript library for graph representation Sigma.js. The main window consists of two parts: left panel and a working surface for editing graphs (pic.1). Left panel contains elements for authorization, savind and loading graph and list of available types of nodes that can be added to the graph. At the working surface user can see the current graph (loaded or created), edit it (move nodes, draw edges etc.). Node double click shows the form generated from this node and its dependencies in the popup (pic. 2).
+\subsection{Software Interfaces}
+Application consists of frontend and backend parts with backend accessing the ontology storage as well as a Semantic Pipelines webservice. Communication between backend and frontend is implemented with JSON-LD format messages sent through REST API. All communication is done through unsecured HTTP protocol. Authentication encryption is provided by integrated SpringSecurity tools. 
 \section{System Features}
+\label{sec:features}
+As mentioned before, there are 5 main functions of Semantic Pipelines Editor software.
+\subsection{See pipelines}
+Pipelines are represented in form of an oriented graph. Nodes represent modules and edges are dependencies between them, which makes for intuitive and functional user interface.
+\subsection{Generate form (execute pipeline)}
+Semantic Pipelines Editor enables semantic forms to be generated from the pipeline. Module dependencies are executed recursively.
+\subsection{Create pipelines}
+There exists a possibility for creating new pipelines from scratch by adding individual modules and dependencies between them.
+\subsection{Save/load pipelines}
+The software allows saving pipelines into the ontology storage and loading them.
+\subsection{Alter pipelines}
+Pipelines can be modified by adding or deleting modules, changing their properties and dependencies between them.
 \section{Other Non-functional Requirements}
 \section{Other Requirements}
 \section*{Appendix A: Glossary}
 \addcontentsline{toc}{section}{Appendix A: Glossary}
-\section*{Appendix b: Analysis Models}
+\section*{Appendix B: Analysis Models}
 \addcontentsline{toc}{section}{Appendix B: Analysis Models}
 \end{document}
