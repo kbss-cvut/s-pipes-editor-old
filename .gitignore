@@ -2,3 +2,7 @@
 target
 *.iml
 src/main/generated-sources/
+doc/*.toc
+doc/*.aux
+doc/*.log
+doc/*.out
