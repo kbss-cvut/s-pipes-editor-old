@@ -34,14 +34,14 @@ DELETE
 
 SRS: 
 DONE: 1. EXTREMELY SHORT annotation + version (YD)
-2. Intended audience (YD)
+DONE: 2. Intended audience (YD)
 DONE: 3. References (YD)
 DONE: 4. Product scope + product perspective (why and what) (YD)
 DONE: 5. Product functions (high level summary) (AK)
 DONE: 6. User types (+ description) (AK)
 DONE: 7. Deploy environment (YD)
 DONE: 8. Design and implementation restrictions (YD)
-9. 3-rd party dependencies (YD, AK)
+DONE: 9. 3-rd party dependencies (YD, AK)
 DONE: 10. UX, web interface description (AK)
 DONE: 11. Software interfaces (Sempipes + RDF4J + JSON-LD) (YD)
 DONE: 12. Communication interfaces (web browser + protocols (HTTP) + security/encription) (AK)

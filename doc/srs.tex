@@ -26,6 +26,7 @@
 \subsection{Purpose}
 This document describes the Semantic Pipelines Editor software, a specialized graph editor for the Semantic Pipelines framework, as of version 1.0.
 \subsection{Intended Audience}
+This document is intended for developers, interested in Semantic Pipelines Editor, Semantic Pipelines infrastructure and its integration structure.
 \subsection{References}
 \href{http://json-ld.org/primer/latest/}{JSON-LD Primer}\\
 \href{https://www.w3.org/TR/rdf11-primer/}{RDF Primer}\\
@@ -77,6 +78,35 @@ There are several constraints that rigidly specify the product's relation to the
     \item JavaScript-based client
 	Semantic Pipelines Editor has a thin client and most of user interaction is made with JavaScript. Therefore the application is meant to be accessed with a web browser that is can run JavaScript code.
 \end{itemize}
+\subsection{Third Party Dependencies}
+\begin{itemize}
+    \item JDK
+	Oracle JDK or OpenJDK is required for running the backend
+    \item Scala SDK
+	Scala SDK is required for running the backend
+    \item Spring
+	Several components of the Spring Framework are used for IoC
+    \item JOPA
+	Persistence layer is done with JOPA
+    \item Apache Maven
+	Apache Maven build tool is used for building the project and sources generation
+    \item JUnit
+	Testing is partially made with JUnit
+    \item ServletAPI
+	ServletAPI is required by the web application 
+    \item Logback
+	Logback is used for logging
+    \item JSON-Core
+	JSON-Core is required for JSON operations in Java and Scala
+    \item Jaxb-JSONLD-Jackson
+	Jaxb-JSON-LD-Jackson provides JSON-LD support
+    \item Mockito
+	REST WS testing is done with Mockito
+    \item Sigma.js
+	Sigma.js is providing frontend graph representation
+    \item ReactJS
+	ReactJS is required for UI implementation
+\end{itemize}
 \section{External Interface Requirements}
 \subsection{User Interfaces}
 Interaction with the user is provided by a web-interface, built around the JavaScript library for graph representation Sigma.js. The main window consists of two parts: left panel and a working surface for editing graphs (\hyperref[pic1]{Figure 1}). Left panel contains elements for authorization, savind and loading graph and list of available types of nodes that can be added to the graph. At the working surface user can see the current graph (loaded or created), edit it (move nodes, draw edges etc.). Node double click shows the form generated from this node and its dependencies in the popup (\hyperref[pic1]{Figure 2}).
@@ -96,17 +126,22 @@ The software allows saving pipelines into the ontology storage and loading them.
 \subsection{Alter pipelines}
 Pipelines can be modified by adding or deleting modules, changing their properties and dependencies between them.
 \section{Other Non-functional Requirements}
+
 \section{Other Requirements}
 \section*{Appendix A: Glossary}
 \addcontentsline{toc}{section}{Appendix A: Glossary}
 \textbf{API} - Application Programming Interface\\
+\textbf{JDK} - Java Development Kit\\
 \textbf{JOPA} - Java OWL Persistence API\\
 \textbf{JSON} - JavaScript Object Notation\\
 \textbf{JSON-LD} - JavaScript Object Notation for Linked Data\\
 \textbf{REST} - Representational State Transfer\\
 \textbf{RDF} - Resource Description Framework\\
 \textbf{RDF4J} - RDF for Java programming language\\
-\textbf{OWL} - Web Ontology Language
+\textbf{SDK} - Software Development Kit\\
+\textbf{OWL} - Web Ontology Language\\
+\textbf{UI} - User Interface
+\textbf{WS} - Web service
 \section*{Appendix B: Analysis Models}
 \addcontentsline{toc}{section}{Appendix B: Analysis Models}
 \section*{Appendix C: Illustrations}
