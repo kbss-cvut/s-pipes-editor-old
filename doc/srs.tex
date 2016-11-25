@@ -41,13 +41,13 @@ Product functions can be divided into two groups:
     \item Graph CRUD operations
     \item Pipeline execution
 \end{itemize}
-Functions will be described in more detail in chapter \hyperref[sec:features]{System Feautures}.
+Functions are described in more detail in chapter \hyperref[sec:features]{System Feautures}.
 \subsection{User Classes and Characteristics}
 There are two user roles defines:
 \begin{itemize}
-    \item Unauthorized
+    \item Unauthorized\\
 	Any user that did not log in with has permissions to create new pipelines, edit and execute them, but has no read/write access to the ontology storage and therefore can not save or load pipelines.
-    \item Authorized 
+    \item Authorized\\
 	Logged in users can see, modify and create pipelines as well as save and load them.
 \end{itemize}
 Authorization capabilities are enabled by Spring Security on the backend. From the UI standpoint the difference is the following:
@@ -58,11 +58,11 @@ Authorization capabilities are enabled by Spring Security on the backend. From t
 \subsection{Operating Environment}
 Operating environment consists of several parts:
 \begin{itemize}
-    \item Application Server
+    \item Application Server\\
 	The software is meant to be run inside of a container like an application server. Originaly Semantic Pipelines Editor was designed to run inside of Tomcat 8 application server, but should work in any other.
-    \item Database Server
+    \item Database Server\\
 	The application is designed to work with RDF4J ontology storage.
-    \item Semantic Forms
+    \item Semantic Forms\\
 	Functionality is partially dependent on the Semantic Forms to be available as a web service.
 \end{itemize}
 \subsection{Design and Implementation Constraints}
@@ -136,12 +136,12 @@ Pipelines can be modified by adding or deleting modules, changing their properti
 \textbf{JOPA} - Java OWL Persistence API\\
 \textbf{JSON} - JavaScript Object Notation\\
 \textbf{JSON-LD} - JavaScript Object Notation for Linked Data\\
-\textbf{REST} - Representational State Transfer\\
+\textbf{OWL} - Web Ontology Language\\
 \textbf{RDF} - Resource Description Framework\\
 \textbf{RDF4J} - RDF for Java programming language\\
+\textbf{REST} - Representational State Transfer\\
 \textbf{SDK} - Software Development Kit\\
-\textbf{OWL} - Web Ontology Language\\
-\textbf{UI} - User Interface
+\textbf{UI} - User Interface\\
 \textbf{WS} - Web service
 \newpage
 \section*{Appendix B: Illustrations}
