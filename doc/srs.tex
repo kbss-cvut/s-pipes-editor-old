@@ -34,14 +34,14 @@ This document is intended for developers, interested in Semantic Pipelines Edito
 \href{http://2016.eswc-conferences.org/sites/default/files/papers/Accepted\%20Posters\%20and\%20Demos/ESWC2016\_DEMO\_JOPA.pdf}{ESWC 2016, JOPA: Efficient Ontology-based Information System Design}
 \section{Overall Description}
 \subsection{Product Scope}
-Semantic Pipelines Editor is an application, whose purpose is to be integrated with Semantic Pipelines framework and to provide a graphical editor in form of an oriented graph for it with a possibility to execute pipelines from the editor itself. It is also capable of module saving and loaging, which is provided by persisting data into the ontology storage. The main goal is to provide a free and open source software edition tool for the abovestated framework and to enable developers to interact and manage pipelines in a self-explanatory and convinient way without having to deal with proprietary software or restrictive licenses.
+Semantic Pipelines Editor is an application, whose purpose is to be integrated with Semantic Pipelines framework and to provide a graphical editor in form of an oriented graph for it with a possibility to execute pipelines from the editor itself. It is also capable of module saving and loading, which is provided by persisting data into the ontology storage. The main goal is to provide a free and open source software edition tool for the above-stated framework and to enable developers to interact and manage pipelines in a self-explanatory and convenient way without having to deal with proprietary software or restrictive licenses.
 \subsection{Product Functions}
 Product functions can be divided into two groups:
 \begin{itemize}
     \item Graph CRUD operations
     \item Pipeline execution
 \end{itemize}
-Functions are described in more detail in chapter \hyperref[sec:features]{System Feautures}.
+Functions are described in more detail in chapter \hyperref[sec:features]{System Features}.
 \subsection{User Classes and Characteristics}
 There are two user roles defines:
 \begin{itemize}
@@ -59,7 +59,7 @@ Authorization capabilities are enabled by Spring Security on the backend. From t
 Operating environment consists of several parts:
 \begin{itemize}
     \item Application Server\\
-	The software is meant to be run inside of a container like an application server. Originaly Semantic Pipelines Editor was designed to run inside of Tomcat 8 application server, but should work in any other.
+	The software is meant to be run inside of a container like an application server. Originally Semantic Pipelines Editor was designed to run inside of Tomcat 8 application server, but should work in any other.
     \item Database Server\\
 	The application is designed to work with RDF4J ontology storage.
     \item Semantic Forms\\
@@ -72,7 +72,7 @@ There are several constraints that rigidly specify the product's relation to the
 	Semantic Pipelines Editor is relying on Semantic Forms for the form generation so the WS communication is done in a very specific way which requires bigger changes for the form generation strategy to be replaced.
     \item Ontology Storage\\
 	Data is stored in the ontology storage (RDF4J), which makes for the specific way of entity objects design.\\
-	Another constraint regarding ontology is a very limited set of frameworks and libraries available, which also influences the ipmlementation.
+	Another constraint regarding ontology is a very limited set of frameworks and libraries available, which also influences the implementation.
     \item Java/Scala Interoperability\\
 	All the business logic of the application is implemented in Scala programming language. This is done in order to minimize the unnecessary (from the business standpoint) implementation details for the logic layer to be clearer and more refined for the developer. However, Scala's interoperability with Java is limited in some specific areas.\\
     \item JavaScript-based client
@@ -109,9 +109,9 @@ There are several constraints that rigidly specify the product's relation to the
 \end{itemize}
 \section{External Interface Requirements}
 \subsection{User Interfaces}
-Interaction with the user is provided by a web-interface, built around the JavaScript library for graph representation Sigma.js. The main window consists of two parts: left panel and a working surface for editing graphs (\hyperref[pic1]{Figure 1}). Left panel contains elements for authorization, savind and loading graph and list of available types of nodes that can be added to the graph. At the working surface user can see the current graph (loaded or created), edit it (move nodes, draw edges etc.). Node double click shows the form generated from this node and its dependencies in the popup (\hyperref[pic1]{Figure 2}).
+Interaction with the user is provided by a web interface, built around the JavaScript library for graph representation Sigma.js. The main window consists of two parts: left panel and a working surface for editing graphs (\hyperref[pic1]{Figure 1}). Left panel contains elements for authorization, saving and loading graph and list of available types of nodes that can be added to the graph. At the working surface user can see the current graph (loaded or created), edit it (move nodes, draw edges etc.). Node double click shows the form generated from this node and its dependencies in the popup (\hyperref[pic1]{Figure 2}).
 \subsection{Software Interfaces}
-Application consists of frontend and backend parts with backend accessing the ontology storage as well as a Semantic Pipelines webservice. Communication between backend and frontend is implemented with JSON-LD format messages sent through REST API. All communication is done through unsecured HTTP protocol. Authentication encryption is provided by integrated SpringSecurity tools. 
+Application consists of frontend and backend parts with backend accessing the ontology storage as well as a Semantic Pipelines web service. Communication between backend and frontend is implemented with JSON-LD format messages sent through REST API. All communication is done through unsecured HTTP protocol. Authentication encryption is provided by integrated Spring Security tools. 
 \section{System Features}
 \label{sec:features}
 As mentioned before, there are 5 main functions of Semantic Pipelines Editor software.
