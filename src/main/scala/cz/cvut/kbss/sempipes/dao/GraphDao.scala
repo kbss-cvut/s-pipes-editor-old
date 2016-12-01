@@ -2,7 +2,7 @@ package cz.cvut.kbss.sempipes.dao
 
 import java.net.URI
 
-import cz.cvut.kbss.sempipes.model.graph.Node
+import cz.cvut.kbss.sempipes.model.graph.{Edge, Graph, Node}
 import org.springframework.stereotype.Repository
 
 import scala.collection.JavaConverters._
@@ -15,4 +15,7 @@ import scala.collection.mutable.{Set => MutableSet}
 class GraphDao {
   def getNodeByURI(uri: URI) =
     new Node(uri, "Label", 1, 2, MutableSet[String]("type").asJava, MutableSet[String]("in").asJava, MutableSet[String]("out").asJava)
+
+  def loadGraph(uri: URI) =
+    new Graph(uri, "Label", MutableSet[Node]().asJava, MutableSet[Edge]().asJava)
 }

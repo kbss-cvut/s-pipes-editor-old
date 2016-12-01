@@ -24,6 +24,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -85,5 +86,13 @@ public class RestTest {
     @Test
     public void createNodeTest() throws Exception {
         mockMvc.perform(post("/nodes").contentType(JsonLd.MEDIA_TYPE).content("[]")).andExpect(status().isCreated());
+    }
+
+    @Test
+    public void loadGraphDummyTest() throws Exception {
+        MvcResult result = mockMvc.perform(get("/graphs/123")).andExpect(status().isOk()).andReturn();
+        String response = result.getResponse().getContentAsString();
+        String expected = "{\"uri\":\"/graphs/123\",\"label\":\"Label\",\"nodes\":[],\"edges\":[]}";
+        assertEquals(expected, response);
     }
 }

@@ -47,4 +47,8 @@ class GraphRestController {
   @DeleteMapping(Array("/edges"))
   def deleteEdges(@RequestBody edges: Seq[Edge]) =
     new ResponseEntity(graphDto deleteEdges edges, HttpStatus.BAD_REQUEST)
+
+  @GetMapping(path = Array("/graphs/{uri}"))
+  def loadGraph(@PathVariable uri: String) =
+    new ResponseEntity(graphDao loadGraph new URI("/graphs/" + uri), HttpStatus.OK)
 }
