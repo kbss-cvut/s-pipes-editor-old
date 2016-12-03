@@ -138,6 +138,7 @@ Interaction with the user is provided by a web interface, built around the JavaS
 \subsection{Software Interfaces}
 Application consists of frontend and backend parts with backend accessing the ontology storage as well as a Semantic Pipelines web service. Communication between backend and frontend is implemented with JSON-LD format messages sent through REST API. All communication is done through unsecured HTTP protocol. Authentication encryption is provided by integrated Spring Security tools. 
 \section{System Features}
+\subsection{Functional Requirements}
 \label{sec:features}
 \begin{enumerate}[FRQ1]
     \item \textbf{See pipelines}\\
@@ -165,6 +166,14 @@ Application consists of frontend and backend parts with backend accessing the on
     \item \textbf{Manage users}\\
 	Users granted special permission can manage other user's access to the application's features.
 \end{enumerate}
+\subsection{System Limitations}
+As of version 1.0 the application does not feature the following capabilities:
+\begin{itemize}
+    \item Creating new module types
+    \item Editing module type definitions
+    \item Communication with other systems in a format different from JSON-LD
+    \item Serving as a general-purpose graph editor
+\end{itemize}
 	\section{Other Requirements}
 	\begin{itemize}
 	    \item The application is licensed under the \href{https://www.gnu.org/licenses/gpl.txt}{GNU GPLv3} license
