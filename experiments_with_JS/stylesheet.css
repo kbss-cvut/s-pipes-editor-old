@@ -1,13 +1,25 @@
 body {
       margin: 0;
     }
-    #container {
+#container {
       position: absolute;
-      width: 98%;
+      margin-left:18%;
+      width: 81%;
       height: 94%;
-      margin-top: 35px;
-      border: solid 2px black;
+      border: solid 1px black;
     }
+#panel{
+    margin-top: 1%;
+    text-align: center;
+    width: 18%;
+}
+
+
+input{
+    display: block;
+    margin: 0 auto;
+}
+
 
  /* The Modal (background) */
 .modal {

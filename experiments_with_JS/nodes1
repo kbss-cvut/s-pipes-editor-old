@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -89,15 +89,33 @@
   <div id="container"></div>
   <!-- main script -->
   <script type="text/javascript" src="graph.js"></script>
+  <script type="text/javascript" src="sigma.js/src/misc/sigma.misc.bindEvents.js"></script>
 
  
 
   <div id="panel">
-    <input id="clickMe" type="button" value="Add node type 1" onclick="newNode(1)" />
-    <input id="clickMe" type="button" value="Add node type 2" onclick="newNode(2)" />
-    <input id="clickMe" type="button" value="Add node type 3" onclick="newNode(3)" />
-    <!-- Trigger/Open The Modal -->
-    <button id="myBtn">Open Modal</button>
+    <div id="p1">
+      <br/>
+      <input class="button" type="button" value="Authorization" />
+      <br/>
+      <input class="button" type="button" value="Save graph"/>
+      <br/>
+      <input class="button" type="button" value="Load graph" />
+      <br/>
+      <hr/>
+    </div>
+
+    <div id="p2">
+      <h4>Types of nodes: </h4>
+      <input class="button" type="button" value="Add node type 1" onclick="newNode(1)" />
+      <br/>
+      <input class="button" type="button" value="Add node type 2" onclick="newNode(2)" />
+      <br/>
+      <input class="button" type="button" value="Add node type 3" onclick="newNode(3)" />
+
+      <br/>
+      <br/>
+    </div>
   </div>
 
   <script type="text/javascript" src="popup.js">

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -28,18 +28,58 @@
     <img id="img4" src="4.png">
   </div>
 
+  <script type="text/javascript">
+  function openCity(evt, cityName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the link that opened the tab
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+</script>
 
   <!-- The Modal -->
   <div id="myModal" class="modal">
-
     <!-- Modal content -->
     <div class="modal-content">
       <div class="modal-header">
         <h3>Modal Header</h3>
       </div>
       <div class="modal-body">
-        <p>Some text in the Modal Body</p>
-        <p>Some other text...</p>
+        <ul class="tab">
+          <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'London')">London</a></li>
+          <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'Paris')">Paris</a></li>
+          <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</a></li>
+        </ul>
+
+        <div id="London" class="tabcontent">
+          <h3>London</h3>
+          <p>London is the capital city of England.</p>
+        </div>
+
+        <div id="Paris" class="tabcontent">
+          <h3>Paris</h3>
+          <p>Paris is the capital of France.</p>
+        </div>
+
+        <div id="Tokyo" class="tabcontent">
+          <h3>Tokyo</h3>
+          <p>Tokyo is the capital of Japan.</p>
+        </div>
+        <br/>
       </div>
 
     </div>
@@ -49,15 +89,35 @@
   <div id="container"></div>
   <!-- main script -->
   <script type="text/javascript" src="graph.js"></script>
+  <script type="text/javascript" src="sigma.js/src/misc/sigma.misc.bindEvents.js"></script>
 
  
 
   <div id="panel">
-    <input id="clickMe" type="button" value="Add node type 1" onclick="newNode(1)" />
-    <input id="clickMe" type="button" value="Add node type 2" onclick="newNode(2)" />
-    <input id="clickMe" type="button" value="Add node type 3" onclick="newNode(3)" />
-    <!-- Trigger/Open The Modal -->
-    <button id="myBtn">Open Modal</button>
+    <div id="p1">
+      <br/>
+      <input class="button" type="button" value="Authorization" />
+      <br/>
+      <input class="button" type="button" value="Save graph"/>
+      <br/>
+      <input class="button" type="button" value="Load graph" />
+      <br/>
+      <hr/>
+    </div>
+
+    <div id="p2">
+      <h4>Types of nodes: </h4>
+      <input class="button" type="button" value="Add node type 1" onclick="newNode(1)" />
+      <br/>
+      <input class="button" type="button" value="Add node type 2" onclick="newNode(2)" />
+      <br/>
+      <input class="button" type="button" value="Add node type 3" onclick="newNode(3)" />
+      <br/>
+      <!-- Trigger/Open The Modal -->
+      <button id="myBtn">Open Modal</button>
+      <br/>
+      <br/>
+    </div>
   </div>
 
   <script type="text/javascript" src="popup.js">

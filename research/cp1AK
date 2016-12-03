@@ -1,5 +1,6 @@
 5. Product functions (high level summary) (AK)
 Main functions of SPED can be described by CRUD model: graphs that represent pipelines can be created, edited, removed, saved, loaded and executed (more details in section 13).
+Main functions of SPEd can be divided in two groups: CRUD operations and execution the pipeline. In the project's boundaries CRUD operations are represented by creating, editing, removing, saving and loading graphs that describe pipelines (more details in section 13).
  
 
 
@@ -28,5 +29,11 @@ As it was mentioned before, there are 4 main functions in SPEd:
 
 
 16. Glossary (AK)
+*API - Application Programming Interface
+*JOPA - Java Ontology Persistent API (or Owl?)
+*JSON - JavaScript Object Notation
+*JSON-LD - JavaScript Object Notation for Linked Data
+*REST - Representational State Transfer
+*RDF - Resource Description Framework
 *SPEd - Semantic Pipeline Ediror
-*JOPA - Java Ontology Persistent API
+
