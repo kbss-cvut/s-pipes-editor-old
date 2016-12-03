@@ -2,6 +2,7 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage[utf8]{inputenc}
+\usepackage{enumerate}
 \begin{document}
 \pagenumbering{gobble}
 \begin{center}
@@ -114,46 +115,57 @@ Interaction with the user is provided by a web interface, built around the JavaS
 Application consists of frontend and backend parts with backend accessing the ontology storage as well as a Semantic Pipelines web service. Communication between backend and frontend is implemented with JSON-LD format messages sent through REST API. All communication is done through unsecured HTTP protocol. Authentication encryption is provided by integrated Spring Security tools. 
 \section{System Features}
 \label{sec:features}
-As mentioned before, there are 5 main functions of Semantic Pipelines Editor software.
-\subsection{See pipelines}
-Pipelines are represented in form of an oriented graph. Nodes represent modules and edges are dependencies between them, which makes for intuitive and functional user interface.
-\subsection{Generate form (execute pipeline)}
-Semantic Pipelines Editor enables semantic forms to be generated from the pipeline. Module dependencies are executed recursively.
-\subsection{Create pipelines}
-There exists a possibility for creating new pipelines from scratch by adding individual modules and dependencies between them.
-\subsection{Save/load pipelines}
-The software allows saving pipelines into the ontology storage and loading them.
-\subsection{Alter pipelines}
-Pipelines can be modified by adding or deleting modules, changing their properties and dependencies between them.
-\section{Other Requirements}
-\begin{itemize}
-    \item The application is licensed under the \href{https://www.gnu.org/licenses/gpl.txt}{GNU GPLv3} license
-\end{itemize}
-\section*{Appendix A: Glossary}
-\addcontentsline{toc}{section}{Appendix A: Glossary}
-\textbf{API} - Application Programming Interface\\
-\textbf{JDK} - Java Development Kit\\
-\textbf{JOPA} - Java OWL Persistence API\\
-\textbf{JSON} - JavaScript Object Notation\\
-\textbf{JSON-LD} - JavaScript Object Notation for Linked Data\\
-\textbf{OWL} - Web Ontology Language\\
-\textbf{RDF} - Resource Description Framework\\
-\textbf{RDF4J} - RDF for Java programming language\\
-\textbf{REST} - Representational State Transfer\\
-\textbf{SDK} - Software Development Kit\\
-\textbf{UI} - User Interface\\
-\textbf{WS} - Web service
-\newpage
-\section*{Appendix B: Illustrations}
-\addcontentsline{toc}{section}{Appendix B: Illustrations}
-\begin{figure}[h!]
-    \includegraphics[width=\textwidth]{pic1.png}
-    \label{pic1}
-    \caption{Main window}
-\end{figure}
-\begin{figure}[h!]
-    \includegraphics[width=\textwidth]{pic2.png}
-    \label{pic2}
-    \caption{Generated form}
-\end{figure}
+\begin{enumerate}[\textbf{FRQ1}]
+    \item \textbf{See pipelines}\\
+	Pipelines are represented in form of an oriented graph. Nodes represent modules and edges are dependencies between them, which makes for intuitive and functional user interface.
+    \item \textbf{Create pipelines}\\
+	There exists a possibility for creating new pipelines from scratch by adding individual modules and dependencies between them.
+    \item \textbf{Save/load pipelines}\\
+	The software allows saving pipelines into the ontology storage and loading them.
+    \item \textbf{Alter pipelines}\\
+	Pipelines can be modified by adding or deleting modules, changing their properties and dependencies between them.
+    \item \textbf{Execute pipeline to point}\\
+	Certain module of a pipeline can be executed. During execution module dependencies are processed recursively.
+    \item \textbf{Execute entire pipeline}\\
+	Execution of the entire pipeline can be done. In this case all the modules are executed.
+    \item \textbf{See execution progress}\\
+	Semantic Pipelines Editor provides user with an indication of execution progress.
+    \item \textbf{See execution results}\\
+	The results are shown once execution is finished.
+    \item \textbf{See execution history}\\
+	There is a possibility to see the history of executions of a pipeline.
+    \item \textbf{Module debug}\\
+	Modules can be executed with debug flags.
+\end{enumerate}
+	\section{Other Requirements}
+	\begin{itemize}
+	    \item The application is licensed under the \href{https://www.gnu.org/licenses/gpl.txt}{GNU GPLv3} license
+	\end{itemize}
+	\section*{Appendix A: Glossary}
+	\addcontentsline{toc}{section}{Appendix A: Glossary}
+	\textbf{API} - Application Programming Interface\\
+	\textbf{JDK} - Java Development Kit\\
+	\textbf{JOPA} - Java OWL Persistence API\\
+	\textbf{JSON} - JavaScript Object Notation\\
+	\textbf{JSON-LD} - JavaScript Object Notation for Linked Data\\
+	\textbf{OWL} - Web Ontology Language\\
+	\textbf{RDF} - Resource Description Framework\\
+	\textbf{RDF4J} - RDF for Java programming language\\
+	\textbf{REST} - Representational State Transfer\\
+	\textbf{SDK} - Software Development Kit\\
+	\textbf{UI} - User Interface\\
+	\textbf{WS} - Web service
+	\newpage
+	\section*{Appendix B: Illustrations}
+	\addcontentsline{toc}{section}{Appendix B: Illustrations}
+	\begin{figure}[h!]
+	    \includegraphics[width=\textwidth]{pic1.png}
+	    \label{pic1}
+	    \caption{Main window}
+	\end{figure}
+	\begin{figure}[h!]
+	    \includegraphics[width=\textwidth]{pic2.png}
+	    \label{pic2}
+	    \caption{Generated form}
+	\end{figure}
 \end{document}
