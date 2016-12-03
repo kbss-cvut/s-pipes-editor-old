@@ -44,18 +44,42 @@ Product functions can be divided into two groups:
 \end{itemize}
 Functions are described in more detail in chapter \hyperref[sec:features]{System Features}.
 \subsection{User Classes and Characteristics}
-There are two user roles defines:
-\begin{itemize}
-    \item Unauthorized\\
-	Any user that did not log in with has permissions to create new pipelines, edit and execute them, but has no read/write access to the ontology storage and therefore can not save or load pipelines.
-    \item Authorized\\
-	Logged in users can see, modify and create pipelines as well as save and load them.
-\end{itemize}
-Authorization capabilities are enabled by Spring Security on the backend. From the UI standpoint the difference is the following:
-\begin{itemize}
-    \item There are no Save/Load features shown to an unauthorized user
-    \item The link for unauthorization is shown to an authorized user
-\end{itemize}
+Users are distinguished based on user rights, specified in the ontology storage. As of version 1.0 rights are the following:
+\begin{enumerate}
+    \item Create pipelines\\
+	User having this right can create new pipelines.\\
+	Applicable FRQs:\\
+	FRQ1,FRQ2
+    \item Load pipelines\\
+	This right allows user to load pipelines from ontology storage.
+	Applicable FRQs:\\
+	FRQ1,FRQ3
+    \item Save pipelines\\
+	This right provides possibility to save pipelines into ontology storage.
+	Applicable FRQs:\\
+	FRQ1,FRQ4
+    \item Alter pipelines\\
+	User granted this right is allowed to add/remove nodes and edges to the pipeline.
+	Applicable FRQs:\\
+	FRQ1,FRQ5
+    \item Execute pipelines\\
+	This right lets user to execute pipelines.
+	Applicable FRQs:\\
+	FRQ1,FRQ6,FRQ7,FRQ8,FRQ9
+    \item See execution history\\
+	User having this right can see the history of pipeline execution.
+	Applicable FRQs:\\
+	FRQ1,FRQ10
+    \item Debug modules\\
+	User can execute modules in debug mode only if he has this right.
+	Applicable FRQs:\\
+	FRQ1,FRQ11
+    \item User management\\
+	User having this right is allowed to add/remove other user's rights.
+	Applicable FRQs:\\
+	FRQ1,FRQ12
+\end{enumerate}
+Each user can be granted any or none of this rights.
 \subsection{Operating Environment}
 Operating environment consists of several parts:
 \begin{itemize}
@@ -110,18 +134,20 @@ There are several constraints that rigidly specify the product's relation to the
 \end{itemize}
 \section{External Interface Requirements}
 \subsection{User Interfaces}
-Interaction with the user is provided by a web interface, built around the JavaScript library for graph representation Sigma.js. The main window consists of two parts: left panel and a working surface for editing graphs (\hyperref[pic1]{Figure 2}). Left panel contains elements for authorization, saving and loading graph and list of available types of nodes that can be added to the graph. At the working surface user can see the current graph (loaded or created), edit it (move nodes, draw edges etc.). Node double click shows the form generated from this node and its dependencies in the popup (\hyperref[pic2]{Figure 3}). User management is done in the separate window (\hyperref[pic3]{Figure 4}).
+Interaction with the user is provided by a web interface, built around the JavaScript library for graph representation Sigma.js. The main window consists of two parts: left panel and a working surface for editing graphs (\hyperref[pic1]{Figure 2}). Left panel contains elements for authorization, saving and loading graph and list of available types of nodes that can be added to the graph. Search feature with autocompletion provides more convenient navigation. At the working surface user can see the current graph (loaded or created), edit it (move nodes, draw edges etc.). Node double click shows the form generated from this node and its dependencies in the popup (\hyperref[pic2]{Figure 3}). User management is done in the separate window (\hyperref[pic3]{Figure 4}).
 \subsection{Software Interfaces}
 Application consists of frontend and backend parts with backend accessing the ontology storage as well as a Semantic Pipelines web service. Communication between backend and frontend is implemented with JSON-LD format messages sent through REST API. All communication is done through unsecured HTTP protocol. Authentication encryption is provided by integrated Spring Security tools. 
 \section{System Features}
 \label{sec:features}
-\begin{enumerate}[\textbf{FRQ1}]
+\begin{enumerate}[FRQ1]
     \item \textbf{See pipelines}\\
 	Pipelines are represented in form of an oriented graph. Nodes represent modules and edges are dependencies between them, which makes for intuitive and functional user interface.
     \item \textbf{Create pipelines}\\
 	There exists a possibility for creating new pipelines from scratch by adding individual modules and dependencies between them.
-    \item \textbf{Save/load pipelines}\\
-	The software allows saving pipelines into the ontology storage and loading them.
+    \item \textbf{Load pipelines}\\
+	The software allows loading pipelines from the ontology storage.
+    \item \textbf{Save pipelines}\\
+	The software allows saving pipelines into the ontology storage.
     \item \textbf{Alter pipelines}\\
 	Pipelines can be modified by adding or deleting modules, changing their properties and dependencies between them.
     \item \textbf{Execute pipeline to point}\\
@@ -136,6 +162,8 @@ Application consists of frontend and backend parts with backend accessing the on
 	There is a possibility to see the history of executions of a pipeline.
     \item \textbf{Module debug}\\
 	Modules can be executed with debug flags.
+    \item \textbf{Manage users}\\
+	Users granted special permission can manage other user's access to the application's features.
 \end{enumerate}
 	\section{Other Requirements}
 	\begin{itemize}
@@ -150,6 +178,7 @@ Application consists of frontend and backend parts with backend accessing the on
 	\section*{Appendix B: Glossary}
 	\addcontentsline{toc}{section}{Appendix B: Glossary}
 	\textbf{API} - Application Programming Interface\\
+	\textbf{FRQ} - Functional requirement\\
 	\textbf{JDK} - Java Development Kit\\
 	\textbf{JOPA} - Java OWL Persistence API\\
 	\textbf{JSON} - JavaScript Object Notation\\
