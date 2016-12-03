@@ -110,7 +110,7 @@ There are several constraints that rigidly specify the product's relation to the
 \end{itemize}
 \section{External Interface Requirements}
 \subsection{User Interfaces}
-Interaction with the user is provided by a web interface, built around the JavaScript library for graph representation Sigma.js. The main window consists of two parts: left panel and a working surface for editing graphs (\hyperref[pic1]{Figure 1}). Left panel contains elements for authorization, saving and loading graph and list of available types of nodes that can be added to the graph. At the working surface user can see the current graph (loaded or created), edit it (move nodes, draw edges etc.). Node double click shows the form generated from this node and its dependencies in the popup (\hyperref[pic1]{Figure 2}).
+Interaction with the user is provided by a web interface, built around the JavaScript library for graph representation Sigma.js. The main window consists of two parts: left panel and a working surface for editing graphs (\hyperref[pic1]{Figure 2}). Left panel contains elements for authorization, saving and loading graph and list of available types of nodes that can be added to the graph. At the working surface user can see the current graph (loaded or created), edit it (move nodes, draw edges etc.). Node double click shows the form generated from this node and its dependencies in the popup (\hyperref[pic2]{Figure 3}). User management is done in the separate window (\hyperref[pic3]{Figure 4}).
 \subsection{Software Interfaces}
 Application consists of frontend and backend parts with backend accessing the ontology storage as well as a Semantic Pipelines web service. Communication between backend and frontend is implemented with JSON-LD format messages sent through REST API. All communication is done through unsecured HTTP protocol. Authentication encryption is provided by integrated Spring Security tools. 
 \section{System Features}
@@ -141,8 +141,14 @@ Application consists of frontend and backend parts with backend accessing the on
 	\begin{itemize}
 	    \item The application is licensed under the \href{https://www.gnu.org/licenses/gpl.txt}{GNU GPLv3} license
 	\end{itemize}
-	\section*{Appendix A: Glossary}
-	\addcontentsline{toc}{section}{Appendix A: Glossary}
+	\section*{Appendix A: Diagrams}
+	\addcontentsline{toc}{section}{Appendix A: Diagrams}
+	\begin{figure}[h!]
+	    \includegraphics[width=\textwidth]{ClassDiagram.png}
+	    \caption{Class Diagram}
+	\end{figure}
+	\section*{Appendix B: Glossary}
+	\addcontentsline{toc}{section}{Appendix B: Glossary}
 	\textbf{API} - Application Programming Interface\\
 	\textbf{JDK} - Java Development Kit\\
 	\textbf{JOPA} - Java OWL Persistence API\\
@@ -156,8 +162,8 @@ Application consists of frontend and backend parts with backend accessing the on
 	\textbf{UI} - User Interface\\
 	\textbf{WS} - Web service
 	\newpage
-	\section*{Appendix B: Illustrations}
-	\addcontentsline{toc}{section}{Appendix B: Illustrations}
+	\section*{Appendix C: Illustrations}
+	\addcontentsline{toc}{section}{Appendix C: Illustrations}
 	\begin{figure}[h!]
 	    \includegraphics[width=\textwidth]{pic1.png}
 	    \label{pic1}
@@ -167,5 +173,10 @@ Application consists of frontend and backend parts with backend accessing the on
 	    \includegraphics[width=\textwidth]{pic2.png}
 	    \label{pic2}
 	    \caption{Generated form}
+	\end{figure}
+	\begin{figure}[h!]
+	    \includegraphics[width=\textwidth]{pic3.png}
+	    \label{pic3}
+	    \caption{User management window}
 	\end{figure}
 \end{document}
