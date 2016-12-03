@@ -394,6 +394,7 @@
       }
 
       function onMove(e) {
+        console.log("a");
         if (!self.settings('eventsEnabled'))
           return;
 
@@ -490,6 +491,7 @@
             edges: newOutEdges,
             captor: e.data
           });
+        console.log("AAAAAA");
       }
 
       // Bind events:
