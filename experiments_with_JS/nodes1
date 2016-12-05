@@ -102,6 +102,8 @@
       <br/>
       <input class="button" type="button" value="Load graph" />
       <br/>
+      <input class="button" type="button" value="Clear canvas" onclick="clearAll()" />
+      <br/>
       <hr/>
     </div>
 

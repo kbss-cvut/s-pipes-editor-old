@@ -294,10 +294,7 @@ sigma.canvas.edges.def = function(edge, source, target, context, settings) {
   (s.graph.nodes()[edge.target].inParamsZones[edge.targetZone][0] + s.graph.nodes()[edge.target].inParamsZones[edge.targetZone][2] ) / 2,
    s.graph.nodes()[edge.target].coordinates[1] - 15*0.9
   ]
-  console.log("OLD", (s.graph.nodes()[edge.target].coordinates[0] + s.graph.nodes()[edge.target].coordinates[2]) / 2);
-  console.log(s.graph.nodes()[edge.target]);
-  console.log("NEW", (s.graph.nodes()[edge.target].inParamsZones[edge.targetZone][0] + s.graph.nodes()[edge.target].inParamsZones[edge.targetZone][2] ) / 2);
-
+  
   context.moveTo(
     edge.coordinates[0],
     edge.coordinates[1]
@@ -342,6 +339,17 @@ sigma.canvas.labels.def = function(node, context, settings) {
       nodeY + 4
     );
 };
+
+function clearAll()
+    {
+      for (i = s.graph.nodes().length-1; i != - 1; i--)
+        s.graph.dropNode(i);
+      idN = 0;
+      idE = 0;
+      
+      s.refresh();
+      console.log("cleared", s);
+    }
     
 
     var idN = 0,
@@ -592,6 +600,7 @@ sigma.canvas.labels.def = function(node, context, settings) {
     });
 
     
+
     
 
     
