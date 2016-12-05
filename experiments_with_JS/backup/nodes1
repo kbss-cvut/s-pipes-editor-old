@@ -112,9 +112,7 @@
       <input class="button" type="button" value="Add node type 2" onclick="newNode(2)" />
       <br/>
       <input class="button" type="button" value="Add node type 3" onclick="newNode(3)" />
-      <br/>
-      <!-- Trigger/Open The Modal -->
-      <button id="myBtn">Open Modal</button>
+
       <br/>
       <br/>
     </div>

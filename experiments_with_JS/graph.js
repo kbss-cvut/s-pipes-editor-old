@@ -271,17 +271,34 @@ sigma.canvas.edges.def = function(edge, source, target, context, settings) {
   context.strokeStyle = color;
   context.lineWidth = 1;
   context.beginPath();
+  edge.coordinates = [
+  (s.graph.nodes()[edge.source].outParamsZones[edge.sourceZone][0] + s.graph.nodes()[edge.source].outParamsZones[edge.sourceZone][2]) / 2,
+   s.graph.nodes()[edge.source].outParamsZones[edge.sourceZone][3],
+  (s.graph.nodes()[edge.target].coordinates[0] + s.graph.nodes()[edge.target].coordinates[2]) / 2 ,
+   s.graph.nodes()[edge.target].coordinates[1] - 15*0.9
+  ]
+
   context.moveTo(
-    edge.startX,
-    edge.startY
+    edge.coordinates[0],
+    edge.coordinates[1]
   );
 
-  context.lineTo(
-    edge.endX,
-    edge.endY
-  );
+  for (i = 2; i < edge.coordinates.length; i+=2)
+  {
+    context.lineTo(
+      edge.coordinates[i],
+      edge.coordinates[i+1]
+    );
+  }
+
+/*  context.lineTo(
+    coordinates[coordinates.length-2],
+    coordinates[coordinates.length-1]
+  );*/
+
   context.closePath();
   context.stroke();
+
 };
 
 //////////////////////////////////////////
@@ -327,7 +344,7 @@ sigma.canvas.labels.def = function(node, context, settings) {
         case 1:
         s.graph.addNode ({
           // Main attributes:
-          id: 'n' + idN,
+          id: idN,
           label: 'ahjbfgvjhgfvbhbvjfhbvkfhbvjfbvdfhkbvfghbv' + idN,
           x: 0 + idN/5,
           y: 0 + idN/5,
@@ -348,7 +365,7 @@ sigma.canvas.labels.def = function(node, context, settings) {
         case 2:
         s.graph.addNode ({
           // Main attributes:
-          id: 'n' + idN,
+          id: idN,
           label: 'nodeeee' + idN,
           x: 0 + idN/5,
           y: 0 + idN/5,
@@ -366,7 +383,7 @@ sigma.canvas.labels.def = function(node, context, settings) {
         case 3:
         s.graph.addNode ({
           // Main attributes:
-          id: 'n' + idN,
+          id: idN,
           label: 'n' + idN,
           x: 0 + idN/5,
           y: 0 + idN/5,
@@ -383,6 +400,7 @@ sigma.canvas.labels.def = function(node, context, settings) {
       }
       console.log("Added ", s.graph.nodes()[idN]);
       idN++; 
+      s.refresh();
       
       // this block is needed because of canvas bug - text in 'inParams' and 'outParams' will behave is strange way without this code
       if (idN == 1)
@@ -501,19 +519,15 @@ sigma.canvas.labels.def = function(node, context, settings) {
             {
               drawingEdge = false;
               document.body.style.cursor = 'default';
-              edgeEndX = (s.graph.nodes()[edgeEndNode[1]].coordinates[0] + s.graph.nodes()[edgeEndNode[1]].coordinates[2]) / 2;
-              edgeEndY = s.graph.nodes()[edgeEndNode[1]].coordinates[1];
-              console.log(edgeStartNode);
               s.graph.addEdge({
                 id: idE,
                 source: s.graph.nodes()[edgeStartNode[1]].id,
+                sourceZone: edgeStartNode[2],
                 target: s.graph.nodes()[edgeEndNode[1]].id,
-                startX: edgeStartX,
-                startY: edgeStartY,
-                endX: edgeEndX,
-                endY: edgeEndY
+                coordinates: [],
               });
               console.log("Added edge: ", s.graph.edges()[idE]);
+              s.graph.nodes()[s.graph.nodes()[edgeEndNode[1]].id].inParams.push( s.graph.nodes()[s.graph.nodes()[edgeStartNode[1]].id].outParams[edgeStartNode[2]] );
               s.refresh();
               idE++;
             }

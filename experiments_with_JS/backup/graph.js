@@ -262,38 +262,43 @@ sigma.canvas.nodes.def = (function() {
 /////  creating new edge renderer
 ///////////////////////////////////////////
 sigma.canvas.edges.def = function(edge, source, target, context, settings) {
-  var color = edge.color,
+  var color = 'black',
       prefix = settings('prefix') || '',
       edgeColor = settings('edgeColor'),
       defaultNodeColor = settings('defaultNodeColor'),
       defaultEdgeColor = settings('defaultEdgeColor');
 
-  if (!color)
-    switch (edgeColor) {
-      case 'source':
-        color = source.color || defaultNodeColor;
-        break;
-      case 'target':
-        color = target.color || defaultNodeColor;
-        break;
-      default:
-        color = defaultEdgeColor;
-        break;
-    }
-
   context.strokeStyle = color;
-  context.lineWidth = edge[prefix + 'size'] || 1;
+  context.lineWidth = 1;
   context.beginPath();
+  edge.coordinates = [
+  (s.graph.nodes()[edge.source].outParamsZones[edge.sourceZone][0] + s.graph.nodes()[edge.source].outParamsZones[edge.sourceZone][2]) / 2,
+   s.graph.nodes()[edge.source].outParamsZones[edge.sourceZone][3],
+  (s.graph.nodes()[edge.target].coordinates[0] + s.graph.nodes()[edge.target].coordinates[2]) / 2 ,
+   s.graph.nodes()[edge.target].coordinates[1] - 15*0.9
+  ]
+
   context.moveTo(
-    source[prefix + 'x'],
-    source[prefix + 'y']
+    edge.coordinates[0],
+    edge.coordinates[1]
   );
 
-  context.lineTo(
-    target[prefix + 'x'],
-    target[prefix + 'y']
-  );
+  for (i = 2; i < edge.coordinates.length; i+=2)
+  {
+    context.lineTo(
+      edge.coordinates[i],
+      edge.coordinates[i+1]
+    );
+  }
+
+/*  context.lineTo(
+    coordinates[coordinates.length-2],
+    coordinates[coordinates.length-1]
+  );*/
+
+  context.closePath();
   context.stroke();
+
 };
 
 //////////////////////////////////////////
@@ -339,7 +344,7 @@ sigma.canvas.labels.def = function(node, context, settings) {
         case 1:
         s.graph.addNode ({
           // Main attributes:
-          id: 'n' + idN,
+          id: idN,
           label: 'ahjbfgvjhgfvbhbvjfhbvkfhbvjfbvdfhkbvfghbv' + idN,
           x: 0 + idN/5,
           y: 0 + idN/5,
@@ -360,7 +365,7 @@ sigma.canvas.labels.def = function(node, context, settings) {
         case 2:
         s.graph.addNode ({
           // Main attributes:
-          id: 'n' + idN,
+          id: idN,
           label: 'nodeeee' + idN,
           x: 0 + idN/5,
           y: 0 + idN/5,
@@ -378,7 +383,7 @@ sigma.canvas.labels.def = function(node, context, settings) {
         case 3:
         s.graph.addNode ({
           // Main attributes:
-          id: 'n' + idN,
+          id: idN,
           label: 'n' + idN,
           x: 0 + idN/5,
           y: 0 + idN/5,
@@ -395,6 +400,7 @@ sigma.canvas.labels.def = function(node, context, settings) {
       }
       console.log("Added ", s.graph.nodes()[idN]);
       idN++; 
+      s.refresh();
       
       // this block is needed because of canvas bug - text in 'inParams' and 'outParams' will behave is strange way without this code
       if (idN == 1)
@@ -485,22 +491,62 @@ sigma.canvas.labels.def = function(node, context, settings) {
     } 
     var canvas = document.getElementsByClassName('sigma-mouse')[0];
 
+    var     edgeStartNode,
+            edgeEndNode, 
+            edgeStartX, 
+            edgeStartY,
+            edgeEndX,
+            edgeEndY;
+
     canvas.addEventListener('click', function(evt) {
-        if (ifOnOutParamsZones(canvas, evt)[0] == true && drawingEdge == false)
+        
+        //edgeStartNode = ifOnOutParamsZones(canvas, evt);
+        //edgeEndNode = ifOnNode(canvas, evt);
+        if (drawingEdge == false && ifOnOutParamsZones(canvas, evt)[0] == true) // user started drawing edge
         {
-          
-          
+            edgeStartNode = ifOnOutParamsZones(canvas, evt);
+            console.log("startEdge ", edgeStartNode);
             drawingEdge = true;                      
             document.body.style.cursor = 'crosshair';
-          
-          
+            edgeStartX = (s.graph.nodes()[edgeStartNode[1]].outParamsZones[edgeStartNode[2]][0] + s.graph.nodes()[edgeStartNode[1]].outParamsZones[edgeStartNode[2]][2]) / 2;
+            edgeStartY = s.graph.nodes()[edgeStartNode[1]].outParamsZones[edgeStartNode[2]][3];
         }
-        else if (ifOnNode(canvas, evt)[0] == true && drawingEdge == true)
-          {
-            drawingEdge = false;
-            document.body.style.cursor = 'default';
-          }
+        else if (drawingEdge == true)
+        {
+            
+            edgeEndNode = ifOnNode(canvas, evt);
+            if (edgeEndNode[0] == true) //if drawing edge ended on node
+            {
+              drawingEdge = false;
+              document.body.style.cursor = 'default';
+              s.graph.addEdge({
+                id: idE,
+                source: s.graph.nodes()[edgeStartNode[1]].id,
+                sourceZone: edgeStartNode[2],
+                target: s.graph.nodes()[edgeEndNode[1]].id,
+                coordinates: [],
+              });
+              console.log("Added edge: ", s.graph.edges()[idE]);
+              s.graph.nodes()[s.graph.nodes()[edgeEndNode[1]].id].inParams.push( s.graph.nodes()[s.graph.nodes()[edgeStartNode[1]].id].outParams[edgeStartNode[2]] );
+              s.refresh();
+              idE++;
+            }
+            else // if drawing ended not on node
+            {
+              drawingEdge = false;
+              document.body.style.cursor = 'default';
+              console.log("Ended on nowhere");
+            }
+        }
+/*        edgeEndNode = 0;
+        edgeStartX = 0;
+        edgeStartY = 0;
+        edgeEndX = 0;
+        edgeEndY = 0;*/
       }, true);
+
+    
+
 
     // Open modal
     s.bind('doubleClickNode', function(e) {
