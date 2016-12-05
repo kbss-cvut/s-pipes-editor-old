@@ -41,8 +41,8 @@ public class JsonLD2JavaConverterTest {
         Set<String> out = new HashSet<>();
         out.add("c");
         out.add("d");
-        control.setInParameters(in);
-        control.setOutParameters(out);
+        /*control.setInParameters(in);
+        control.setOutParameters(out);*/
 
         assertTrue(result.equals(control));
     }
@@ -63,8 +63,8 @@ public class JsonLD2JavaConverterTest {
         assertNotNull(result.getLabel());
         assertNotNull(result.getX());
         assertNotNull(result.getY());
-        assertNotNull(result.getInParameters());
-        assertNotNull(result.getOutParameters());
+        /*assertNotNull(result.getInParameters());
+        assertNotNull(result.getOutParameters());*/
         //assertTrue(result.getNodeTypes() != null); // this is not implemented in JSON-LD deserializer
     }
 

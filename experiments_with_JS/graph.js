@@ -268,7 +268,7 @@ sigma.canvas.nodes.def = (function() {
       size * 1.6,
       size * 1.6
     );
-}
+  };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   return renderer;
 }) ();
@@ -293,7 +293,7 @@ sigma.canvas.edges.def = function(edge, source, target, context, settings) {
   //(s.graph.nodes()[edge.target].coordinates[0] + s.graph.nodes()[edge.target].coordinates[2]) / 2 ,
   (s.graph.nodes()[edge.target].inParamsZones[edge.targetZone][0] + s.graph.nodes()[edge.target].inParamsZones[edge.targetZone][2] ) / 2,
    s.graph.nodes()[edge.target].coordinates[1] - 15*0.9
-  ]
+  ];;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   
   context.moveTo(
     edge.coordinates[0],
@@ -387,8 +387,8 @@ function clearAll()
           outParamsZones: [],
         }); 
         var arr = [];
-        
-        break
+
+            break;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
         case 2:
         s.graph.addNode ({
@@ -401,12 +401,12 @@ function clearAll()
           size: 15,
           color: '#dfcde0',
           url: 'img2',
-          inParams: ['aa'],
+            inParams: [],
           inParamsZones: [],
           outParams: ['out1', 'out22222'],
           outParamsZones: []
         });
-        break
+            break;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
         case 3:
         s.graph.addNode ({
@@ -590,7 +590,7 @@ function clearAll()
       if (event.target == modal) {
         modal.style.display = "none";
       }
-    }
+    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     s.bind('overNode', function(e) {
       if (drawingEdge == false ) document.body.style.cursor = 'move';
