@@ -73,9 +73,12 @@ sigma.canvas.nodes.def = (function() {
         rectHeight;
 
     //draw upper rect(s)
-    var temp = 0;
+    var temp = 0,
+        tarr = [];
+
     for (i = 0; i < inParams.length; i++){
         temp = 0;
+        tarr = [];
         context.fillStyle = node.color;
         context.beginPath();
 
@@ -99,6 +102,12 @@ sigma.canvas.nodes.def = (function() {
             nodeXX + (nodeWidth * inParams[0].length / allInsLength) * 0.5,
             nodeYY - (size * 0.2)
           );
+          tarr.push(
+            rectX,
+            rectY,
+            rectX + rectWidth,
+            rectY + rectHeight
+          );
 
         } else if (i == 1){
             rectX = nodeXX + ( nodeWidth * inParams[i-1].length / allInsLength );
@@ -120,6 +129,12 @@ sigma.canvas.nodes.def = (function() {
               nodeXX + ( nodeWidth * inParams[i-1].length / allInsLength ) + (nodeWidth * inParams[1].length / allInsLength) * 0.5,
               nodeYY - (size * 0.2)
             );
+            tarr.push(
+            rectX,
+            rectY,
+            rectX + rectWidth,
+            rectY + rectHeight
+          );
           }
           else  if (i > 1){
             for (j = 0; j < i-1; j++){
@@ -144,14 +159,15 @@ sigma.canvas.nodes.def = (function() {
               nodeXX + temp + (nodeWidth * inParams[i-1].length / allInsLength) + ((nodeWidth * inParams[i].length / allInsLength)*0.5),
               nodeYY - (size * 0.2)
             );
-          }
-          if (inParamsZones.length ==0)
-           node.inParamsZones.push(
+            tarr.push(
             rectX,
             rectY,
-            rectX + rectHeight,
+            rectX + rectWidth,
             rectY + rectHeight
           );
+          }
+
+         inParamsZones[i] = tarr;
     }
     
 
@@ -274,9 +290,13 @@ sigma.canvas.edges.def = function(edge, source, target, context, settings) {
   edge.coordinates = [
   (s.graph.nodes()[edge.source].outParamsZones[edge.sourceZone][0] + s.graph.nodes()[edge.source].outParamsZones[edge.sourceZone][2]) / 2,
    s.graph.nodes()[edge.source].outParamsZones[edge.sourceZone][3],
-  (s.graph.nodes()[edge.target].coordinates[0] + s.graph.nodes()[edge.target].coordinates[2]) / 2 ,
+  //(s.graph.nodes()[edge.target].coordinates[0] + s.graph.nodes()[edge.target].coordinates[2]) / 2 ,
+  (s.graph.nodes()[edge.target].inParamsZones[edge.targetZone][0] + s.graph.nodes()[edge.target].inParamsZones[edge.targetZone][2] ) / 2,
    s.graph.nodes()[edge.target].coordinates[1] - 15*0.9
   ]
+  console.log("OLD", (s.graph.nodes()[edge.target].coordinates[0] + s.graph.nodes()[edge.target].coordinates[2]) / 2);
+  console.log(s.graph.nodes()[edge.target]);
+  console.log("NEW", (s.graph.nodes()[edge.target].inParamsZones[edge.targetZone][0] + s.graph.nodes()[edge.target].inParamsZones[edge.targetZone][2] ) / 2);
 
   context.moveTo(
     edge.coordinates[0],
@@ -373,7 +393,7 @@ sigma.canvas.labels.def = function(node, context, settings) {
           size: 15,
           color: '#dfcde0',
           url: 'img2',
-          inParams: [],
+          inParams: ['aa'],
           inParamsZones: [],
           outParams: ['out1', 'out22222'],
           outParamsZones: []
@@ -515,6 +535,8 @@ sigma.canvas.labels.def = function(node, context, settings) {
         {
             
             edgeEndNode = ifOnNode(canvas, evt);
+            s.graph.nodes()[s.graph.nodes()[edgeEndNode[1]].id].inParams.push( s.graph.nodes()[s.graph.nodes()[edgeStartNode[1]].id].outParams[edgeStartNode[2]] );
+            s.refresh();
             if (edgeEndNode[0] == true) //if drawing edge ended on node
             {
               drawingEdge = false;
@@ -524,10 +546,11 @@ sigma.canvas.labels.def = function(node, context, settings) {
                 source: s.graph.nodes()[edgeStartNode[1]].id,
                 sourceZone: edgeStartNode[2],
                 target: s.graph.nodes()[edgeEndNode[1]].id,
+                targetZone: s.graph.nodes()[s.graph.nodes()[edgeEndNode[1]].id].inParams.length - 1,
                 coordinates: [],
               });
               console.log("Added edge: ", s.graph.edges()[idE]);
-              s.graph.nodes()[s.graph.nodes()[edgeEndNode[1]].id].inParams.push( s.graph.nodes()[s.graph.nodes()[edgeStartNode[1]].id].outParams[edgeStartNode[2]] );
+
               s.refresh();
               idE++;
             }
