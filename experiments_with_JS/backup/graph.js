@@ -1,4 +1,49 @@
 
+function download(strData, strFileName, strMimeType) {
+    var D = document,
+        A = arguments,
+        a = D.createElement("a"),
+        d = A[0],
+        n = A[1],
+        t = A[2] || "application/json";
+
+    //build download link:
+    a.href = "data:" + strMimeType + "charset=utf-8," + escape(strData);
+
+
+    if (window.MSBlobBuilder) { // IE10
+        var bb = new MSBlobBuilder();
+        bb.append(strData);
+        return navigator.msSaveBlob(bb, strFileName);
+    } /* end if(window.MSBlobBuilder) */
+
+
+
+    if ('download' in a) { //FF20, CH19
+        a.setAttribute("download", n);
+        a.innerHTML = "downloading...";
+        D.body.appendChild(a);
+        setTimeout(function() {
+            var e = D.createEvent("MouseEvents");
+            e.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+            a.dispatchEvent(e);
+            D.body.removeChild(a);
+        }, 66);
+        return true;
+    }; /* end if('download' in a) */
+
+
+
+    //do iframe dataURL download: (older W3)
+    var f = D.createElement("iframe");
+    D.body.appendChild(f);
+    f.src = "data:" + (A[2] ? A[2] : "application/octet-stream") + (window.btoa ? ";base64" : "") + "," + (window.btoa ? window.btoa : escape)(strData);
+    setTimeout(function() {
+        D.body.removeChild(f);
+    }, 333);
+    return true;
+}
+
 
 sigma.utils.pkg('sigma.canvas.nodes');
 sigma.utils.pkg('sigma.canvas.edges');
@@ -73,9 +118,12 @@ sigma.canvas.nodes.def = (function() {
         rectHeight;
 
     //draw upper rect(s)
-    var temp = 0;
+    var temp = 0,
+        tarr = [];
+
     for (i = 0; i < inParams.length; i++){
         temp = 0;
+        tarr = [];
         context.fillStyle = node.color;
         context.beginPath();
 
@@ -99,6 +147,12 @@ sigma.canvas.nodes.def = (function() {
             nodeXX + (nodeWidth * inParams[0].length / allInsLength) * 0.5,
             nodeYY - (size * 0.2)
           );
+          tarr.push(
+            rectX,
+            rectY,
+            rectX + rectWidth,
+            rectY + rectHeight
+          );
 
         } else if (i == 1){
             rectX = nodeXX + ( nodeWidth * inParams[i-1].length / allInsLength );
@@ -120,6 +174,12 @@ sigma.canvas.nodes.def = (function() {
               nodeXX + ( nodeWidth * inParams[i-1].length / allInsLength ) + (nodeWidth * inParams[1].length / allInsLength) * 0.5,
               nodeYY - (size * 0.2)
             );
+            tarr.push(
+            rectX,
+            rectY,
+            rectX + rectWidth,
+            rectY + rectHeight
+          );
           }
           else  if (i > 1){
             for (j = 0; j < i-1; j++){
@@ -144,14 +204,15 @@ sigma.canvas.nodes.def = (function() {
               nodeXX + temp + (nodeWidth * inParams[i-1].length / allInsLength) + ((nodeWidth * inParams[i].length / allInsLength)*0.5),
               nodeYY - (size * 0.2)
             );
-          }
-          if (inParamsZones.length ==0)
-           node.inParamsZones.push(
+            tarr.push(
             rectX,
             rectY,
-            rectX + rectHeight,
+            rectX + rectWidth,
             rectY + rectHeight
           );
+          }
+
+         inParamsZones[i] = tarr;
     }
     
 
@@ -252,7 +313,7 @@ sigma.canvas.nodes.def = (function() {
       size * 1.6,
       size * 1.6
     );
-}
+  };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   return renderer;
 }) ();
@@ -274,10 +335,11 @@ sigma.canvas.edges.def = function(edge, source, target, context, settings) {
   edge.coordinates = [
   (s.graph.nodes()[edge.source].outParamsZones[edge.sourceZone][0] + s.graph.nodes()[edge.source].outParamsZones[edge.sourceZone][2]) / 2,
    s.graph.nodes()[edge.source].outParamsZones[edge.sourceZone][3],
-  (s.graph.nodes()[edge.target].coordinates[0] + s.graph.nodes()[edge.target].coordinates[2]) / 2 ,
+  //(s.graph.nodes()[edge.target].coordinates[0] + s.graph.nodes()[edge.target].coordinates[2]) / 2 ,
+  (s.graph.nodes()[edge.target].inParamsZones[edge.targetZone][0] + s.graph.nodes()[edge.target].inParamsZones[edge.targetZone][2] ) / 2,
    s.graph.nodes()[edge.target].coordinates[1] - 15*0.9
-  ]
-
+  ];;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  
   context.moveTo(
     edge.coordinates[0],
     edge.coordinates[1]
@@ -298,6 +360,29 @@ sigma.canvas.edges.def = function(edge, source, target, context, settings) {
 
   context.closePath();
   context.stroke();
+
+////////////////////////////////////////////////////
+  var size = 6,
+      tSize = target[prefix + 'size'],
+      aSize = Math.max(size * 2.5, settings('minArrowSize')),
+      sX = edge.coordinates[0],
+      sY = edge.coordinates[1],
+      tX = edge.coordinates[edge.coordinates.length-2],
+      tY = edge.coordinates[edge.coordinates.length-1],
+      d = Math.sqrt(Math.pow(tX - sX, 2) + Math.pow(tY - sY, 2)) * 2,
+      aX = sX + (tX - sX) * (d - aSize - tSize) / d,
+      aY = sY + (tY - sY) * (d - aSize - tSize) / d,
+      vX = (tX - sX) * aSize / d * 2,
+      vY = (tY - sY) * aSize / d * 2;
+
+  context.fillStyle = color;
+  context.beginPath();
+  context.moveTo(aX + vX, aY + vY);
+  context.lineTo(aX + vY * 0.4, aY - vX * 0.4);
+  context.lineTo(aX - vY * 0.4, aY + vX * 0.4);
+  context.lineTo(aX + vX, aY + vY);
+  context.closePath();
+  context.fill();
 
 };
 
@@ -322,6 +407,17 @@ sigma.canvas.labels.def = function(node, context, settings) {
       nodeY + 4
     );
 };
+
+function clearAll()
+    {
+      for (i = s.graph.nodes().length-1; i != - 1; i--)
+        s.graph.dropNode(i);
+      idN = 0;
+      idE = 0;
+      
+      s.refresh();
+      console.log("cleared", s);
+    }
     
 
     var idN = 0,
@@ -349,6 +445,7 @@ sigma.canvas.labels.def = function(node, context, settings) {
           x: 0 + idN/5,
           y: 0 + idN/5,
           coordinates: [],
+          type: 0,
           size: 15,
           color: '#f5ceca',
           url: 'img1',
@@ -359,8 +456,8 @@ sigma.canvas.labels.def = function(node, context, settings) {
           outParamsZones: [],
         }); 
         var arr = [];
-        
-        break
+
+            break;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
         case 2:
         s.graph.addNode ({
@@ -370,15 +467,16 @@ sigma.canvas.labels.def = function(node, context, settings) {
           x: 0 + idN/5,
           y: 0 + idN/5,
           coordinates: [],
+          type: 1,
           size: 15,
           color: '#dfcde0',
           url: 'img2',
-          inParams: [],
+            inParams: [],
           inParamsZones: [],
           outParams: ['out1', 'out22222'],
           outParamsZones: []
         });
-        break
+            break;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
         case 3:
         s.graph.addNode ({
@@ -388,6 +486,7 @@ sigma.canvas.labels.def = function(node, context, settings) {
           x: 0 + idN/5,
           y: 0 + idN/5,
           coordinates: [],
+          type: 3,
           size: 15,
           color: '#e5f98d',
           url: 'img3',
@@ -441,9 +540,11 @@ sigma.canvas.labels.def = function(node, context, settings) {
          mouseWheelEnabled: false,
          doubleClickEnabled: false,
          enableHovering: false,
-         labelThreshold: 70
+         labelThreshold: 70,
+         sideMargin: 0.5,
       }
     });
+    
 
     //get the popup box
     var modal = document.getElementById('myModal');
@@ -515,6 +616,8 @@ sigma.canvas.labels.def = function(node, context, settings) {
         {
             
             edgeEndNode = ifOnNode(canvas, evt);
+            s.graph.nodes()[s.graph.nodes()[edgeEndNode[1]].id].inParams.push( s.graph.nodes()[s.graph.nodes()[edgeStartNode[1]].id].outParams[edgeStartNode[2]] );
+            s.refresh();
             if (edgeEndNode[0] == true) //if drawing edge ended on node
             {
               drawingEdge = false;
@@ -524,10 +627,11 @@ sigma.canvas.labels.def = function(node, context, settings) {
                 source: s.graph.nodes()[edgeStartNode[1]].id,
                 sourceZone: edgeStartNode[2],
                 target: s.graph.nodes()[edgeEndNode[1]].id,
+                targetZone: s.graph.nodes()[s.graph.nodes()[edgeEndNode[1]].id].inParams.length - 1,
                 coordinates: [],
               });
               console.log("Added edge: ", s.graph.edges()[idE]);
-              s.graph.nodes()[s.graph.nodes()[edgeEndNode[1]].id].inParams.push( s.graph.nodes()[s.graph.nodes()[edgeStartNode[1]].id].outParams[edgeStartNode[2]] );
+
               s.refresh();
               idE++;
             }
@@ -559,7 +663,7 @@ sigma.canvas.labels.def = function(node, context, settings) {
       if (event.target == modal) {
         modal.style.display = "none";
       }
-    }
+    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     s.bind('overNode', function(e) {
       if (drawingEdge == false ) document.body.style.cursor = 'move';
@@ -569,7 +673,9 @@ sigma.canvas.labels.def = function(node, context, settings) {
     });
 
     
-    
+
+
+
 
     
     CustomShapes.init(s);

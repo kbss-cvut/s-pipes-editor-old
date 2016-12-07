@@ -14,6 +14,13 @@
 
   <!-- changed way how to show labels when node is hovered (actualy not to show anything) -->
   <script src="sigma.js/src/renderers/canvas/sigma.canvas.hovers.def.js"></script>
+  
+  <!-- plugin with forceAtlas2 - algorithm of optimal positioning of nodes-->
+  <script src="sigma.js/plugins/sigma.layout.forceAtlas2/worker.js"></script>
+  <script src="sigma.js/plugins/sigma.layout.forceAtlas2/supervisor.js"></script>
+
+<script src="dagre.js"></script>
+  <script src="sigma.js/plugins/dagre/sigma.layout.dagre.js"></script>
 
 </head>
 <body>
@@ -90,7 +97,56 @@
   <!-- main script -->
   <script type="text/javascript" src="graph.js"></script>
   <script type="text/javascript" src="sigma.js/src/misc/sigma.misc.bindEvents.js"></script>
+  
+  <script>
+    function ss(){
+      var config = {
+        rankdir: 'TB'
+      };
+      // Start the algorithm:
+      var listener = sigma.layouts.dagre.configure(s, config);
 
+      // Bind all events:
+      listener.bind('start stop interpolate', function(event) {
+        console.log(event.type);
+      });
+
+      sigma.layouts.dagre.start(s);
+      s.refresh();
+    }
+    function exportJSON(){
+      var nodes1 = JSON.parse(JSON.stringify(s.graph.nodes()));
+      var edges1 = JSON.parse(JSON.stringify(s.graph.edges()));
+      nodes1[0].coordinates = undefined;
+      for (var i = 0; i < nodes1.length; i++){
+        nodes1[i].outParamsZones = undefined;
+        nodes1[i].x = undefined;
+        nodes1[i].y = undefined;
+        nodes1[i].coordinates = undefined;
+        nodes1[i].forceLabel = undefined;
+        nodes1[i].inParamsZones = undefined;
+        nodes1[i]['read_cam0:size'] = undefined;
+        nodes1[i]['read_cam0:x'] = undefined;
+        nodes1[i]['read_cam0:y'] = undefined;
+        nodes1[i]['renderer1:size'] = undefined;
+        nodes1[i]['renderer1:x'] = undefined;
+        nodes1[i]['renderer1:y'] = undefined;
+        nodes1[i].size = undefined;
+      }
+      for (var i = 0; i < edges1.length; i++){
+        edges1[i].coordinates = undefined;
+        edges1[i].forceLabel = undefined;
+        edges1[i].inParamsZones = undefined;
+        edges1[i]['read_cam0:size'] = undefined;
+        edges1[i]['renderer1:size'] = undefined;
+        edges1[i].size = undefined;
+      }
+      console.log(nodes1);
+      var a = JSON.stringify({nodes: nodes1, edges: edges1}, null, '\t'); 
+      download(a, 'graph.json', 'application/json');
+      console.log(a);
+    }
+  </script>
  
 
   <div id="panel">
@@ -98,7 +154,7 @@
       <br/>
       <input class="button" type="button" value="Authorization" />
       <br/>
-      <input class="button" type="button" value="Save graph"/>
+      <input class="button" type="button" value="Save graph" onclick="exportJSON()"/>
       <br/>
       <input class="button" type="button" value="Load graph" />
       <br/>
@@ -107,6 +163,7 @@
       <hr/>
     </div>
 
+
     <div id="p2">
       <h4>Types of nodes: </h4>
       <input class="button" type="button" value="Add node type 1" onclick="newNode(1)" />
@@ -114,6 +171,12 @@
       <input class="button" type="button" value="Add node type 2" onclick="newNode(2)" />
       <br/>
       <input class="button" type="button" value="Add node type 3" onclick="newNode(3)" />
+      <br/>
+      <!--<input class="button" type="button" value="Start FA2" onclick="s.startForceAtlas2({worker: true, barnesHutOptimize: false, scallingRatio: 0})" /> -->
+      <input class="button" type="button" value="Start FA2" onclick="ss();" /> 
+      <br/>
+      <input class="button" type="button" value="Stop FA2" onclick="s.stopForceAtlas2();" />
+      <br/>
 
       <br/>
       <br/>
