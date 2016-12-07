@@ -20,15 +20,18 @@ class GraphDao {
   @Autowired
   private var emf: EntityManagerFactory = _
 
-  /*@Bean
-  def getEntityManagerFactory = emf*/
-
-  def getNodeByURI(uri: URI) =
-    new Node(null, "Label", 1, 2, MutableSet[String]("type").asJava, MutableSet[String]("in").asJava, MutableSet[String]("out").asJava)
+  def getNodeByURI(uri: URI): Node = {
+    val em = emf.createEntityManager()
+    try {
+      em.find(classOf[Node], uri)
+    }
+    finally {
+      em.close()
+    }
+  }
 
   def persistNode(n: Node) = {
     assert(n != null)
-    //    assert(n.getUri != null)
     val em = emf.createEntityManager()
     em.getTransaction.begin()
     em.persist(n)

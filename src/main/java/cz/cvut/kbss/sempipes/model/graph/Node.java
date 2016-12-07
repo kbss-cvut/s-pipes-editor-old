@@ -82,8 +82,8 @@ public class Node {
     public void setNodeTypes(Set<String> nodeTypes) {
         this.nodeTypes = nodeTypes;
     }
-
-    /*public Set<String> getInParameters() {
+/*
+    public Set<String> getInParameters() {
         return inParameters;
     }
 
@@ -97,7 +97,7 @@ public class Node {
 
     public void setOutParameters(Set<String> outParameters) {
         this.outParameters = outParameters;
-    }
+    }*/
 
     @Override
     public String toString() {
@@ -107,8 +107,8 @@ public class Node {
                 ", x=" + x +
                 ", y=" + y +
                 ", nodeTypes=" + nodeTypes +
-                ", inParameters=" + inParameters +
-                ", outParameters=" + outParameters +
+                //", inParameters=" + inParameters +
+                //", outParameters=" + outParameters +
                 '}';
     }
 
@@ -124,9 +124,9 @@ public class Node {
         if (x != null ? !x.equals(node.x) : node.x != null) return false;
         if (y != null ? !y.equals(node.y) : node.y != null) return false;
         if (nodeTypes != null ? !nodeTypes.equals(node.nodeTypes) : node.nodeTypes != null) return false;
-        if (inParameters != null ? !inParameters.equals(node.inParameters) : node.inParameters != null) return false;
-        return outParameters != null ? outParameters.equals(node.outParameters) : node.outParameters == null;
-
+        //if (inParameters != null ? !inParameters.equals(node.inParameters) : node.inParameters != null) return false;
+        //return outParameters != null ? outParameters.equals(node.outParameters) : node.outParameters == null;
+        return true;
     }
 
     @Override
@@ -136,8 +136,8 @@ public class Node {
         result = 31 * result + (x != null ? x.hashCode() : 0);
         result = 31 * result + (y != null ? y.hashCode() : 0);
         result = 31 * result + (nodeTypes != null ? nodeTypes.hashCode() : 0);
-        result = 31 * result + (inParameters != null ? inParameters.hashCode() : 0);
-        result = 31 * result + (outParameters != null ? outParameters.hashCode() : 0);
+        /*result = 31 * result + (inParameters != null ? inParameters.hashCode() : 0);
+        result = 31 * result + (outParameters != null ? outParameters.hashCode() : 0);*/
         return result;
-    }*/
+    }
 }
