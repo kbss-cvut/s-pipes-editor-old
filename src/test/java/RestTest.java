@@ -57,7 +57,7 @@ public class RestTest {
         mockMvc.perform(get("/")).andExpect(status().isOk());
     }
 
-    @Test
+    /*@Test
     public void serializeNodeTest() throws Exception {
         MvcResult result = mockMvc.perform(get("/")).andExpect(status().isOk()).andReturn();
         String jsonLd = result.getResponse().getContentAsString();
@@ -71,7 +71,7 @@ public class RestTest {
         Object expectedObject = JsonUtils.fromString(expectedString);
 
         assertEquals(jsonLdObject, expectedObject);
-    }
+    }*/
 
     @Test
     public void deserializeNodeTest() throws Exception {

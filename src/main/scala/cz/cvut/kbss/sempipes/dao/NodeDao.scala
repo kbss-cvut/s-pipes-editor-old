@@ -3,48 +3,50 @@ package cz.cvut.kbss.sempipes.dao
 import java.net.URI
 
 import cz.cvut.kbss.jopa.model.EntityManagerFactory
-import cz.cvut.kbss.sempipes.model.graph.{Edge, Graph, Node}
+import cz.cvut.kbss.sempipes.model.graph.Node
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Repository
 
-import scala.collection.JavaConverters._
-import scala.collection.mutable.{Set => MutableSet}
-
 /**
-  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 03.11.16.
+  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 08.12.16.
   */
 @Repository
-class GraphDao {
+class NodeDao {
 
   @Autowired
   private var emf: EntityManagerFactory = _
 
-  def getGraph(uri: URI): Graph = {
+  def getNode(uri: URI): Node = {
     val em = emf.createEntityManager()
     try {
-      em.find(classOf[Graph], uri)
+      em.find(classOf[Node], uri)
     }
     finally {
       em.close()
     }
   }
 
-  def addGraph(g: Graph): Graph = {
-    assert(g != null)
+  def addNode(n: Node): Node = {
+    assert(n != null)
     val em = emf.createEntityManager()
     em.getTransaction.begin()
-    em.persist(g)
+    em.persist(n)
     em.getTransaction.commit()
     em.close()
-    g
+    n
   }
 
-  def deleteGraph(uri: URI): URI = {
+  def addNodes(n: Traversable[Node]): Traversable[Node] = {
+    assert(n != null && n.nonEmpty)
+    n foreach addNode
+    n
+  }
+
+  def deleteNode(uri: URI): URI = {
     val em = emf.createEntityManager()
     em.getTransaction.begin()
     try {
-      em.remove(em.find(classOf[Graph], uri))
+      em.remove(em.find(classOf[Node], uri))
       em.getTransaction.commit()
       uri
     }
@@ -53,18 +55,24 @@ class GraphDao {
     }
     finally {
       em.close()
-      null
     }
   }
 
-  def updateGraph(uri: URI, g: Graph): URI = {
+  def deleteNodes(n: Traversable[Node]): Traversable[Node] = {
+    assert(n != null && n.nonEmpty)
+    n foreach (n => deleteNode(n.getUri))
+    n
+  }
+
+  def updateNode(uri: URI, n: Node): URI = {
     val em = emf.createEntityManager()
     em.getTransaction.begin()
     try {
-      val g = em.find(classOf[Graph], uri)
-      g.setLabel(g.getLabel)
-      g.setNodes(g.getNodes)
-      g.setEdges(g.getEdges)
+      val node = em.find(classOf[Node], uri)
+      node.setLabel(n.getLabel)
+      node.setX(n.getX)
+      node.setY(n.getY)
+      node.setNodeTypes(n.getNodeTypes)
       em.getTransaction.commit()
       uri
     }
