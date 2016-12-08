@@ -1,9 +1,6 @@
 package cz.cvut.kbss.sempipes.model.graph;
 
-import cz.cvut.kbss.jopa.model.annotations.Id;
-import cz.cvut.kbss.jopa.model.annotations.OWLClass;
-import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
-import cz.cvut.kbss.jopa.model.annotations.OWLObjectProperty;
+import cz.cvut.kbss.jopa.model.annotations.*;
 import cz.cvut.kbss.sempipes.model.Vocabulary;
 
 import java.net.URI;
@@ -19,8 +16,10 @@ public class Graph {
     private URI uri;
     @OWLDataProperty(iri = Vocabulary.s_p_label)
     private String label;
+    @Sequence
     @OWLObjectProperty(iri = Vocabulary.s_p_consists_of_nodes)
     private Collection<Node> nodes;
+    @Sequence
     @OWLObjectProperty(iri = Vocabulary.s_p_consists_of_edges)
     private Collection<Edge> edges;
 
