@@ -73,8 +73,8 @@
 var i,
     s,
     o,
-    N = 10,
-    E = 8,
+    N = 50,
+    E = 60,
     C = 5,
     d = 0.5,
     cs = [],
@@ -130,5 +130,6 @@ s = new sigma({
 });
 
 // Start the ForceAtlas2 algorithm:
-s.startForceAtlas2({worker: true, barnesHutOptimize: false});
+//s.startForceAtlas2({worker: true, barnesHutOptimize: false});
+s.startForceAtlas2();
 </script>
