@@ -30,6 +30,8 @@ import static org.junit.Assert.assertNull;
 @WebAppConfiguration
 public class PersistenceTest {
 
+    private static byte nodeCount = 0;
+
     @Autowired
     private GraphDao graphDao;
 
@@ -44,8 +46,14 @@ public class PersistenceTest {
         URI uri = new URI("https://uri");
         edgeDao.deleteEdge(uri);
         assertNull(edgeDao.getEdge(uri));
-        Node n = persistNode();
-        Edge e = new Edge(uri, n, n);
+        final HashSet<String> types = new HashSet<>();
+        types.add("https://type/1");
+        types.add("https://type/2");
+        types.add("https://type/3");
+        types.add("https://type/4");
+        final Node n = new Node(new URI("https://uri" + nodeCount++), "Label", 1, 2, types, new java.util.HashSet<String>(), new java.util.HashSet<String>());
+        final Node n1 = new Node(new URI("https://uri" + nodeCount++), "Label", 1, 2, types, new java.util.HashSet<String>(), new java.util.HashSet<String>());
+        Edge e = new Edge(uri, n, n1);
         assertEquals(e, edgeDao.addEdge(e));
         assertEquals(e, edgeDao.getEdge(new URI("https://uri")));
         assertEquals(uri, edgeDao.deleteEdge(uri));
@@ -54,7 +62,7 @@ public class PersistenceTest {
 
     @Test
     public void nodePersistenceTest() throws Exception {
-        URI uri = new URI("https://uri");
+        URI uri = new URI("https://uri" + nodeCount);
         nodeDao.deleteNode(uri);
         assertNull(nodeDao.getNode(uri));
         Node n = persistNode();
@@ -73,7 +81,7 @@ public class PersistenceTest {
         types.add("https://type/1");
         types.add("https://type/2");
         types.add("https://type/3");
-        final Node n = new Node(new URI("https://uri"), "Label", 1, 2, types, new java.util.HashSet<String>(), new java.util.HashSet<String>());
+        final Node n = new Node(new URI("https://uri" + nodeCount), "Label", 1, 2, types, new java.util.HashSet<String>(), new java.util.HashSet<String>());
         final Edge e = new Edge(new URI("https://edge"), n, n);
         final LinkedList<Node> nodes = new LinkedList<>();
         nodes.add(n);
@@ -93,7 +101,7 @@ public class PersistenceTest {
         types.add("https://type/2");
         types.add("https://type/3");
         types.add("https://type/4");
-        final Node n = new Node(new URI("https://uri"), "Label", 1, 2, types, new java.util.HashSet<String>(), new java.util.HashSet<String>());
+        final Node n = new Node(new URI("https://uri" + nodeCount++), "Label", 1, 2, types, new java.util.HashSet<String>(), new java.util.HashSet<String>());
         nodeDao.addNode(n);
         return n;
     }

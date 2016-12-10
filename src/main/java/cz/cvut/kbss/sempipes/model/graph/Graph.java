@@ -17,10 +17,10 @@ public class Graph {
     @OWLDataProperty(iri = Vocabulary.s_p_label)
     private String label;
     @Sequence
-    @OWLObjectProperty(iri = Vocabulary.s_p_consists_of_nodes)
+    @OWLObjectProperty(iri = Vocabulary.s_p_consists_of_nodes, cascade = CascadeType.ALL)
     private Collection<Node> nodes;
     @Sequence
-    @OWLObjectProperty(iri = Vocabulary.s_p_consists_of_edges)
+    @OWLObjectProperty(iri = Vocabulary.s_p_consists_of_edges, cascade = CascadeType.ALL)
     private Collection<Edge> edges;
 
     public Graph() {

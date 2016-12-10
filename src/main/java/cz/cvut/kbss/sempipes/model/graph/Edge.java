@@ -1,5 +1,6 @@
 package cz.cvut.kbss.sempipes.model.graph;
 
+import cz.cvut.kbss.jopa.model.annotations.CascadeType;
 import cz.cvut.kbss.jopa.model.annotations.Id;
 import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import cz.cvut.kbss.jopa.model.annotations.OWLObjectProperty;
@@ -15,9 +16,9 @@ public class Edge {
 
     @Id(generated = true)
     private URI uri;
-    @OWLObjectProperty(iri = Vocabulary.s_p_has_source_node)
+    @OWLObjectProperty(iri = Vocabulary.s_p_has_source_node, cascade = CascadeType.ALL)
     private Node sourceNode;
-    @OWLObjectProperty(iri = Vocabulary.s_p_has_destination_node)
+    @OWLObjectProperty(iri = Vocabulary.s_p_has_destination_node, cascade = CascadeType.ALL)
     private Node destinationNode;
 
     public Edge() {
