@@ -47,10 +47,6 @@ public class Node {
         return uri;
     }
 
-    public void setUri(URI uri) {
-        this.uri = uri;
-    }
-
     public String getLabel() {
         return label;
     }
