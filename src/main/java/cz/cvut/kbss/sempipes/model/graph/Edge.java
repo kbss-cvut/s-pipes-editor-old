@@ -70,14 +70,15 @@ public class Edge {
 
         Edge edge = (Edge) o;
 
-        if (!getSourceNode().equals(edge.getSourceNode())) return false;
-        return getDestinationNode().equals(edge.getDestinationNode());
+        if (getSourceNode() != null ? !getSourceNode().equals(edge.getSourceNode()) : edge.getSourceNode() != null)
+            return false;
+        return getDestinationNode() != null ? getDestinationNode().equals(edge.getDestinationNode()) : edge.getDestinationNode() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = getSourceNode().hashCode();
-        result = 31 * result + getDestinationNode().hashCode();
+        int result = getSourceNode() != null ? getSourceNode().hashCode() : 0;
+        result = 31 * result + (getDestinationNode() != null ? getDestinationNode().hashCode() : 0);
         return result;
     }
 }
