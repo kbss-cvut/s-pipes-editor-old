@@ -2,66 +2,43 @@ package cz.cvut.kbss.sempipes.dao
 
 import java.net.URI
 
-import cz.cvut.kbss.jopa.model.EntityManagerFactory
 import cz.cvut.kbss.sempipes.model.graph.Edge
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 08.12.16.
   */
 @Repository
-class EdgeDao {
+class EdgeDao extends BaseDao[Edge] {
 
-  @Autowired
-  private var emf: EntityManagerFactory = _
-
-  def getEdge(uri: URI): Edge = {
+  override def get(uri: URI): Option[Edge] = {
     val em = emf.createEntityManager()
     try {
-      em.find(classOf[Edge], uri)
+      em.find(classOf[Edge], uri) match {
+        case e: Edge => Some(e)
+        case null => None
+      }
     }
     finally {
       em.close()
     }
   }
 
-  def addEdge(e: Edge): Edge = {
-    assert(e != null)
+  override def delete(uri: URI): Option[URI] = {
     val em = emf.createEntityManager()
-    em.getTransaction.begin()
-    em.persist(e)
-    em.getTransaction.commit()
-    em.close()
-    e
-  }
-
-  def addEdges(n: Traversable[Edge]): Traversable[Edge] = {
-    assert(n != null && n.nonEmpty)
-    n foreach addEdge
-    n
-  }
-
-  def deleteEdge(uri: URI): URI = {
-    val em = emf.createEntityManager()
-    em.getTransaction.begin()
+    em.getTransaction().begin()
     try {
-      em.remove(em.find(classOf[Edge], uri))
-      em.getTransaction.commit()
-      uri
-    }
-    catch {
-      case _: NullPointerException => null
+      em.find(classOf[Edge], uri) match {
+        case e: Edge =>
+          em.remove(e)
+          em.getTransaction().commit()
+          Some(uri)
+        case null =>
+          None
+      }
     }
     finally {
       em.close()
-      null
     }
-  }
-
-  def deleteEdges(n: Traversable[Edge]): Traversable[Edge] = {
-    assert(n != null && n.nonEmpty)
-    n foreach (e => deleteEdge(e.getUri))
-    n
   }
 }

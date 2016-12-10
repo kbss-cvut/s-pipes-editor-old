@@ -12,6 +12,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
+import scala.None;
+import scala.Option;
+import scala.Some;
 
 import java.net.URI;
 import java.util.HashSet;
@@ -44,8 +47,8 @@ public class PersistenceTest {
     @Test
     public void edgePersistenceTest() throws Exception {
         URI uri = new URI("https://uri");
-        edgeDao.deleteEdge(uri);
-        assertNull(edgeDao.getEdge(uri));
+        edgeDao.delete(uri);
+        assertEquals(scala.None$.MODULE$, edgeDao.get(uri));
         final HashSet<String> types = new HashSet<>();
         types.add("https://type/1");
         types.add("https://type/2");
@@ -54,29 +57,29 @@ public class PersistenceTest {
         final Node n = new Node(new URI("https://uri" + nodeCount++), "Label", 1, 2, types, new java.util.HashSet<String>(), new java.util.HashSet<String>());
         final Node n1 = new Node(new URI("https://uri" + nodeCount++), "Label", 1, 2, types, new java.util.HashSet<String>(), new java.util.HashSet<String>());
         Edge e = new Edge(uri, n, n1);
-        assertEquals(e, edgeDao.addEdge(e));
-        assertEquals(e, edgeDao.getEdge(new URI("https://uri")));
-        assertEquals(uri, edgeDao.deleteEdge(uri));
-        assertNull(edgeDao.getEdge(uri));
+        assertEquals(new Some<>(e), edgeDao.add(e));
+        assertEquals(new Some<>(e), edgeDao.get(new URI("https://uri")));
+        assertEquals(new Some<>(uri), edgeDao.delete(uri));
+        assertEquals(scala.None$.MODULE$, edgeDao.get(uri));
     }
 
     @Test
     public void nodePersistenceTest() throws Exception {
         URI uri = new URI("https://uri" + nodeCount);
-        nodeDao.deleteNode(uri);
-        assertNull(nodeDao.getNode(uri));
+        nodeDao.delete(uri);
+        assertEquals(scala.None$.MODULE$, nodeDao.get(uri));
         Node n = persistNode();
-        assertNotNull(nodeDao.getNode(uri));
-        assertEquals(n, nodeDao.getNode(uri));
-        assertEquals(uri, nodeDao.deleteNode(uri));
-        assertNull(nodeDao.getNode(uri));
+        assertNotNull(nodeDao.get(uri));
+        assertEquals(new Some<>(n), nodeDao.get(uri));
+        assertEquals(new Some<>(uri), nodeDao.delete(uri));
+        assertEquals(scala.None$.MODULE$, nodeDao.get(uri));
     }
 
     @Test
     public void graphPersistenceTest() throws Exception {
         final URI uri = new URI("https://uri");
-        graphDao.deleteGraph(uri);
-        assertNull(graphDao.getGraph(uri));
+        graphDao.delete(uri);
+        assertEquals(scala.None$.MODULE$, graphDao.get(uri));
         final HashSet<String> types = new HashSet<>();
         types.add("https://type/1");
         types.add("https://type/2");
@@ -88,11 +91,11 @@ public class PersistenceTest {
         final LinkedList<Edge> edges = new LinkedList<>();
         edges.add(e);
         final Graph g = new Graph(uri, "Graph", nodes, edges);
-        assertEquals(g, graphDao.addGraph(g));
-        assertNotNull(graphDao.getGraph(uri));
-        assertEquals(g, graphDao.getGraph(uri));
-        assertEquals(uri, graphDao.deleteGraph(uri));
-        assertNull(graphDao.getGraph(uri));
+        assertEquals(new Some<>(g), graphDao.add(g));
+        assertNotNull(graphDao.get(uri));
+        assertEquals(new Some<>(g), graphDao.get(uri));
+        assertEquals(new Some<>(uri), graphDao.delete(uri));
+        assertEquals(scala.None$.MODULE$, graphDao.get(uri));
     }
 
     private Node persistNode() throws Exception {
@@ -102,7 +105,7 @@ public class PersistenceTest {
         types.add("https://type/3");
         types.add("https://type/4");
         final Node n = new Node(new URI("https://uri" + nodeCount++), "Label", 1, 2, types, new java.util.HashSet<String>(), new java.util.HashSet<String>());
-        nodeDao.addNode(n);
+        nodeDao.add(n);
         return n;
     }
 }
