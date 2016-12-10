@@ -92,6 +92,7 @@ public class PersistenceTest {
         types.add("https://type/1");
         types.add("https://type/2");
         types.add("https://type/3");
+        types.add("https://type/4");
         final Node n = new Node(new URI("https://uri"), "Label", 1, 2, types, new java.util.HashSet<String>(), new java.util.HashSet<String>());
         nodeDao.addNode(n);
         return n;

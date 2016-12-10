@@ -61,4 +61,22 @@ public class Edge {
                 ", destinationNode=" + destinationNode +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Edge edge = (Edge) o;
+
+        if (!getSourceNode().equals(edge.getSourceNode())) return false;
+        return getDestinationNode().equals(edge.getDestinationNode());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getSourceNode().hashCode();
+        result = 31 * result + getDestinationNode().hashCode();
+        return result;
+    }
 }
