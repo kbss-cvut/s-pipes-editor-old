@@ -4,7 +4,8 @@ import java.net.URI
 
 import cz.cvut.kbss.jsonld.JsonLd
 import cz.cvut.kbss.sempipes.dao.{EdgeDao, GraphDao, NodeDao}
-import cz.cvut.kbss.sempipes.model.graph.{Edge, Node}
+import cz.cvut.kbss.sempipes.model.graph.{Edge, Graph, Node}
+import org.apache.http.HttpResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
 import org.springframework.web.bind.annotation._
@@ -31,29 +32,17 @@ class GraphRestController {
   var edgeDao: EdgeDao = _
 
   @GetMapping(path = Array("/"))
-  def getNode = new ResponseEntity(nodeDao getNode new URI("https://uri"), HttpStatus.OK)
+  def login = new ResponseEntity("Permission granted to root", HttpStatus.OK)
 
-  @PostMapping(path = Array("/nodes"), consumes = Array(JsonLd.MEDIA_TYPE), produces = Array(JsonLd.MEDIA_TYPE))
-  @ResponseBody
-  def createNodes(@RequestBody nodes: java.util.List[Node]) = {
-    new ResponseEntity(nodeDao.addNodes(nodes.asScala), HttpStatus.CREATED)
-  }
+  @GetMapping(path = Array("/admin/"))
+  def admin = new ResponseEntity("Permission granted to admin", HttpStatus.OK)
 
-  @DeleteMapping(path = Array("/nodes"))
-  def deleteNodes(@RequestBody nodes: Seq[Node]) =
-    new ResponseEntity(nodeDao.deleteNodes(nodes), HttpStatus.OK)
-
-  @PostMapping(path = Array("/edges"), consumes = Array(JsonLd.MEDIA_TYPE))
-  def createEdges(@RequestBody edges: Seq[Edge]) =
-    new ResponseEntity(edgeDao.addEdges(edges), HttpStatus.CREATED)
-
-  @DeleteMapping(Array("/edges"))
-  def deleteEdges(@RequestBody edges: Seq[Edge]) =
-    new ResponseEntity(edgeDao.deleteEdges(edges), HttpStatus.BAD_REQUEST)
-
-  @GetMapping(path = Array("/graphs/{uri}"))
-  def getGraph(@PathVariable uri: String) =
-    new ResponseEntity(graphDao.getGraph(new URI(uri)), HttpStatus.OK)
-
-
+  @GetMapping(path = Array("/graphs/{relativeUri}"), produces = Array(JsonLd.MEDIA_TYPE))
+  def loadGraph(@PathVariable relativeUri: String): ResponseEntity[Any] =
+    graphDao.get(new URI("https://graphs/" + relativeUri)) match {
+      case Some(g) =>
+        new ResponseEntity(g, HttpStatus.OK)
+      case None =>
+        new ResponseEntity[Any](None, HttpStatus.NOT_FOUND)
+    }
 }
