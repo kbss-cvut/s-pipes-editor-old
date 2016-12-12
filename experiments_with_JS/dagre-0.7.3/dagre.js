@@ -545,7 +545,7 @@ function updateInputGraph(inputGraph, layoutGraph) {
 }
 
 var graphNumAttrs = ["nodesep", "edgesep", "ranksep", "marginx", "marginy"],
-    graphDefaults = { ranksep: 50, edgesep: 20, nodesep: 50, rankdir: "tb" },
+    graphDefaults = { ranksep: 0.17, edgesep: 0.55, nodesep: 0.1, rankdir: "tb" },
     graphAttrs = ["acyclicer", "ranker", "rankdir", "align"],
     nodeNumAttrs = ["width", "height"],
     nodeDefaults = { width: 0, height: 0 },

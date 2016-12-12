@@ -96,13 +96,20 @@
   <div id="container"></div>
   <!-- main script -->
   <script type="text/javascript" src="graph.js"></script>
+  <script type="text/javascript" src="nodeRenderer.js"></script>
+  <script type="text/javascript" src="edgeRenderer.js"></script>
+  <script type="text/javascript" src="labelRenderer.js"></script>
+  <script type="text/javascript" src="events.js"></script>
   <script type="text/javascript" src="sigma.js/src/misc/sigma.misc.bindEvents.js"></script>
   
   <script>
     function ss(){
+      
       var config = {
-        rankdir: 'TB'
+        rankdir: 'TB',
+        boundingBox: {minX: 400, minY: 400, maxX: 700, maxY: 700}
       };
+
       // Start the algorithm:
       var listener = sigma.layouts.dagre.configure(s, config);
 
@@ -113,13 +120,14 @@
 
       sigma.layouts.dagre.start(s);
       s.refresh();
-    }
+    };
     function exportJSON(){
       var nodes1 = JSON.parse(JSON.stringify(s.graph.nodes()));
       var edges1 = JSON.parse(JSON.stringify(s.graph.edges()));
       nodes1[0].coordinates = undefined;
       for (var i = 0; i < nodes1.length; i++){
         nodes1[i].outParamsZones = undefined;
+        nodes1[i].url = undefined;
         nodes1[i].x = undefined;
         nodes1[i].y = undefined;
         nodes1[i].coordinates = undefined;
@@ -146,6 +154,63 @@
       download(a, 'graph.json', 'application/json');
       console.log(a);
     }
+
+    
+    function loadJSON(callback){
+      var xobj = new XMLHttpRequest();
+        xobj.overrideMimeType("application/json");
+      xobj.open('GET', 'graph.json', true); // Replace 'my_data' with the path to your file
+      xobj.onreadystatechange = function () {
+          if (xobj.readyState == 4 && xobj.status == "200") {
+            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+            callback(xobj.responseText);
+          }
+    };
+    xobj.send(null); 
+    }
+
+    function importJSON(){
+      loadJSON(function(response) {
+        clearAll();
+        var actual_JSON = JSON.parse(response);
+        console.log("json", actual_JSON);
+        for (var i in actual_JSON.nodes)
+        {
+          s.graph.addNode ({
+          // Main attributes:
+          id: actual_JSON.nodes[i].id,
+          label: actual_JSON.nodes[i].label,
+          x: 0 + actual_JSON.nodes[i].id/5,
+          y: 0 + actual_JSON.nodes[i].id/5,
+          coordinates: [],
+          type: actual_JSON.nodes[i].type,
+          size: 15,
+          color: typeCharacteristics[actual_JSON.nodes[i].type][0],
+          url: typeCharacteristics[actual_JSON.nodes[i].type][1],
+          inParams: actual_JSON.nodes[i].inParams,
+          inParamsZones: [],
+          outParams: actual_JSON.nodes[i].outParams,
+          outParamsZones: [],
+          });
+          idN = actual_JSON.nodes[i].id;
+          s.refresh();
+        }
+        for (var i in actual_JSON.edges)
+        {
+          s.graph.addEdge({
+            id: actual_JSON.edges[i].id,
+            source: actual_JSON.edges[i].source,
+            target: actual_JSON.edges[i].target,
+            sourceZone: actual_JSON.edges[i].sourceZone,
+            targetZone: actual_JSON.edges[i].targetZone
+          });
+          idE = actual_JSON.edges[i].id;
+          
+        }
+        s.refresh();
+     }); 
+      
+    }
   </script>
  
 
@@ -156,7 +221,7 @@
       <br/>
       <input class="button" type="button" value="Save graph" onclick="exportJSON()"/>
       <br/>
-      <input class="button" type="button" value="Load graph" />
+      <input class="button" type="button" value="Load graph" onclick="importJSON()"/>
       <br/>
       <input class="button" type="button" value="Clear canvas" onclick="clearAll()" />
       <br/>

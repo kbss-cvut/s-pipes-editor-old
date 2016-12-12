@@ -34,24 +34,12 @@ public class Edge {
         return uri;
     }
 
-    public void setUri(URI uri) {
-        this.uri = uri;
-    }
-
     public Node getSourceNode() {
         return sourceNode;
     }
 
-    public void setSourceNode(Node sourceNode) {
-        this.sourceNode = sourceNode;
-    }
-
     public Node getDestinationNode() {
         return destinationNode;
-    }
-
-    public void setDestinationNode(Node destinationNode) {
-        this.destinationNode = destinationNode;
     }
 
     @Override
@@ -70,14 +58,15 @@ public class Edge {
 
         Edge edge = (Edge) o;
 
-        if (!getSourceNode().equals(edge.getSourceNode())) return false;
-        return getDestinationNode().equals(edge.getDestinationNode());
+        if (getSourceNode() != null ? !getSourceNode().equals(edge.getSourceNode()) : edge.getSourceNode() != null)
+            return false;
+        return getDestinationNode() != null ? getDestinationNode().equals(edge.getDestinationNode()) : edge.getDestinationNode() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = getSourceNode().hashCode();
-        result = 31 * result + getDestinationNode().hashCode();
+        int result = getSourceNode() != null ? getSourceNode().hashCode() : 0;
+        result = 31 * result + (getDestinationNode() != null ? getDestinationNode().hashCode() : 0);
         return result;
     }
 }

@@ -25,10 +25,10 @@ public class Node {
     private Double y;
     @Types
     private Set<String> nodeTypes;
-    /*@OWLDataProperty(iri = Vocabulary.s_p_has_input_parameter)
+    @OWLDataProperty(iri = Vocabulary.s_p_has_input_parameter)
     private Set<String> inParameters;
     @OWLDataProperty(iri = Vocabulary.s_p_has_output_parameter)
-    private Set<String> outParameters;*/
+    private Set<String> outParameters;
 
     public Node() {
     }
@@ -39,16 +39,12 @@ public class Node {
         this.x = x;
         this.y = y;
         this.nodeTypes = nodeTypes;
-        /*this.inParameters = inParameters;
-        this.outParameters = outParameters;*/
+        this.inParameters = inParameters;
+        this.outParameters = outParameters;
     }
 
     public URI getUri() {
         return uri;
-    }
-
-    public void setUri(URI uri) {
-        this.uri = uri;
     }
 
     public String getLabel() {
@@ -82,7 +78,7 @@ public class Node {
     public void setNodeTypes(Set<String> nodeTypes) {
         this.nodeTypes = nodeTypes;
     }
-/*
+
     public Set<String> getInParameters() {
         return inParameters;
     }
@@ -97,7 +93,7 @@ public class Node {
 
     public void setOutParameters(Set<String> outParameters) {
         this.outParameters = outParameters;
-    }*/
+    }
 
     @Override
     public String toString() {
@@ -107,8 +103,8 @@ public class Node {
                 ", x=" + x +
                 ", y=" + y +
                 ", nodeTypes=" + nodeTypes +
-                //", inParameters=" + inParameters +
-                //", outParameters=" + outParameters +
+                ", inParameters=" + inParameters +
+                ", outParameters=" + outParameters +
                 '}';
     }
 
@@ -124,9 +120,8 @@ public class Node {
         if (x != null ? !x.equals(node.x) : node.x != null) return false;
         if (y != null ? !y.equals(node.y) : node.y != null) return false;
         if (nodeTypes != null ? !nodeTypes.equals(node.nodeTypes) : node.nodeTypes != null) return false;
-        //if (inParameters != null ? !inParameters.equals(node.inParameters) : node.inParameters != null) return false;
-        //return outParameters != null ? outParameters.equals(node.outParameters) : node.outParameters == null;
-        return true;
+        if (inParameters != null ? !inParameters.equals(node.inParameters) : node.inParameters != null) return false;
+        return outParameters != null ? outParameters.equals(node.outParameters) : node.outParameters == null;
     }
 
     @Override
@@ -136,8 +131,8 @@ public class Node {
         result = 31 * result + (x != null ? x.hashCode() : 0);
         result = 31 * result + (y != null ? y.hashCode() : 0);
         result = 31 * result + (nodeTypes != null ? nodeTypes.hashCode() : 0);
-        /*result = 31 * result + (inParameters != null ? inParameters.hashCode() : 0);
-        result = 31 * result + (outParameters != null ? outParameters.hashCode() : 0);*/
+        result = 31 * result + (inParameters != null ? inParameters.hashCode() : 0);
+        result = 31 * result + (outParameters != null ? outParameters.hashCode() : 0);
         return result;
     }
 }
