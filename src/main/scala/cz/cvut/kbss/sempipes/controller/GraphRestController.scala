@@ -30,7 +30,7 @@ class GraphRestController {
   @Autowired
   var edgeDao: EdgeDao = _
 
-  @GetMapping(path = Array("/"))
+  @GetMapping(path = Array("/"), produces = Array(JsonLd.MEDIA_TYPE))
   def getNode = new ResponseEntity(nodeDao getNode new URI("https://uri"), HttpStatus.OK)
 
   @PostMapping(path = Array("/nodes"), consumes = Array(JsonLd.MEDIA_TYPE), produces = Array(JsonLd.MEDIA_TYPE))

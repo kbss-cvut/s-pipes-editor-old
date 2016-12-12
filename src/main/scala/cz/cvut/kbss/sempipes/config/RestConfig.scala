@@ -19,7 +19,7 @@ class RestConfig {
     objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
     // Here we register the JSON-LD serialization/deserialization module
-    objectMapper.registerModule(new JsonLdModule)
+    objectMapper.registerModule(new JsonLdModule())
     objectMapper
   }
 }
