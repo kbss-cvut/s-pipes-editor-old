@@ -25418,6 +25418,7 @@
         ]
       },
       {
+
         "@id": "http://vfn.cz/ontologies/fss-form-static-0.1",
         "@type": [
           "http://www.w3.org/2002/07/owl#Ontology"
@@ -26631,6 +26632,7 @@
         ]
       },
       {
+//zacatek formy
         "@id": "http://vfn.cz/ontologies/fss-form/fertility-saving-study-q",
         "@type": [
           "http://onto.fel.cvut.cz/ontologies/documentation/question"
