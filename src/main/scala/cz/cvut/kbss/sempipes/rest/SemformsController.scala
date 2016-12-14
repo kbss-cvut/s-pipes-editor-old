@@ -1,4 +1,4 @@
-package cz.cvut.kbss.sempipes.controller
+package cz.cvut.kbss.sempipes.rest
 
 
 import cz.cvut.kbss.jsonld.JsonLd

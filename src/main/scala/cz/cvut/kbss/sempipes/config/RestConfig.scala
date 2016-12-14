@@ -15,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc
 class RestConfig {
   @Bean
   def objectMapper: ObjectMapper = {
-    val objectMapper: ObjectMapper = new ObjectMapper
+    val objectMapper = new ObjectMapper()
     objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
     // Here we register the JSON-LD serialization/deserialization module

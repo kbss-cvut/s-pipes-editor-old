@@ -1,4 +1,4 @@
-package cz.cvut.kbss.sempipes.dao
+package cz.cvut.kbss.sempipes.persistence.dao
 
 import java.net.URI
 
