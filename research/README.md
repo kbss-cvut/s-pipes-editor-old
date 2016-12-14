@@ -12,7 +12,7 @@ https://kbss.felk.cvut.cz/sempipes-sped/service?_pId=generate-fss-form
 ## Fertility Sparing Study App
 
 Source codes of Study manager example application is available at:
-https://gitlab.fel.cvut.cz/blaskmir/fertility-sparing-study
+git@gitlab.fel.cvut.cz/blaskmir/fertility-sparing-study
 
 For architecture overview of the app see :
 ./fss-study-architecture.png
@@ -20,17 +20,17 @@ For architecture overview of the app see :
 ## S-pipes Fertility Sparing Study Model
 
 Ontologies that define pipeline executed for fertility sparing study are available at:
-https://gitlab.fel.cvut.cz:blaskmir/vfn-model.git
+git@gitlab.fel.cvut.cz:blaskmir/vfn-model.git
 
 ## S-pipes Modules Library
 
 Definitions of shared modules for s-pipes are available at:
-https://gitlab.fel.cvut.cz:blaskmir/s-pipes-modules.git
+git@gitlab.fel.cvut.cz:blaskmir/s-pipes-modules.git
 
 ## S-forms Library
 
 Source codes for s-form library is available at:
-https://gitlab.fel.cvut.cz:blaskmir/semforms.git
+git@gitlab.fel.cvut.cz:blaskmir/semforms.git
 
 
 # Third-party Software
