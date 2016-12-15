@@ -7,5 +7,4 @@ import org.springframework.context.annotation.{ComponentScan, Configuration}
   */
 @Configuration
 @ComponentScan(basePackages = Array("cz.cvut.kbss.sempipes.persistence"))
-class PersistenceConfig {
-}
+class PersistenceConfig

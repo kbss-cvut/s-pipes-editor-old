@@ -1,3 +1,4 @@
+import cz.cvut.kbss.sempipes.config.PersistenceConfig;
 import cz.cvut.kbss.sempipes.config.RestConfig;
 import cz.cvut.kbss.sempipes.persistence.dao.EdgeDao;
 import cz.cvut.kbss.sempipes.persistence.dao.GraphDao;
@@ -25,7 +26,7 @@ import static org.junit.Assert.assertNull;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = RestConfig.class)
+@ContextConfiguration(classes = {RestConfig.class, PersistenceConfig.class})
 @WebAppConfiguration
 public class PersistenceTest {
 

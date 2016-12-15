@@ -16,7 +16,8 @@ import org.springframework.web.servlet.config.annotation.{DefaultServletHandlerC
 
 @Configuration
 @Import(Array(classOf[RestConfig], classOf[PersistenceConfig], classOf[SecurityConfig]))
-class WebAppConfig extends WebMvcConfigurerAdapter {
+class AppConfig extends WebMvcConfigurerAdapter {
+
   @Autowired
   private var objectMapper: ObjectMapper = _
 

@@ -12,8 +12,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc
   */
 @EnableWebMvc
 @Configuration
-@ComponentScan(basePackages = Array("cz.cvut.kbss.sempipes"))
+@ComponentScan(basePackages = Array("cz.cvut.kbss.sempipes.rest"))
 class RestConfig {
+
   @Bean
   def objectMapper: ObjectMapper = {
     val objectMapper = new ObjectMapper()

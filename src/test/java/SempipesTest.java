@@ -1,4 +1,5 @@
 import cz.cvut.kbss.jsonld.JsonLd;
+import cz.cvut.kbss.sempipes.config.PersistenceConfig;
 import cz.cvut.kbss.sempipes.config.RestConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +17,7 @@ import static org.junit.Assert.assertNotNull;
  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 15.12.16.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = RestConfig.class)
+@ContextConfiguration(classes = {RestConfig.class, PersistenceConfig.class})
 @WebAppConfiguration
 public class SempipesTest {
 
