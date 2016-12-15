@@ -17,9 +17,7 @@ import scala.Some;
 import java.net.URI;
 import java.util.HashSet;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 /**
  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 03.12.16.
@@ -93,6 +91,41 @@ public class PersistenceTest {
         assertEquals(new Some<>(g), graphDao.get(uri));
         assertEquals(new Some<>(uri), graphDao.delete(uri));
         assertEquals(scala.None$.MODULE$, graphDao.get(uri));
+    }
+
+    @Test
+    public void getAllGraphsTest() throws Exception {
+        final URI uri1 = new URI("https://uri3");
+        final URI uri2 = new URI("https://uri4");
+        graphDao.delete(uri1);
+        graphDao.delete(uri2);
+        assertEquals(scala.None$.MODULE$, graphDao.get(uri1));
+        assertEquals(scala.None$.MODULE$, graphDao.get(uri2));
+        final HashSet<String> types = new HashSet<>();
+        types.add("https://type/1");
+        types.add("https://type/2");
+        types.add("https://type/3");
+        final Node n = new Node(new URI("https://uri" + nodeCount), "Label", 1, 2, types, new java.util.HashSet<String>(), new java.util.HashSet<String>());
+        final Edge e = new Edge(new URI("https://edge"), n, n);
+        final HashSet<Node> nodes = new HashSet<>();
+        nodes.add(n);
+        final HashSet<Edge> edges = new HashSet<>();
+        edges.add(e);
+        final Graph g1 = new Graph(uri1, "Graph", nodes, edges);
+        final Graph g2 = new Graph(uri2, "Graph", nodes, edges);
+        assertEquals(new Some<>(g1), graphDao.add(g1));
+        assertNotNull(graphDao.get(uri1));
+        assertEquals(new Some<>(g2), graphDao.add(g2));
+        assertNotNull(graphDao.get(uri2));
+        assertEquals(2, graphDao.getAll().get().size());
+        assertEquals(g1, graphDao.getAll().get().head());
+        assertEquals(g1, graphDao.getAll().get().drop(1).head());
+        assertEquals(new Some<>(uri1), graphDao.delete(uri1));
+        assertEquals(scala.None$.MODULE$, graphDao.get(uri1));
+        assertEquals(1, graphDao.getAll().get().size());
+        assertEquals(g2, graphDao.getAll().get().head());
+        assertEquals(new Some<>(uri2), graphDao.delete(uri2));
+        assertEquals(scala.None$.MODULE$, graphDao.get(uri2));
     }
 
     private Node persistNode() throws Exception {
