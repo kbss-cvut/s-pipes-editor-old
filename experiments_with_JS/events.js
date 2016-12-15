@@ -31,7 +31,7 @@ function ifOnNode(canvas, evt)
   for (var node = 0; node < s.graph.nodes().length; node++)
   {
     if(x > s.graph.nodes()[node].coordinates[0] && x < s.graph.nodes()[node].coordinates[2] && 
-      y > s.graph.nodes()[node].coordinates[1] && y < s.graph.nodes()[node].coordinates[3])
+      y > s.graph.nodes()[node].coordinates[1]-15 && y < s.graph.nodes()[node].coordinates[3])
     {
         return [true, node];
     }
@@ -48,6 +48,10 @@ var   edgeStartNode,
       edgeEndX,
       edgeEndY;
 
+var drawingEdge = false,
+    drawingEdgeWithParametr = false;
+    moving = false;
+
 function getMousePos(canvas, evt) {
   var rect = canvas.getBoundingClientRect();
   return {
@@ -56,24 +60,36 @@ function getMousePos(canvas, evt) {
   };
 }
 
-canvas.addEventListener('click', function(evt) {
-  if (drawingEdge == false && ifOnOutParamsZones(canvas, evt)[0] == true) // user started drawing edge
+canvas.addEventListener('mouseup', function(evt) {
+  if (drawingEdge == false && (ifOnNode(canvas, evt)[0] == true || ifOnOutParamsZones(canvas, evt)[0] == true)) // user started drawing edge
   {
-      edgeStartNode = ifOnOutParamsZones(canvas, evt);
+      if (ifOnNode(canvas, evt)[0] == true)
+      {
+        edgeStartNode = ifOnNode(canvas, evt);
+        drawingEdgeWithParametr = false;
+        // DRAW NORMAL EDGE WITHOUT PARAMETR
+      } 
+      else if (ifOnOutParamsZones(canvas, evt)[0] == true)
+      {
+        edgeStartNode = ifOnOutParamsZones(canvas, evt);
+        drawingEdgeWithParametr = true;
+        // DRAW EDGE WITH PARAMETR
+        
+      } 
+
       console.log("startEdge ", edgeStartNode);
       drawingEdge = true;   
 
       console.log(getMousePos(canvas, evt).x);  
 
       document.body.style.cursor = 'crosshair';
-      edgeStartX = (s.graph.nodes()[edgeStartNode[1]].outParamsZones[edgeStartNode[2]][0] + s.graph.nodes()[edgeStartNode[1]].outParamsZones[edgeStartNode[2]][2]) / 2;
-      edgeStartY = s.graph.nodes()[edgeStartNode[1]].outParamsZones[edgeStartNode[2]][3];
+      //edgeStartX = (s.graph.nodes()[edgeStartNode[1]].outParamsZones[edgeStartNode[2]][0] + s.graph.nodes()[edgeStartNode[1]].outParamsZones[edgeStartNode[2]][2]) / 2;
+      //edgeStartY = s.graph.nodes()[edgeStartNode[1]].outParamsZones[edgeStartNode[2]][3];
   }
-  else if (drawingEdge == true)
+  else if (drawingEdge == true && moving == false)
   {
-      
       edgeEndNode = ifOnNode(canvas, evt);
-      s.graph.nodes()[s.graph.nodes()[edgeEndNode[1]].id].inParams.push( s.graph.nodes()[s.graph.nodes()[edgeStartNode[1]].id].outParams[edgeStartNode[2]] );
+      // s.graph.nodes()[s.graph.nodes()[edgeEndNode[1]].id].inParams.push( s.graph.nodes()[s.graph.nodes()[edgeStartNode[1]].id].outParams[edgeStartNode[2]] );
       s.refresh();
       if (edgeEndNode[0] == true) //if drawing edge ended on node
       {
@@ -82,9 +98,10 @@ canvas.addEventListener('click', function(evt) {
         s.graph.addEdge({
           id: idE,
           source: s.graph.nodes()[edgeStartNode[1]].id,
-          sourceZone: edgeStartNode[2],
+          //sourceZone: edgeStartNode[2],
           target: s.graph.nodes()[edgeEndNode[1]].id,
-          targetZone: s.graph.nodes()[s.graph.nodes()[edgeEndNode[1]].id].inParams.length - 1,
+          //targetZone: s.graph.nodes()[s.graph.nodes()[edgeEndNode[1]].id].inParams.length - 1,
+          withParam: drawingEdgeWithParametr,
           coordinates: [],
         });
         console.log("Added edge: ", s.graph.edges()[idE]);
@@ -114,11 +131,14 @@ window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
   }
-};;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+};
 
 s.bind('overNode', function(e) {
   if (drawingEdge == false ) document.body.style.cursor = 'move';
+  moving = true;
 });
 s.bind('outNode', function(e) {
   if (drawingEdge == false ) document.body.style.cursor = 'default';
+  moving = false;
+  drawingEdge = false;
 });

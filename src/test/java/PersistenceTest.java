@@ -1,7 +1,7 @@
 import cz.cvut.kbss.sempipes.config.RestConfig;
-import cz.cvut.kbss.sempipes.dao.EdgeDao;
-import cz.cvut.kbss.sempipes.dao.GraphDao;
-import cz.cvut.kbss.sempipes.dao.NodeDao;
+import cz.cvut.kbss.sempipes.persistence.dao.EdgeDao;
+import cz.cvut.kbss.sempipes.persistence.dao.GraphDao;
+import cz.cvut.kbss.sempipes.persistence.dao.NodeDao;
 import cz.cvut.kbss.sempipes.model.graph.Edge;
 import cz.cvut.kbss.sempipes.model.graph.Graph;
 import cz.cvut.kbss.sempipes.model.graph.Node;
@@ -11,14 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.web.context.WebApplicationContext;
-import scala.None;
-import scala.Option;
 import scala.Some;
 
 import java.net.URI;
 import java.util.HashSet;
-import java.util.LinkedList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -86,9 +82,9 @@ public class PersistenceTest {
         types.add("https://type/3");
         final Node n = new Node(new URI("https://uri" + nodeCount), "Label", 1, 2, types, new java.util.HashSet<String>(), new java.util.HashSet<String>());
         final Edge e = new Edge(new URI("https://edge"), n, n);
-        final LinkedList<Node> nodes = new LinkedList<>();
+        final HashSet<Node> nodes = new HashSet<>();
         nodes.add(n);
-        final LinkedList<Edge> edges = new LinkedList<>();
+        final HashSet<Edge> edges = new HashSet<>();
         edges.add(e);
         final Graph g = new Graph(uri, "Graph", nodes, edges);
         assertEquals(new Some<>(g), graphDao.add(g));

@@ -67,6 +67,11 @@ sigma.canvas.nodes.def = (function() {
     var temp = 0,
         tarr = [];
 
+    if (node.inParams.length == 0 || node.inParams[0] == " ")
+    {
+      node.inParams[0] = " ";
+    }
+
     for (i = 0; i < inParams.length; i++){
         temp = 0;
         tarr = [];

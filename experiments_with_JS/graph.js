@@ -107,7 +107,7 @@ function newNode(typeOfNode)
     s.graph.addNode ({
       // Main attributes:
       id: idN,
-      label: 'ahjbfgvjhgfvbhbvjfhbvkfhbvjfbvdfhkbvfghbv' + idN,
+      label: 'ahjbfgvjhgfvbhbvjf' + idN,
       x: 0 + idN/5,
       y: 0 + idN/5,
       coordinates: [],
@@ -139,7 +139,7 @@ function newNode(typeOfNode)
       url: 'img2',
         inParams: [],
       inParamsZones: [],
-      outParams: ['out1', 'out22222'],
+      outParams: [],
       outParamsZones: []
     });
         break;
@@ -199,7 +199,7 @@ function newNode(typeOfNode)
 
 //get the popup box
 var modal = document.getElementById('myModal');
-var drawingEdge = false;
+
 
 var dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
 dragListener.bind('drop', function(event) {

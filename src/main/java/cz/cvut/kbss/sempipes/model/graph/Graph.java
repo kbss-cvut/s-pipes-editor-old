@@ -4,7 +4,7 @@ import cz.cvut.kbss.jopa.model.annotations.*;
 import cz.cvut.kbss.sempipes.model.Vocabulary;
 
 import java.net.URI;
-import java.util.Collection;
+import java.util.Set;
 import java.util.Set;
 
 /**
@@ -16,17 +16,15 @@ public class Graph {
     private URI uri;
     @OWLDataProperty(iri = Vocabulary.s_p_label)
     private String label;
-    @Sequence
     @OWLObjectProperty(iri = Vocabulary.s_p_consists_of_nodes, cascade = CascadeType.ALL)
-    private Collection<Node> nodes;
-    @Sequence
+    private Set<Node> nodes;
     @OWLObjectProperty(iri = Vocabulary.s_p_consists_of_edges, cascade = CascadeType.ALL)
-    private Collection<Edge> edges;
+    private Set<Edge> edges;
 
     public Graph() {
     }
 
-    public Graph(URI uri, String label, Collection<Node> nodes, Collection<Edge> edges) {
+    public Graph(URI uri, String label, Set<Node> nodes, Set<Edge> edges) {
         this.uri = uri;
         this.label = label;
         this.edges = edges;
@@ -45,19 +43,19 @@ public class Graph {
         this.label = label;
     }
 
-    public Collection<Node> getNodes() {
+    public Set<Node> getNodes() {
         return nodes;
     }
 
-    public void setNodes(Collection<Node> nodes) {
+    public void setNodes(Set<Node> nodes) {
         this.nodes = nodes;
     }
 
-    public Collection<Edge> getEdges() {
+    public Set<Edge> getEdges() {
         return edges;
     }
 
-    public void setEdges(Collection<Edge> edges) {
+    public void setEdges(Set<Edge> edges) {
         this.edges = edges;
     }
 

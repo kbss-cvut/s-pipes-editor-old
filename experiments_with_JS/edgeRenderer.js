@@ -9,12 +9,18 @@ sigma.canvas.edges.def = function(edge, source, target, context, settings) {
   context.lineWidth = 1;
   context.beginPath();
   edge.coordinates = [
-  (s.graph.nodes()[edge.source].outParamsZones[edge.sourceZone][0] + s.graph.nodes()[edge.source].outParamsZones[edge.sourceZone][2]) / 2,
+/*  (s.graph.nodes()[edge.source].outParamsZones[edge.sourceZone][0] + s.graph.nodes()[edge.source].outParamsZones[edge.sourceZone][2]) / 2,
    s.graph.nodes()[edge.source].outParamsZones[edge.sourceZone][3],
-  //(s.graph.nodes()[edge.target].coordinates[0] + s.graph.nodes()[edge.target].coordinates[2]) / 2 ,
   (s.graph.nodes()[edge.target].inParamsZones[edge.targetZone][0] + s.graph.nodes()[edge.target].inParamsZones[edge.targetZone][2] ) / 2,
    s.graph.nodes()[edge.target].coordinates[1] - 15*0.9
-  ];;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ];*/
+    (s.graph.nodes()[edge.source].coordinates[0] + s.graph.nodes()[edge.source].coordinates[2]) / 2,
+     s.graph.nodes()[edge.source].coordinates[3],
+    (s.graph.nodes()[edge.target].coordinates[0] + s.graph.nodes()[edge.target].coordinates[2] ) / 2,
+     s.graph.nodes()[edge.target].coordinates[1] - 15
+  ];
+
+  
   
   context.moveTo(
     edge.coordinates[0],
