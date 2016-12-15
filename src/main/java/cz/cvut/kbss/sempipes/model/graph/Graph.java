@@ -66,14 +66,14 @@ public class Graph {
 
         Graph graph = (Graph) o;
 
-        if (!nodes.equals(graph.nodes)) return false;
-        return edges.equals(graph.edges);
+        if (getNodes() != null ? !getNodes().equals(graph.getNodes()) : graph.getNodes() != null) return false;
+        return getEdges() != null ? getEdges().equals(graph.getEdges()) : graph.getEdges() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = nodes.hashCode();
-        result = 31 * result + edges.hashCode();
+        int result = getNodes() != null ? getNodes().hashCode() : 0;
+        result = 31 * result + (getEdges() != null ? getEdges().hashCode() : 0);
         return result;
     }
 }
