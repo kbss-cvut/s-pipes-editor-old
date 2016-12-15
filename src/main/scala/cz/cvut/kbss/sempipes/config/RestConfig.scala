@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.{DeserializationFeature, ObjectMapper}
 import cz.cvut.kbss.jsonld.jackson.JsonLdModule
 import org.springframework.context.annotation.{Bean, ComponentScan, Configuration}
+import org.springframework.web.client.RestTemplate
 import org.springframework.web.servlet.config.annotation.EnableWebMvc
 
 /**
@@ -22,4 +23,7 @@ class RestConfig {
     objectMapper.registerModule(new JsonLdModule())
     objectMapper
   }
+
+  @Bean
+  def restTemplate = new RestTemplate()
 }

@@ -12,7 +12,7 @@
         <org.springframework.version>4.3.2.RELEASE</org.springframework.version>
         <org.springframework.security.version>4.2.0.RELEASE</org.springframework.security.version>
         <cz.cvut.kbss.jopa.version>LATEST</cz.cvut.kbss.jopa.version>
-        <org.scala-lang.version>2.12.0</org.scala-lang.version>
+        <org.scala-lang.version>LATEST</org.scala-lang.version>
         <com.fasterxml.json.version>2.7.3</com.fasterxml.json.version>
         <cz.cvut.kbss.jaxb-jsonld-jackson.version>0.0.6</cz.cvut.kbss.jaxb-jsonld-jackson.version>
         <javax.servlet.servlet-api.version>3.1.0</javax.servlet.servlet-api.version>
@@ -118,6 +118,11 @@
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${org.springframework.version}</version>
         </dependency>
@@ -155,14 +160,10 @@
             <version>${cz.cvut.kbss.jopa.version}</version>
         </dependency>
 
+        <!-- Sesame -->
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-rio-rdfjson</artifactId>
-            <version>4.12</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openrdf.sesame</groupId>
-            <artifactId>sesame-rio-rdfxml</artifactId>
             <version>4.12</version>
         </dependency>
 
@@ -200,23 +201,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--<plugin>-->
-            <!--<groupId>org.codehaus.mojo</groupId>-->
-            <!--<artifactId>exec-maven-plugin</artifactId>-->
-            <!--<executions>-->
-            <!--<execution>-->
-            <!--<id>Scala Vocabulary generator</id>-->
-            <!--<phase>generate-sources</phase>-->
-            <!--<goals>-->
-            <!--<goal>exec</goal>-->
-            <!--</goals>-->
-            <!--<configuration>-->
-            <!--<executable>${basedir}/src/main/resources/vocabulary-scala.sh</executable>-->
-            <!--<arguments>${basedir}</arguments>-->
-            <!--</configuration>-->
-            <!--</execution>-->
-            <!--</executions>-->
-            <!--</plugin>-->
         </plugins>
     </build>
 </project>
