@@ -26,10 +26,10 @@ class EdgeDao extends BaseDao[Edge] {
 
   override def delete(uri: URI): Option[URI] = {
     val em = emf.createEntityManager()
-    em.getTransaction().begin()
     try {
       em.find(classOf[Edge], uri) match {
         case e: Edge =>
+          em.getTransaction().begin()
           em.remove(e)
           em.getTransaction().commit()
           Some(uri)

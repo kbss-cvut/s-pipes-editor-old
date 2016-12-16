@@ -29,10 +29,10 @@ class NodeDao extends BaseDao[Node] {
 
   override def delete(uri: URI): Option[URI] = {
     val em = emf.createEntityManager()
-    em.getTransaction().begin()
     try {
       em.find(classOf[Node], uri) match {
         case n: Node =>
+          em.getTransaction().begin()
           em.remove(n)
           em.getTransaction().commit()
           Some(uri)
