@@ -18,9 +18,13 @@
         <javax.servlet.servlet-api.version>3.1.0</javax.servlet.servlet-api.version>
         <junit.junit.version>4.12</junit.junit.version>
         <org.mockito.mockito-all.version>1.10.19</org.mockito.mockito-all.version>
+        <org.mapstruct.version>1.0.0.Final</org.mapstruct.version>
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <repositories>
@@ -29,7 +33,7 @@
             <name>KBSS Maven 2 Repository</name>
             <url>http://kbss.felk.cvut.cz/m2repo</url>
             <snapshots>
-                <checksumPolicy>warn</checksumPolicy>
+                <checksumPolicy>ignore</checksumPolicy>
                 <enabled>true</enabled>
                 <updatePolicy>always</updatePolicy>
             </snapshots>
@@ -176,9 +180,47 @@
     </dependencies>
 
     <build>
-        <sourceDirectory>${basedir}/src/main/scala</sourceDirectory>
-        <testSourceDirectory>${basedir}/src/main/scala</testSourceDirectory>
         <plugins>
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.12</version>
+                <executions>
+                    <execution>
+                        <id>src</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${basedir}/src/main/generated-sources</source>
+                                <source>${basedir}/src/main/scala</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+            </executions>
+            </plugin>
             <plugin>
                 <!-- Generate entity classes from OWL integrity constraints -->
                 <groupId>cz.cvut.kbss.jopa</groupId>
