@@ -1,3 +1,6 @@
+import WizardGenerator from "semforms/src/components/model/WizardGenerator.js";
+
+
 function triggerMouseEvent (node, eventType) {
   var clickEvent = document.createEvent ('MouseEvents');
   clickEvent.initEvent (eventType, true, true);
@@ -119,6 +122,8 @@ canvas.addEventListener('mouseup', function(evt) {
 }, true);
 
     
+
+
 
 // Open modal
 s.bind('doubleClickNode', function(e) {
