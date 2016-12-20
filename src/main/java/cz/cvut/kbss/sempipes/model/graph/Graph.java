@@ -5,7 +5,6 @@ import cz.cvut.kbss.sempipes.model.Vocabulary;
 
 import java.net.URI;
 import java.util.Set;
-import java.util.Set;
 
 /**
  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 01.12.16.
@@ -16,9 +15,9 @@ public class Graph {
     private URI uri;
     @OWLDataProperty(iri = Vocabulary.s_p_label)
     private String label;
-    @OWLObjectProperty(iri = Vocabulary.s_p_consists_of_nodes, cascade = CascadeType.ALL)
+    @OWLObjectProperty(iri = Vocabulary.s_p_consists_of_nodes, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Node> nodes;
-    @OWLObjectProperty(iri = Vocabulary.s_p_consists_of_edges, cascade = CascadeType.ALL)
+    @OWLObjectProperty(iri = Vocabulary.s_p_consists_of_edges, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Edge> edges;
 
     public Graph() {
@@ -75,5 +74,15 @@ public class Graph {
         int result = getNodes() != null ? getNodes().hashCode() : 0;
         result = 31 * result + (getEdges() != null ? getEdges().hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Graph{" +
+                "uri=" + uri +
+                ", label='" + label + '\'' +
+                ", nodes=" + nodes.toString() +
+                ", edges=" + edges.toString() +
+                '}';
     }
 }
