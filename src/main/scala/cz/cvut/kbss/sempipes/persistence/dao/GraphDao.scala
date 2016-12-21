@@ -2,6 +2,7 @@ package cz.cvut.kbss.sempipes.persistence.dao
 
 import java.net.URI
 
+import cz.cvut.kbss.sempipes.model.Vocabulary
 import cz.cvut.kbss.sempipes.model.graph.Graph
 import org.springframework.stereotype.Repository
 
@@ -29,9 +30,10 @@ class GraphDao extends BaseDao[Graph] {
   def getAll(): Option[Traversable[Graph]] = {
     val em = emf.createEntityManager()
     try {
-      em.createNativeQuery("select ?s where { ?s a <http://onto.fel.cvut.cz/ontologies/sempipes/graph> }", classOf[Graph])
-        //.setParameter("type", Vocabulary.s_c_graph)
-        .getResultList() match {
+      val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[Graph])
+        .setParameter("type", URI.create(Vocabulary.s_c_graph))
+      System.err.println(query.toString())
+      query.getResultList() match {
         case nonEmpty: java.util.List[Graph] if !nonEmpty.isEmpty =>
           Some(nonEmpty.asScala)
         case empty: java.util.List[Graph] if empty.isEmpty =>
