@@ -29,7 +29,7 @@ import static org.junit.Assert.assertNotNull;
 @WebAppConfiguration
 public class PersistenceTest {
 
-    private static byte nodeCount = 0;
+    private static byte nodeCount = 123;
 
     @Autowired
     private GraphDao graphDao;
@@ -42,7 +42,7 @@ public class PersistenceTest {
 
     @Test
     public void edgePersistenceTest() throws Exception {
-        URI uri = new URI("https://edges/1");
+        URI uri = new URI("https://edges/123456");
         edgeDao.delete(uri);
         assertEquals(scala.None$.MODULE$, edgeDao.get(uri));
         final HashSet<String> types = new HashSet<>();
@@ -54,7 +54,7 @@ public class PersistenceTest {
         final Node n1 = new Node(new URI("https://nodes/" + nodeCount++), "Label", 1, 2, types, new java.util.HashSet<String>(), new java.util.HashSet<String>());
         Edge e = new Edge(uri, n, n1);
         assertEquals(new Some<>(e), edgeDao.add(e));
-        assertEquals(new Some<>(e), edgeDao.get(new URI("https://edges/1")));
+        assertEquals(new Some<>(e), edgeDao.get(new URI("https://edges/123456")));
         assertEquals(new Some<>(uri), edgeDao.delete(uri));
         assertEquals(scala.None$.MODULE$, edgeDao.get(uri));
     }
@@ -73,7 +73,7 @@ public class PersistenceTest {
 
     @Test
     public void graphPersistenceTest() throws Exception {
-        final URI uri = new URI("https://graphs/1");
+        final URI uri = new URI("https://graphs/11");
         final HashSet<String> types = new HashSet<>();
         types.add("https://type/1");
         types.add("https://type/2");
@@ -123,6 +123,20 @@ public class PersistenceTest {
         assertEquals(size - 2, graphDao.getAll().get().size());
     }
 
+    @Test
+    public void deleteNonExistentEdge() throws Exception {
+        assertEquals(scala.None$.MODULE$, edgeDao.delete(new URI("https://edge/that/does/not/exist")));
+    }
+
+    @Test
+    public void deleteNonExistentNode() throws Exception {
+        assertEquals(scala.None$.MODULE$, nodeDao.delete(new URI("https://node/that/does/not/exist")));
+    }
+
+    @Test
+    public void deleteNonExistentGraph() throws Exception {
+        assertEquals(scala.None$.MODULE$, graphDao.delete(new URI("https://graph/that/does/not/exist")));
+    }
     private Node persistNode() throws Exception {
         final HashSet<String> types = new HashSet<>();
         types.add("https://type/1");
