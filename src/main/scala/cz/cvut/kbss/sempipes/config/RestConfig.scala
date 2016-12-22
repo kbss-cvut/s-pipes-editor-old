@@ -3,7 +3,7 @@ package cz.cvut.kbss.sempipes.config
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.{DeserializationFeature, ObjectMapper}
 import cz.cvut.kbss.jsonld.jackson.JsonLdModule
-import org.springframework.context.annotation.{Bean, ComponentScan, Configuration}
+import org.springframework.context.annotation.{Bean, ComponentScan, Configuration, Import}
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.servlet.config.annotation.EnableWebMvc
 
@@ -12,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc
   */
 @EnableWebMvc
 @Configuration
+@Import(Array(classOf[ServiceConfig]))
 @ComponentScan(basePackages = Array("cz.cvut.kbss.sempipes.rest"))
 class RestConfig {
 
