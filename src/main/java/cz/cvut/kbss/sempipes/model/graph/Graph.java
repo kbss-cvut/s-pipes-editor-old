@@ -1,6 +1,5 @@
 package cz.cvut.kbss.sempipes.model.graph;
 
-import com.sun.istack.internal.NotNull;
 import cz.cvut.kbss.jopa.model.annotations.*;
 import cz.cvut.kbss.sempipes.model.Vocabulary;
 
@@ -16,10 +15,8 @@ public class Graph {
     private URI uri;
     @OWLDataProperty(iri = Vocabulary.s_p_label)
     private String label;
-    @NotNull
     @OWLObjectProperty(iri = Vocabulary.s_p_consists_of_nodes, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Node> nodes;
-    @NotNull
     @OWLObjectProperty(iri = Vocabulary.s_p_consists_of_edges, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Edge> edges;
 
