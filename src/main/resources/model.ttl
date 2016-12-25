@@ -100,6 +100,9 @@ sempipes:has-y-coordinate a owl:DatatypeProperty ;
 # 
 # http://onto.fel.cvut.cz/ontologies/sempipes/edge
 
+sempipes:module a owl:Class ;
+    rdfs:label "Sempipes module" .
+
 sempipes:edge a owl:Class ;
 	rdfs:label "Graph edge" .
 # 
