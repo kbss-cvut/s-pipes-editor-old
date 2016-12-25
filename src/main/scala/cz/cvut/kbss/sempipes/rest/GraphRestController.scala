@@ -4,6 +4,7 @@ import java.net.URI
 
 import cz.cvut.kbss.jsonld.JsonLd
 import cz.cvut.kbss.sempipes.model.graph.{Edge, Graph, Node}
+import cz.cvut.kbss.sempipes.persistence.dao.GraphDao
 import cz.cvut.kbss.sempipes.service.GraphService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
@@ -19,7 +20,7 @@ import scala.collection.JavaConverters._
 class GraphRestController {
 
   @Autowired
-  var graphService: GraphService = _
+  private var graphService: GraphService = _
 
   @GetMapping(path = Array("/"), produces = Array(JsonLd.MEDIA_TYPE))
   def getAllGraphs: ResponseEntity[java.util.Set[Graph]] =

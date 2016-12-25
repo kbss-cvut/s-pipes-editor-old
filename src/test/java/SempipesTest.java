@@ -1,6 +1,7 @@
 import cz.cvut.kbss.jsonld.JsonLd;
 import cz.cvut.kbss.sempipes.config.PersistenceConfig;
 import cz.cvut.kbss.sempipes.config.RestConfig;
+import cz.cvut.kbss.sempipes.service.SempipesService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class SempipesTest {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private SempipesService sempipesService;
+
     @Test
     public void fssTest() throws Exception {
         final HttpEntity<Object> entity = new HttpEntity<>(null, new HttpHeaders());
@@ -34,5 +38,10 @@ public class SempipesTest {
         final String subtype = result.getHeaders().getContentType().getSubtype();
         assertEquals(JsonLd.MEDIA_TYPE, type + "/" + subtype);
         assertNotNull(result.getBody());
+    }
+
+    @Test
+    public void getModules() throws Exception {
+        sempipesService.getModules();
     }
 }
