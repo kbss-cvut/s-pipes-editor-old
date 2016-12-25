@@ -78,8 +78,8 @@ public class PersistenceTest {
         types.add("https://type/1");
         types.add("https://type/2");
         types.add("https://type/3");
-        final Node n = new Node(new URI("https://nodes/1" + nodeCount), "Label", 1, 2, types, new java.util.HashSet<String>(), new java.util.HashSet<String>());
-        final Edge e = new Edge(new URI("https://edges/1"), n, n);
+        final Node n = new Node(new URI("https://nodes/11" + nodeCount), "Label", 1, 2, types, new java.util.HashSet<String>(), new java.util.HashSet<String>());
+        final Edge e = new Edge(new URI("https://edges/11"), n, n);
         final HashSet<Node> nodes = new HashSet<>();
         nodes.add(n);
         final HashSet<Edge> edges = new HashSet<>();
