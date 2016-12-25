@@ -53,7 +53,7 @@ public class RestTest {
     public void getAllGraphsTest() throws Exception {
         ResultActions result = mockMvc.perform(get("/graphs/"));
         if (graphDao.getAll().isEmpty()) {
-            result.andExpect(status().isNoContent());
+            result.andExpect(status().isNotFound());
             assertEquals("[]", result.andReturn().getResponse().getContentAsString());
         } else {
             result.andExpect(status().isOk());
