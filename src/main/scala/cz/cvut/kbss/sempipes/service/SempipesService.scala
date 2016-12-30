@@ -20,7 +20,7 @@ class SempipesService {
   def getModules() = {
     val uri = new URI("https://kbss.felk.cvut.cz/sempipes-sped/contexts/12/data")
     val headers = new HttpHeaders()
-    headers.set(HttpHeaders.ACCEPT, "application/ld+json")
+    headers.set(HttpHeaders.ACCEPT, "text/turtle")
     val entity = new HttpEntity[Module](null, headers)
     restTemplate.exchange(uri,
       HttpMethod.GET,
