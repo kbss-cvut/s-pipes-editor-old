@@ -1,6 +1,7 @@
 import cz.cvut.kbss.jsonld.JsonLd;
 import cz.cvut.kbss.sempipes.config.PersistenceConfig;
 import cz.cvut.kbss.sempipes.config.RestConfig;
+import cz.cvut.kbss.sempipes.model.sempipes.Module;
 import cz.cvut.kbss.sempipes.service.SempipesService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
