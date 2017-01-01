@@ -169,6 +169,11 @@
             <artifactId>ontodriver-sesame</artifactId>
             <version>${cz.cvut.kbss.jopa.version}</version>
         </dependency>
+        <dependency>
+            <groupId>cz.cvut.kbss.jopa</groupId>
+            <artifactId>ontodriver-owlapi</artifactId>
+            <version>${cz.cvut.kbss.jopa.version}</version>
+        </dependency>
 
         <!-- Sesame -->
         <dependency>
