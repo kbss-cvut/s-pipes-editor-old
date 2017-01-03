@@ -11,9 +11,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.client.RestTemplate;
+import scala.Option;
+import scala.collection.Set;
+import scala.collection.Traversable;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 15.12.16.
@@ -43,6 +45,8 @@ public class SempipesTest {
 
     @Test
     public void getModules() throws Exception {
-        sempipesService.getModules();
+        Option<Traversable<Module>> modules = sempipesService.getModules();
+        assertNotEquals(scala.None$.MODULE$, sempipesService.getModules());
+        assert modules.get().nonEmpty();
     }
 }
