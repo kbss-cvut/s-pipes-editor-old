@@ -5,6 +5,7 @@ import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
 import cz.cvut.kbss.sempipes.model.Vocabulary;
 
+import javax.annotation.Generated;
 import java.net.URI;
 
 /**
@@ -12,7 +13,7 @@ import java.net.URI;
  */
 @OWLClass(iri = Vocabulary.s_c_module)
 public class Module {
-    @Id
+    @Id(generated = true)
     private URI uri;
     @OWLDataProperty(iri = Vocabulary.s_p_label)
     private String label;
