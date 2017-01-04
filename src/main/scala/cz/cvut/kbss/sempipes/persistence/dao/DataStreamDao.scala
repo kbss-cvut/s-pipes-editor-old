@@ -1,6 +1,6 @@
-package cz.cvut.kbss.sempipes.persistence
+package cz.cvut.kbss.sempipes.persistence.dao
 
-import java.io.FileOutputStream
+import java.io.ByteArrayInputStream
 import java.net.URI
 import javax.annotation.PostConstruct
 
@@ -8,8 +8,9 @@ import cz.cvut.kbss.jopa.Persistence
 import cz.cvut.kbss.jopa.model._
 import cz.cvut.kbss.ontodriver.config.OntoDriverProperties
 import cz.cvut.kbss.ontodriver.sesame.config.SesameOntoDriverProperties
-import cz.cvut.kbss.sempipes.model.Vocabulary
 import cz.cvut.kbss.sempipes.model.sempipes.Module
+import cz.cvut.kbss.sempipes.util.JopaPersistenceUtils
+import org.openrdf.rio.RDFFormat
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpEntity, HttpHeaders, HttpMethod}
 import org.springframework.stereotype.Repository
@@ -52,27 +53,32 @@ class DataStreamDao {
 
   }
 
-  //TODO stream would be better than url
   def getModules(url: String): Option[Traversable[Module]] = {
     // retrieve data from url
     val uri = new URI(url)
     val headers = new HttpHeaders()
     headers.set(HttpHeaders.ACCEPT, "text/turtle")
     val entity = new HttpEntity[String](null, headers)
-    new FileOutputStream("sempipes.ttl").write(restTemplate.exchange(uri,
+    val is = new ByteArrayInputStream(restTemplate.exchange(uri,
       HttpMethod.GET,
       entity,
       classOf[String]).getBody().getBytes())
 
+    val em = emf.createEntityManager()
+
     //TODO load data into new temporary JOPA context
+    val repo = JopaPersistenceUtils.getRepository(em)
+    repo.getConnection().add(is, "http://temporary", RDFFormat.TURTLE)
 
     // retrieve JOPA objects by callback function
-    val em = emf.createEntityManager()
+
     try {
       em.createNativeQuery("select ?s where { ?s a ?type }")
-        .setParameter("type", new URI(Vocabulary.s_c_module))
+        .setParameter("type", new URI("http://topbraid.org/sparqlmotion#Module"))
         .getResultList match {
-        case l: java.util.List[Module] if !l.isEmpty() => Some(l.asScala)
+        case l: java.util.List[Module] if !l.isEmpty() =>
+          System.err.println(l)
+          Some(l.asScala)
         case _ => None
       }
     }
