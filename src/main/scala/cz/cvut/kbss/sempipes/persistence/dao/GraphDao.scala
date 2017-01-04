@@ -2,8 +2,10 @@ package cz.cvut.kbss.sempipes.persistence.dao
 
 import java.net.URI
 
+import cz.cvut.kbss.jopa.model.EntityManagerFactory
 import cz.cvut.kbss.sempipes.model.Vocabulary
-import cz.cvut.kbss.sempipes.model.graph.Graph
+import cz.cvut.kbss.sempipes.model.graph.{Edge, Graph, Node}
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 
 import scala.collection.JavaConverters._
@@ -12,9 +14,12 @@ import scala.collection.JavaConverters._
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 03.11.16.
   */
 @Repository
-class GraphDao extends BaseDao[Graph] {
+class GraphDao extends {
 
-  override def get(uri: URI): Option[Graph] = {
+  @Autowired
+  private var emf: EntityManagerFactory = _
+
+  def get(uri: URI): Option[Graph] = {
     val em = emf.createEntityManager()
     try {
       em.find(classOf[Graph], uri) match {
@@ -45,7 +50,16 @@ class GraphDao extends BaseDao[Graph] {
     }
   }
 
-  override def delete(uri: URI): Option[URI] = {
+  def add(e: Graph): Option[Graph] = {
+    assert(e != null)
+    val em = emf.createEntityManager()
+    em.getTransaction().begin()
+    em.persist(e)
+    em.getTransaction().commit()
+    Some(e)
+  }
+
+  def delete(uri: URI): Option[URI] = {
     val em = emf.createEntityManager()
     try {
       em.find(classOf[Graph], uri) match {
@@ -73,8 +87,38 @@ class GraphDao extends BaseDao[Graph] {
           g.setLabel(other.getLabel)
           g.setNodes(other.getNodes)
           g.setEdges(other.getEdges)
+          em.merge(g)
+          em.getTransaction().commit()
           Some(g)
         case null => None
+      }
+    }
+    finally {
+      em.close()
+    }
+  }
+
+  def getNodes(uri: URI): Option[Traversable[Node]] = {
+    val em = emf.createEntityManager()
+    try {
+      em.find(classOf[Graph], uri) match {
+        case g: Graph if g.getNodes() != null && !g.getNodes().isEmpty() =>
+          Some(g.getNodes().asScala)
+        case _ => None
+      }
+    }
+    finally {
+      em.close()
+    }
+  }
+
+  def getEdges(uri: URI): Option[Traversable[Edge]] = {
+    val em = emf.createEntityManager()
+    try {
+      em.find(classOf[Graph], uri) match {
+        case g: Graph if g.getEdges() != null && !g.getEdges().isEmpty() =>
+          Some(g.getEdges().asScala)
+        case _ => None
       }
     }
     finally {

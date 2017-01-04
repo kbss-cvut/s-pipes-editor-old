@@ -7,8 +7,6 @@ import cz.cvut.kbss.sempipes.persistence.dao.GraphDao
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
-import scala.collection.JavaConverters._
-
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 22.12.16.
   */
@@ -31,14 +29,8 @@ class GraphService {
     dao.delete(uri)
 
   def getGraphNodes(uri: URI): Option[Traversable[Node]] =
-    dao.get(uri) match {
-      case Some(g) => Some(g.getNodes.asScala)
-      case None => None
-    }
+    dao.getNodes(uri)
 
   def getGraphEdges(uri: URI): Option[Traversable[Edge]] =
-    dao.get(uri) match {
-      case Some(g) => Some(g.getEdges.asScala)
-      case None => None
-    }
+    dao.getEdges(uri)
 }
