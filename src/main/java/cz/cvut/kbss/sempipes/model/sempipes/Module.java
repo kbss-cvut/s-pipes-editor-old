@@ -3,6 +3,7 @@ package cz.cvut.kbss.sempipes.model.sempipes;
 import cz.cvut.kbss.jopa.model.annotations.Id;
 import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
+import cz.cvut.kbss.jopa.model.annotations.OWLObjectProperty;
 import cz.cvut.kbss.sempipes.model.Vocabulary;
 
 import javax.annotation.Generated;
@@ -17,6 +18,8 @@ public class Module {
     private URI uri;
     @OWLDataProperty(iri = Vocabulary.s_p_label)
     private String label;
+    @OWLObjectProperty(iri = Vocabulary.s_p_next)
+    private Module next;
 
     public Module() {
     }
@@ -40,5 +43,22 @@ public class Module {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public Module getNext() {
+        return next;
+    }
+
+    public void setNext(Module next) {
+        this.next = next;
+    }
+
+    @Override
+    public String toString() {
+        return "Module{" +
+                "uri=" + uri +
+                ", label='" + label + '\'' +
+                ", next=" + (next == null ? "null" : next.toString()) +
+                '}';
     }
 }

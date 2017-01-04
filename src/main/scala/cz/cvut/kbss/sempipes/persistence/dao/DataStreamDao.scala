@@ -67,18 +67,17 @@ class DataStreamDao {
 
     val em = emf.createEntityManager()
 
-    //TODO load data into new temporary JOPA context
-    val repo = JopaPersistenceUtils.getRepository(em)
-    repo.getConnection().add(is, "http://temporary", RDFFormat.TURTLE)
-
-    // retrieve JOPA objects by callback function
-
     try {
-      em.createNativeQuery("select ?s where { ?s a ?type }")
-        .setParameter("type", new URI(Vocabulary.s_c_Module))
-        .getResultList match {
-        case l: java.util.List[Module] if !l.isEmpty() =>
-          System.err.println(l)
+      //TODO load data into NEW TEMPORARY JOPA context
+      val repo = JopaPersistenceUtils.getRepository(em)
+      repo.getConnection().add(is, "http://temporary", RDFFormat.TURTLE)
+
+      // retrieve JOPA objects by callback function
+
+      val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[Module])
+        .setParameter("type", URI.create(Vocabulary.s_c_Module))
+      query.getResultList() match {
+        case l: java.util.List[Module] if !l.isEmpty =>
           Some(l.asScala)
         case _ => None
       }
