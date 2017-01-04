@@ -11,7 +11,7 @@ import java.net.URI;
 /**
  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 22.12.16.
  */
-@OWLClass(iri = Vocabulary.s_c_module)
+@OWLClass(iri = Vocabulary.s_c_Module)
 public class Module {
     @Id(generated = true)
     private URI uri;

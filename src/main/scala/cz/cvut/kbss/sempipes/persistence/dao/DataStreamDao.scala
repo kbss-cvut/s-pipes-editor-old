@@ -8,6 +8,7 @@ import cz.cvut.kbss.jopa.Persistence
 import cz.cvut.kbss.jopa.model._
 import cz.cvut.kbss.ontodriver.config.OntoDriverProperties
 import cz.cvut.kbss.ontodriver.sesame.config.SesameOntoDriverProperties
+import cz.cvut.kbss.sempipes.model.Vocabulary
 import cz.cvut.kbss.sempipes.model.sempipes.Module
 import cz.cvut.kbss.sempipes.util.JopaPersistenceUtils
 import org.openrdf.rio.RDFFormat
@@ -74,7 +75,7 @@ class DataStreamDao {
 
     try {
       em.createNativeQuery("select ?s where { ?s a ?type }")
-        .setParameter("type", new URI("http://topbraid.org/sparqlmotion#Module"))
+        .setParameter("type", new URI(Vocabulary.s_c_Module))
         .getResultList match {
         case l: java.util.List[Module] if !l.isEmpty() =>
           System.err.println(l)
