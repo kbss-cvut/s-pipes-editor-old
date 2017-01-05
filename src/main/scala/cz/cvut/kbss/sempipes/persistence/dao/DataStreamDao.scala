@@ -56,7 +56,7 @@ class DataStreamDao {
 
   def getModules(url: String): Option[Traversable[Module]] = {
     // retrieve data from url
-    val uri = new URI(url)
+    val uri = URI.create(url)
     val headers = new HttpHeaders()
     headers.set(HttpHeaders.ACCEPT, "text/turtle")
     val entity = new HttpEntity[String](null, headers)
