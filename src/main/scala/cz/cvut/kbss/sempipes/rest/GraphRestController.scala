@@ -59,4 +59,34 @@ class GraphRestController {
       case None =>
         new ResponseEntity(Set[Node]().asJava, HttpStatus.NOT_FOUND)
     }
+
+  @GetMapping(path = Array("/{graphUri}/edges/{uri}"), produces = Array(JsonLd.MEDIA_TYPE))
+  def getEdge(@PathVariable graphUri: String, @PathVariable uri: String): ResponseEntity[Edge] = {
+    graphService.getGraphEdges(new URI("https://graphs/" + uri)) match {
+      case Some(edges) =>
+        edges.find(e => e.getUri() == URI.create(uri)) match {
+          case Some(edge) =>
+            new ResponseEntity(edge, HttpStatus.OK)
+          case None =>
+            new ResponseEntity(new Edge(), HttpStatus.NOT_FOUND)
+        }
+      case None =>
+        new ResponseEntity(new Edge(), HttpStatus.NOT_FOUND)
+    }
+  }
+
+  @GetMapping(path = Array("/{graphUri}/nodes/{uri}"), produces = Array(JsonLd.MEDIA_TYPE))
+  def getNode(@PathVariable graphUri: String, @PathVariable uri: String): ResponseEntity[Node] = {
+    graphService.getGraphNodes(new URI("https://graphs/" + uri)) match {
+      case Some(nodes) =>
+        nodes.find(n => n.getUri() == URI.create(uri)) match {
+          case Some(node) =>
+            new ResponseEntity(node, HttpStatus.OK)
+          case None =>
+            new ResponseEntity(new Node(), HttpStatus.NOT_FOUND)
+        }
+      case None =>
+        new ResponseEntity(new Node(), HttpStatus.NOT_FOUND)
+    }
+  }
 }
