@@ -4,6 +4,8 @@ import cz.cvut.kbss.sempipes.config.RestConfig;
 import cz.cvut.kbss.sempipes.model.graph.Edge;
 import cz.cvut.kbss.sempipes.model.graph.Graph;
 import cz.cvut.kbss.sempipes.model.graph.Node;
+import cz.cvut.kbss.sempipes.model.sempipes.Module;
+import cz.cvut.kbss.sempipes.persistence.dao.DataStreamDao;
 import cz.cvut.kbss.sempipes.persistence.dao.GraphDao;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,11 +18,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import scala.Option;
+import scala.collection.Traversable;
 
 import java.net.URI;
 import java.util.HashSet;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -39,6 +45,9 @@ public class RestTest {
     @Autowired
     private GraphDao graphDao;
 
+    @Autowired
+    private DataStreamDao dataStreamDao;
+
     private MockMvc mockMvc;
 
     private JsonLdDeserializer deserializer;
@@ -50,7 +59,7 @@ public class RestTest {
     }
 
     @Test
-    public void getAllGraphsTest() throws Exception {
+    public void getAllGraphs() throws Exception {
         ResultActions result = mockMvc.perform(get("/graphs/"));
         if (graphDao.getAll().isEmpty()) {
             result.andExpect(status().isNotFound());
@@ -61,7 +70,7 @@ public class RestTest {
     }
 
     @Test
-    public void getGraphTest() throws Exception {
+    public void getGraph() throws Exception {
         final HashSet<String> types = new HashSet<>();
         types.add("https://type/1");
         types.add("https://type/2");
@@ -79,5 +88,15 @@ public class RestTest {
         result.andExpect(status().isOk());
         assertEquals("{\"uri\":\"https://graphs/1\",\"label\":\"Graph\",\"nodes\":[{\"uri\":\"https://nodes/1\",\"label\":\"Label\",\"x\":1.0,\"y\":2.0,\"nodeTypes\":[\"https://type/2\",\"https://type/3\",\"https://type/1\"],\"inParameters\":[],\"outParameters\":[]}],\"edges\":[{\"uri\":\"https://edges/1\",\"sourceNode\":{\"uri\":\"https://nodes/1\",\"label\":\"Label\",\"x\":1.0,\"y\":2.0,\"nodeTypes\":[\"https://type/2\",\"https://type/3\",\"https://type/1\"],\"inParameters\":[],\"outParameters\":[]},\"destinationNode\":{\"uri\":\"https://nodes/1\",\"label\":\"Label\",\"x\":1.0,\"y\":2.0,\"nodeTypes\":[\"https://type/2\",\"https://type/3\",\"https://type/1\"],\"inParameters\":[],\"outParameters\":[]}}]}",result.andReturn().getResponse().getContentAsString());
         graphDao.delete(g1.getUri());
+    }
+
+    @Test
+    public void getModules() throws Exception {
+        ResultActions result = mockMvc.perform(get("/sempipes/contexts/12/modules"));
+        result.andExpect(status().isOk());
+        String url = "https://kbss.felk.cvut.cz/sempipes-sped/contexts/12/data";
+        Option<Traversable<Module>> data = dataStreamDao.getModules(url);
+        assertNotEquals(scala.None$.MODULE$, data);
+        assertEquals(result.andReturn().getResponse().getContentAsString().split("@type").length, data.get().size());
     }
 }
