@@ -77,11 +77,11 @@ public class ServiceTest {
 
     @Test
     public void getNodes() throws Exception {
-        assertEquals(graphDao.get(URI).get().getNodes(), graphService.getGraphByUri(URI).get().getNodes());
+        assertEquals(graphDao.get(URI).get().getNodes(), graphService.getGraphNodes(URI));
     }
 
     @Test
     public void getEdges() throws Exception {
-        assertEquals(graphDao.get(URI).get().getEdges(), graphService.getGraphByUri(URI).get().getEdges());
+        assertEquals(graphDao.get(URI).get().getEdges(), graphService.getGraphEdges(URI));
     }
 }
