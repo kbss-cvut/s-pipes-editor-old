@@ -14,8 +14,7 @@ class SempipesService {
   @Autowired
   private var dataStreamDao: DataStreamDao = _
 
-  def getModules(): Option[Traversable[Module]] = {
-    val url = "https://kbss.felk.cvut.cz/sempipes-sped/contexts/12/data"
+  def getModules(url: String): Option[Traversable[Module]] = {
     dataStreamDao.getModules(url)
   }
 }
