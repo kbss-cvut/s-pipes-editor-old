@@ -9,7 +9,7 @@ import cz.cvut.kbss.jopa.model._
 import cz.cvut.kbss.ontodriver.config.OntoDriverProperties
 import cz.cvut.kbss.ontodriver.sesame.config.SesameOntoDriverProperties
 import cz.cvut.kbss.sempipes.model.Vocabulary
-import cz.cvut.kbss.sempipes.model.sempipes.Module
+import cz.cvut.kbss.sempipes.model.sempipes.ModuleType
 import cz.cvut.kbss.sempipes.util.JopaPersistenceUtils
 import org.openrdf.rio.RDFFormat
 import org.springframework.beans.factory.annotation.Autowired
@@ -54,7 +54,7 @@ class DataStreamDao {
 
   }
 
-  def getModules(url: String): Option[Traversable[Module]] = {
+  def getModuleTypes(url: String): Option[Traversable[ModuleType]] = {
     // retrieve data from url
     val uri = URI.create(url)
     val headers = new HttpHeaders()
@@ -74,10 +74,10 @@ class DataStreamDao {
 
       // retrieve JOPA objects by callback function
 
-      val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[Module])
+      val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[ModuleType])
         .setParameter("type", URI.create(Vocabulary.s_c_Module))
       query.getResultList() match {
-        case l: java.util.List[Module] if !l.isEmpty =>
+        case l: java.util.List[ModuleType] if !l.isEmpty =>
           Some(l.asScala)
         case _ => None
       }

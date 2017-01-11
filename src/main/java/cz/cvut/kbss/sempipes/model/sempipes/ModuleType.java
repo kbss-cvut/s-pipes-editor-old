@@ -3,28 +3,26 @@ package cz.cvut.kbss.sempipes.model.sempipes;
 import cz.cvut.kbss.jopa.model.annotations.Id;
 import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
-import cz.cvut.kbss.jopa.model.annotations.OWLObjectProperty;
 import cz.cvut.kbss.sempipes.model.Vocabulary;
 
-import javax.annotation.Generated;
 import java.net.URI;
 
 /**
  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 22.12.16.
  */
 @OWLClass(iri = Vocabulary.s_c_Module)
-public class Module {
+public class ModuleType {
     @Id(generated = true)
     private URI uri;
     @OWLDataProperty(iri = Vocabulary.s_p_label)
     private String label;
-    @OWLObjectProperty(iri = Vocabulary.s_p_next)
-    private Module next;
+    @OWLDataProperty(iri = Vocabulary.s_p_comment)
+    private String comment;
 
-    public Module() {
+    public ModuleType() {
     }
 
-    public Module(URI uri, String label) {
+    public ModuleType(URI uri, String label) {
         this.uri = uri;
         this.label = label;
     }
@@ -45,20 +43,20 @@ public class Module {
         this.label = label;
     }
 
-    public Module getNext() {
-        return next;
+    public String getComment() {
+        return comment;
     }
 
-    public void setNext(Module next) {
-        this.next = next;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     @Override
     public String toString() {
-        return "Module{" +
+        return "ModuleType{" +
                 "uri=" + uri +
                 ", label='" + label + '\'' +
-                ", next=" + (next == null ? "null" : next.toString()) +
+                ", comment='" + comment + '\'' +
                 '}';
     }
 }

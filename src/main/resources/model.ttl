@@ -93,6 +93,10 @@ sempipes:has-x-coordinate a owl:DatatypeProperty ;
 
 sempipes:has-y-coordinate a owl:DatatypeProperty ;
 	rdfs:subPropertyOf sempipes:has-coordinate .
+
+rdfs:comment a owl:DatatypeProperty ;
+    rdfs:domain sm:Module ;
+    rdfs:range xsd:string .
 # 
 # 
 # 
@@ -106,7 +110,7 @@ sempipes:has-y-coordinate a owl:DatatypeProperty ;
 # http://onto.fel.cvut.cz/ontologies/sempipes/edge
 
 sm:Module a owl:Class ;
-    rdfs:label "Sempipes module" .
+    rdfs:label "Sempipes module type" .
 
 sempipes:edge a owl:Class ;
 	rdfs:label "Graph edge" .

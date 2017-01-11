@@ -4,7 +4,7 @@ import cz.cvut.kbss.sempipes.config.RestConfig;
 import cz.cvut.kbss.sempipes.model.graph.Edge;
 import cz.cvut.kbss.sempipes.model.graph.Graph;
 import cz.cvut.kbss.sempipes.model.graph.Node;
-import cz.cvut.kbss.sempipes.model.sempipes.Module;
+import cz.cvut.kbss.sempipes.model.sempipes.ModuleType;
 import cz.cvut.kbss.sempipes.persistence.dao.DataStreamDao;
 import cz.cvut.kbss.sempipes.persistence.dao.GraphDao;
 import org.junit.Before;
@@ -95,7 +95,7 @@ public class RestTest {
         ResultActions result = mockMvc.perform(get("/sempipes/contexts/12/modules"));
         result.andExpect(status().isOk());
         String url = "https://kbss.felk.cvut.cz/sempipes-sped/contexts/12/data";
-        Option<Traversable<Module>> data = dataStreamDao.getModules(url);
+        Option<Traversable<ModuleType>> data = dataStreamDao.getModuleTypes(url);
         assertNotEquals(scala.None$.MODULE$, data);
         assertEquals(result.andReturn().getResponse().getContentAsString().split("@type").length, data.get().size());
     }
