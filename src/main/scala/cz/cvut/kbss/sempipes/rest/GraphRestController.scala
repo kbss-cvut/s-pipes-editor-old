@@ -4,7 +4,6 @@ import java.net.URI
 
 import cz.cvut.kbss.jsonld.JsonLd
 import cz.cvut.kbss.sempipes.model.graph.{Edge, Graph, Node}
-import cz.cvut.kbss.sempipes.persistence.dao.GraphDao
 import cz.cvut.kbss.sempipes.service.GraphService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
@@ -33,7 +32,7 @@ class GraphRestController {
 
   @GetMapping(path = Array("/{uri}"), produces = Array(JsonLd.MEDIA_TYPE))
   def getGraph(@PathVariable uri: String): ResponseEntity[Graph] = {
-    graphService.getGraphByUri(new URI("https://graphs/" + uri)) match {
+    graphService.getGraphByUri("https://graphs/" + uri) match {
       case Some(g) =>
         new ResponseEntity(g, HttpStatus.OK)
       case None =>
@@ -43,7 +42,7 @@ class GraphRestController {
 
   @GetMapping(path = Array("/{uri}/edges"), produces = Array(JsonLd.MEDIA_TYPE))
   def getEdges(@PathVariable uri: String): ResponseEntity[Set[Edge]] = {
-    graphService.getGraphEdges(new URI("https://graphs/" + uri)) match {
+    graphService.getGraphEdges("https://graphs/" + uri) match {
       case Some(edges) =>
         new ResponseEntity(edges.toSet, HttpStatus.OK)
       case None =>
@@ -53,7 +52,7 @@ class GraphRestController {
 
   @GetMapping(path = Array("/{uri}/nodes"), produces = Array(JsonLd.MEDIA_TYPE))
   def getNodes(@PathVariable uri: String): ResponseEntity[java.util.Set[Node]] =
-    graphService.getGraphNodes(new URI("https://graphs/" + uri)) match {
+    graphService.getGraphNodes("https://graphs/" + uri) match {
       case Some(nodes) =>
         new ResponseEntity(nodes.toSet.asJava, HttpStatus.OK)
       case None =>
@@ -62,7 +61,7 @@ class GraphRestController {
 
   @GetMapping(path = Array("/{graphUri}/edges/{uri}"), produces = Array(JsonLd.MEDIA_TYPE))
   def getEdge(@PathVariable graphUri: String, @PathVariable uri: String): ResponseEntity[Edge] = {
-    graphService.getGraphEdges(new URI("https://graphs/" + uri)) match {
+    graphService.getGraphEdges("https://graphs/" + uri) match {
       case Some(edges) =>
         edges.find(e => e.getUri() == URI.create(uri)) match {
           case Some(edge) =>
@@ -77,7 +76,7 @@ class GraphRestController {
 
   @GetMapping(path = Array("/{graphUri}/nodes/{uri}"), produces = Array(JsonLd.MEDIA_TYPE))
   def getNode(@PathVariable graphUri: String, @PathVariable uri: String): ResponseEntity[Node] = {
-    graphService.getGraphNodes(new URI("https://graphs/" + uri)) match {
+    graphService.getGraphNodes("https://graphs/" + uri) match {
       case Some(nodes) =>
         nodes.find(n => n.getUri() == URI.create(uri)) match {
           case Some(node) =>
