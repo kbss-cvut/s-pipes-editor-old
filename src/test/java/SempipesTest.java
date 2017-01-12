@@ -43,9 +43,9 @@ public class SempipesTest {
     }
 
     @Test
-    public void getModules() throws Exception {
-        Option<Traversable<ModuleType>> modules = sempipesService.getModuleTypes("https://kbss.felk.cvut.cz/sempipes-sped/contexts/12/data");
-        assertNotEquals(scala.None$.MODULE$, sempipesService.getModuleTypes("https://kbss.felk.cvut.cz/sempipes-sped/contexts/12/data"));
+    public void getModuleTypes() throws Exception {
+        Option<Traversable<ModuleType>> modules = sempipesService.getModuleTypes("https://kbss.felk.cvut.cz/sempipes-sped/contexts/12");
+        assertNotEquals(scala.None$.MODULE$, sempipesService.getModuleTypes("https://kbss.felk.cvut.cz/sempipes-sped/contexts/12"));
         assert modules.get().nonEmpty();
     }
 }

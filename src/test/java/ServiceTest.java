@@ -7,7 +7,6 @@ import cz.cvut.kbss.sempipes.persistence.dao.GraphDao;
 import cz.cvut.kbss.sempipes.service.GraphService;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,9 @@ import static org.junit.Assert.assertEquals;
 @WebAppConfiguration
 public class ServiceTest {
 
-    private static URI URI;
+    private static String GRAPH_URI_String = "https://graphs/911";
+    private static URI GRAPH_URI = URI.create("https://graphs/911");
+
 
     @Autowired
     private GraphDao graphDao;
@@ -37,32 +38,27 @@ public class ServiceTest {
     @Autowired
     private GraphService graphService;
 
-    @BeforeClass
-    public static void initializeUri() throws Exception {
-        URI = new URI("https://graphs/911");
-    }
-
     @Before
     public void persistGraph() throws Exception {
         final HashSet<String> types = new HashSet<>();
         types.add("https://type/1");
         types.add("https://type/2");
         types.add("https://type/3");
-        final Node n = new Node(new URI("https://nodes/911"), "Label", 1, 2, types, new java.util.HashSet<String>(), new java.util.HashSet<String>());
-        final Edge e = new Edge(new URI("https://edges/911"), n, n);
+        final Node n = new Node(URI.create("https://nodes/911"), "Label", 1, 2, types, new java.util.HashSet<String>(), new java.util.HashSet<String>());
+        final Edge e = new Edge(URI.create("https://edges/911"), n, n);
         final HashSet<Node> nodes = new HashSet<>();
         nodes.add(n);
         final HashSet<Edge> edges = new HashSet<>();
         edges.add(e);
-        final Graph g = new Graph(URI, "Graph", nodes, edges);
+        final Graph g = new Graph(GRAPH_URI, "Graph", nodes, edges);
         assertEquals(new Some<>(g), graphDao.add(g));
-        assertEquals(graphDao.get(URI), graphService.getGraphByUri(URI));
+        assertEquals(graphDao.get(GRAPH_URI), graphService.getGraphByUri(GRAPH_URI_String));
     }
 
     @After
     public void deleteGraph() throws Exception {
-        assertEquals(new Some<>(URI), graphDao.delete(URI));
-        assertEquals(scala.None$.MODULE$, graphDao.get(URI));
+        assertEquals(new Some<>(GRAPH_URI), graphDao.delete(GRAPH_URI));
+        assertEquals(scala.None$.MODULE$, graphDao.get(GRAPH_URI));
     }
 
     @Test
@@ -72,16 +68,17 @@ public class ServiceTest {
 
     @Test
     public void getGraph() throws Exception {
-        assertEquals(graphDao.get(URI), graphService.getGraphByUri(URI));
+        assertEquals(graphDao.get(GRAPH_URI), graphService.getGraphByUri(GRAPH_URI_String));
     }
 
     @Test
     public void getNodes() throws Exception {
-        assertEquals(graphDao.get(URI).get().getNodes(), graphService.getGraphNodes(URI));
+        assertEquals(graphDao.get(GRAPH_URI).get().getNodes().size(), graphService.getGraphNodes(GRAPH_URI_String).get().toSet().size());
     }
 
     @Test
     public void getEdges() throws Exception {
-        assertEquals(graphDao.get(URI).get().getEdges(), graphService.getGraphEdges(URI));
+        Graph g = graphDao.get(GRAPH_URI).get();
+        assertEquals(g.getEdges().size(), graphService.getGraphEdges(GRAPH_URI_String).get().toSet().size());
     }
 }
