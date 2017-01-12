@@ -1,6 +1,6 @@
 package cz.cvut.kbss.sempipes.service
 
-import cz.cvut.kbss.sempipes.model.sempipes.ModuleType
+import cz.cvut.kbss.sempipes.model.sempipes.{Module, ModuleType}
 import cz.cvut.kbss.sempipes.persistence.dao.DataStreamDao
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -14,7 +14,9 @@ class SempipesService {
   @Autowired
   private var dataStreamDao: DataStreamDao = _
 
-  def getModuleTypes(url: String): Option[Traversable[ModuleType]] = {
-    dataStreamDao.getModuleTypes(url)
-  }
+  def getModuleTypes(url: String): Option[Traversable[ModuleType]] =
+    dataStreamDao.getModuleTypes(url + "/data")
+
+  def getModules(url: String): Option[Traversable[Module]] =
+    dataStreamDao.getModules(url + "/data")
 }
