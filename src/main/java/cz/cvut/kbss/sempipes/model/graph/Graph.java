@@ -19,6 +19,8 @@ public class Graph {
     private Set<Node> nodes;
     @OWLObjectProperty(iri = Vocabulary.s_p_consists_of_edges, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Edge> edges;
+    @OWLDataProperty(iri = Vocabulary.s_p_has_context_hash)
+    private String contentHash;
 
     public Graph() {
     }
@@ -56,6 +58,14 @@ public class Graph {
 
     public void setEdges(Set<Edge> edges) {
         this.edges = edges;
+    }
+
+    public String getContentHash() {
+        return contentHash;
+    }
+
+    public void setContentHash(String contentHash) {
+        this.contentHash = contentHash;
     }
 
     @Override
