@@ -21,7 +21,7 @@ class GraphController {
   @Autowired
   private var graphService: GraphService = _
 
-  @GetMapping(path = Array(""), produces = Array(JsonLd.MEDIA_TYPE))
+  @GetMapping(produces = Array(JsonLd.MEDIA_TYPE))
   def getAllGraphs: ResponseEntity[java.util.Set[Graph]] =
     graphService.getAllGraphs() match {
       case Some(graphs) =>
