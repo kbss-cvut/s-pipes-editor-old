@@ -15,9 +15,9 @@ import scala.collection.JavaConverters._
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 05.01.17.
   */
 @RestController
-@RequestMapping(path = Array("/sempipes/"))
+@RequestMapping(path = Array("/scripts"))
 @PropertySource(Array("classpath:config.properties"))
-class SempipesController {
+class ScriptController {
 
   @Autowired
   private var environment: Environment = _
@@ -27,7 +27,10 @@ class SempipesController {
 
   private var SempipesLocation = "https://kbss.felk.cvut.cz/sempipes-sped/"
 
-  @GetMapping(path = Array("/contexts/{uri}/moduleTypes"), produces = Array(JsonLd.MEDIA_TYPE))
+  @GetMapping(path = Array(""), produces = Array(JsonLd.MEDIA_TYPE))
+  def getScripts = ???
+
+  @GetMapping(path = Array("/{uri}/moduleTypes"), produces = Array(JsonLd.MEDIA_TYPE))
   def getModuleTypes(@PathVariable uri: String): ResponseEntity[java.util.Set[ModuleType]] = {
     service.getModuleTypes(SempipesLocation + "contexts/" + uri) match {
       case Some(types) if types.nonEmpty =>
@@ -37,7 +40,7 @@ class SempipesController {
     }
   }
 
-  @GetMapping(path = Array("/contexts/{uri}/modules"), produces = Array(JsonLd.MEDIA_TYPE))
+  @GetMapping(path = Array("/{uri}/modules"), produces = Array(JsonLd.MEDIA_TYPE))
   def getModules(@PathVariable uri: String): ResponseEntity[java.util.Set[Module]] = {
     service.getModules(SempipesLocation + "contexts/" + uri) match {
       case Some(modules) if modules.nonEmpty =>
