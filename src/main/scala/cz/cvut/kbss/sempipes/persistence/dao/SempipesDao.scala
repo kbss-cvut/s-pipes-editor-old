@@ -24,7 +24,7 @@ import scala.collection.JavaConverters._
   * Created by Miroslav Blasko on 2.1.17.
   */
 @Repository
-class DataStreamDao {
+class SempipesDao {
 
   var emf: EntityManagerFactory = _
 
@@ -121,7 +121,7 @@ class DataStreamDao {
     }
   }
 
-  def getContexts(url: String): Option[Traversable[Context]] = {
+  def getScripts(url: String): Option[Traversable[Context]] = {
     // retrieve data from url
     val uri = URI.create(url)
     val headers = new HttpHeaders()
