@@ -27,12 +27,19 @@ class ScriptController {
 
   private var SempipesLocation = "https://kbss.felk.cvut.cz/sempipes-sped/"
 
-  @GetMapping(path = Array(""), produces = Array(JsonLd.MEDIA_TYPE))
-  def getScripts = ???
+  @GetMapping(produces = Array(JsonLd.MEDIA_TYPE))
+  def getScripts = None
 
-  @GetMapping(path = Array("/{uri}/moduleTypes"), produces = Array(JsonLd.MEDIA_TYPE))
-  def getModuleTypes(@PathVariable uri: String): ResponseEntity[java.util.Set[ModuleType]] = {
-    service.getModuleTypes(SempipesLocation + "contexts/" + uri) match {
+  @GetMapping(path = Array("/{id}"), produces = Array(JsonLd.MEDIA_TYPE))
+  def getScript(@PathVariable id: String) =
+    service.getScript(SempipesLocation + "contexts", id) match {
+      case Some(context) => new ResponseEntity(context, HttpStatus.OK)
+      case None => new ResponseEntity("Script with ID " + id + " is not found", HttpStatus.NOT_FOUND)
+    }
+
+  @GetMapping(path = Array("/{id}/moduleTypes"), produces = Array(JsonLd.MEDIA_TYPE))
+  def getModuleTypes(@PathVariable id: String): ResponseEntity[java.util.Set[ModuleType]] = {
+    service.getModuleTypes(SempipesLocation + "contexts/" + id) match {
       case Some(types) if types.nonEmpty =>
         new ResponseEntity(types.toSet.asJava, HttpStatus.OK)
       case _ =>
@@ -40,9 +47,9 @@ class ScriptController {
     }
   }
 
-  @GetMapping(path = Array("/{uri}/modules"), produces = Array(JsonLd.MEDIA_TYPE))
-  def getModules(@PathVariable uri: String): ResponseEntity[java.util.Set[Module]] = {
-    service.getModules(SempipesLocation + "contexts/" + uri) match {
+  @GetMapping(path = Array("/{id}/modules"), produces = Array(JsonLd.MEDIA_TYPE))
+  def getModules(@PathVariable id: String): ResponseEntity[java.util.Set[Module]] = {
+    service.getModules(SempipesLocation + "contexts/" + id) match {
       case Some(modules) if modules.nonEmpty =>
         new ResponseEntity(modules.toSet.asJava, HttpStatus.OK)
       case _ =>
