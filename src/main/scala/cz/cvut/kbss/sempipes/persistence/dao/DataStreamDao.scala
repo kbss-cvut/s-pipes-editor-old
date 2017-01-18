@@ -9,7 +9,7 @@ import cz.cvut.kbss.jopa.model._
 import cz.cvut.kbss.ontodriver.config.OntoDriverProperties
 import cz.cvut.kbss.ontodriver.sesame.config.SesameOntoDriverProperties
 import cz.cvut.kbss.sempipes.model.Vocabulary
-import cz.cvut.kbss.sempipes.model.sempipes.Module
+import cz.cvut.kbss.sempipes.model.sempipes.{Module, ModuleType}
 import cz.cvut.kbss.sempipes.util.JopaPersistenceUtils
 import org.openrdf.rio.RDFFormat
 import org.springframework.beans.factory.annotation.Autowired
@@ -54,6 +54,39 @@ class DataStreamDao {
 
   }
 
+  def getModuleTypes(url: String): Option[Traversable[ModuleType]] = {
+    // retrieve data from url
+    val uri = URI.create(url)
+    val headers = new HttpHeaders()
+    headers.set(HttpHeaders.ACCEPT, "text/turtle")
+    val entity = new HttpEntity[String](null, headers)
+    val is = new ByteArrayInputStream(restTemplate.exchange(uri,
+      HttpMethod.GET,
+      entity,
+      classOf[String]).getBody().getBytes())
+
+    val em = emf.createEntityManager()
+
+    try {
+      //TODO load data into NEW TEMPORARY JOPA context
+      val repo = JopaPersistenceUtils.getRepository(em)
+      repo.getConnection().add(is, "http://temporary", RDFFormat.TURTLE)
+
+      // retrieve JOPA objects by callback function
+
+      val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[ModuleType])
+        .setParameter("type", URI.create(Vocabulary.s_c_Module))
+      query.getResultList() match {
+        case l: java.util.List[ModuleType] if !l.isEmpty =>
+          Some(l.asScala)
+        case _ => None
+      }
+    }
+    finally {
+      // TODO destroy temporary context
+    }
+  }
+
   def getModules(url: String): Option[Traversable[Module]] = {
     // retrieve data from url
     val uri = URI.create(url)
@@ -75,7 +108,7 @@ class DataStreamDao {
       // retrieve JOPA objects by callback function
 
       val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[Module])
-        .setParameter("type", URI.create(Vocabulary.s_c_Module))
+        .setParameter("type", URI.create(Vocabulary.s_c_Modules))
       query.getResultList() match {
         case l: java.util.List[Module] if !l.isEmpty =>
           Some(l.asScala)
