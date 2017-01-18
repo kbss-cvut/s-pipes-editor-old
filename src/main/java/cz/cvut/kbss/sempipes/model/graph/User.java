@@ -13,7 +13,7 @@ import java.net.URI;
 public class User {
     @Id
     private URI uri;
-    private String login;
+    /*private String login;
     private String passwordHash;
 
     public URI getUri() {
@@ -53,5 +53,5 @@ public class User {
     @Override
     public int hashCode() {
         return getUri().hashCode();
-    }
+    }*/
 }
