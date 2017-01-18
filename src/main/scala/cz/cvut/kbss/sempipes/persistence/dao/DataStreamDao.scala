@@ -6,10 +6,11 @@ import javax.annotation.PostConstruct
 
 import cz.cvut.kbss.jopa.Persistence
 import cz.cvut.kbss.jopa.model._
+import cz.cvut.kbss.jsonld.JsonLd
 import cz.cvut.kbss.ontodriver.config.OntoDriverProperties
 import cz.cvut.kbss.ontodriver.sesame.config.SesameOntoDriverProperties
 import cz.cvut.kbss.sempipes.model.Vocabulary
-import cz.cvut.kbss.sempipes.model.sempipes.{Module, ModuleType}
+import cz.cvut.kbss.sempipes.model.sempipes.{Module, ModuleType, Context}
 import cz.cvut.kbss.sempipes.util.JopaPersistenceUtils
 import org.openrdf.rio.RDFFormat
 import org.springframework.beans.factory.annotation.Autowired
@@ -111,6 +112,39 @@ class DataStreamDao {
         .setParameter("type", URI.create(Vocabulary.s_c_Modules))
       query.getResultList() match {
         case l: java.util.List[Module] if !l.isEmpty =>
+          Some(l.asScala)
+        case _ => None
+      }
+    }
+    finally {
+      // TODO destroy temporary context
+    }
+  }
+
+  def getContexts(url: String): Option[Traversable[Context]] = {
+    // retrieve data from url
+    val uri = URI.create(url)
+    val headers = new HttpHeaders()
+    headers.set(HttpHeaders.ACCEPT, JsonLd.MEDIA_TYPE)
+    val entity = new HttpEntity[String](null, headers)
+    val is = new ByteArrayInputStream(restTemplate.exchange(uri,
+      HttpMethod.GET,
+      entity,
+      classOf[String]).getBody().getBytes())
+
+    val em = emf.createEntityManager()
+
+    try {
+      //TODO load data into NEW TEMPORARY JOPA context
+      val repo = JopaPersistenceUtils.getRepository(em)
+      repo.getConnection().add(is, "http://temporary", RDFFormat.TURTLE)
+
+      // retrieve JOPA objects by callback function
+
+      val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[Context])
+        .setParameter("type", URI.create(Vocabulary.s_c_context))
+      query.getResultList() match {
+        case l: java.util.List[Context] if !l.isEmpty =>
           Some(l.asScala)
         case _ => None
       }
