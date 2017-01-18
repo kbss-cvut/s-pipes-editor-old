@@ -21,6 +21,8 @@ public class Graph {
     private Set<Edge> edges;
     @OWLDataProperty(iri = Vocabulary.s_p_has_context_hash)
     private String contentHash;
+    @OWLObjectProperty(iri = Vocabulary.s_p_has_author)
+    private User author;
 
     public Graph() {
     }
@@ -66,6 +68,14 @@ public class Graph {
 
     public void setContentHash(String contentHash) {
         this.contentHash = contentHash;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
     }
 
     @Override
