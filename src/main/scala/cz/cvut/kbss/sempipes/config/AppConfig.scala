@@ -10,8 +10,8 @@ import java.util.{List => JavaList}
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.{Configuration, Import}
-import org.springframework.http.converter.{HttpMessageConverter, StringHttpMessageConverter}
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+import org.springframework.http.converter.{HttpMessageConverter, StringHttpMessageConverter}
 import org.springframework.web.servlet.config.annotation.{DefaultServletHandlerConfigurer, WebMvcConfigurerAdapter}
 
 @Configuration

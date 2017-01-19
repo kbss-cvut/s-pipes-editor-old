@@ -9,6 +9,7 @@ import org.springframework.core.env.Environment
 import org.springframework.http.{HttpStatus, ResponseEntity}
 import org.springframework.web.bind.annotation.{GetMapping, PathVariable, RequestMapping, RestController}
 import java.util.{Set => JSet}
+import cz.cvut.kbss.sempipes.util.ConfigParam.SEMPIPES_LOCATION
 
 import scala.collection.JavaConverters._
 
@@ -26,7 +27,7 @@ class ScriptController {
   @Autowired
   private var service: SempipesService = _
 
-  private var SempipesLocation = "https://kbss.felk.cvut.cz/sempipes-sped"
+  private var SempipesLocation = SEMPIPES_LOCATION
 
   @GetMapping(produces = Array(JsonLd.MEDIA_TYPE))
   def getScripts: ResponseEntity[JSet[Context]] = service.getScripts(SempipesLocation + "/scripts") match {

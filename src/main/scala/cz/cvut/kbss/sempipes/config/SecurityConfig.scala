@@ -27,5 +27,4 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
       .antMatchers("/dba/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_DBA')")
       .and().asInstanceOf[HttpSecurity].formLogin()
   }
-
 }
