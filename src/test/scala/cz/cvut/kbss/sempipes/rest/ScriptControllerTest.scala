@@ -1,13 +1,11 @@
-import cz.cvut.kbss.sempipes.rest.BaseControllerTestRunner
+package cz.cvut.kbss.sempipes.rest
+
 import cz.cvut.kbss.sempipes.service.SempipesService
-import org.junit.runner.RunWith
 import org.junit.{Before, Test}
 import org.mockito.Mockito.when
 import org.mockito._
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.test.context.ContextConfiguration
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
-import org.springframework.test.context.web.WebAppConfiguration
+import org.springframework.context.annotation.Bean
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -17,9 +15,6 @@ import org.springframework.web.context.WebApplicationContext
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 18.01.17.
   */
-@RunWith(classOf[SpringJUnit4ClassRunner])
-@ContextConfiguration(classes = Array(classOf[TestServiceConfig]))
-@WebAppConfiguration
 class ScriptControllerTest extends BaseControllerTestRunner {
 
   @Autowired
@@ -29,6 +24,10 @@ class ScriptControllerTest extends BaseControllerTestRunner {
   private var sempipesServiceMock: SempipesService = _
 
   private var mockMvc: MockMvc = _
+
+  @Bean
+  @InjectMocks
+  private var scriptController: ScriptController = _
 
   @Before
   def setUp() {
