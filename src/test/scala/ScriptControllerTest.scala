@@ -1,4 +1,3 @@
-import cz.cvut.kbss.jsonld.deserialization.JsonLdDeserializer
 import cz.cvut.kbss.sempipes.rest.BaseControllerTestRunner
 import cz.cvut.kbss.sempipes.service.SempipesService
 import org.junit.runner.RunWith
@@ -30,12 +29,10 @@ class ScriptControllerTest extends BaseControllerTestRunner {
   private var sempipesServiceMock: SempipesService = _
 
   private var mockMvc: MockMvc = _
-  private var deserializer: JsonLdDeserializer = _
 
   @Before
   def setUp() {
     mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build
-    deserializer = JsonLdDeserializer.createExpandedDeserializer
     MockitoAnnotations.initMocks(this)
   }
 
