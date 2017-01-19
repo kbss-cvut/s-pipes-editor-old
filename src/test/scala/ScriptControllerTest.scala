@@ -1,5 +1,4 @@
 import cz.cvut.kbss.jsonld.deserialization.JsonLdDeserializer
-import cz.cvut.kbss.sempipes.config.{PersistenceConfig, RestConfig}
 import cz.cvut.kbss.sempipes.rest.BaseControllerTestRunner
 import cz.cvut.kbss.sempipes.service.SempipesService
 import org.junit.runner.RunWith
@@ -20,14 +19,14 @@ import org.springframework.web.context.WebApplicationContext
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 18.01.17.
   */
 @RunWith(classOf[SpringJUnit4ClassRunner])
-@ContextConfiguration(classes = Array(classOf[RestConfig], classOf[PersistenceConfig]))
+@ContextConfiguration(classes = Array(classOf[TestServiceConfig]))
 @WebAppConfiguration
-class ScriptControllerScalaTest extends BaseControllerTestRunner {
+class ScriptControllerTest extends BaseControllerTestRunner {
 
   @Autowired
   private var webApplicationContext: WebApplicationContext = _
 
-  @InjectMocks
+  @Mock
   private var sempipesServiceMock: SempipesService = _
 
   private var mockMvc: MockMvc = _
@@ -40,11 +39,17 @@ class ScriptControllerScalaTest extends BaseControllerTestRunner {
     MockitoAnnotations.initMocks(this)
   }
 
+
+  @Test
+  def getScripts() {
+    when(sempipesServiceMock.getScripts("https://kbss.felk.cvut.cz/sempipes-sped/scripts")).thenReturn(None)
+    mockMvc.perform(get("/rest/scripts")).andExpect(status.isNotFound)
+  }
+
   @Test
   def getScriptReturnsNotFound() {
     val id = "1234"
     when(sempipesServiceMock.getScript("https://kbss.felk.cvut.cz/sempipes-sped/scripts/", id)).thenReturn(None)
-    val result = mockMvc.perform(get("/scripts/" + id))
-    result.andExpect(status().isNotFound)
+    mockMvc.perform(get("/rest/scripts/" + id)).andExpect(status().isNotFound)
   }
 }
