@@ -22,6 +22,7 @@ public enum ConfigParam {
     PORTAL_URL("portalUrl"),
     FORM_GEN_REPOSITORY_URL("formGenRepositoryUrl"),
     FORM_GEN_SERVICE_URL("formGenServiceUrl"),
+    SEMPIPES_LOCATION("https://kbss.felk.cvut.cz/sempipes-sped"),
 
     INDEX_FILE("indexFile");    // index.html location, used by Portal authentication
 

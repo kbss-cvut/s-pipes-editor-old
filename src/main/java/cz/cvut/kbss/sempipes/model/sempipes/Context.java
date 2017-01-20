@@ -22,7 +22,7 @@ public class Context {
     private String contentHash;
 
     //todo: Possible REST-friendly identifier
-    private String key;
+    //private String key;
 
     public URI getUri() {
         return uri;

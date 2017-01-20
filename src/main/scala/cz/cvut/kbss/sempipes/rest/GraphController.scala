@@ -15,13 +15,13 @@ import scala.collection.JavaConverters._
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 28.10.16.
   */
 @RestController
-@RequestMapping(path = Array("/graphs/"))
-class GraphRestController {
+@RequestMapping(path = Array("/graphs"))
+class GraphController {
 
   @Autowired
   private var graphService: GraphService = _
 
-  @GetMapping(path = Array("/"), produces = Array(JsonLd.MEDIA_TYPE))
+  @GetMapping(produces = Array(JsonLd.MEDIA_TYPE))
   def getAllGraphs: ResponseEntity[java.util.Set[Graph]] =
     graphService.getAllGraphs() match {
       case Some(graphs) =>
