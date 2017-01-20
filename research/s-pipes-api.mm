@@ -62,14 +62,32 @@
 </map_styles>
 </hook>
 <hook NAME="accessories/plugins/CreationModificationPlugin_new.properties"/>
-<node TEXT="scenario" STYLE_REF="categorization" POSITION="right" ID="ID_743457031" CREATED="1481803309926" MODIFIED="1481803317652">
-<node TEXT="" ID="ID_186147813" CREATED="1484731132851" MODIFIED="1484731164867">
-<node TEXT="/scripts" ID="ID_1041668509" CREATED="1484731165491" MODIFIED="1484731169221">
-<node TEXT="returns" STYLE_REF="onto-prop" ID="ID_883996291" CREATED="1484731318708" MODIFIED="1484731320558">
-<node TEXT="[{    &#xa;    &quot;id&quot; : &quot;237498724ffds&quot;&#xa;    &quot;@type&quot;: sp:Context&#xa;    &quot;uri&quot;: &quot;http://kbss/ontologies/ear-script&quot;&#xa;    &quot;hash&quot;: 2432424432&#xa;    &quot;label&quot;: &quot;Pomocne skripty pro EAR&quot;&#xa;},&#xa;{&#xa;    &quot;id&quot; : &quot;23749872sffd4&quot;&#xa;    &quot;@type&quot;: sp:Context&#xa;    &quot;uri&quot;: &quot;http://kbss/ontologies/teaching-management-script&quot;&#xa;     &quot;hash&quot;: 2432424432&#xa;     &quot;label&quot;: &quot;Pomocne skripty pro EAR&quot;      &#xa;}&#xa;]" ID="ID_397403563" CREATED="1484731183200" MODIFIED="1484732249008"/>
+<node TEXT="idea" STYLE_REF="categorization" POSITION="right" ID="ID_1985491572" CREATED="1484745027441" MODIFIED="1484745028980">
+<node TEXT="GUI" ID="ID_976420259" CREATED="1484745032238" MODIFIED="1484745033536">
+<node TEXT="list of scripts with views" ID="ID_907840220" CREATED="1484745034112" MODIFIED="1484745056915"/>
 </node>
+</node>
+<node TEXT="scenario" STYLE_REF="categorization" POSITION="right" ID="ID_743457031" CREATED="1481803309926" MODIFIED="1481803317652">
+<node TEXT="load all scripts" ID="ID_429393578" CREATED="1484745086564" MODIFIED="1484745092309">
+<node TEXT="legend" STYLE_REF="onto-prop" FOLDED="true" ID="ID_223001259" CREATED="1484745226863" MODIFIED="1484745228747">
+<node TEXT="sped-b" ID="ID_175565459" CREATED="1484745229017" MODIFIED="1484816820646"/>
+<node TEXT="sped-f" ID="ID_34381891" CREATED="1484745246725" MODIFIED="1484816822412"/>
+<node TEXT="s-pipes" ID="ID_1309206971" CREATED="1484745271551" MODIFIED="1484745274520"/>
+</node>
+<node TEXT="part" STYLE_REF="onto-prop" ID="ID_349433673" CREATED="1484745095181" MODIFIED="1484745097028">
+<node TEXT="sped-f" STYLE_REF="categorization" ID="ID_1139894700" CREATED="1484747444636" MODIFIED="1484817151839">
+<node TEXT="executes" STYLE_REF="onto-prop" ID="ID_1684129240" CREATED="1484747469186" MODIFIED="1484747473134">
+<node TEXT="GET sped-b/scripts" ID="ID_258762739" CREATED="1484747473829" MODIFIED="1484817201047">
+<node TEXT="executes" STYLE_REF="onto-prop" FOLDED="true" ID="ID_1246114965" CREATED="1484745110434" MODIFIED="1484745113541">
+<node TEXT="GET s-pipes/scripts" FOLDED="true" ID="ID_1047170140" CREATED="1484745114931" MODIFIED="1484817230333">
+<node TEXT="returns" STYLE_REF="onto-prop" ID="ID_883996291" CREATED="1484731318708" MODIFIED="1484731320558">
+<node TEXT="[&#xa;{    &#xa;    &quot;@type&quot;: sempipes:Context&#xa;    &quot;@id&quot;: &quot;http://kbss/ontologies/ear-script&quot;&#xa;    &quot;key&quot; : &quot;237498724ffds&quot;    &#xa;    &quot;hash&quot;: &quot;2432424432&quot;&#xa;    &quot;label&quot;: &quot;Pomocne skripty pro EAR&quot;&#xa;},&#xa;{&#xa;    &quot;@type&quot;: sempipes:Context&#xa;     &quot;@id&quot;: &quot;http://kbss/ontologies/teaching-management-script&quot;&#xa;     &quot;key&quot; : &quot;23749872sffd4&quot;&#xa;     &quot;hash&quot;: &quot;243242443fsdf2&quot;&#xa;     &quot;label&quot;: &quot;Pomocne skripty pro EAR&quot;      &#xa;}&#xa;]" ID="ID_397403563" CREATED="1484731183200" MODIFIED="1484745945875"/>
+</node>
+</node>
+</node>
+<node TEXT="creates" STYLE_REF="onto-prop" FOLDED="true" ID="ID_1636058129" CREATED="1484748099792" MODIFIED="1484817419166">
 <node TEXT="user-123" ID="ID_368857277" CREATED="1484731473325" MODIFIED="1484731526320">
-<node TEXT="manages" ID="ID_745679552" CREATED="1484731477503" MODIFIED="1484731480122">
+<node TEXT="is author of" STYLE_REF="onto-prop" ID="ID_745679552" CREATED="1484731477503" MODIFIED="1484748081914">
 <node TEXT="_graph123" ID="ID_1432263902" CREATED="1484731623723" MODIFIED="1484731631168">
 <node TEXT="a" STYLE_REF="onto-prop" ID="ID_452162967" CREATED="1484731617711" MODIFIED="1484731638832">
 <node TEXT="Graph" ID="ID_346292360" CREATED="1484731620365" MODIFIED="1484731621912"/>
@@ -93,7 +111,7 @@
 </node>
 <node TEXT="contains" STYLE_REF="categorization" ID="ID_1689839783" CREATED="1484731774991" MODIFIED="1484731779198">
 <node TEXT="node-1234" ID="ID_1186023878" CREATED="1484731808241" MODIFIED="1484731827837">
-<node TEXT="has module" STYLE_REF="onto-prop" ID="ID_1782100196" CREATED="1484731828105" MODIFIED="1484731832281">
+<node TEXT="pe" STYLE_REF="onto-prop" ID="ID_1782100196" CREATED="1484731828105" MODIFIED="1484816971203">
 <node TEXT="module-23423" ID="ID_1104181784" CREATED="1484731832516" MODIFIED="1484731836979"/>
 </node>
 <node TEXT="has x" STYLE_REF="onto-prop" ID="ID_1265219696" CREATED="1484731838571" MODIFIED="1484731852802">
@@ -122,8 +140,22 @@
 </node>
 </node>
 </node>
+<node TEXT="returns" STYLE_REF="onto-prop" FOLDED="true" ID="ID_1143854517" CREATED="1484747481871" MODIFIED="1484747483516">
+<node TEXT="[&#xa;{    &#xa;    &quot;@type&quot;: sempipes:Context&#xa;    &quot;@id&quot;: &quot;http://kbss/ontologies/ear-script&quot;&#xa;    &quot;&quot;&#xa;     &quot;label&quot;: &quot;Pomocne skripty pro EAR&quot;&#xa;},&#xa;{&#xa;    &quot;@type&quot;: sempipes:Context&#xa;     &quot;@id&quot;: &quot;http://kbss/ontologies/teaching-management-script&quot;&#xa;     &quot;label&quot;: &quot;Pomocne skripty pro EAR&quot;      &#xa;}&#xa;]" ID="ID_578227836" CREATED="1484731183200" MODIFIED="1484816868887"/>
 </node>
-<node TEXT="create new script" ID="ID_343157323" CREATED="1481803386227" MODIFIED="1481803392413">
+</node>
+</node>
+<node TEXT="executes" STYLE_REF="onto-prop" ID="ID_266899" CREATED="1484747545242" MODIFIED="1484747548916">
+<node TEXT="GET sped-b/scripts/43284082/graphs" ID="ID_522794568" CREATED="1484747550123" MODIFIED="1484818506112">
+<node TEXT="returns" STYLE_REF="onto-prop" ID="ID_1562402862" CREATED="1484818494590" MODIFIED="1484818498879">
+<node TEXT="[{    &#xa;    &quot;@type&quot;: graph:Graph&#xa;    &quot;@id&quot;: &quot;http://...../graph/84090984293&quot;&#xa;    &quot;key&quot;: 797987432&#xa;    &quot;label&quot;: &quot;Pomocne skripty pro EAR&quot;&#xa;},&#xa;{&#xa;    &quot;@type&quot;: graph:Graph&#xa;     &quot;key&quot;: 797987432&#xa;     &quot;@id&quot;: &quot;http://.../graph2&quot;&#xa;     &quot;label&quot;: &quot;Pomocne skripty pro EAR&quot;      &#xa;}&#xa;]" ID="ID_1164235105" CREATED="1484731183200" MODIFIED="1484748944543"/>
+</node>
+</node>
+</node>
+</node>
+</node>
+</node>
+<node TEXT="create new script" FOLDED="true" ID="ID_343157323" CREATED="1481803386227" MODIFIED="1481803392413">
 <node TEXT="part" STYLE_REF="onto-prop" ID="ID_1539678270" CREATED="1481803395022" MODIFIED="1481803396728">
 <node TEXT="specify new context" ID="ID_167531040" CREATED="1481803439266" MODIFIED="1481803579835"/>
 <node TEXT="assign default module-types-ontology (MTO) uri" ID="ID_1390358112" CREATED="1481803583688" MODIFIED="1481803660241">
@@ -150,7 +182,7 @@
 </node>
 </node>
 </node>
-<node TEXT="modify and save script" ID="ID_1126639632" CREATED="1481803804931" MODIFIED="1481803845970">
+<node TEXT="modify and save script" FOLDED="true" ID="ID_1126639632" CREATED="1481803804931" MODIFIED="1481803845970">
 <node TEXT="pre-condition" STYLE_REF="onto-prop" ID="ID_1062502456" CREATED="1481804102790" MODIFIED="1481804112056">
 <node TEXT="script is loaded in s-pipes" ID="ID_179558890" CREATED="1481804112895" MODIFIED="1481804183386"/>
 <node TEXT="script context = $S_CTX" ID="ID_1244857914" CREATED="1481804138282" MODIFIED="1481804162003"/>
@@ -217,7 +249,18 @@
 </node>
 <node TEXT="load script" ID="ID_127044795" CREATED="1481803849102" MODIFIED="1481803852304"/>
 </node>
-<node TEXT="executions" STYLE_REF="categorization" POSITION="right" ID="ID_150293184" CREATED="1481792168814" MODIFIED="1481794171139">
+<node TEXT="SPed rest API" STYLE_REF="categorization" POSITION="right" ID="ID_264185912" CREATED="1484747444636" MODIFIED="1484751476375">
+<node TEXT="/scripts" ID="ID_1826049305" CREATED="1484748785039" MODIFIED="1484748850041">
+<node TEXT="/{id}" ID="ID_1232417222" CREATED="1484748854637" MODIFIED="1484748859385">
+<node TEXT="graphs" ID="ID_1127795739" CREATED="1484748964633" MODIFIED="1484748967746"/>
+</node>
+</node>
+<node TEXT="/graphs" ID="ID_1067898449" CREATED="1484748785039" MODIFIED="1484748798409">
+<node TEXT="/{id}" ID="ID_472799355" CREATED="1484748854637" MODIFIED="1484748859385"/>
+</node>
+</node>
+<node TEXT="S-Pipes rest API" STYLE_REF="categorization" POSITION="right" ID="ID_1610116530" CREATED="1484751449966" MODIFIED="1484751469300">
+<node TEXT="executions" STYLE_REF="categorization" ID="ID_150293184" CREATED="1481792168814" MODIFIED="1481794171139">
 <node TEXT="service?id=$FUNCTION_ID&amp;param1=...&amp;" ID="ID_1048851159" CREATED="1481792807965" MODIFIED="1481792959054">
 <node TEXT="desc" STYLE_REF="onto-prop" ID="ID_217031794" CREATED="1481792879102" MODIFIED="1481792879894">
 <node TEXT="$FUNCTION_ID is URI or its localName" ID="ID_1522490842" CREATED="1481792880507" MODIFIED="1481792980953"/>
@@ -229,21 +272,21 @@
 </node>
 </node>
 </node>
-<node TEXT="definitions" STYLE_REF="categorization" POSITION="right" ID="ID_408481384" CREATED="1481792189310" MODIFIED="1481794164167">
+<node TEXT="definitions" STYLE_REF="categorization" ID="ID_408481384" CREATED="1481792189310" MODIFIED="1481794164167">
 <node TEXT="/contexts" ID="ID_1262511456" CREATED="1481792354975" MODIFIED="1481792357461">
 <node TEXT="/$id" ID="ID_465279590" CREATED="1481793481190" MODIFIED="1481793493853">
 <node TEXT="/modules" ID="ID_473266973" CREATED="1481793085512" MODIFIED="1481793090033">
 <node TEXT="/$id" ID="ID_226457313" CREATED="1481803059989" MODIFIED="1481803062336">
-<node TEXT="form" FOLDED="true" ID="ID_1996617442" CREATED="1481803064394" MODIFIED="1481803068786">
+<node TEXT="form" ID="ID_1996617442" CREATED="1481803064394" MODIFIED="1481803068786">
 <node TEXT="returns" STYLE_REF="onto-prop" ID="ID_1139349328" CREATED="1481793732148" MODIFIED="1481793734207">
 <node TEXT="{&#xa;    &quot;@id&quot;: form:deploy_q ,&#xa;    &quot;@type&quot;: doc:question,&#xa;    &quot;layout-class&quot;: &quot;form&quot;&#xa;    &quot;label: &quot;Deploy to sesame&quot;&#xa;    &quot;has-related-question&quot;: [&#xa;          { &quot;@id&quot;: form:repository-url-q }&#xa;    ]&#xa;}" ID="ID_525650978" CREATED="1481793735766" MODIFIED="1481803206605"/>
 </node>
 </node>
 </node>
 </node>
-<node TEXT="/module-types" FOLDED="true" ID="ID_1191896999" CREATED="1481793640538" MODIFIED="1481793645331">
+<node TEXT="/module-types" ID="ID_1191896999" CREATED="1481793640538" MODIFIED="1481793645331">
 <node TEXT="/$id" ID="ID_1403816702" CREATED="1481793062343" MODIFIED="1481793069413">
-<node TEXT="returns" STYLE_REF="onto-prop" FOLDED="true" ID="ID_703629658" CREATED="1481793732148" MODIFIED="1481793734207">
+<node TEXT="returns" STYLE_REF="onto-prop" ID="ID_703629658" CREATED="1481793732148" MODIFIED="1481793734207">
 <node TEXT="{&#xa;    &quot;@id&quot;: kbss-module:deploy ,&#xa;    &quot;@type&quot;: sm:Module,&#xa;    &quot;label: &quot;Deploy to sesame&quot;&#xa;}" ID="ID_504690946" CREATED="1481793735766" MODIFIED="1481793953971"/>
 </node>
 </node>
@@ -285,7 +328,7 @@
 </node>
 </node>
 <node TEXT="/scripts" ID="ID_1332513590" CREATED="1481792228205" MODIFIED="1481792255891">
-<node TEXT="/$id" FOLDED="true" ID="ID_527701113" CREATED="1481793062343" MODIFIED="1481793069413">
+<node TEXT="/$id" ID="ID_527701113" CREATED="1481793062343" MODIFIED="1481793069413">
 <node ID="ID_548469027" TREE_ID="ID_473266973">
 <node ID="ID_261897456" TREE_ID="ID_226457313">
 <node ID="ID_779227103" TREE_ID="ID_1996617442">
@@ -301,12 +344,13 @@
 </node>
 </node>
 </node>
-<node TEXT="/functions" FOLDED="true" ID="ID_1890776953" CREATED="1481793631572" MODIFIED="1481793636635">
+<node TEXT="/functions" ID="ID_1890776953" CREATED="1481793631572" MODIFIED="1481793636635">
 <node TEXT="/$id" ID="ID_1948629367" CREATED="1481793062343" MODIFIED="1481793069413"/>
 </node>
 <node TEXT="/modules" ID="ID_1101918109" CREATED="1481803267793" MODIFIED="1481803272128"/>
 <node TEXT="/module-types" ID="ID_156215290" CREATED="1481803272268" MODIFIED="1481803277844"/>
 </node>
-<node TEXT="validation" STYLE_REF="categorization" POSITION="right" ID="ID_1843914250" CREATED="1481803508269" MODIFIED="1481803511933"/>
+<node TEXT="validation" STYLE_REF="categorization" ID="ID_1843914250" CREATED="1481803508269" MODIFIED="1481803511933"/>
+</node>
 </node>
 </map>

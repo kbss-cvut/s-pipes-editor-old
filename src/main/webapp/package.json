@@ -67,9 +67,6 @@
       "babelify"
     ]
   },
-  "babel": {
-    "presets": ["es2015", "react"]
-  },
   "author": "Artem Kelpe,Yan Doroshenko",
   "repository": {
     "type": "git",
