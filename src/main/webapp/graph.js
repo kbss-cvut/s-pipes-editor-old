@@ -72,7 +72,7 @@ sigma.utils.pkg('sigma.canvas.labels');
 
 
 // creating an instance of sigma   
-s = new sigma({
+/*s = new sigma({
   graph: g,
   renderer: {
     container: document.getElementById('container'),
@@ -87,15 +87,10 @@ s = new sigma({
      labelThreshold: 70,
      //sideMargin: 0.5,
   }
-});
+});*/
 
 
-var idN = 0,
-    idE = 0,
-    g = {
-      nodes: [],
-      edges: []
-    };
+
 
 
 
@@ -114,7 +109,7 @@ function newNode(typeOfNode)
       type: 0,
       size: 15,
       color: '#f5ceca',
-      url: 'img1',
+      //url: 'img1',
       forceLabel: true,
       inParams: [],
       inParamsZones: [],
@@ -136,7 +131,7 @@ function newNode(typeOfNode)
       type: 1,
       size: 15,
       color: '#dfcde0',
-      url: 'img2',
+      //url: 'img2',
         inParams: [],
       inParamsZones: [],
       outParams: [],
@@ -155,7 +150,7 @@ function newNode(typeOfNode)
       type: 2,
       size: 15,
       color: '#e5f98d',
-      url: 'img3',
+      //url: 'img3',
       inParams: [],
       inParamsZones: [],
       outParams: ['out1'],
@@ -166,6 +161,8 @@ function newNode(typeOfNode)
   console.log("Added ", s.graph.nodes()[idN]);
   idN++; 
   s.refresh();
+
+
   
   // this block is needed because of canvas bug - text in 
   // 'inParams' and 'outParams' will behave is strange way without this code

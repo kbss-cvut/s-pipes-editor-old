@@ -24,6 +24,7 @@
 
 </head>
 <body>
+  <div>
 
   <!-- - - - - - - - - - - - - -
   Store imgs here
@@ -141,5 +142,5 @@
 </script>
 
      
-  
+  </div>
 </body>
