@@ -63,7 +63,7 @@ function getMousePos(canvas, evt) {
   };
 }
 
-canvas.addEventListener('mouseup', function(evt) {
+document.getElementsByClassName('sigma-mouse')[0].addEventListener('mouseup', function(evt) {
   if (drawingEdge == false && (ifOnNode(canvas, evt)[0] == true || ifOnOutParamsZones(canvas, evt)[0] == true)) // user started drawing edge
   {
       if (ifOnNode(canvas, evt)[0] == true)
@@ -129,7 +129,7 @@ canvas.addEventListener('mouseup', function(evt) {
     
 
 //import WizardGenerator from "semforms/src/components/model/WizardGenerator.js";
-import {Configuration, WizardGenerator} from "semforms";
+//import {Configuration, WizardGenerator} from "semforms";
 
 // Open modal
 s.bind('doubleClickNode', function(e) {

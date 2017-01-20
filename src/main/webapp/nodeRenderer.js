@@ -264,14 +264,15 @@ sigma.canvas.nodes.def = (function() {
     }
 
     // draw image
-    context.drawImage(
+/*    context.drawImage(
       document.getElementById(url),
       ((node[prefix + 'x'] - (textWidth * 1.2) * 0.5) - 50) + (textWidth * 1.2 + 50 * 2) - size * 1.9,
       node[prefix + 'y'] - 12,
       size * 1.6,
       size * 1.6
-    );
-  };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ); */
+  };
+
 
   return renderer;
 }) ();
