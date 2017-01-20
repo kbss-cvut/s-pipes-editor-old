@@ -1,16 +1,13 @@
-package test.config;
+package testjava.config;
 
 import org.springframework.context.annotation.ComponentScan;
-import test.rest.XController;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 20.01.17.
  */
 @Configuration
-@ComponentScan(basePackages = "test.rest")
+@ComponentScan(basePackages = "testjava.rest")
 public class XRestConfig {
 
 

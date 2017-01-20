@@ -1,4 +1,4 @@
-package test.dao;
+package testjava.dao;
 
 import org.springframework.stereotype.Repository;
 
@@ -7,4 +7,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class XDao {
+    public String getHelloMessageByDao() {
+        return "hello yourself ! chicken !";
+    }
 }

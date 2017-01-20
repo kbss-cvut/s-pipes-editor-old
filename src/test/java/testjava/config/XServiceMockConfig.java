@@ -1,11 +1,12 @@
-package test.config;
+package testjava.config;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessorAdapter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import test.service.XService;
+import testjava.service.XService;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockingDetails;
 
 /**
@@ -16,7 +17,7 @@ public class XServiceMockConfig {
 
     @Bean
     public XService getService() {
-        return new XService();
+        return mock(XService.class);
     }
 
     @Bean
@@ -30,20 +31,4 @@ public class XServiceMockConfig {
             return !mockingDetails(bean).isMock();
         }
     }
-
-//    @Bean
-//    public XController getServiceMock() {
-//        return new XController();
-//    }
-
-//
-//    @Bean
-//    public SempipesDao getDao() {
-//        return new SempipesDao();
-//    }
-
-//    @Bean
-//    public RestTemplate getRestTemplate() {
-//        return new RestTemplate();
-//    }
 }
