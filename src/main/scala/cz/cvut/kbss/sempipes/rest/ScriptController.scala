@@ -22,9 +22,6 @@ import scala.collection.JavaConverters._
 class ScriptController {
 
   @Autowired
-  private var environment: Environment = _
-
-  @Autowired
   private var service: SempipesService = _
 
   private var SempipesLocation = SEMPIPES_LOCATION
