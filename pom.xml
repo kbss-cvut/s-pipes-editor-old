@@ -205,6 +205,9 @@
                 <version>${maven-war-plugin.version}</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <warSourceExcludes>
+                        node_modules/**
+                    </warSourceExcludes>
                 </configuration>
             </plugin>
             <plugin>
