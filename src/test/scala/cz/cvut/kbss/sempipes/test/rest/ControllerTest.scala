@@ -1,11 +1,11 @@
 package cz.cvut.kbss.sempipes.test.rest
 
-import cz.cvut.kbss.sempipes.test.service.TestService
+import cz.cvut.kbss.sempipes.model.sempipes.Context
+import cz.cvut.kbss.sempipes.service.SempipesService
 import org.junit.Assert.{assertEquals, assertTrue}
 import org.junit.{Before, Test}
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 class ControllerTest extends BaseControllerTestRunner {
 
   @Autowired
-  var service: TestService = _
+  var service: SempipesService = _
 
   @Before
   override def setUp() {
@@ -25,11 +25,28 @@ class ControllerTest extends BaseControllerTestRunner {
   }
 
   @Test
-  def test() {
-    Mockito.when(service.getMessage()).thenReturn("Another message")
-    val result = mockMvc.perform(get("/testController")).andExpect(status.isOk).andReturn
+  def getScriptsReturnsNone() {
+    Mockito.when(service.getScripts("")).thenReturn(None)
+    val result = mockMvc.perform(get("/rest/scripts")).andExpect(status.isOk).andReturn
     val message = result.getResponse.getContentAsString
     assertTrue(message.contains("Another message"))
-    System.out.println("Test failed successfully")
+  }
+
+  @Test
+  def getScriptReturnsNotFound() {
+    val id = "someRandomId"
+    Mockito.when(service.getScript("", id)).thenReturn(None)
+    val result = mockMvc.perform(get("/rest/script/" + id)).andExpect(status.isNotFound).andReturn
+    val message = result.getResponse.getContentAsString
+    assertEquals("[]", message)
+  }
+
+  @Test
+  def getScriptReturnsScript() {
+    val id = "someRandomId"
+    Mockito.when(service.getScript("", id)).thenReturn(Some(new Context()))
+    val result = mockMvc.perform(get("/rest/script/" + id)).andExpect(status.isOk).andReturn
+    val message = result.getResponse.getContentAsString
+    //todo Compare results
   }
 }
