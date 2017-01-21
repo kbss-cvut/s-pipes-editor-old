@@ -1,5 +1,6 @@
-package testjava.rest
+package cz.cvut.kbss.sempipes.test.rest
 
+import cz.cvut.kbss.sempipes.test.config.{TestRestConfig, TestServiceConfig}
 import org.junit.Before
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -10,17 +11,19 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
 
-
+/**
+  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 19.01.17.
+  */
 @RunWith(classOf[SpringJUnit4ClassRunner])
-@ContextConfiguration(classes = Array(classOf[YRestConfig], classOf[YServiceMockConfig]))
+@ContextConfiguration(classes = Array(classOf[TestRestConfig], classOf[TestServiceConfig]))
 @WebAppConfiguration
-abstract class YBaseControllerTestRunner {
+abstract class BaseControllerTestRunner {
+
   @Autowired
-  protected var webApplicationContext = null
-  protected var mockMvc = null
+  protected var webApplicationContext: WebApplicationContext = _
+  protected var mockMvc: MockMvc = _
 
   @Before
-  @throws[Exception]
   def setUp() {
     mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build
   }
