@@ -14,7 +14,7 @@ import scala.collection.JavaConverters._
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 03.11.16.
   */
 @Repository
-class GraphDao extends {
+class GraphDao {
 
   @Autowired
   private var emf: EntityManagerFactory = _
