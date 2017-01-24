@@ -3,7 +3,7 @@
 <node TEXT="s-pipes api" FOLDED="false" ID="ID_448131109" CREATED="1312805290594" MODIFIED="1481792167810">
 <font NAME="SansSerif"/>
 <hook NAME="MapStyle" zoom="1.103">
-    <properties show_icon_for_attributes="true" fit_to_viewport="false;" show_note_icons="true" show_notes_in_map="true"/>
+    <properties fit_to_viewport="false;" show_icon_for_attributes="true" show_note_icons="true" show_notes_in_map="true"/>
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node" STYLE="oval" UNIFORM_SHAPE="true" VGAP_QUANTITY="24.0 pt">
@@ -68,7 +68,7 @@
 </node>
 </node>
 <node TEXT="scenario" STYLE_REF="categorization" POSITION="right" ID="ID_743457031" CREATED="1481803309926" MODIFIED="1481803317652">
-<node TEXT="load all scripts" ID="ID_429393578" CREATED="1484745086564" MODIFIED="1484745092309">
+<node TEXT="load all scripts" FOLDED="true" ID="ID_429393578" CREATED="1484745086564" MODIFIED="1484745092309">
 <node TEXT="legend" STYLE_REF="onto-prop" FOLDED="true" ID="ID_223001259" CREATED="1484745226863" MODIFIED="1484745228747">
 <node TEXT="sped-b" ID="ID_175565459" CREATED="1484745229017" MODIFIED="1484816820646"/>
 <node TEXT="sped-f" ID="ID_34381891" CREATED="1484745246725" MODIFIED="1484816822412"/>
@@ -140,8 +140,8 @@
 </node>
 </node>
 </node>
-<node TEXT="returns" STYLE_REF="onto-prop" FOLDED="true" ID="ID_1143854517" CREATED="1484747481871" MODIFIED="1484747483516">
-<node TEXT="[&#xa;{    &#xa;    &quot;@type&quot;: sempipes:Context&#xa;    &quot;@id&quot;: &quot;http://kbss/ontologies/ear-script&quot;&#xa;    &quot;&quot;&#xa;     &quot;label&quot;: &quot;Pomocne skripty pro EAR&quot;&#xa;},&#xa;{&#xa;    &quot;@type&quot;: sempipes:Context&#xa;     &quot;@id&quot;: &quot;http://kbss/ontologies/teaching-management-script&quot;&#xa;     &quot;label&quot;: &quot;Pomocne skripty pro EAR&quot;      &#xa;}&#xa;]" ID="ID_578227836" CREATED="1484731183200" MODIFIED="1484816868887"/>
+<node TEXT="returns" STYLE_REF="onto-prop" ID="ID_1143854517" CREATED="1484747481871" MODIFIED="1484747483516">
+<node TEXT="[&#xa;{    &#xa;    &quot;@type&quot;: sempipes:Context&#xa;    &quot;@id&quot;: &quot;http://kbss/ontologies/ear-script&quot;&#xa;    &quot;key&quot;: 43284082&#xa;     &quot;label&quot;: &quot;Pomocne skripty pro EAR&quot;&#xa;},&#xa;{&#xa;    &quot;@type&quot;: sempipes:Context&#xa;     &quot;@id&quot;: &quot;http://kbss/ontologies/teaching-management-script&quot;&#xa;    &quot;key&quot;: 214323232&#xa;     &quot;label&quot;: &quot;Pomocne skripty pro EAR&quot;      &#xa;}&#xa;]" ID="ID_578227836" CREATED="1484731183200" MODIFIED="1485284844845"/>
 </node>
 </node>
 </node>
@@ -160,19 +160,7 @@
 <node TEXT="specify new context" ID="ID_167531040" CREATED="1481803439266" MODIFIED="1481803579835"/>
 <node TEXT="assign default module-types-ontology (MTO) uri" ID="ID_1390358112" CREATED="1481803583688" MODIFIED="1481803660241">
 <node TEXT="e.g." STYLE_REF="onto-prop" ID="ID_116140066" CREATED="1481803792040" MODIFIED="1481803793251">
-<node ID="ID_222554479" CREATED="1481803794189" MODIFIED="1481803794189" LINK="http://onto.fel.cvut.cz/ontologies/lib/module&amp;gt;"><richcontent TYPE="NODE">
-
-<html>
-  <head>
-    
-  </head>
-  <body>
-    <span style="color: #000000; background-color: #ffffff"><font color="#000000" face="monospace">&lt;http://onto.fel.cvut.cz/ontologies/lib/module&gt;</font></span><span style="font-family: monospace"><font face="monospace"><br/></font></span>
-  </body>
-</html>
-
-</richcontent>
-</node>
+<node TEXT="&lt;html&gt;&#xa;  &lt;head&gt;&#xa;    &#xa;  &lt;/head&gt;&#xa;  &lt;body&gt;&#xa;    &lt;span style=&quot;color: #000000; background-color: #ffffff&quot;&gt;&lt;font color=&quot;#000000&quot; face=&quot;monospace&quot;&gt;&amp;lt;http://onto.fel.cvut.cz/ontologies/lib/module&amp;gt;&lt;/font&gt;&lt;/span&gt;&lt;span style=&quot;font-family: monospace&quot;&gt;&lt;font face=&quot;monospace&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/span&gt;&#xa;  &lt;/body&gt;&#xa;&lt;/html&gt;" ID="ID_222554479" CREATED="1481803794189" MODIFIED="1481803794189" LINK="http://onto.fel.cvut.cz/ontologies/lib/module&amp;gt;"/>
 </node>
 </node>
 <node TEXT="load module types based on MTO uri" ID="ID_193006776" CREATED="1481803318705" MODIFIED="1481803653655">
@@ -252,11 +240,22 @@
 <node TEXT="SPed rest API" STYLE_REF="categorization" POSITION="right" ID="ID_264185912" CREATED="1484747444636" MODIFIED="1484751476375">
 <node TEXT="/scripts" ID="ID_1826049305" CREATED="1484748785039" MODIFIED="1484748850041">
 <node TEXT="/{id}" ID="ID_1232417222" CREATED="1484748854637" MODIFIED="1484748859385">
-<node TEXT="graphs" ID="ID_1127795739" CREATED="1484748964633" MODIFIED="1484748967746"/>
+<node TEXT="/graphs" ID="ID_1127795739" CREATED="1484748964633" MODIFIED="1485285792075"/>
 </node>
 </node>
 <node TEXT="/graphs" ID="ID_1067898449" CREATED="1484748785039" MODIFIED="1484748798409">
-<node TEXT="/{id}" ID="ID_472799355" CREATED="1484748854637" MODIFIED="1484748859385"/>
+<node TEXT="/{id}" ID="ID_472799355" CREATED="1484748854637" MODIFIED="1484748859385">
+<node TEXT="/nodes" ID="ID_1920717613" CREATED="1485285786733" MODIFIED="1485285794887"/>
+</node>
+</node>
+<node TEXT="/nodes" ID="ID_450281142" CREATED="1485285802562" MODIFIED="1485285807279">
+<node TEXT="/{id}" ID="ID_1806707572" CREATED="1485285808017" MODIFIED="1485285811582">
+<node TEXT="/form" ID="ID_422780234" CREATED="1485285814822" MODIFIED="1485285825866">
+<node TEXT="returns" STYLE_REF="onto-prop" ID="ID_548772905" CREATED="1485285920535" MODIFIED="1485285922984">
+<node TEXT="{&#xa;&quot;@graph&quot;: [&#xa;{&#xa;&quot;@id&quot;: &quot;http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#instance1593220805-q&quot;,&#xa;&quot;@type&quot;: &quot;http://onto.fel.cvut.cz/ontologies/documentation/question&quot;,&#xa;&quot;has_related_question&quot;: [&#xa;&quot;http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#instance-1703962809-q&quot;,&#xa;&quot;http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#instance-344005680-q&quot;,&#xa;&quot;http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#instance236102958-q&quot;&#xa;],&#xa;&quot;has-layout-class&quot;: &quot;form&quot;,&#xa;&quot;has-origin-type&quot;: &quot;http://onto.fel.cvut.cz/ontologies/eccairs/aviation-3.4.0.2/e-24&quot;,&#xa;&quot;has-question-origin&quot;: &quot;http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#instance1593220805&quot;,&#xa;&quot;has-template&quot;: &quot;http://onto.fel.cvut.cz/ontologies/eccairs/aviation-3.4.0.2/e-24-qt&quot;,&#xa;&quot;comment&quot;: {&#xa;&quot;@language&quot;: &quot;en&quot;,&#xa;&quot;@value&quot;: &quot;General information and classification of the occurrence.&quot;&#xa;},&#xa;&quot;label&quot;: {&#xa;&quot;@language&quot;: &quot;en&quot;,&#xa;&quot;@value&quot;: &quot;24 - Occurrence&quot;&#xa;}&#xa;},{&#xa;&quot;@id&quot;: &quot;http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#instance1660774797-q&quot;,&#xa;&quot;@type&quot;: &quot;http://onto.fel.cvut.cz/ontologies/documentation/question&quot;,&#xa;&quot;has_answer&quot;: &quot;http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#instance-718772297-a&quot;,&#xa;&quot;has-origin-type&quot;: &quot;http://onto.fel.cvut.cz/ontologies/eccairs/aviation-3.4.0.2/a-114&quot;,&#xa;&quot;has-question-origin&quot;: &quot;http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#instance1660774797&quot;,&#xa;&quot;has-template&quot;: &quot;http://onto.fel.cvut.cz/ontologies/eccairs/aviation-3.4.0.2/a-114-qt&quot;,&#xa;&quot;comment&quot;: {&#xa;&quot;@language&quot;: &quot;en&quot;,&#xa;&quot;@value&quot;: &quot;The total number of persons fatally injured on board the aircraft. For the definition of &#x201c;fatal&#x201d; see &#x201c;fatal&#x201d; under injury level.&quot;&#xa;},&#xa;&quot;label&quot;: {&#xa;&quot;@language&quot;: &quot;en&quot;,&#xa;&quot;@value&quot;: &quot;114 - Total number fatalities&quot;&#xa;}&#xa;}]&#xa;}" ID="ID_765744718" CREATED="1485286115041" MODIFIED="1485286210107"/>
+</node>
+</node>
+</node>
 </node>
 </node>
 <node TEXT="S-Pipes rest API" STYLE_REF="categorization" POSITION="right" ID="ID_1610116530" CREATED="1484751449966" MODIFIED="1484751469300">
@@ -293,36 +292,8 @@
 </node>
 <node TEXT="/data" ID="ID_1859042692" CREATED="1481793097955" MODIFIED="1484730770621">
 <icon BUILTIN="button_ok"/>
-<node ID="ID_858545342" CREATED="1481793166251" MODIFIED="1481793572942"><richcontent TYPE="NODE">
-
-<html>
-  <head>
-    
-  </head>
-  <body>
-    <p>
-      ?closure=[<font color="#008000">true</font>/false]
-    </p>
-  </body>
-</html>
-
-</richcontent>
-</node>
-<node ID="ID_1604922199" CREATED="1481793144467" MODIFIED="1481793575494"><richcontent TYPE="NODE">
-
-<html>
-  <head>
-    
-  </head>
-  <body>
-    <p>
-      ?inferred=[true/<font color="#008000">false</font>]
-    </p>
-  </body>
-</html>
-
-</richcontent>
-</node>
+<node TEXT="&lt;html&gt;&#xa;  &lt;head&gt;&#xa;    &#xa;  &lt;/head&gt;&#xa;  &lt;body&gt;&#xa;    &lt;p&gt;&#xa;      ?closure=[&lt;font color=&quot;#008000&quot;&gt;true&lt;/font&gt;/false]&#xa;    &lt;/p&gt;&#xa;  &lt;/body&gt;&#xa;&lt;/html&gt;" ID="ID_858545342" CREATED="1481793166251" MODIFIED="1481793572942"/>
+<node TEXT="&lt;html&gt;&#xa;  &lt;head&gt;&#xa;    &#xa;  &lt;/head&gt;&#xa;  &lt;body&gt;&#xa;    &lt;p&gt;&#xa;      ?inferred=[true/&lt;font color=&quot;#008000&quot;&gt;false&lt;/font&gt;]&#xa;    &lt;/p&gt;&#xa;  &lt;/body&gt;&#xa;&lt;/html&gt;" ID="ID_1604922199" CREATED="1481793144467" MODIFIED="1481793575494"/>
 </node>
 <node TEXT="/content-hash" ID="ID_24033997" CREATED="1484731020300" MODIFIED="1484731032743"/>
 </node>
