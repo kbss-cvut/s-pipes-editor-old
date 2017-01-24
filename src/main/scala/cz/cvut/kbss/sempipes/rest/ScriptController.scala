@@ -1,15 +1,15 @@
 package cz.cvut.kbss.sempipes.rest
 
+import java.util.{Set => JSet}
+
 import cz.cvut.kbss.jsonld.JsonLd
 import cz.cvut.kbss.sempipes.model.sempipes.{Context, Module, ModuleType}
 import cz.cvut.kbss.sempipes.service.SempipesService
+import cz.cvut.kbss.sempipes.util.ConfigParam.SEMPIPES_LOCATION
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.PropertySource
-import org.springframework.core.env.Environment
 import org.springframework.http.{HttpStatus, ResponseEntity}
 import org.springframework.web.bind.annotation.{GetMapping, PathVariable, RequestMapping, RestController}
-import java.util.{Set => JSet}
-import cz.cvut.kbss.sempipes.util.ConfigParam.SEMPIPES_LOCATION
 
 import scala.collection.JavaConverters._
 
