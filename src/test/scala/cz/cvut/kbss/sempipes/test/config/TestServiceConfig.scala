@@ -1,7 +1,6 @@
 package cz.cvut.kbss.sempipes.test.config
 
-import cz.cvut.kbss.sempipes.persistence.dao.{GraphDao, SempipesDao}
-import cz.cvut.kbss.sempipes.service.{GraphService, SempipesService}
+import cz.cvut.kbss.sempipes.service.{GraphService, NodeService, SempipesService}
 import org.mockito.Mockito
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessorAdapter
 import org.springframework.context.annotation.{Bean, Configuration}
@@ -17,6 +16,9 @@ class TestServiceConfig {
 
   @Bean
   def getGraphService: GraphService = Mockito.mock(classOf[GraphService])
+
+  @Bean
+  def getNodeService: NodeService = Mockito.mock(classOf[NodeService])
 
   @Bean
   def mockBeanFactory = new MockBeanFactory
