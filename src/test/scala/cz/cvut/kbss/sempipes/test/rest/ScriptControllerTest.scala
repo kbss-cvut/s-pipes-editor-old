@@ -7,7 +7,7 @@ import cz.cvut.kbss.sempipes.service.SempipesService
 import cz.cvut.kbss.sempipes.util.ConfigParam
 import cz.cvut.kbss.sempipes.util.ConfigParam._
 import org.junit.Assert.assertEquals
-import org.junit.{Before, Test}
+import org.junit.Test
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
@@ -21,12 +21,6 @@ class ScriptControllerTest extends BaseControllerTestRunner {
 
   @Autowired
   var service: SempipesService = _
-
-  @Before
-  override def setUp() {
-    super.setUp()
-    Mockito.reset(service)
-  }
 
   @Test
   def getScriptsReturnsNone() {
