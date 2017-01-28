@@ -41,6 +41,18 @@ class GraphService {
   def getGraphEdges(uri: String): Option[Traversable[Edge]] =
     dao.getEdges(URI.create(uri))
 
+  def getGraphEdge(graphUri: String, uri: String): Option[Edge] =
+    getGraphEdges(graphUri) match {
+      case Some(edges) => edges.find(_.getUri == URI.create(uri))
+      case _ => None
+    }
+
+  def getGraphNode(graphUri: String, uri: String): Option[Node] =
+    getGraphNodes(graphUri) match {
+      case Some(nodes) => nodes.find(_.getUri == URI.create(uri))
+      case _ => None
+    }
+
   def getGraphFromSempipes(uri: String): Option[Graph] = {
     val graphUri = "https://graph.org/g/r/a/p/h/" + UUID.randomUUID().toString()
     sempipesService.getModules(uri) match {
