@@ -101,8 +101,8 @@ public class Graph {
         return "Graph{" +
                 "uri=" + uri +
                 ", label='" + label + '\'' +
-                ", nodes=" + nodes.toString() +
-                ", edges=" + edges.toString() +
+                ", nodes=" + (nodes == null ? "null" : nodes.toString()) +
+                ", edges=" + (edges == null ? "null" : edges.toString()) +
                 '}';
     }
 }
