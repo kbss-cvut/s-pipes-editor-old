@@ -120,7 +120,7 @@ class GraphControllerTest extends BaseControllerTestRunner {
   def getGraphNodeReturnsSomeNode = {
     val id = "someId"
     Mockito.when(service.getGraphNode("https://graphs/" + id, id)).thenReturn(Some(new Node()))
-    val result = mockMvc.perform(get("/graphs/" + id + "/nodes/" + id)).andExpect(status.isOk).andReturn
+    val result = mockMvc.perform(get("/graphs/" + id + "/nodes/" + id)).andExpect(status().isOk()).andReturn
     val message = result.getResponse.getContentAsString
     assertEquals("{\"uri\":null,\"sourceNode\":null,\"destinationNode\":null}", message)
   }

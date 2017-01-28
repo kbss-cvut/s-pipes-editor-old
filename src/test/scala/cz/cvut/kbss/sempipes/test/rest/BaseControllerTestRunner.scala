@@ -1,6 +1,5 @@
 package cz.cvut.kbss.sempipes.test.rest
 
-import cz.cvut.kbss.sempipes.config.RestConfig
 import cz.cvut.kbss.sempipes.test.config.{TestRestConfig, TestServiceConfig}
 import org.junit.Before
 import org.junit.runner.RunWith
