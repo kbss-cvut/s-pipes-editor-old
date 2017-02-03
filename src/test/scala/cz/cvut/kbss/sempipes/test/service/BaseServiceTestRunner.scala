@@ -1,7 +1,6 @@
 package cz.cvut.kbss.sempipes.test.service
 
-import cz.cvut.kbss.sempipes.config.ServiceConfig
-import cz.cvut.kbss.sempipes.test.config.{TestPersistenceConfig, TestServiceConfig}
+import cz.cvut.kbss.sempipes.test.config.TestServiceConfig
 import org.junit.runner.RunWith
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
