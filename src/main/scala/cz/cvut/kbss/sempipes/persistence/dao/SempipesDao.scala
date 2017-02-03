@@ -47,7 +47,7 @@ class SempipesDao {
       JOPAPersistenceProperties.SCAN_PACKAGE -> "cz.cvut.kbss.sempipes.model",
       // Persistence provider name
       PersistenceProperties.JPA_PERSISTENCE_PROVIDER -> classOf[JOPAPersistenceProvider].getName(),
-      SesameOntoDriverProperties.SESAME_USE_VOLATILE_STORAGE -> "true")
+      SesameOntoDriverProperties.SESAME_USE_VOLATILE_STORAGE -> true.toString())
     emf = Persistence.createEntityManagerFactory("testPersistenceUnit", props.asJava)
   }
 
