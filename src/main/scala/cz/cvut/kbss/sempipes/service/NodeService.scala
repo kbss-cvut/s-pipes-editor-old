@@ -5,7 +5,7 @@ import java.net.URI
 import cz.cvut.kbss.sempipes.model.graph.Node
 import cz.cvut.kbss.sempipes.persistence.dao.NodeDao
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.{HttpEntity, HttpHeaders, HttpMethod}
+import org.springframework.http.{HttpEntity, HttpHeaders, HttpMethod, HttpStatus}
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 
@@ -24,9 +24,16 @@ class NodeService {
   def getNodeById(uri: String): Option[Node] =
     dao.get(URI.create(uri))
 
-  def generateForm(uri: String): String =
-    restTemplate.exchange("https://kbss.felk.cvut.cz/sempipes-sped/service?_pId=generate-fss-form",
+  def generateForm(uri: String): Option[String] = {
+    val r = restTemplate.exchange("https://kbss.felk.cvut.cz/sempipes-sped/service?_pId=generate-fss-form",
       HttpMethod.GET,
       new HttpEntity[AnyRef](null, new HttpHeaders()),
-      classOf[String]).getBody()
+      classOf[String])
+    r.getStatusCode() match {
+      case HttpStatus.OK =>
+        Some(r.getBody)
+      case _ =>
+        None
+    }
+  }
 }
