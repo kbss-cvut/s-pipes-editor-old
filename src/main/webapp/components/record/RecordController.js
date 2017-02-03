@@ -24,7 +24,9 @@ class RecordController extends React.Component {
     }
 
     _isNew() {
-        return !this.props.params.key;
+        //return !this.props.params.key;
+        //return !this.props.key; //TODO this is dirty hack. Do smth with it
+        return true;
     }
 
     componentDidMount() {

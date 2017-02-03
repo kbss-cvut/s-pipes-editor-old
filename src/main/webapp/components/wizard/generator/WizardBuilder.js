@@ -10,7 +10,10 @@ import Logger from "../../../utils/Logger";
 import TypeaheadResultList from "../../typeahead/TypeaheadResultList";
 import WizardStore from "../../../stores/WizardStore";
 
-const FORM_GEN_URL = 'rest/formGen';
+
+
+//const FORM_GEN_URL = 'rest/formGen';
+const FORM_GEN_URL = 'rest/nodes/1/form';
 
 export default class WizardBuilder {
 

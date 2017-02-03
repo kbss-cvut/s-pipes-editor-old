@@ -5,7 +5,7 @@ body {
       position: absolute;
       margin-left:18%;
       width: 81%;
-      height: 94%;
+      height: 65%;
       border: solid 1px black;
     }
 #panel{
@@ -112,6 +112,10 @@ ul.tab li a:focus, .active {background-color: #ccc;}
     padding: 6px 12px;
     border: 1px solid #ccc;
     border-top: none;
+}
+
+.RecordContr{
+    top: 100%;
 }
 
 
