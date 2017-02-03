@@ -68,7 +68,7 @@ class GraphController {
   }
 
   @GetMapping(path = Array("/{graphUri}/nodes/{uri}"), produces = Array(JsonLd.MEDIA_TYPE))
-  def getNodes(@PathVariable graphUri: String, @PathVariable uri: String): ResponseEntity[Node] = {
+  def getNode(@PathVariable graphUri: String, @PathVariable uri: String): ResponseEntity[Node] = {
     graphService.getGraphNode("https://graphs/" + graphUri, uri) match {
       case Some(node) =>
         new ResponseEntity(node, HttpStatus.OK)
