@@ -1,67 +1,56 @@
 package cz.cvut.kbss.sempipes.test.persistence
 
-import javax.annotation.{PostConstruct, PreDestroy}
+import javax.annotation.PostConstruct
 
 import cz.cvut.kbss.jopa.Persistence
+import cz.cvut.kbss.jopa.model.JOPAPersistenceProperties._
 import cz.cvut.kbss.jopa.model.PersistenceProperties.JPA_PERSISTENCE_PROVIDER
-import cz.cvut.kbss.jopa.model.{EntityManagerFactory, JOPAPersistenceProperties, JOPAPersistenceProvider}
+import cz.cvut.kbss.jopa.model.{EntityManagerFactory, JOPAPersistenceProvider}
+import cz.cvut.kbss.ontodriver.config.OntoDriverProperties
 import cz.cvut.kbss.ontodriver.sesame.config.SesameOntoDriverProperties
-import cz.cvut.kbss.sempipes.util.ConfigParam
+import cz.cvut.kbss.sempipes.util.ConfigParam._
+import cz.cvut.kbss.sempipes.util.Constants
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.{Bean, Configuration, Primary, PropertySource}
 import org.springframework.core.env.Environment
+import org.springframework.web.client.RestTemplate
 
 import scala.collection.JavaConverters._
 
 /**
-  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 03.02.17.
+  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 07.12.16.
   */
-
 @Configuration
 @PropertySource(Array("classpath:config.properties"))
 class TestPersistenceFactory {
+  private val DEFAULT_PARAMS = initParams
+
+  @Bean
+  def getRestTemplate: RestTemplate = new RestTemplate()
 
   @Autowired
   private var environment: Environment = _
 
-  @Bean
   private var emf: EntityManagerFactory = _
 
+  @Bean
+  @Primary
+  def getEntityManagerFactory: EntityManagerFactory = emf
+
   @PostConstruct
-  private def init() {
-    val initProperties = TestPersistenceFactory.getDefaultProperties +
-      (JOPAPersistenceProperties.ONTOLOGY_PHYSICAL_URI_KEY -> environment.getProperty(TestPersistenceFactory.URL_PROPERTY)) +
-      (JOPAPersistenceProperties.DATA_SOURCE_CLASS -> environment.getProperty(TestPersistenceFactory.DRIVER_PROPERTY))
-    val properties =
-      if (environment.getProperty(TestPersistenceFactory.USERNAME_PROPERTY) != null)
-        initProperties +
-          (JOPAPersistenceProperties.DATA_SOURCE_USERNAME -> environment.getProperty(TestPersistenceFactory.USERNAME_PROPERTY)) +
-          (JOPAPersistenceProperties.DATA_SOURCE_PASSWORD -> environment.getProperty(TestPersistenceFactory.PASSWORD_PROPERTY))
-      else initProperties
-
-    this.emf = Persistence.createEntityManagerFactory("emf", properties.asJava)
+  private def init(): Unit = {
+    val properties = DEFAULT_PARAMS +
+      (ONTOLOGY_PHYSICAL_URI_KEY -> "local://temp") +
+      (DATA_SOURCE_CLASS -> environment.getProperty(DRIVER.toString)) +
+      (SesameOntoDriverProperties.SESAME_USE_VOLATILE_STORAGE -> "true")
+    emf = Persistence.createEntityManagerFactory("persistenceFactory", properties.asJava)
   }
 
-  @PreDestroy
-  private def close() {
-    if (emf.isOpen) {
-      emf.close()
-    }
-  }
-}
-
-object TestPersistenceFactory {
-  private val URL_PROPERTY = "test." + ConfigParam.REPOSITORY_URL
-  private val DRIVER_PROPERTY = "test." + ConfigParam.DRIVER.toString
-  private val USERNAME_PROPERTY = "test.username"
-  private val PASSWORD_PROPERTY = "test.password"
-
-  private def getDefaultProperties = {
+  private def initParams = {
     Map[String, String](
-      JOPAPersistenceProperties.SCAN_PACKAGE -> "cz.cvut.kbss.reporting.model",
-      SesameOntoDriverProperties.SESAME_USE_VOLATILE_STORAGE -> true.toString,
-      SesameOntoDriverProperties.SESAME_USE_INFERENCE -> false.toString,
-      JPA_PERSISTENCE_PROVIDER -> classOf[JOPAPersistenceProvider].getName
+      (OntoDriverProperties.ONTOLOGY_LANGUAGE, Constants.PU_LANGUAGE),
+      (SCAN_PACKAGE, "cz.cvut.kbss.sempipes.model"),
+      (JPA_PERSISTENCE_PROVIDER, classOf[JOPAPersistenceProvider].getName)
     )
   }
 }

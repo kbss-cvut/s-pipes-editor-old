@@ -1,8 +1,6 @@
 package cz.cvut.kbss.sempipes.test.persistence
 
 import cz.cvut.kbss.jopa.model.{EntityManagerFactory, JOPAPersistenceProperties}
-import cz.cvut.kbss.sempipes.persistence.PersistenceFactory
-import cz.cvut.kbss.sempipes.util.ConfigParam
 import org.junit.Assert._
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
   */
 @RunWith(classOf[SpringJUnit4ClassRunner])
 @PropertySource(Array("classpath:config.properties"))
-@ContextConfiguration(classes = Array(classOf[PersistenceFactory]))
+@ContextConfiguration(classes = Array(classOf[TestPersistenceFactory]))
 class PersistenceFactoryTest {
   @Autowired
   private var environment: Environment = _
@@ -32,6 +30,6 @@ class PersistenceFactoryTest {
       assertNotNull(em)
     finally
       em.close()
-    assertEquals(environment.getProperty(ConfigParam.REPOSITORY_URL.toString), emf.getProperties.get(JOPAPersistenceProperties.ONTOLOGY_PHYSICAL_URI_KEY))
+    assertEquals("local://temp", emf.getProperties.get(JOPAPersistenceProperties.ONTOLOGY_PHYSICAL_URI_KEY))
   }
 }
