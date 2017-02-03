@@ -1,6 +1,9 @@
 package cz.cvut.kbss.sempipes.test.config
 
-import org.springframework.context.annotation.{ComponentScan, Configuration}
+import cz.cvut.kbss.sempipes.service.{GraphService, NodeService, SempipesService}
+import org.mockito.Mockito
+import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessorAdapter
+import org.springframework.context.annotation.{Bean, ComponentScan, Configuration}
 import org.springframework.web.servlet.config.annotation.EnableWebMvc
 
 /**
@@ -9,4 +12,25 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc
 @Configuration
 @ComponentScan(basePackages = Array("cz.cvut.kbss.sempipes.rest"))
 @EnableWebMvc
-class TestRestConfig
+class TestRestConfig {
+
+
+  @Bean
+  def getSempipesService: SempipesService = Mockito.mock(classOf[SempipesService])
+
+  @Bean
+  def getGraphService: GraphService = Mockito.mock(classOf[GraphService])
+
+  @Bean
+  def getNodeService: NodeService = Mockito.mock(classOf[NodeService])
+
+  @Bean
+  def mockBeanFactory = new MockBeanFactory
+
+  class MockBeanFactory extends InstantiationAwareBeanPostProcessorAdapter {
+    override def postProcessAfterInstantiation(bean: Any, beanName: String): Boolean =
+      !Mockito.mockingDetails(bean).isMock
+  }
+
+
+}

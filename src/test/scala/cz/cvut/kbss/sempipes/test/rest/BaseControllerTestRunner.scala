@@ -15,7 +15,7 @@ import org.springframework.web.context.WebApplicationContext
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 19.01.17.
   */
 @RunWith(classOf[SpringJUnit4ClassRunner])
-@ContextConfiguration(classes = Array(classOf[TestRestConfig], classOf[TestServiceConfig]))
+@ContextConfiguration(classes = Array(classOf[TestRestConfig]))
 @WebAppConfiguration
 abstract class BaseControllerTestRunner {
 

@@ -10,5 +10,5 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 28.01.17.
   */
 @RunWith(classOf[SpringJUnit4ClassRunner])
-@ContextConfiguration(classes = Array(classOf[ServiceConfig], classOf[TestPersistenceConfig]))
+@ContextConfiguration(classes = Array(classOf[TestServiceConfig]))
 abstract class BaseServiceTestRunner
