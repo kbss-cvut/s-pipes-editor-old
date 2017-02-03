@@ -1,9 +1,11 @@
 package cz.cvut.kbss.sempipes.test.rest
 
+import java.net.URI
+
 import cz.cvut.kbss.sempipes.model.graph.{Edge, Graph, Node}
 import cz.cvut.kbss.sempipes.service.GraphService
 import org.junit.Assert.assertEquals
-import org.junit.{Ignore, Test}
+import org.junit.Test
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
@@ -106,22 +108,16 @@ class GraphControllerTest extends BaseControllerTestRunner {
   }
 
   @Test
-  @Ignore
-  def getGraphNodeReturnsNone = {
-    val id = "someId"
-    Mockito.when(service.getGraphNode("https://graphs/" + id, id)).thenReturn(None)
-    val result = mockMvc.perform(get("/graphs/" + id + "/nodes/" + id)).andExpect(status.isNotFound).andReturn
-    val message = result.getResponse.getContentAsString
-    assertEquals("{\"uri\":null,\"sourceNode\":null,\"destinationNode\":null}", message)
-  }
-
-  @Test
-  @Ignore
   def getGraphNodeReturnsSomeNode = {
     val id = "someId"
-    Mockito.when(service.getGraphNode("https://graphs/" + id, id)).thenReturn(Some(new Node()))
+    val types = new java.util.HashSet[String]
+    types.add("https://type/1")
+    types.add("https://type/2")
+    types.add("https://type/3")
+    val n = new Node(URI.create("https://" + id), "Label", 1, 2, types, new java.util.HashSet[String](), new java.util.HashSet[String]())
+    Mockito.when(service.getGraphNode("https://graphs/" + id, id)).thenReturn(Some(n))
     val result = mockMvc.perform(get("/graphs/" + id + "/nodes/" + id)).andExpect(status().isOk()).andReturn
     val message = result.getResponse.getContentAsString
-    assertEquals("{\"uri\":null,\"sourceNode\":null,\"destinationNode\":null}", message)
+    assertEquals("{\"uri\":\"https://someId\",\"label\":\"Label\",\"x\":1.0,\"y\":2.0,\"nodeTypes\":[\"https://type/1\",\"https://type/2\",\"https://type/3\"],\"inParameters\":[],\"outParameters\":[]}", message)
   }
 }
