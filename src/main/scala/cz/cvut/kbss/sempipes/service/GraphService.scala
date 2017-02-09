@@ -29,6 +29,9 @@ class GraphService {
   def getAllGraphs(): Option[Traversable[Graph]] =
     dao.getAll()
 
+  def addGraph(g: Graph): Option[Graph] =
+    dao.add(g)
+
   def updateGraph(uri: String, g: Graph): Option[Graph] =
     dao.update(URI.create(uri), g)
 
