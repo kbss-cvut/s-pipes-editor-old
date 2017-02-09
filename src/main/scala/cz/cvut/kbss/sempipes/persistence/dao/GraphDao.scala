@@ -5,6 +5,7 @@ import java.net.URI
 import cz.cvut.kbss.jopa.model.EntityManagerFactory
 import cz.cvut.kbss.sempipes.model.Vocabulary
 import cz.cvut.kbss.sempipes.model.graph.{Edge, Graph, Node}
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 
@@ -15,6 +16,7 @@ import scala.collection.JavaConverters._
   */
 @Repository
 class GraphDao {
+  private val LOG = LoggerFactory.getLogger(getClass())
 
   @Autowired
   private var emf: EntityManagerFactory = _
@@ -26,6 +28,11 @@ class GraphDao {
         case g: Graph => Some(g)
         case null => None
       }
+    }
+    catch {
+      case e: Exception =>
+        LOG.error("Exception in " + getClass().getSimpleName(), e)
+        None
     }
     finally {
       em.close()
@@ -45,6 +52,11 @@ class GraphDao {
           None
       }
     }
+    catch {
+      case e: Exception =>
+        LOG.error("Exception in " + getClass().getSimpleName(), e)
+        None
+    }
     finally {
       em.close()
     }
@@ -53,10 +65,20 @@ class GraphDao {
   def add(e: Graph): Option[Graph] = {
     assert(e != null)
     val em = emf.createEntityManager()
-    em.getTransaction().begin()
-    em.persist(e)
-    em.getTransaction().commit()
-    Some(e)
+    try {
+      em.getTransaction().begin()
+      em.persist(e)
+      em.getTransaction().commit()
+      Some(e)
+    }
+    catch {
+      case e: Exception =>
+        LOG.error("Exception in " + getClass().getSimpleName(), e)
+        None
+    }
+    finally {
+      em.close()
+    }
   }
 
   def delete(uri: URI): Option[URI] = {
@@ -71,6 +93,11 @@ class GraphDao {
         case null =>
           None
       }
+    }
+    catch {
+      case e: Exception =>
+        LOG.error("Exception in " + getClass().getSimpleName(), e)
+        None
     }
     finally {
       em.close()
@@ -93,6 +120,11 @@ class GraphDao {
         case null => None
       }
     }
+    catch {
+      case e: Exception =>
+        LOG.error("Exception in " + getClass().getSimpleName(), e)
+        None
+    }
     finally {
       em.close()
     }
@@ -107,6 +139,11 @@ class GraphDao {
         case _ => None
       }
     }
+    catch {
+      case e: Exception =>
+        LOG.error("Exception in " + getClass().getSimpleName(), e)
+        None
+    }
     finally {
       em.close()
     }
@@ -120,6 +157,11 @@ class GraphDao {
           Some(g.getEdges().asScala)
         case _ => None
       }
+    }
+    catch {
+      case e: Exception =>
+        LOG.error("Exception in " + getClass().getSimpleName(), e)
+        None
     }
     finally {
       em.close()
