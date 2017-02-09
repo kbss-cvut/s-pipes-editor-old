@@ -5,14 +5,19 @@ import cz.cvut.kbss.sempipes.model.Vocabulary;
 
 import java.net.URI;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 01.12.16.
  */
 @OWLClass(iri = Vocabulary.s_c_graph)
 public class Graph {
+
+
     @Id(generated = true)
     private URI uri;
+    @OWLDataProperty(iri = Vocabulary.s_p_has_key)
+    private String id;
     @OWLDataProperty(iri = Vocabulary.s_p_label)
     private String label;
     @OWLObjectProperty(iri = Vocabulary.s_p_consists_of_nodes, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -27,8 +32,9 @@ public class Graph {
     public Graph() {
     }
 
-    public Graph(URI uri, String label, Set<Node> nodes, Set<Edge> edges) {
-        this.uri = uri;
+    public Graph(String label, Set<Node> nodes, Set<Edge> edges) {
+        this.id = UUID.randomUUID().toString();
+        this.uri = URI.create(Vocabulary.s_c_graph + id);
         this.label = label;
         this.edges = edges;
         this.nodes = nodes;
@@ -36,6 +42,10 @@ public class Graph {
 
     public URI getUri() {
         return uri;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getLabel() {

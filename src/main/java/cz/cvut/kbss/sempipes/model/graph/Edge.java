@@ -1,12 +1,10 @@
 package cz.cvut.kbss.sempipes.model.graph;
 
-import cz.cvut.kbss.jopa.model.annotations.CascadeType;
-import cz.cvut.kbss.jopa.model.annotations.Id;
-import cz.cvut.kbss.jopa.model.annotations.OWLClass;
-import cz.cvut.kbss.jopa.model.annotations.OWLObjectProperty;
+import cz.cvut.kbss.jopa.model.annotations.*;
 import cz.cvut.kbss.sempipes.model.Vocabulary;
 
 import java.net.URI;
+import java.util.UUID;
 
 /**
  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 10.11.16.
@@ -16,6 +14,8 @@ public class Edge {
 
     @Id(generated = true)
     private URI uri;
+    @OWLDataProperty(iri = Vocabulary.s_p_has_key)
+    private String id;
     @OWLObjectProperty(iri = Vocabulary.s_p_has_source_node, cascade = CascadeType.ALL)
     private Node sourceNode;
     @OWLObjectProperty(iri = Vocabulary.s_p_has_destination_node, cascade = CascadeType.ALL)
@@ -24,14 +24,19 @@ public class Edge {
     public Edge() {
     }
 
-    public Edge(URI uri, Node sourceNode, Node destinationNode) {
-        this.uri = uri;
+    public Edge(Node sourceNode, Node destinationNode) {
+        this.id = UUID.randomUUID().toString();
+        this.uri = URI.create(Vocabulary.s_c_edge + id);
         this.sourceNode = sourceNode;
         this.destinationNode = destinationNode;
     }
 
     public URI getUri() {
         return uri;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public Node getSourceNode() {

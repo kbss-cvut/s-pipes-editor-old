@@ -8,6 +8,7 @@ import cz.cvut.kbss.sempipes.model.Vocabulary;
 
 import java.net.URI;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 10.11.16.
@@ -17,6 +18,8 @@ public class Node {
 
     @Id(generated = true)
     private URI uri;
+    @OWLDataProperty(iri = Vocabulary.s_p_has_key)
+    private String id;
     @OWLDataProperty(iri = Vocabulary.s_p_label)
     private String label;
     @OWLDataProperty(iri = Vocabulary.s_p_has_x_coordinate)
@@ -33,8 +36,9 @@ public class Node {
     public Node() {
     }
 
-    public Node(URI uri, String label, double x, double y, Set<String> nodeTypes, Set<String> inParameters, Set<String> outParameters) {
-        this.uri = uri;
+    public Node(String label, double x, double y, Set<String> nodeTypes, Set<String> inParameters, Set<String> outParameters) {
+        this.id = UUID.randomUUID().toString();
+        this.uri = URI.create(Vocabulary.s_c_node + id);
         this.label = label;
         this.x = x;
         this.y = y;
@@ -45,6 +49,10 @@ public class Node {
 
     public URI getUri() {
         return uri;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getLabel() {
@@ -115,7 +123,6 @@ public class Node {
 
         Node node = (Node) o;
 
-        if (uri != null ? !uri.equals(node.uri) : node.uri != null) return false;
         if (label != null ? !label.equals(node.label) : node.label != null) return false;
         if (x != null ? !x.equals(node.x) : node.x != null) return false;
         if (y != null ? !y.equals(node.y) : node.y != null) return false;

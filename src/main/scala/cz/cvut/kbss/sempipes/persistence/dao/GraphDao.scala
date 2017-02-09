@@ -21,7 +21,43 @@ class GraphDao {
   @Autowired
   private var emf: EntityManagerFactory = _
 
-  def get(uri: URI): Option[Graph] = {
+  def getNode(uri: URI): Option[Node] = {
+    val em = emf.createEntityManager()
+    try {
+      em.find(classOf[Node], uri) match {
+        case n: Node => Some(n)
+        case null => None
+      }
+    }
+    catch {
+      case e: Exception =>
+        LOG.error("Exception in " + getClass().getSimpleName(), e)
+        None
+    }
+    finally {
+      em.close()
+    }
+  }
+
+  def getEdge(uri: URI): Option[Edge] = {
+    val em = emf.createEntityManager()
+    try {
+      em.find(classOf[Edge], uri) match {
+        case e: Edge => Some(e)
+        case null => None
+      }
+    }
+    catch {
+      case e: Exception =>
+        LOG.error("Exception in " + getClass().getSimpleName(), e)
+        None
+    }
+    finally {
+      em.close()
+    }
+  }
+
+  def getGraph(uri: URI): Option[Graph] = {
     val em = emf.createEntityManager()
     try {
       em.find(classOf[Graph], uri) match {
@@ -39,7 +75,7 @@ class GraphDao {
     }
   }
 
-  def getAll(): Option[Traversable[Graph]] = {
+  def getAllGraphs(): Option[Traversable[Graph]] = {
     val em = emf.createEntityManager()
     try {
       val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[Graph])
@@ -51,11 +87,6 @@ class GraphDao {
         case empty: java.util.List[Graph] if empty.isEmpty =>
           None
       }
-    }
-    catch {
-      case e: Exception =>
-        LOG.error("Exception in " + getClass().getSimpleName(), e)
-        None
     }
     finally {
       em.close()

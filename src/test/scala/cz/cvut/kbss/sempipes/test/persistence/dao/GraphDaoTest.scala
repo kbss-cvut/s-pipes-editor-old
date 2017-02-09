@@ -20,60 +20,56 @@ class GraphDaoTest extends BaseDaoTestRunner {
 
   @Test
   def getAndAddGraph {
-    val uri = new URI("https://graphs/11")
+    val types = Set[String](
+      "https://type/1",
+      "https://type/2",
+      "https://type/3")
 
-    //todo WrapperSet support
-    val types = new java.util.HashSet[String]()
-    types.add("https://type/1")
-    types.add("https://type/2")
-    types.add("https://type/3")
-    val n = new Node(new URI("https://nodes/11" + nodeCount), "Label", 1, 2, types, new java.util.HashSet[String](), new java.util.HashSet[String]())
-    val e = new Edge(new URI("https://edges/11"), n, n)
-    val nodes = new java.util.HashSet[Node]()
-    nodes.add(n)
-    val edges = new java.util.HashSet[Edge]()
-    edges.add(e)
+    import scala.collection.JavaConverters.setAsJavaSetConverter
+    val n = new Node("Label", 1, 2, types.asJava, Set[String]().asJava, Set[String]().asJava)
+    val e = new Edge(n, n)
+    val nodes = Set[Node](n)
+    val edges = Set[Edge](e)
 
-    val g = new Graph(uri, "Graph", nodes, edges)
+    import scala.collection.JavaConverters.setAsJavaSetConverter
+
+    val g = new Graph("Graph", nodes.asJava, edges.asJava)
     assertEquals(Some(g), graphDao.add(g))
-    assertNotNull(graphDao.get(uri))
-    assertEquals(Some(g), graphDao.get(uri))
-    assertEquals(g.getNodes, graphDao.get(uri).get.getNodes)
-    assertEquals(Some(uri), graphDao.delete(uri))
-    assertEquals(None, graphDao.get(uri))
+    assertEquals(Some(g), graphDao.getGraph(g.getUri()))
+    assertEquals(g.getNodes, graphDao.getGraph(g.getUri()).get.getNodes())
+    assertEquals(Some(g.getUri()), graphDao.delete(g.getUri()))
+    assertEquals(None, graphDao.getGraph(g.getUri()))
   }
 
   @Test
   def getAllGraphs {
-    val uri1 = new URI("https://graphs/1")
-    val uri2 = new URI("https://graphs/2")
-    val uri = new URI("https://graphs/11")
 
-    //todo WrapperSet support (cz.cvut.kbss.jopa.sessions.CollectionInstanceBuilder.java: 79 throws OWLPersistenceException)
     val types = new java.util.HashSet[String]()
     types.add("https://type/1")
     types.add("https://type/2")
     types.add("https://type/3")
-    val n = new Node(new URI("https://nodes/11" + nodeCount), "Label", 1, 2, types, new java.util.HashSet[String](), new java.util.HashSet[String]())
-    val e = new Edge(new URI("https://edges/11"), n, n)
-    val nodes = new java.util.HashSet[Node]()
-    nodes.add(n)
-    val edges = new java.util.HashSet[Edge]()
-    edges.add(e)
+    val n = new Node("Label", 1, 2, types, new java.util.HashSet[String](), new java.util.HashSet[String]())
+    val e = new Edge(n, n)
+    val nodes = Set[Node](n)
+    val edges = Set[Edge](e)
 
-    val g1 = new Graph(uri1, "Graph", nodes, edges)
-    val g2 = new Graph(uri2, "Graph", nodes, edges)
-    assertEquals(Some(g1), graphDao.add(g1))
-    assertNotNull(graphDao.get(uri1))
-    assertEquals(Some(g2), graphDao.add(g2))
-    assertNotNull(graphDao.get(uri2))
-    val size = graphDao.getAll().get.size
+    import scala.collection.JavaConverters.setAsJavaSetConverter
+
+    val g01 = new Graph("Graph", nodes.asJava, edges.asJava)
+    val g02 = new Graph("Graph", nodes.asJava, edges.asJava)
+    val g1 = graphDao.add(g01).get
+    val uri1 = g01.getUri()
+    val g2 = graphDao.add(g02).get
+    val uri2 = g02.getUri()
+    assertEquals(g01, g1)
+    assertEquals(g02, g2)
+    val size = graphDao.getAllGraphs().get.size
     assertEquals(Some(uri1), graphDao.delete(uri1))
-    assertEquals(None, graphDao.get(uri1))
-    assertEquals(size - 1, graphDao.getAll().get.size)
+    assertEquals(None, graphDao.getGraph(uri1))
+    assertEquals(size - 1, graphDao.getAllGraphs().get.size)
     assertEquals(Some(uri2), graphDao.delete(uri2))
-    assertEquals(None, graphDao.get(uri2))
-    assertTrue(graphDao.getAll().isEmpty)
+    assertEquals(None, graphDao.getGraph(uri2))
+    assertTrue(graphDao.getAllGraphs().isEmpty)
   }
 
   @Test

@@ -3,13 +3,11 @@ package cz.cvut.kbss.sempipes.service
 import java.net.URI
 import java.util.UUID
 
+import cz.cvut.kbss.sempipes.model.Vocabulary
 import cz.cvut.kbss.sempipes.model.graph.{Edge, Graph, Node}
 import cz.cvut.kbss.sempipes.persistence.dao.GraphDao
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-
-import scala.collection.JavaConverters._
-import scala.collection.mutable.{Set => MutableSet}
 
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 22.12.16.
@@ -23,63 +21,52 @@ class GraphService {
   @Autowired
   private var sempipesService: SempipesService = _
 
-  def getGraphByUri(uri: String): Option[Graph] =
-    dao.get(URI.create(uri))
+  def getGraphById(id: String): Option[Graph] =
+    dao.getGraph(URI.create(Vocabulary.s_c_graph + id))
 
   def getAllGraphs(): Option[Traversable[Graph]] =
-    dao.getAll()
+    dao.getAllGraphs()
 
   def addGraph(g: Graph): Option[Graph] =
     dao.add(g)
 
-  def updateGraph(uri: String, g: Graph): Option[Graph] =
-    dao.update(URI.create(uri), g)
+  def updateGraph(id: String, g: Graph): Option[Graph] =
+    dao.update(URI.create(Vocabulary.s_c_graph + id), g)
 
-  def delete(uri: String): Option[URI] =
-    dao.delete(URI.create(uri))
+  def delete(id: String): Option[URI] =
+    dao.delete(URI.create(Vocabulary.s_c_graph + id))
 
-  def getGraphNodes(uri: String): Option[Traversable[Node]] =
-    dao.getNodes(URI.create(uri))
+  def getGraphNodes(id: String): Option[Traversable[Node]] =
+    dao.getNodes(URI.create(Vocabulary.s_c_graph + id))
 
-  def getGraphEdges(uri: String): Option[Traversable[Edge]] =
-    dao.getEdges(URI.create(uri))
+  def getGraphEdges(id: String): Option[Traversable[Edge]] =
+    dao.getEdges(URI.create(Vocabulary.s_c_graph + id))
 
-  def getGraphEdge(graphUri: String, uri: String): Option[Edge] =
-    getGraphEdges(graphUri) match {
-      case Some(edges) => edges.find(_.getUri == URI.create(uri))
-      case _ => None
-    }
+  def getEdge(id: String): Option[Edge] =
+    dao.getEdge(URI.create(Vocabulary.s_c_edge + id))
 
-  def getGraphNode(graphUri: String, uri: String): Option[Node] =
-    getGraphNodes(graphUri) match {
-      case Some(nodes) => nodes.find(_.getUri == URI.create(uri))
-      case _ => None
-    }
+  def getNode(id: String): Option[Node] =
+    dao.getNode(URI.create(Vocabulary.s_c_node + id))
 
-  def getGraphFromSempipes(uri: String): Option[Graph] = {
-    val graphUri = "https://graph.org/g/r/a/p/h/" + UUID.randomUUID().toString()
-    sempipesService.getModules(uri) match {
+
+  import scala.collection.JavaConverters._
+
+  def getGraphFromSempipes(id: String): Option[Graph] = {
+    val graphUri = Vocabulary.s_c_graph + UUID.randomUUID().toString()
+    sempipesService.getModules(id) match {
       case Some(modules) =>
-        val nodes = modules.map(m =>
-          new Node(
-            URI.create(graphUri + "nodes/" + UUID.randomUUID()),
-            m.getLabel(), 0, 0, Set("").asJava, Set("").asJava, Set("").asJava))
-        val edges = modules.map(m =>
-          new Edge(
-            URI.create(graphUri + "edges/" + UUID.randomUUID()),
-            new Node(URI.create(graphUri + "nodes/" + UUID.randomUUID()),
-              m.getLabel(), 0, 0, Set("").asJava, Set("").asJava, Set("").asJava),
-            new Node(URI.create(graphUri + "nodes/" + UUID.randomUUID()),
-              m.getNext().getLabel(), 0, 0, Set("").asJava, Set("").asJava, Set("").asJava)))
+        val nodes = modules.map(m => new Node(m.getLabel(), 0, 0, Set("").asJava, Set("").asJava, Set("").asJava))
+        val edges = modules.map(m => new Edge(
+          new Node(m.getLabel(), 0, 0, Set("").asJava, Set("").asJava, Set("").asJava),
+          new Node(m.getNext().getLabel(), 0, 0, Set("").asJava, Set("").asJava, Set("").asJava)))
           .filterNot(e => e.getDestinationNode == null)
-        dao.get(URI.create(uri)) match {
+        dao.getGraph(URI.create(id)) match {
           case Some(graph) =>
             graph.setNodes(nodes.toSet.asJava)
             graph.setEdges(edges.toSet.asJava)
             Some(dao.update(graph.getUri, graph).get)
           case None =>
-            val graph = new Graph(URI.create(graphUri),
-              "Some mr. graph man",
+            val graph = new Graph("Some mr. graph man",
               nodes.toSet.asJava,
               edges.toSet.asJava)
             Some(dao.add(graph).get)
