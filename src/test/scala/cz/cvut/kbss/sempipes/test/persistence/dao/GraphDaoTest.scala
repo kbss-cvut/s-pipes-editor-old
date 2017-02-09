@@ -49,7 +49,7 @@ class GraphDaoTest extends BaseDaoTestRunner {
     val uri2 = new URI("https://graphs/2")
     val uri = new URI("https://graphs/11")
 
-    //todo WrapperSet support
+    //todo WrapperSet support (cz.cvut.kbss.jopa.sessions.CollectionInstanceBuilder.java: 79 throws OWLPersistenceException)
     val types = new java.util.HashSet[String]()
     types.add("https://type/1")
     types.add("https://type/2")
