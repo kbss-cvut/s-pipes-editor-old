@@ -1,7 +1,6 @@
 package cz.cvut.kbss.sempipes.service
 
 import java.net.URI
-import java.util.UUID
 
 import cz.cvut.kbss.sempipes.model.Vocabulary
 import cz.cvut.kbss.sempipes.model.view.{Edge, Node, View}
@@ -52,7 +51,6 @@ class ViewService {
   import scala.collection.JavaConverters._
 
   def createViewFromSempipes(id: String): Option[View] = {
-    val view = Vocabulary.s_c_view + UUID.randomUUID().toString()
     sempipesService.getModules(id) match {
       case Some(modules) =>
         val nodes = modules.map(m => new Node(m.getLabel(), 0, 0, Set("").asJava, Set("").asJava, Set("").asJava))
@@ -60,16 +58,16 @@ class ViewService {
           new Node(m.getLabel(), 0, 0, Set("").asJava, Set("").asJava, Set("").asJava),
           new Node(m.getNext().getLabel(), 0, 0, Set("").asJava, Set("").asJava, Set("").asJava)))
           .filterNot(e => e.getDestinationNode == null)
-        dao.get(URI.create(id)) match {
+        dao.get(URI.create(Vocabulary.s_c_view + "/" + id)) match {
           case Some(view) =>
             view.setNodes(nodes.toSet.asJava)
             view.setEdges(edges.toSet.asJava)
-            Some(dao.update(view.getUri, view).get)
+            dao.update(view.getUri, view)
           case None =>
             val view = new View("Some mr. view man",
               nodes.toSet.asJava,
               edges.toSet.asJava)
-            Some(dao.add(view).get)
+            dao.add(view)
         }
       case None =>
         None
