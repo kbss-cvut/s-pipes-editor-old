@@ -1,4 +1,4 @@
-package cz.cvut.kbss.sempipes.model.graph;
+package cz.cvut.kbss.sempipes.model.view;
 
 import cz.cvut.kbss.jopa.model.annotations.*;
 import cz.cvut.kbss.sempipes.model.AbstractEntity;

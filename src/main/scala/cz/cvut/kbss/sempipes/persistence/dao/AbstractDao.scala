@@ -4,7 +4,7 @@ import java.net.URI
 
 import cz.cvut.kbss.jopa.model.EntityManagerFactory
 import cz.cvut.kbss.sempipes.model.AbstractEntity
-import cz.cvut.kbss.sempipes.model.graph.Graph
+import cz.cvut.kbss.sempipes.model.view.View
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -61,7 +61,7 @@ abstract class AbstractDao[T <: AbstractEntity] {
     val em = emf.createEntityManager()
     try {
       em.find(tag.runtimeClass, uri) match {
-        case n: Graph =>
+        case n: View =>
           em.getTransaction().begin()
           em.remove(n)
           em.getTransaction().commit()
@@ -80,13 +80,13 @@ abstract class AbstractDao[T <: AbstractEntity] {
     }
   }
 
-  def update(uri: URI, other: Graph)(implicit tag: ClassTag[T]): Option[Graph] = {
+  def update(uri: URI, other: View)(implicit tag: ClassTag[T]): Option[View] = {
     assert(other != null)
     val em = emf.createEntityManager()
     try {
       em.getTransaction().begin()
       em.find(tag.runtimeClass, uri) match {
-        case g: Graph =>
+        case g: View =>
           g.setLabel(other.getLabel)
           g.setNodes(other.getNodes)
           g.setEdges(other.getEdges)

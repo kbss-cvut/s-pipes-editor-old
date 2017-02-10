@@ -1,4 +1,4 @@
-package cz.cvut.kbss.sempipes.model.graph;
+package cz.cvut.kbss.sempipes.model.view;
 
 import cz.cvut.kbss.jopa.model.annotations.*;
 import cz.cvut.kbss.sempipes.model.AbstractEntity;
@@ -11,8 +11,8 @@ import java.util.UUID;
 /**
  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 01.12.16.
  */
-@OWLClass(iri = Vocabulary.s_c_graph)
-public class Graph extends AbstractEntity {
+@OWLClass(iri = Vocabulary.s_c_view)
+public class View extends AbstractEntity {
 
 
     @OWLDataProperty(iri = Vocabulary.s_p_label)
@@ -26,19 +26,19 @@ public class Graph extends AbstractEntity {
     @OWLObjectProperty(iri = Vocabulary.s_p_has_author)
     private User author;
 
-    public Graph() {
+    public View() {
     }
 
-    public Graph(String label, Set<Node> nodes, Set<Edge> edges) {
+    public View(String label, Set<Node> nodes, Set<Edge> edges) {
         this.id = UUID.randomUUID().toString();
-        this.uri = URI.create(Vocabulary.s_c_graph + id);
+        this.uri = URI.create(Vocabulary.s_c_view + id);
         this.label = label;
         this.edges = edges;
         this.nodes = nodes;
     }
 
     //note dsfgshdfgjsdfg
-    public Graph(URI uri, String id, String label, Set<Node> nodes, Set<Edge> edges, String contentHash, User author) {
+    public View(URI uri, String id, String label, Set<Node> nodes, Set<Edge> edges, String contentHash, User author) {
         this.uri = uri;
         this.id = id;
         this.label = label;
@@ -101,10 +101,10 @@ public class Graph extends AbstractEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Graph graph = (Graph) o;
+        View view = (View) o;
 
-        if (getNodes() != null ? !getNodes().equals(graph.getNodes()) : graph.getNodes() != null) return false;
-        return getEdges() != null ? getEdges().equals(graph.getEdges()) : graph.getEdges() == null;
+        if (getNodes() != null ? !getNodes().equals(view.getNodes()) : view.getNodes() != null) return false;
+        return getEdges() != null ? getEdges().equals(view.getEdges()) : view.getEdges() == null;
     }
 
     @Override
@@ -116,7 +116,7 @@ public class Graph extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "Graph{" +
+        return "View{" +
                 "uri=" + uri +
                 ", label='" + label + '\'' +
                 ", nodes=" + (nodes == null ? "null" : nodes.toString()) +

@@ -1,6 +1,6 @@
 package cz.cvut.kbss.sempipes.test.config
 
-import cz.cvut.kbss.sempipes.persistence.dao.{GraphDao, NodeDao, SempipesDao}
+import cz.cvut.kbss.sempipes.persistence.dao.{ViewDao, NodeDao, SempipesDao}
 import org.mockito.Mockito
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessorAdapter
 import org.springframework.context.annotation.{Bean, ComponentScan, Configuration}
@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate
 class TestServiceConfig {
 
   @Bean
-  def getGraphDao: GraphDao = Mockito.mock(classOf[GraphDao])
+  def getViewDao: ViewDao = Mockito.mock(classOf[ViewDao])
 
   @Bean
   def getNodeDao: NodeDao = Mockito.mock(classOf[NodeDao])

@@ -3,7 +3,7 @@ package cz.cvut.kbss.sempipes.persistence.dao
 import java.net.URI
 
 import cz.cvut.kbss.sempipes.model.Vocabulary
-import cz.cvut.kbss.sempipes.model.graph.{Edge, Graph, Node}
+import cz.cvut.kbss.sempipes.model.view.{Edge, Node, View}
 import org.springframework.stereotype.Repository
 
 import scala.collection.JavaConverters._
@@ -12,7 +12,7 @@ import scala.collection.JavaConverters._
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 03.11.16.
   */
 @Repository
-class GraphDao extends AbstractDao[Graph] {
+class ViewDao extends AbstractDao[View] {
 
   def getNode(uri: URI): Option[Node] = {
     val em = emf.createEntityManager()
@@ -50,19 +50,15 @@ class GraphDao extends AbstractDao[Graph] {
     }
   }
 
-  def getGraph(uri: URI): Option[Graph] = {
-    get(uri)
-  }
-
-  def getAllGraphs(): Option[Traversable[Graph]] = {
+  def getAllViews(): Option[Traversable[View]] = {
     val em = emf.createEntityManager()
     try {
-      val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[Graph])
-        .setParameter("type", URI.create(Vocabulary.s_c_graph))
+      val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[View])
+        .setParameter("type", URI.create(Vocabulary.s_c_view))
       query.getResultList() match {
-        case nonEmpty: java.util.List[Graph] if !nonEmpty.isEmpty =>
+        case nonEmpty: java.util.List[View] if !nonEmpty.isEmpty =>
           Some(nonEmpty.asScala)
-        case empty: java.util.List[Graph] if empty.isEmpty =>
+        case empty: java.util.List[View] if empty.isEmpty =>
           None
       }
     }
@@ -74,8 +70,8 @@ class GraphDao extends AbstractDao[Graph] {
   def getNodes(uri: URI): Option[Traversable[Node]] = {
     val em = emf.createEntityManager()
     try {
-      em.find(classOf[Graph], uri) match {
-        case g: Graph if g.getNodes() != null && !g.getNodes().isEmpty() =>
+      em.find(classOf[View], uri) match {
+        case g: View if g.getNodes() != null && !g.getNodes().isEmpty() =>
           Some(g.getNodes().asScala)
         case _ => None
       }
@@ -93,8 +89,8 @@ class GraphDao extends AbstractDao[Graph] {
   def getEdges(uri: URI): Option[Traversable[Edge]] = {
     val em = emf.createEntityManager()
     try {
-      em.find(classOf[Graph], uri) match {
-        case g: Graph if g.getEdges() != null && !g.getEdges().isEmpty() =>
+      em.find(classOf[View], uri) match {
+        case g: View if g.getEdges() != null && !g.getEdges().isEmpty() =>
           Some(g.getEdges().asScala)
         case _ => None
       }

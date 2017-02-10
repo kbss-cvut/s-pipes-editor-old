@@ -2,7 +2,7 @@ package cz.cvut.kbss.sempipes.service
 
 import java.net.URI
 
-import cz.cvut.kbss.sempipes.model.graph.Node
+import cz.cvut.kbss.sempipes.model.view.Node
 import cz.cvut.kbss.sempipes.persistence.dao.NodeDao
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpEntity, HttpHeaders, HttpMethod, HttpStatus}

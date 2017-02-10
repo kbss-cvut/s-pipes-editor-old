@@ -1,6 +1,6 @@
 package cz.cvut.kbss.sempipes.persistence.dao
 
-import cz.cvut.kbss.sempipes.model.graph.Node
+import cz.cvut.kbss.sempipes.model.view.Node
 import org.springframework.stereotype.Repository
 
 /**

@@ -1,6 +1,6 @@
 package cz.cvut.kbss.sempipes.test.config
 
-import cz.cvut.kbss.sempipes.service.{GraphService, NodeService, SempipesService}
+import cz.cvut.kbss.sempipes.service.{ViewService, NodeService, SempipesService}
 import org.mockito.Mockito
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessorAdapter
 import org.springframework.context.annotation.{Bean, ComponentScan, Configuration}
@@ -18,7 +18,7 @@ class TestRestConfig {
   def getSempipesService: SempipesService = Mockito.mock(classOf[SempipesService])
 
   @Bean
-  def getGraphService: GraphService = Mockito.mock(classOf[GraphService])
+  def getViewService: ViewService = Mockito.mock(classOf[ViewService])
 
   @Bean
   def getNodeService: NodeService = Mockito.mock(classOf[NodeService])
