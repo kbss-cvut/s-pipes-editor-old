@@ -3,13 +3,15 @@ package cz.cvut.kbss.sempipes.test.service
 import java.net.URI
 
 import cz.cvut.kbss.sempipes.model.Vocabulary
+import cz.cvut.kbss.sempipes.model.sempipes.Module
 import cz.cvut.kbss.sempipes.model.view.{Edge, Node, View}
-import cz.cvut.kbss.sempipes.persistence.dao.ViewDao
-import cz.cvut.kbss.sempipes.service.ViewService
+import cz.cvut.kbss.sempipes.persistence.dao.{SempipesDao, ViewDao}
+import cz.cvut.kbss.sempipes.service.{SempipesService, ViewService}
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.mockito.Mockito
+import org.mockito.{Matchers, Mockito}
 import org.springframework.beans.factory.annotation.Autowired
+import org.mockito.Matchers.{any, eq}
 
 import scala.collection.JavaConverters._
 
@@ -22,7 +24,13 @@ class ViewServiceTest extends BaseServiceTestRunner {
   private var dao: ViewDao = _
 
   @Autowired
+  private var spipesDao: SempipesDao = _
+
+  @Autowired
   private var service: ViewService = _
+
+  @Autowired
+  private var spipesService: SempipesService = _
 
   @Test
   def getNodeWhenDaoReturnsNone = {
@@ -93,5 +101,129 @@ class ViewServiceTest extends BaseServiceTestRunner {
     val v = new View(null, null, null)
     Mockito.when(dao.add(v)).thenReturn(Some(v))
     assertEquals(Some(v), service.addView(v))
+  }
+
+  @Test
+  def addViewFails = {
+    val v = new View(null, null, null)
+    Mockito.when(dao.add(v)).thenReturn(None)
+    assertEquals(None, service.addView(v))
+  }
+
+  @Test
+  def updateViewSucceeds = {
+    val v = new View(null, null, null)
+    Mockito.when(dao.update(v.getUri(), v)).thenReturn(Some(v))
+    assertEquals(Some(v), service.updateView(v.getId(), v))
+  }
+
+  @Test
+  def updateViewFails = {
+    val v = new View(null, null, null)
+    Mockito.when(dao.update(v.getUri(), v)).thenReturn(None)
+    assertEquals(None, service.updateView(v.getId(), v))
+  }
+
+  @Test
+  def deleteViewSucceeds = {
+    val v = new View(null, null, null)
+    Mockito.when(dao.delete(v.getUri())).thenReturn(Some(v.getUri()))
+    assertEquals(Some(v.getUri()), service.deleteView(v.getId()))
+  }
+
+  @Test
+  def deleteViewFails = {
+    val v = new View(null, null, null)
+    Mockito.when(dao.delete(v.getUri())).thenReturn(None)
+    assertEquals(None, service.deleteView(v.getId()))
+  }
+
+  @Test
+  def getViewNodesReturnsNone = {
+    val id = "id"
+    Mockito.when(service.getViewNodes(id)).thenReturn(None)
+    assertEquals(None, service.getViewNodes(id))
+  }
+
+  @Test
+  def getViewNodesReturnsEmpty = {
+    val id = "id"
+    Mockito.when(service.getViewNodes(id)).thenReturn(Some(Set[Node]()))
+    assertEquals(Some(Set[Node]()), service.getViewNodes(id))
+  }
+
+  @Test
+  def getViewNodesReturnsNodes = {
+    val id = "id"
+    Mockito.when(service.getViewNodes(id)).thenReturn(Some(Set(new Node(), new Node())))
+    assertEquals(Some(Set(new Node(), new Node())), service.getViewNodes(id))
+  }
+
+  @Test
+  def getViewEdgesReturnsNone = {
+    val id = "id"
+    Mockito.when(service.getViewEdges(id)).thenReturn(None)
+    assertEquals(None, service.getViewEdges(id))
+  }
+
+  @Test
+  def getViewEdgesReturnsEmpty = {
+    val id = "id"
+    Mockito.when(service.getViewEdges(id)).thenReturn(Some(Set[Edge]()))
+    assertEquals(Some(Set[Edge]()), service.getViewEdges(id))
+  }
+
+  @Test
+  def getViewEdgesReturnsEdges = {
+    val id = "id"
+    val edges = Set(new Edge(), new Edge())
+    Mockito.when(service.getViewEdges(id)).thenReturn(Some(edges))
+    assertEquals(Some(edges), service.getViewEdges(id))
+  }
+
+  @Test
+  def getEdgeReturnsNone = {
+    val id = "id"
+    Mockito.when(service.getEdge(id)).thenReturn(None)
+    assertEquals(None, service.getEdge(id))
+  }
+
+  @Test
+  def getEdgeReturnsEdge = {
+    val edge = new Edge()
+    Mockito.when(service.getEdge(edge.getId())).thenReturn(Some(edge))
+    assertEquals(Some(edge), service.getEdge(edge.getId()))
+  }
+
+  @Test
+  def getNodeReturnsNone = {
+    val id = "id"
+    Mockito.when(service.getNode(id)).thenReturn(None)
+    assertEquals(None, service.getNode(id))
+  }
+
+  @Test
+  def getNodeReturnsNode = {
+    val node = new Node()
+    Mockito.when(service.getNode(node.getId())).thenReturn(Some(node))
+    assertEquals(Some(node), service.getNode(node.getId()))
+  }
+
+  @Test
+  def createViewWhenSpipesServiceReturnsNone = {
+    val id = "id"
+    Mockito.when(spipesService.getModules(id)).thenReturn(None)
+    assertEquals(None, service.createViewFromSempipes(id))
+  }
+
+  //todo Finish the stupid test and make more
+  @Test
+  def createViewWhenSpipesServiceReturnsEmptyViewIsNotFoundSaveFails = {
+    val v = new View()
+    val id = v.getId()
+    Mockito.when(spipesService.getModules(id)).thenReturn(Some(Set[Module]()))
+    Mockito.when(dao.get(URI.create(Vocabulary.s_c_view + "/" + id))).thenReturn(None)
+    Mockito.when(dao.update(any(classOf[URI]), any(classOf[View]))).thenReturn(None)
+    assertEquals(None, service.createViewFromSempipes(id))
   }
 }
