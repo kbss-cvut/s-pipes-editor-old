@@ -1,7 +1,5 @@
 package cz.cvut.kbss.sempipes.test.rest
 
-import java.net.URI
-
 import cz.cvut.kbss.sempipes.model.sempipes.Context
 import cz.cvut.kbss.sempipes.service.SempipesService
 import cz.cvut.kbss.sempipes.util.ConfigParam
@@ -23,7 +21,7 @@ class ScriptControllerTest extends BaseControllerTestRunner {
   var service: SempipesService = _
 
   @Test
-  def getScriptsReturnsNone() {
+  def getScriptsReturnsNone {
     Mockito.when(service.getScripts(ConfigParam.SEMPIPES_LOCATION + "/scripts")).thenReturn(None)
     val result = mockMvc.perform(get("/scripts")).andExpect(status.isOk).andReturn
     val message = result.getResponse.getContentAsString
@@ -31,7 +29,7 @@ class ScriptControllerTest extends BaseControllerTestRunner {
   }
 
   @Test
-  def getScriptReturnsNotFound() {
+  def getScriptReturnsNotFound {
     val id = "someRandomId"
     Mockito.when(service.getScript(SEMPIPES_LOCATION + "/contexts", id)).thenReturn(None)
     val result = mockMvc.perform(get("/script/" + id)).andExpect(status.isNotFound).andReturn
@@ -40,15 +38,12 @@ class ScriptControllerTest extends BaseControllerTestRunner {
   }
 
   @Test
-  def getScriptReturnsScript() {
-    val id = "someRandomId"
-    val context = new Context()
-    context.setUri(URI.create("https://context"))
-    context.setLabel("label")
-    context.setComment("comment")
+  def getScriptReturnsScript {
+    val context = new Context(null, null)
+    val id = context.getId()
     Mockito.when(service.getScript(SEMPIPES_LOCATION + "/contexts", id)).thenReturn(Some(context))
     val result = mockMvc.perform(get("/scripts/" + id)).andExpect(status.isOk).andReturn
     val message = result.getResponse.getContentAsString
-    assertEquals("{\"uri\":\"https://context\",\"label\":\"label\",\"comment\":\"comment\"}", message)
+    assertEquals("{\"uri\":\"" + context.getUri() + "\",\"id\":\"" + id + "\",\"label\":null,\"comment\":null}", message)
   }
 }

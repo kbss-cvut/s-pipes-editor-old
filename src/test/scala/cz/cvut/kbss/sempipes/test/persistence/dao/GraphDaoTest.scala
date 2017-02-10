@@ -8,6 +8,7 @@ import cz.cvut.kbss.sempipes.test.persistence.BaseDaoTestRunner
 import org.junit.Assert._
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
+import scala.collection.JavaConverters.setAsJavaSetConverter
 
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 03.02.17.
@@ -24,15 +25,10 @@ class GraphDaoTest extends BaseDaoTestRunner {
       "https://type/1",
       "https://type/2",
       "https://type/3")
-
-    import scala.collection.JavaConverters.setAsJavaSetConverter
     val n = new Node("Label", 1, 2, types.asJava, Set[String]().asJava, Set[String]().asJava)
     val e = new Edge(n, n)
     val nodes = Set[Node](n)
     val edges = Set[Edge](e)
-
-    import scala.collection.JavaConverters.setAsJavaSetConverter
-
     val g = new Graph("Graph", nodes.asJava, edges.asJava)
     assertEquals(Some(g), graphDao.add(g))
     assertEquals(Some(g), graphDao.getGraph(g.getUri()))
@@ -43,7 +39,6 @@ class GraphDaoTest extends BaseDaoTestRunner {
 
   @Test
   def getAllGraphs {
-
     val types = new java.util.HashSet[String]()
     types.add("https://type/1")
     types.add("https://type/2")
@@ -52,9 +47,6 @@ class GraphDaoTest extends BaseDaoTestRunner {
     val e = new Edge(n, n)
     val nodes = Set[Node](n)
     val edges = Set[Edge](e)
-
-    import scala.collection.JavaConverters.setAsJavaSetConverter
-
     val g01 = new Graph("Graph", nodes.asJava, edges.asJava)
     val g02 = new Graph("Graph", nodes.asJava, edges.asJava)
     val g1 = graphDao.add(g01).get

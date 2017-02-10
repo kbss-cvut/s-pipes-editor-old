@@ -14,7 +14,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc
 @EnableWebMvc
 class TestRestConfig {
 
-
   @Bean
   def getSempipesService: SempipesService = Mockito.mock(classOf[SempipesService])
 
@@ -31,6 +30,4 @@ class TestRestConfig {
     override def postProcessAfterInstantiation(bean: Any, beanName: String): Boolean =
       !Mockito.mockingDetails(bean).isMock
   }
-
-
 }

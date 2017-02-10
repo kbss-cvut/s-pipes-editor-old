@@ -23,7 +23,7 @@ class PersistenceFactoryTest {
   private var emf: EntityManagerFactory = _
 
   @Test
-  def testPersistenceInitialization() {
+  def testPersistenceInitialization {
     assertNotNull(emf)
     val em = emf.createEntityManager()
     try

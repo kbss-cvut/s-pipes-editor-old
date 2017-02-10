@@ -24,7 +24,7 @@ abstract class BaseControllerTestRunner {
   protected var mockMvc: MockMvc = _
 
   @Before
-  def setUp() {
+  def setUp {
     mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build
   }
 }

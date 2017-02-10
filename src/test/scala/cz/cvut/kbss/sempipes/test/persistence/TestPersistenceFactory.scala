@@ -38,7 +38,7 @@ class TestPersistenceFactory {
   def getEntityManagerFactory: EntityManagerFactory = emf
 
   @PostConstruct
-  private def init(): Unit = {
+  private def init = {
     val properties = DEFAULT_PARAMS +
       (ONTOLOGY_PHYSICAL_URI_KEY -> "local://temp") +
       (DATA_SOURCE_CLASS -> environment.getProperty(DRIVER.toString)) +
