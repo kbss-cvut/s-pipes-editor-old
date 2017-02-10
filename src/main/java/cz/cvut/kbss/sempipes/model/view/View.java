@@ -17,14 +17,14 @@ public class View extends AbstractEntity {
 
     @OWLDataProperty(iri = Vocabulary.s_p_label)
     private String label;
-    @OWLObjectProperty(iri = Vocabulary.s_p_consists_of_nodes, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OWLObjectProperty(iri = Vocabulary.s_p_consists_of_node, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Node> nodes;
-    @OWLObjectProperty(iri = Vocabulary.s_p_consists_of_edges, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OWLObjectProperty(iri = Vocabulary.s_p_consists_of_edge, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Edge> edges;
     @OWLDataProperty(iri = Vocabulary.s_p_has_context_hash)
     private String contentHash;
     @OWLObjectProperty(iri = Vocabulary.s_p_has_author)
-    private User author;
+    private Person author;
 
     public View() {
     }
@@ -37,8 +37,7 @@ public class View extends AbstractEntity {
         this.nodes = nodes;
     }
 
-    //note dsfgshdfgjsdfg
-    public View(URI uri, String id, String label, Set<Node> nodes, Set<Edge> edges, String contentHash, User author) {
+    public View(URI uri, String id, String label, Set<Node> nodes, Set<Edge> edges, String contentHash, Person author) {
         this.uri = uri;
         this.id = id;
         this.label = label;
@@ -88,11 +87,11 @@ public class View extends AbstractEntity {
         this.contentHash = contentHash;
     }
 
-    public User getAuthor() {
+    public Person getAuthor() {
         return author;
     }
 
-    public void setAuthor(User author) {
+    public void setAuthor(Person author) {
         this.author = author;
     }
 

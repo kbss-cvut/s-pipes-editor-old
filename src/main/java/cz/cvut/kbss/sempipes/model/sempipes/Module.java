@@ -1,11 +1,9 @@
 package cz.cvut.kbss.sempipes.model.sempipes;
 
-import cz.cvut.kbss.jopa.model.annotations.Id;
 import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
 import cz.cvut.kbss.sempipes.model.AbstractEntity;
 import cz.cvut.kbss.sempipes.model.Vocabulary;
-import org.openrdf.query.algebra.evaluation.function.numeric.Abs;
 
 import java.net.URI;
 import java.util.UUID;

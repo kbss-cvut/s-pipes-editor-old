@@ -14,7 +14,7 @@ public abstract class AbstractEntity {
 
     @Id(generated = true)
     protected URI uri;
-    @OWLDataProperty(iri = Vocabulary.s_p_has_id)
+    @OWLDataProperty(iri = Vocabulary.s_p_identifier)
     protected String id;
 
     public URI getUri() {

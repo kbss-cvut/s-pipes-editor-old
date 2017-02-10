@@ -238,7 +238,7 @@
                 <configuration>
                     <package>cz.cvut.kbss.sempipes.model</package>
                     <output-directory>${project.basedir}/src/main/generated-sources</output-directory>
-                    <ontology-iri>http://onto.fel.cvut.cz/ontologies/sempipes/model</ontology-iri>
+                    <ontology-iri>http://onto.fel.cvut.cz/ontologies/s-pipes/model</ontology-iri>
                     <mapping-file>${project.basedir}/src/main/resources/mapping</mapping-file>
                     <whole-ontology-as-ics>true</whole-ontology-as-ics>
                     <vocabulary-only>true</vocabulary-only>
