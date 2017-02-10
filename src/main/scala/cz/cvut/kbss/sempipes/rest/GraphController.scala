@@ -30,20 +30,18 @@ class GraphController {
     }
 
   @GetMapping(path = Array("/{id}"), produces = Array(JsonLd.MEDIA_TYPE))
-  def getGraph(@PathVariable id: String): ResponseEntity[Graph] = {
+  def getGraph(@PathVariable id: String): ResponseEntity[Graph] =
     graphService.getGraphById(id) match {
       case Some(g) => new ResponseEntity(g, HttpStatus.OK)
       case None => new ResponseEntity(new Graph(), HttpStatus.NOT_FOUND)
     }
-  }
 
   @GetMapping(path = Array("/{id}/edges"), produces = Array(JsonLd.MEDIA_TYPE))
-  def getEdges(@PathVariable id: String): ResponseEntity[java.util.Set[Edge]] = {
+  def getEdges(@PathVariable id: String): ResponseEntity[java.util.Set[Edge]] =
     graphService.getGraphEdges(id) match {
       case Some(edges) => new ResponseEntity(edges.toSet.asJava, HttpStatus.OK)
       case None => new ResponseEntity(Set[Edge]().asJava, HttpStatus.NOT_FOUND)
     }
-  }
 
   @GetMapping(path = Array("/{id}/nodes"), produces = Array(JsonLd.MEDIA_TYPE))
   def getNodes(@PathVariable id: String): ResponseEntity[java.util.Set[Node]] =
@@ -53,20 +51,18 @@ class GraphController {
     }
 
   @GetMapping(path = Array("/edges/{id}"), produces = Array(JsonLd.MEDIA_TYPE))
-  def getEdge(@PathVariable id: String): ResponseEntity[Edge] = {
+  def getEdge(@PathVariable id: String): ResponseEntity[Edge] =
     graphService.getEdge(id) match {
       case Some(edge) => new ResponseEntity(edge, HttpStatus.OK)
       case None => new ResponseEntity(new Edge(), HttpStatus.NOT_FOUND)
     }
-  }
 
   @GetMapping(path = Array("/nodes/{id}"), produces = Array(JsonLd.MEDIA_TYPE))
-  def getNode(@PathVariable id: String): ResponseEntity[Node] = {
+  def getNode(@PathVariable id: String): ResponseEntity[Node] =
     graphService.getNode(id) match {
       case Some(node) => new ResponseEntity(node, HttpStatus.OK)
       case None => new ResponseEntity(new Node(), HttpStatus.NOT_FOUND)
     }
-  }
 
   @PostMapping(produces = Array(JsonLd.MEDIA_TYPE))
   def saveGraph(@RequestBody g: Graph): ResponseEntity[Graph] =
@@ -82,6 +78,7 @@ class GraphController {
       case None => new ResponseEntity(new Graph(), HttpStatus.NOT_FOUND)
     }
 
+  @DeleteMapping(path = Array("/{id}"), produces = Array(JsonLd.MEDIA_TYPE))
   def deleteMapping(@PathVariable id: String): ResponseEntity[URI] =
     graphService.delete(id) match {
       case Some(u) => new ResponseEntity(u, HttpStatus.NO_CONTENT)
