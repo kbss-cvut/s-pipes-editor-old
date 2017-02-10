@@ -1,6 +1,7 @@
 package cz.cvut.kbss.sempipes.model.graph;
 
 import cz.cvut.kbss.jopa.model.annotations.*;
+import cz.cvut.kbss.sempipes.model.AbstractEntity;
 import cz.cvut.kbss.sempipes.model.Vocabulary;
 
 import java.net.URI;
@@ -11,13 +12,9 @@ import java.util.UUID;
  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 01.12.16.
  */
 @OWLClass(iri = Vocabulary.s_c_graph)
-public class Graph {
+public class Graph extends AbstractEntity {
 
 
-    @Id(generated = true)
-    private URI uri;
-    @OWLDataProperty(iri = Vocabulary.s_p_has_key)
-    private String id;
     @OWLDataProperty(iri = Vocabulary.s_p_label)
     private String label;
     @OWLObjectProperty(iri = Vocabulary.s_p_consists_of_nodes, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -38,6 +35,17 @@ public class Graph {
         this.label = label;
         this.edges = edges;
         this.nodes = nodes;
+    }
+
+    //note dsfgshdfgjsdfg
+    public Graph(URI uri, String id, String label, Set<Node> nodes, Set<Edge> edges, String contentHash, User author) {
+        this.uri = uri;
+        this.id = id;
+        this.label = label;
+        this.nodes = nodes;
+        this.edges = edges;
+        this.contentHash = contentHash;
+        this.author = author;
     }
 
     public URI getUri() {

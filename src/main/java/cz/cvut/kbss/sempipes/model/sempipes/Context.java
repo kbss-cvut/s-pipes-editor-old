@@ -1,19 +1,19 @@
 package cz.cvut.kbss.sempipes.model.sempipes;
 
-import cz.cvut.kbss.jopa.model.annotations.Id;
 import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
+import cz.cvut.kbss.sempipes.model.AbstractEntity;
 import cz.cvut.kbss.sempipes.model.Vocabulary;
 
 import java.net.URI;
+import java.util.UUID;
 
 /**
  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 18.01.17.
  */
 @OWLClass(iri = Vocabulary.s_c_context)
-public class Context {
-    @Id
-    private URI uri;
+public class Context extends AbstractEntity {
+
     @OWLDataProperty(iri = Vocabulary.s_p_label)
     private String label;
     @OWLDataProperty(iri = Vocabulary.s_p_comment)
@@ -21,15 +21,21 @@ public class Context {
     @OWLDataProperty(iri = Vocabulary.s_p_has_content_hash)
     private String contentHash;
 
-    //todo: Possible REST-friendly identifier
-    //private String key;
-
-    public URI getUri() {
-        return uri;
+    public Context() {
     }
 
-    public void setUri(URI uri) {
+    public Context(String label, String comment) {
+        this.id = UUID.randomUUID().toString();
+        this.uri = URI.create(Vocabulary.s_c_context + id);
+        this.label = label;
+        this.comment = comment;
+    }
+
+    public Context(URI uri, String id, String label, String comment) {
         this.uri = uri;
+        this.id = id;
+        this.label = label;
+        this.comment = comment;
     }
 
     public String getLabel() {

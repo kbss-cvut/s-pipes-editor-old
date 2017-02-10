@@ -4,6 +4,7 @@ import cz.cvut.kbss.jopa.model.annotations.Id;
 import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
 import cz.cvut.kbss.jopa.model.annotations.Types;
+import cz.cvut.kbss.sempipes.model.AbstractEntity;
 import cz.cvut.kbss.sempipes.model.Vocabulary;
 
 import java.net.URI;
@@ -14,18 +15,14 @@ import java.util.UUID;
  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 10.11.16.
  */
 @OWLClass(iri = Vocabulary.s_c_node)
-public class Node {
+public class Node extends AbstractEntity {
 
-    @Id(generated = true)
-    private URI uri;
-    @OWLDataProperty(iri = Vocabulary.s_p_has_key)
-    private String id;
     @OWLDataProperty(iri = Vocabulary.s_p_label)
     private String label;
     @OWLDataProperty(iri = Vocabulary.s_p_has_x_coordinate)
-    private Double x;
+    private Double x = 0.0;
     @OWLDataProperty(iri = Vocabulary.s_p_has_y_coordinate)
-    private Double y;
+    private Double y = 0.0;
     @Types
     private Set<String> nodeTypes;
     @OWLDataProperty(iri = Vocabulary.s_p_has_input_parameter)
@@ -47,12 +44,15 @@ public class Node {
         this.outParameters = outParameters;
     }
 
-    public URI getUri() {
-        return uri;
-    }
-
-    public String getId() {
-        return id;
+    public Node(URI uri, String id, String label, Double x, Double y, Set<String> nodeTypes, Set<String> inParameters, Set<String> outParameters) {
+        this.uri = uri;
+        this.id = id;
+        this.label = label;
+        this.x = x;
+        this.y = y;
+        this.nodeTypes = nodeTypes;
+        this.inParameters = inParameters;
+        this.outParameters = outParameters;
     }
 
     public String getLabel() {
@@ -107,6 +107,7 @@ public class Node {
     public String toString() {
         return "Node{" +
                 "uri=" + uri +
+                ", id='" + id + '\'' +
                 ", label='" + label + '\'' +
                 ", x=" + x +
                 ", y=" + y +
@@ -123,6 +124,8 @@ public class Node {
 
         Node node = (Node) o;
 
+        if (uri != null ? !uri.equals(node.uri) : node.uri != null) return false;
+        if (id != null ? !id.equals(node.id) : node.id != null) return false;
         if (label != null ? !label.equals(node.label) : node.label != null) return false;
         if (x != null ? !x.equals(node.x) : node.x != null) return false;
         if (y != null ? !y.equals(node.y) : node.y != null) return false;
@@ -134,6 +137,7 @@ public class Node {
     @Override
     public int hashCode() {
         int result = uri != null ? uri.hashCode() : 0;
+        result = 31 * result + (id != null ? id.hashCode() : 0);
         result = 31 * result + (label != null ? label.hashCode() : 0);
         result = 31 * result + (x != null ? x.hashCode() : 0);
         result = 31 * result + (y != null ? y.hashCode() : 0);

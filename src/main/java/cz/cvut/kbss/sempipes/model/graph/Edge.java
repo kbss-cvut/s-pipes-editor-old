@@ -1,6 +1,7 @@
 package cz.cvut.kbss.sempipes.model.graph;
 
 import cz.cvut.kbss.jopa.model.annotations.*;
+import cz.cvut.kbss.sempipes.model.AbstractEntity;
 import cz.cvut.kbss.sempipes.model.Vocabulary;
 
 import java.net.URI;
@@ -10,12 +11,8 @@ import java.util.UUID;
  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 10.11.16.
  */
 @OWLClass(iri = Vocabulary.s_c_edge)
-public class Edge {
+public class Edge extends AbstractEntity {
 
-    @Id(generated = true)
-    private URI uri;
-    @OWLDataProperty(iri = Vocabulary.s_p_has_key)
-    private String id;
     @OWLObjectProperty(iri = Vocabulary.s_p_has_source_node, cascade = CascadeType.ALL)
     private Node sourceNode;
     @OWLObjectProperty(iri = Vocabulary.s_p_has_destination_node, cascade = CascadeType.ALL)
@@ -31,12 +28,11 @@ public class Edge {
         this.destinationNode = destinationNode;
     }
 
-    public URI getUri() {
-        return uri;
-    }
-
-    public String getId() {
-        return id;
+    public Edge(URI uri, String id, Node sourceNode, Node destinationNode) {
+        this.uri = uri;
+        this.id = id;
+        this.sourceNode = sourceNode;
+        this.destinationNode = destinationNode;
     }
 
     public Node getSourceNode() {
