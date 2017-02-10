@@ -1,0 +1,256 @@
+  <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Demonstration</title>
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+
+  <script src="sigma.js/build/sigma.min.js"></script> 
+  <!-- dragNodes plugin -->
+  <script src="sigma.js/plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
+  <!-- custom shapes plugin-->
+  <script src="sigma.js/plugins/sigma.renderers.customShapes/shape-library.js"></script>
+  <script src="sigma.js/plugins/sigma.renderers.customShapes/sigma.renderers.customShapes.js"></script>
+
+  <!-- changed way how to show labels when node is hovered (actualy not to show anything) -->
+  <script src="sigma.js/src/renderers/canvas/sigma.canvas.hovers.def.js"></script>
+  
+  <!-- plugin with forceAtlas2 - algorithm of optimal positioning of nodes-->
+  <script src="sigma.js/plugins/sigma.layout.forceAtlas2/worker.js"></script>
+  <script src="sigma.js/plugins/sigma.layout.forceAtlas2/supervisor.js"></script>
+
+<script src="dagre.js"></script>
+  <script src="sigma.js/plugins/dagre/sigma.layout.dagre.js"></script>
+
+</head>
+<body>
+
+  <!-- - - - - - - - - - - - - -
+  Store imgs here
+   - - - - - - - - - - - - - -->
+  <div style="display:none;">
+    <img id="img1" src="1.png">
+    <img id="img2" src="2.png">
+    <img id="img3" src="3.png">
+    <img id="img4" src="4.png">
+  </div>
+
+  <script type="text/javascript">
+  function openCity(evt, cityName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the link that opened the tab
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+</script>
+
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Modal Header</h3>
+      </div>
+      <div class="modal-body">
+        <ul class="tab">
+          <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'London')">London</a></li>
+          <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'Paris')">Paris</a></li>
+          <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</a></li>
+        </ul>
+
+        <div id="London" class="tabcontent">
+          <h3>London</h3>
+          <p>London is the capital city of England.</p>
+        </div>
+
+        <div id="Paris" class="tabcontent">
+          <h3>Paris</h3>
+          <p>Paris is the capital of France.</p>
+        </div>
+
+        <div id="Tokyo" class="tabcontent">
+          <h3>Tokyo</h3>
+          <p>Tokyo is the capital of Japan.</p>
+        </div>
+        <br/>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div id="container"></div>
+  <!-- main script -->
+  <script type="text/javascript" src="view.js"></script>
+  <script type="text/javascript" src="nodeRenderer.js"></script>
+  <script type="text/javascript" src="edgeRenderer.js"></script>
+  <script type="text/javascript" src="labelRenderer.js"></script>
+  <script type="text/javascript" src="events.js"></script>
+  <script type="text/javascript" src="sigma.js/src/misc/sigma.misc.bindEvents.js"></script>
+  
+  <script>
+    function ss(){
+      
+      var config = {
+        rankdir: 'TB',
+        boundingBox: {minX: 400, minY: 400, maxX: 700, maxY: 700}
+      };
+
+      // Start the algorithm:
+      var listener = sigma.layouts.dagre.configure(s, config);
+
+      // Bind all events:
+      listener.bind('start stop interpolate', function(event) {
+        console.log(event.type);
+      });
+
+      sigma.layouts.dagre.start(s);
+      s.refresh();
+    };
+    function exportJSON(){
+      var nodes1 = JSON.parse(JSON.stringify(s.view.nodes()));
+      var edges1 = JSON.parse(JSON.stringify(s.view.edges()));
+      nodes1[0].coordinates = undefined;
+      for (var i = 0; i < nodes1.length; i++){
+        nodes1[i].outParamsZones = undefined;
+        nodes1[i].url = undefined;
+        nodes1[i].x = undefined;
+        nodes1[i].y = undefined;
+        nodes1[i].coordinates = undefined;
+        nodes1[i].forceLabel = undefined;
+        nodes1[i].inParamsZones = undefined;
+        nodes1[i]['read_cam0:size'] = undefined;
+        nodes1[i]['read_cam0:x'] = undefined;
+        nodes1[i]['read_cam0:y'] = undefined;
+        nodes1[i]['renderer1:size'] = undefined;
+        nodes1[i]['renderer1:x'] = undefined;
+        nodes1[i]['renderer1:y'] = undefined;
+        nodes1[i].size = undefined;
+      }
+      for (var i = 0; i < edges1.length; i++){
+        edges1[i].coordinates = undefined;
+        edges1[i].forceLabel = undefined;
+        edges1[i].inParamsZones = undefined;
+        edges1[i]['read_cam0:size'] = undefined;
+        edges1[i]['renderer1:size'] = undefined;
+        edges1[i].size = undefined;
+      }
+      console.log(nodes1);
+      var a = JSON.stringify({nodes: nodes1, edges: edges1}, null, '\t'); 
+      download(a, 'view.json', 'application/json');
+      console.log(a);
+    }
+
+    
+    function loadJSON(callback){
+      var xobj = new XMLHttpRequest();
+        xobj.overrideMimeType("application/json");
+      xobj.open('GET', 'view.json', true); // Replace 'my_data' with the path to your file
+      xobj.onreadystatechange = function () {
+          if (xobj.readyState == 4 && xobj.status == "200") {
+            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+            callback(xobj.responseText);
+          }
+    };
+    xobj.send(null); 
+    }
+
+    function importJSON(){
+      loadJSON(function(response) {
+        clearAll();
+        var actual_JSON = JSON.parse(response);
+        console.log("json", actual_JSON);
+        for (var i in actual_JSON.nodes)
+        {
+          s.view.addNode ({
+          // Main attributes:
+          id: actual_JSON.nodes[i].id,
+          label: actual_JSON.nodes[i].label,
+          x: 0 + actual_JSON.nodes[i].id/5,
+          y: 0 + actual_JSON.nodes[i].id/5,
+          coordinates: [],
+          type: actual_JSON.nodes[i].type,
+          size: 15,
+          color: typeCharacteristics[actual_JSON.nodes[i].type][0],
+          url: typeCharacteristics[actual_JSON.nodes[i].type][1],
+          inParams: actual_JSON.nodes[i].inParams,
+          inParamsZones: [],
+          outParams: actual_JSON.nodes[i].outParams,
+          outParamsZones: [],
+          });
+          idN = actual_JSON.nodes[i].id;
+          s.refresh();
+        }
+        for (var i in actual_JSON.edges)
+        {
+          s.view.addEdge({
+            id: actual_JSON.edges[i].id,
+            source: actual_JSON.edges[i].source,
+            target: actual_JSON.edges[i].target,
+            sourceZone: actual_JSON.edges[i].sourceZone,
+            targetZone: actual_JSON.edges[i].targetZone
+          });
+          idE = actual_JSON.edges[i].id;
+          
+        }
+        s.refresh();
+     }); 
+      
+    }
+  </script>
+ 
+
+  <div id="panel">
+    <div id="p1">
+      <br/>
+      <input class="button" type="button" value="Authorization" />
+      <br/>
+      <input class="button" type="button" value="Save view" onclick="exportJSON()"/>
+      <br/>
+      <input class="button" type="button" value="Load view" onclick="importJSON()"/>
+      <br/>
+      <input class="button" type="button" value="Clear canvas" onclick="clearAll()" />
+      <br/>
+      <hr/>
+    </div>
+
+
+    <div id="p2">
+      <h4>Types of nodes: </h4>
+      <input class="button" type="button" value="Add node type 1" onclick="newNode(1)" />
+      <br/>
+      <input class="button" type="button" value="Add node type 2" onclick="newNode(2)" />
+      <br/>
+      <input class="button" type="button" value="Add node type 3" onclick="newNode(3)" />
+      <br/>
+      <!--<input class="button" type="button" value="Start FA2" onclick="s.startForceAtlas2({worker: true, barnesHutOptimize: false, scallingRatio: 0})" /> -->
+      <input class="button" type="button" value="Start FA2" onclick="ss();" /> 
+      <br/>
+      <input class="button" type="button" value="Stop FA2" onclick="s.stopForceAtlas2();" />
+      <br/>
+
+      <br/>
+      <br/>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="popup.js">
+</script>
+
+     
+  
+</body>

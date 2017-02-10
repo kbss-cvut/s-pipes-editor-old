@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Demonstration</title>
+  <style type="text/css">
+    body {
+      margin: 0;
+    }
+    #container {
+      position: absolute;
+      width: 90%;
+      height: 80%;
+      margin-top: 30px;
+      border: solid 2px black;
+    }
+  </style>
+</head>
+<body>
+
+
+
+  <!-- - - - - - - - - - - - - -
+  Store imgs here
+   - - - - - - - - - - - - - -->
+  <div style="display:none;">
+    <img id="img1" src="1.png">
+    <img id="img2" src="2.png">
+    <img id="img3" src="3.png">
+  </div>
+
+  <div id="container"></div>
+  <!-- main script -->
+  <script src="sigma.js/build/sigma.min.js"></script> 
+  <!-- dragNodes plugin -->
+  <script src="sigma.js/plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
+  <!-- custom shapes plugin-->
+  <script src="sigma.js/plugins/sigma.renderers.customShapes/shape-library.js"></script>
+  <script src="sigma.js/plugins/sigma.renderers.customShapes/sigma.renderers.customShapes.js"></script>
+  
+  <script>
+
+sigma.utils.pkg('sigma.canvas.nodes');
+sigma.utils.pkg('sigma.canvas.labels');
+
+//////////////////////////////////////////
+/////  creating new shape renderer
+///////////////////////////////////////////
+sigma.canvas.nodes.myShape = (function() {
+  var _cache = {};
+  var renderer = function(node, context, settings) {
+    // declarations
+    var prefix = settings('prefix') || '';
+    var size = node[prefix + 'size'];
+    var nodeX = node[prefix + 'x'];
+    var nodeY = node[prefix + 'y'];
+    var textWidth;
+    // define settings
+    context.fillStyle = node.fillColor;
+    context.strokeStyle = node.color || settings('defaultNodeColor');
+    context.lineWidth = size * 0.1;
+    context.font = '400 ' + size + 'px AvenirNext';
+    // measure text width
+    textWidth = context.measureText(node.label).width;
+    // draw path
+    context.beginPath();
+    context.rect(
+        nodeX - (textWidth * 1.2) * 0.5,
+        nodeY - size * 1.2 * 0.8,
+        textWidth * 1.2,
+        size * 1.2 * 1.6
+    );
+    context.closePath();
+    context.fill();
+    context.stroke();
+};
+
+  return renderer;
+})();
+
+//////////////////////////////////////////
+/////  creating new label renderer for previously defined shape renderer
+///////////////////////////////////////////
+sigma.canvas.labels.myShape = function(node, context, settings) {
+    // declarations
+    var prefix = settings('prefix') || '';
+    var size = node[prefix + 'size'];
+    var nodeX = node[prefix + 'x'];
+    var nodeY = node[prefix + 'y'];
+    var textWidth;
+    // define settings
+    context.fillStyle = 'black'; //node.textColor;
+    context.lineWidth = size * 0.1;
+    context.textAlign = 'center';
+    context.fillText(
+      node.label, 
+      nodeX,
+      nodeY + size * 1.44
+    );
+    // measure text width
+    textWidth = context.measureText(node.label).width
+    //node.labelWidth = textWidth; // important for clicks
+};
+    
+
+    var id = 0,
+        g = {
+          nodes: [],
+          edges: []
+        };
+
+    function newNode(typeOfNode)
+    {
+      switch (typeOfNode)
+      {
+        case 1:
+        s.view.addNode ({
+          // Main attributes:
+          id: 'n' + id,
+          label: 'ahjbfgvjhgfvbhbvjfhbvkfhbvjfbvdfhkbvfghbv' + id,
+          x: 0 + id/10,
+          y: 0+ id/10,
+          size: 60,
+          type: 'myShape',
+          color: 'white',
+          url: 'img1',
+          forceLabel: true
+        }); 
+        break
+
+        case 2:
+        s.view.addNode ({
+          // Main attributes:
+          id: 'n' + id,
+          label: 'node' + id,
+          x: 0 + id/10,
+          y: 0+ id/10,
+          size: 23,
+          type: 'myShape',
+          color: 'green',
+          url: 'img2'
+        });
+        break
+
+        case 3:
+        s.view.addNode ({
+          // Main attributes:
+          id: 'n' + id,
+          label: 'node' + id,
+          x: 0 + id/10,
+          y: 0+ id/10,
+          size: 60,
+          type: 'myShape',
+          color: 'red',
+          url: 'img3'
+        });
+        break
+      }
+      console.log("Added: ", s.view.nodes()[id]);
+      id++;
+      //console.log("New node added " + s.view.nodes['n' + id].x + " " + s.view.nodes['n' + id].y);
+      s.refresh();
+      
+    }
+
+    s = new sigma({
+      view: g,
+      renderer: {
+        // IMPORTANT:
+        // This works only with the canvas renderer, so the
+        // renderer type set as "canvas" is necessary here.
+        container: document.getElementById('container'),
+        type: 'canvas'
+      },
+      settings: {
+         minNodeSize: 10,
+         maxNodeSize: 80,
+         mouseWheelEnabled: false,
+         doubleClickEnabled: false,
+         enableHovering: false,
+      }
+    });
+
+
+
+
+    var dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
+    dragListener.bind('drop', function(event) {
+      console.log('Moved: ', event['data']['node']['id'], ' to x =', event['data']['node']['x'], '  y =', event['data']['node']['y']);
+    });
+
+    s.bind('doubleClickNode', function(e) {
+      alert(e.type + e.data.node.label);
+      console.log(e.type, e.data.node.label, e.data.captor);
+    });
+
+    s.bind('overNode', function(e) {
+      console.log(e.type, e.data.node.label, e.data.captor);
+      document.body.style.cursor = 'move';
+    });
+    s.bind('outNode', function(e) {
+      console.log(e.type, e.data.node.label, e.data.captor);
+      document.body.style.cursor = 'default';
+    });
+
+    CustomShapes.init(s);
+    s.refresh();
+
+
+    
+
+  </script>
+
+  <div id="panel">
+    <input id="clickMe" type="button" value="Add node type 1" onclick="newNode(1)" />
+    <input id="clickMe" type="button" value="Add node type 2" onclick="newNode(2)" />
+    <input id="clickMe" type="button" value="Add node type 3" onclick="newNode(3)" />
+  </div>
+  <script>
+    
+  </script>
+</body>
