@@ -111,20 +111,7 @@ sempipes:has-content-hash a owl:DatatypeProperty ;
     rdfs:domain sempipes:context ;
     rdfs:range xsd:string .
 
-sempipes:has-key a owl:DatatypeProperty ;
-    rdfs:domain sempipes:context ;
-    rdfs:range xsd:string .
-
-sempipes:has-key a owl:DatatypeProperty ;
-    rdfs:domain sempipes:graph ;
-    rdfs:range xsd:string .
-
-sempipes:has-key a owl:DatatypeProperty ;
-    rdfs:domain sempipes:node ;
-    rdfs:range xsd:string .
-
-sempipes:has-key a owl:DatatypeProperty ;
-    rdfs:domain sempipes:edge ;
+sempipes:has-id a owl:DatatypeProperty ;
     rdfs:range xsd:string .
 
 # 
