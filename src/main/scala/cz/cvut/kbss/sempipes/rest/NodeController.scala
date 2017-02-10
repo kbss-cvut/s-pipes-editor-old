@@ -24,8 +24,8 @@ class NodeController {
     }
   }
 
-  @PostMapping(path = Array("/{id}/form"))
-  def generateForm(@PathVariable id: String): ResponseEntity[String] =
+  @PostMapping(path = Array("/{id}/form"), produces = Array("application/json"))
+  def generateForm(@PathVariable id: String): ResponseEntity[Any] =
     service.generateForm(id) match {
       case Some(response) => new ResponseEntity(response, HttpStatus.OK)
       case None => new ResponseEntity("Node with id " + id + " not found", HttpStatus.NOT_FOUND)
