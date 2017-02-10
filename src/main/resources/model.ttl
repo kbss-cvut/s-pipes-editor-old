@@ -1,21 +1,13 @@
-@prefix : <http://www.w3.org/ns/org#> .
-@prefix gr: <http://purl.org/goodrelations/v1#> .
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
-@prefix owlTime: <http://www.w3.org/2006/time#> .
-@prefix sempipes: <http://onto.fel.cvut.cz/ontologies/sempipes/> .
-@prefix view: <http://onto.fel.cvut.cz/ontologies/sempipes/view/> .
+@prefix sp: <http://onto.fel.cvut.cz/ontologies/s-pipes/> .
+@prefix sp-view: <http://onto.fel.cvut.cz/ontologies/s-pipes-view/> .
 @prefix sm: <http://topbraid.org/sparqlmotion#> .
-
-sempipes:model a owl:Ontology .
+sp-view:editor-model a owl:Ontology .
 # 
 # 
 # #################################################################
@@ -25,38 +17,32 @@ sempipes:model a owl:Ontology .
 # #################################################################
 # 
 # 
-# http://onto.fel.cvut.cz/ontologies/sempipes/has-destination-node
-
-sempipes:has-destination-node a owl:ObjectProperty ;
-	rdfs:domain sempipes:edge ;
-	rdfs:range sempipes:node .
+# http://onto.fel.cvut.cz/ontologies/sp/has-destination-node
+sp-view:has-destination-node a owl:ObjectProperty ;
+	rdfs:domain sp-view:edge ;
+    rdfs:range sp-view:node .
 # 
-# http://onto.fel.cvut.cz/ontologies/sempipes/has-source-node
-
-sempipes:has-source-node a owl:ObjectProperty ;
-	rdfs:domain sempipes:edge ;
-	rdfs:range sempipes:node .
-
-# http://onto.fel.cvut.cz/ontologies/sempipes/consists-of-nodes
-
-sempipes:consists-of-nodes a owl:ObjectProperty ;
-    rdfs:domain sempipes:view ;
-    rdfs:range sempipes:node .
-
-# http://onto.fel.cvut.cz/ontologies/sempipes/consists-of-edges
-
-sempipes:consists-of-edges a owl:ObjectProperty ;
-    rdfs:domain sempipes:view ;
-    rdfs:range sempipes:edge .
-
+# http://onto.fel.cvut.cz/ontologies/sp/has-source-node
+sp-view:has-source-node a owl:ObjectProperty ;
+	rdfs:domain sp-view:edge ;
+	rdfs:range sp-view:node .
+# http://onto.fel.cvut.cz/ontologies/sp/consists-of-nodes
+sp-view:consists-of-node a owl:ObjectProperty ;
+    rdfs:domain sp-view:view ;
+    rdfs:range sp-view:node .
+# http://onto.fel.cvut.cz/ontologies/sp/consists-of-edges
+sp-view:consists-of-edge a owl:ObjectProperty ;
+    rdfs:domain sp-view:view ;
+    rdfs:range sp-view:edge .
 sm:next a owl:ObjectProperty ;
     rdfs:domain sm:Modules ;
     rdfs:range sm:Modules .
-
-view:has-author a owl:ObjectProperty ;
-    rdfs:domain sempipes:view ;
-    rdfs:range view:user .
-
+sp-view:has-author a owl:ObjectProperty ;
+    rdfs:domain sp-view:view ;
+    rdfs:range foaf:Person .
+sp-view:has-view a owl:ObjectProperty ;
+    rdfs:domain sp-view:graph ;
+    rdfs:range sp-view:view .
 # 
 # 
 # 
@@ -67,53 +53,42 @@ view:has-author a owl:ObjectProperty ;
 # #################################################################
 # 
 # 
-# http://onto.fel.cvut.cz/ontologies/sempipes/has-coordinate
-
-view:has-coordinate a owl:DatatypeProperty ;
-	rdfs:domain sempipes:node ;
+# http://onto.fel.cvut.cz/ontologies/sp/has-coordinate
+sp-view:has-coordinate a owl:DatatypeProperty ;
+	rdfs:domain sp-view:node ;
 	rdfs:range xsd:int .
 # 
-# http://onto.fel.cvut.cz/ontologies/sempipes/has-input-parameter
-
-sempipes:has-input-parameter a owl:DatatypeProperty ;
-	rdfs:subPropertyOf sempipes:has-parameter .
+# http://onto.fel.cvut.cz/ontologies/sp/has-input-parameter
+sp-view:has-input-parameter a owl:DatatypeProperty ;
+	rdfs:subPropertyOf sp-view:has-parameter .
 # 
-# http://onto.fel.cvut.cz/ontologies/sempipes/has-output-parameter
-
-sempipes:has-output-parameter a owl:DatatypeProperty ;
-	rdfs:subPropertyOf sempipes:has-parameter .
+# http://onto.fel.cvut.cz/ontologies/sp/has-output-parameter
+sp-view:has-output-parameter a owl:DatatypeProperty ;
+	rdfs:subPropertyOf sp-view:has-parameter .
 # 
-# http://onto.fel.cvut.cz/ontologies/sempipes/has-parameter
-
-sempipes:has-parameter a owl:DatatypeProperty ;
-	rdfs:domain sempipes:node ;
+# http://onto.fel.cvut.cz/ontologies/sp/has-parameter
+sp-view:has-parameter a owl:DatatypeProperty ;
+	rdfs:domain sp-view:node ;
 	rdfs:range xsd:string .
 # 
-# http://onto.fel.cvut.cz/ontologies/sempipes/has-x-coordinate
-
-view:has-x-coordinate a owl:DatatypeProperty ;
-	rdfs:subPropertyOf sempipes:has-coordinate .
+# http://onto.fel.cvut.cz/ontologies/sp/has-x-coordinate
+sp-view:has-x-coordinate a owl:DatatypeProperty ;
+	rdfs:subPropertyOf sp-view:has-coordinate .
 # 
-# http://onto.fel.cvut.cz/ontologies/sempipes/has-y-coordinate
-
-view:has-y-coordinate a owl:DatatypeProperty ;
-	rdfs:subPropertyOf sempipes:has-coordinate .
-
+# http://onto.fel.cvut.cz/ontologies/sp/has-y-coordinate
+sp-view:has-y-coordinate a owl:DatatypeProperty ;
+	rdfs:subPropertyOf sp-view:has-coordinate .
 rdfs:comment a owl:DatatypeProperty ;
     rdfs:domain sm:Module ;
     rdfs:range xsd:string .
-
-view:has-context-hash a owl:DatatypeProperty ;
-    rdfs:domain sempipes:view ;
+sp-view:has-context-hash a owl:DatatypeProperty ;
+    rdfs:domain sp-view:view ;
     rdfs:range xsd:string .
-
-sempipes:has-content-hash a owl:DatatypeProperty ;
-    rdfs:domain sempipes:context ;
+sp-view:has-content-hash a owl:DatatypeProperty ;
+    rdfs:domain sp:context ;
     rdfs:range xsd:string .
-
-sempipes:has-id a owl:DatatypeProperty ;
+dct:identifier a owl:DatatypeProperty ;
     rdfs:range xsd:string .
-
 # 
 # 
 # 
@@ -124,32 +99,26 @@ sempipes:has-id a owl:DatatypeProperty ;
 # #################################################################
 # 
 # 
-# http://onto.fel.cvut.cz/ontologies/sempipes/edge
-
+# http://onto.fel.cvut.cz/ontologies/sp/edge
 sm:Module a owl:Class ;
-    rdfs:label "Sempipes module type" .
-
-sempipes:edge a owl:Class ;
+    rdfs:label "sp module type" .
+sp-view:edge a owl:Class ;
 	rdfs:label "Graph edge" .
 # 
-# http://onto.fel.cvut.cz/ontologies/sempipes/node
-
-sempipes:node a owl:Class ;
+# http://onto.fel.cvut.cz/ontologies/sp/node
+sp-view:node a owl:Class ;
 	rdfs:label "Graph node" .
-
 #
-# http://onto.fel.cvut.cz/ontologies/sempipes/node
-
-sempipes:view a owl:Class ;
+# http://onto.fel.cvut.cz/ontologies/sp/node
+sp-view:view a owl:Class ;
+    rdfs:label "View" .
+sp-view:graph a owl:Class ;
     rdfs:label "Graph" .
-
 sm:Modules a owl:Class ;
     rdfs:label "Module" .
-
-sempipes:context a owl:Class ;
-    rdfs:label "Sempipes context" .
-
-view:user a owl:Class ;
-    rdfs:label "SPEd user" .
+sp:context a owl:Class ;
+    rdfs:label "sp context" .
+foaf:Person a owl:Class ;
+    rdfs:label "SPEd Person" .
 # 
 # Generated by the OWL API (version 4.2.5.20160517-0735) https://github.com/owlcs/owlapi
