@@ -29,6 +29,7 @@ public class Graph extends AbstractEntity {
 
     public Graph(Set<View> views) {
         this.id = UUID.randomUUID().toString();
+        this.uri = URI.create(Vocabulary.s_c_graph + "/" + id);
         this.views = views;
     }
 

@@ -34,7 +34,7 @@ public class Node extends AbstractEntity {
 
     public Node(String label, double x, double y, Set<String> nodeTypes, Set<String> inParameters, Set<String> outParameters) {
         this.id = UUID.randomUUID().toString();
-        this.uri = URI.create(Vocabulary.s_c_node + id);
+        this.uri = URI.create(Vocabulary.s_c_node + "/" + id);
         this.label = label;
         this.x = x;
         this.y = y;

@@ -24,7 +24,7 @@ public class ModuleType extends AbstractEntity {
 
     public ModuleType(String label, String comment) {
         this.id = UUID.randomUUID().toString();
-        this.uri = URI.create(Vocabulary.s_c_Module + id);
+        this.uri = URI.create(Vocabulary.s_c_Module + "/" + id);
         this.label = label;
         this.comment = comment;
     }

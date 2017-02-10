@@ -26,7 +26,7 @@ public class Context extends AbstractEntity {
 
     public Context(String label, String comment) {
         this.id = UUID.randomUUID().toString();
-        this.uri = URI.create(Vocabulary.s_c_context + id);
+        this.uri = URI.create(Vocabulary.s_c_context + "/" + id);
         this.label = label;
         this.comment = comment;
     }

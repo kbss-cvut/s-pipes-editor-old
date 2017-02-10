@@ -31,7 +31,7 @@ public class View extends AbstractEntity {
 
     public View(String label, Set<Node> nodes, Set<Edge> edges) {
         this.id = UUID.randomUUID().toString();
-        this.uri = URI.create(Vocabulary.s_c_view + id);
+        this.uri = URI.create(Vocabulary.s_c_view + "/" + id);
         this.label = label;
         this.edges = edges;
         this.nodes = nodes;

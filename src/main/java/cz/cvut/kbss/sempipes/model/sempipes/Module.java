@@ -24,7 +24,7 @@ public class Module extends AbstractEntity {
 
     public Module(String label, Module next) {
         this.id = UUID.randomUUID().toString();
-        this.uri = URI.create(Vocabulary.s_c_Modules + id);
+        this.uri = URI.create(Vocabulary.s_c_Modules + "/" + id);
         this.label = label;
         this.next = next;
     }

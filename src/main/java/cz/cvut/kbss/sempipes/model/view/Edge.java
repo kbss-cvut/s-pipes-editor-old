@@ -23,7 +23,7 @@ public class Edge extends AbstractEntity {
 
     public Edge(Node sourceNode, Node destinationNode) {
         this.id = UUID.randomUUID().toString();
-        this.uri = URI.create(Vocabulary.s_c_edge + id);
+        this.uri = URI.create(Vocabulary.s_c_edge + "/" + id);
         this.sourceNode = sourceNode;
         this.destinationNode = destinationNode;
     }

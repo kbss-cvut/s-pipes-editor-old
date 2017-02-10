@@ -22,7 +22,7 @@ class ViewService {
   private var sempipesService: SempipesService = _
 
   def getView(id: String): Option[View] =
-    dao.get(URI.create(Vocabulary.s_c_view + id))
+    dao.get(URI.create(Vocabulary.s_c_view + "/" + id))
 
   def getAllViews(): Option[Traversable[View]] =
     dao.getAllViews()
@@ -31,22 +31,22 @@ class ViewService {
     dao.add(g)
 
   def updateView(id: String, g: View): Option[View] =
-    dao.update(URI.create(Vocabulary.s_c_view + id), g)
+    dao.update(URI.create(Vocabulary.s_c_view + "/" + id), g)
 
   def deleteView(id: String): Option[URI] =
-    dao.delete(URI.create(Vocabulary.s_c_view + id))
+    dao.delete(URI.create(Vocabulary.s_c_view + "/" + id))
 
   def getViewNodes(id: String): Option[Traversable[Node]] =
-    dao.getNodes(URI.create(Vocabulary.s_c_view + id))
+    dao.getNodes(URI.create(Vocabulary.s_c_view + "/" + id))
 
   def getViewEdges(id: String): Option[Traversable[Edge]] =
-    dao.getEdges(URI.create(Vocabulary.s_c_view + id))
+    dao.getEdges(URI.create(Vocabulary.s_c_view + "/" + id))
 
   def getEdge(id: String): Option[Edge] =
-    dao.getEdge(URI.create(Vocabulary.s_c_edge + id))
+    dao.getEdge(URI.create(Vocabulary.s_c_edge + "/" + id))
 
   def getNode(id: String): Option[Node] =
-    dao.getNode(URI.create(Vocabulary.s_c_node + id))
+    dao.getNode(URI.create(Vocabulary.s_c_node + "/" + id))
 
 
   import scala.collection.JavaConverters._
