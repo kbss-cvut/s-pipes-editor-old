@@ -9,28 +9,29 @@
     <version>0.1</version>
 
     <properties>
-        <org.springframework.version>4.3.2.RELEASE</org.springframework.version>
-        <org.springframework.security.version>4.2.0.RELEASE</org.springframework.security.version>
-        <cz.cvut.kbss.jopa.version>0.9.0</cz.cvut.kbss.jopa.version>
-        <org.scala-lang.version>2.12.1</org.scala-lang.version>
-        <com.fasterxml.json.version>2.7.3</com.fasterxml.json.version>
-        <cz.cvut.kbss.jaxb-jsonld-jackson.version>0.0.6</cz.cvut.kbss.jaxb-jsonld-jackson.version>
-        <javax.servlet.servlet-api.version>3.1.0</javax.servlet.servlet-api.version>
-        <junit.junit.version>4.12</junit.junit.version>
-        <org.mockito.mockito-all.version>1.10.19</org.mockito.mockito-all.version>
-        <org.mapstruct.version>1.0.0.Final</org.mapstruct.version>
-        <org.openrdf.sesame.sesame-rio-rdfjson.version>2.8.9</org.openrdf.sesame.sesame-rio-rdfjson.version>
-        <org.slf4j.slf4j-api.version>1.7.18</org.slf4j.slf4j-api.version>
-        <ch.qos.logback.logback-classic.version>1.1.6</ch.qos.logback.logback-classic.version>
-        <net.alchim31.maven.scala-maven-plugin.version>3.2.0</net.alchim31.maven.scala-maven-plugin.version>
-        <maven-war-plugin.version>3.0.0</maven-war-plugin.version>
-        <org.codehaus.mojo.build-helper-maven-plugin.version>1.12</org.codehaus.mojo.build-helper-maven-plugin.version>
-
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <ch.qos.logback.logback-classic.version>1.1.6</ch.qos.logback.logback-classic.version>
+        <com.fasterxml.json.version>2.7.3</com.fasterxml.json.version>
+        <cz.cvut.kbss.jaxb-jsonld-jackson.version>0.0.6</cz.cvut.kbss.jaxb-jsonld-jackson.version>
+        <cz.cvut.kbss.jopa.version>0.9.0</cz.cvut.kbss.jopa.version>
+        <javax.servlet.servlet-api.version>3.1.0</javax.servlet.servlet-api.version>
+        <junit.junit.version>4.12</junit.junit.version>
+        <maven-war-plugin.version>3.0.0</maven-war-plugin.version>
+        <net.alchim31.maven.scala-maven-plugin.version>3.2.0</net.alchim31.maven.scala-maven-plugin.version>
+        <org.codehaus.mojo.build-helper-maven-plugin.version>1.12</org.codehaus.mojo.build-helper-maven-plugin.version>
+        <org.codehaus.mojo.exec-maven-plugin.version>1.5.0</org.codehaus.mojo.exec-maven-plugin.version>
+        <org.mapstruct.version>1.0.0.Final</org.mapstruct.version>
+        <org.mockito.mockito-all.version>1.10.19</org.mockito.mockito-all.version>
+        <org.openrdf.sesame.sesame-rio-rdfjson.version>2.8.9</org.openrdf.sesame.sesame-rio-rdfjson.version>
+        <org.scala-lang.version>2.12.1</org.scala-lang.version>
+        <org.slf4j.slf4j-api.version>1.7.18</org.slf4j.slf4j-api.version>
+        <org.springframework.security.version>4.2.1.RELEASE</org.springframework.security.version>
+        <org.springframework.version>4.3.2.RELEASE</org.springframework.version>
     </properties>
 
     <repositories>
@@ -185,6 +186,106 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>${maven-war-plugin.version}</version>
+                        <configuration>
+                            <failOnMissingWebXml>false</failOnMissingWebXml>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>
+                production
+            </id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>${org.codehaus.mojo.exec-maven-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>npm-module-cleanup</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>compile</phase>
+                                <configuration>
+                                    <workingDirectory>src/main/webapp/</workingDirectory>
+                                    <executable>rm</executable>
+                                    <arguments>
+                                        <argument>-Rf</argument>
+                                        <argument>node_modules</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>ui-build</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>compile</phase>
+                                <configuration>
+                                    <workingDirectory>src/main/webapp/</workingDirectory>
+                                    <executable>npm</executable>
+                                    <arguments>
+                                        <argument>run</argument>
+                                        <argument>build</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>ui-test</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>test</phase>
+                                <configuration>
+                                    <workingDirectory>src/main/webapp</workingDirectory>
+                                    <executable>npm</executable>
+                                    <arguments>
+                                        <argument>test</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>${maven-war-plugin.version}</version>
+                        <configuration>
+                            <failOnMissingWebXml>false</failOnMissingWebXml>
+                            <webResources>
+                                <resource>
+                                    <directory>profiles/production</directory>
+                                </resource>
+                            </webResources>
+                            <packagingExcludes>
+                                **/js/actions/,**/js/components/,**/js/constants/,**/js/stores/,**/js/utils/,**/js/model/,
+                                **/js/validation/, **/js/i18n/,
+                                **/js/app.js,**/js/bundle.js,**/js/.bundle.js,tests/,node_modules/,
+                                package.json,.babelrc,.eslintrc,**/mapping
+                            </packagingExcludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <plugin>
@@ -199,16 +300,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>${maven-war-plugin.version}</version>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <warSourceExcludes>
-                        node_modules/**
-                    </warSourceExcludes>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -256,16 +347,4 @@
         </plugins>
     </build>
 
-    <profiles>
-        <profile>
-            <id>
-                dev
-            </id>
-        </profile>
-        <profile>
-            <id>
-                production
-            </id>
-        </profile>
-    </profiles>
 </project>
