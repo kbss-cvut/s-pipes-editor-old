@@ -16,7 +16,7 @@ public class Module extends AbstractEntity {
 
     @OWLDataProperty(iri = Vocabulary.s_p_label)
     private String label;
-    @OWLDataProperty(iri = Vocabulary.s_c_Modules)
+    @OWLDataProperty(iri = Vocabulary.s_p_next)
     private Module next;
 
     public Module() {
