@@ -43,6 +43,24 @@ sp-view:has-author a owl:ObjectProperty ;
 sp-view:has-view a owl:ObjectProperty ;
     rdfs:domain sp-view:graph ;
     rdfs:range sp-view:view .
+
+sp:has-answer-origin a owl:ObjectProperty .
+
+sp:has-question-origin a owl:ObjectProperty .
+
+sp:has-object-value a owl:ObjectProperty .
+
+#note What is rdf:type?
+sp:relates-to rdf:type owl:ObjectProperty .
+
+sp:has-part rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf sp:relates-to .
+
+sp:has-related-question rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf sp:has-part .
+
+sp:has-answer rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf sp:relates-to .
 # 
 # 
 # 
@@ -89,6 +107,8 @@ sp-view:has-content-hash a owl:DatatypeProperty ;
     rdfs:range xsd:string .
 dct:identifier a owl:DatatypeProperty ;
     rdfs:range xsd:string .
+
+sp:has-data-value rdf:type owl:DatatypeProperty .
 # 
 # 
 # 
@@ -112,12 +132,22 @@ sp-view:node a owl:Class ;
 # http://onto.fel.cvut.cz/ontologies/sp/node
 sp-view:view a owl:Class ;
     rdfs:label "View" .
+
 sp-view:graph a owl:Class ;
     rdfs:label "Graph" .
+
 sm:Modules a owl:Class ;
     rdfs:label "Module" .
+
 sp:context a owl:Class ;
     rdfs:label "sp context" .
+
+sp:question a owl:Class ;
+    rdfs:label "Question" .
+
+sp:answer a owl:Class ;
+    rdfs:label "Answer" .
+
 foaf:Person a owl:Class ;
     rdfs:label "SPEd Person" .
 # 
