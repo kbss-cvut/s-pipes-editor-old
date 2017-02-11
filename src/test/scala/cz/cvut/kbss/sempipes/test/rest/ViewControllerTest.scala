@@ -8,6 +8,7 @@ import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.junit.Assert.assertTrue
 
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 28.01.17.
@@ -61,12 +62,27 @@ class ViewControllerTest extends BaseControllerTestRunner {
   }
 
   @Test
-  def getViewEdgesReturnsSomeEdges = {
+  def getViewEdgesReturnsEmpty = {
     val id = "someId"
     Mockito.when(service.getViewEdges(id)).thenReturn(Some(Set()))
     val result = mockMvc.perform(get("/views/" + id + "/edges")).andExpect(status.isOk()).andReturn
     val message = result.getResponse.getContentAsString
     assertEquals("[]", message)
+  }
+
+  @Test
+  def getViewEdgesReturnsSomeEdges = {
+    val n = new Node()
+    val e1 = new Edge(n, null)
+    val e2 = new Edge(null, null)
+    val id = "id"
+    Mockito.when(service.getViewEdges(id)).thenReturn(Some(Set(e1, e2)))
+    val result = mockMvc.perform(get("/views/" + id + "/edges")).andExpect(status.isOk()).andReturn
+    val message = result.getResponse.getContentAsString
+    assertTrue(
+      message == "[{\"uri\":\"" + e1.getUri() + "\",\"id\":\"" + e1.getId() + "\",\"sourceNode\":{\"uri\":null,\"id\":null,\"label\":null,\"x\":0.0,\"y\":0.0,\"nodeTypes\":null,\"inParameters\":null,\"outParameters\":null},\"destinationNode\":null},{\"uri\":\"" + e2.getUri() + "\",\"id\":\"" + e2.getId() + "\",\"sourceNode\":null,\"destinationNode\":null}]" ||
+        message == "[{\"uri\":\"" + e2.getUri() + "\",\"id\":\"" + e2.getId() + "\",\"sourceNode\":{\"uri\":null,\"id\":null,\"label\":null,\"x\":0.0,\"y\":0.0,\"nodeTypes\":null,\"inParameters\":null,\"outParameters\":null},\"destinationNode\":null},{\"uri\":\"" + e1.getUri() + "\",\"id\":\"" + e1.getId() + "\",\"sourceNode\":null,\"destinationNode\":null}]"
+    )
   }
 
   @Test
@@ -79,12 +95,26 @@ class ViewControllerTest extends BaseControllerTestRunner {
   }
 
   @Test
-  def getViewsNodesReturnsSomeNodes = {
+  def getViewsNodesReturnsEmpty = {
     val id = "someId"
     Mockito.when(service.getViewNodes(id)).thenReturn(Some(Set()))
     val result = mockMvc.perform(get("/views/" + id + "/nodes")).andExpect(status.isOk()).andReturn
     val message = result.getResponse.getContentAsString
     assertEquals("[]", message)
+  }
+
+  @Test
+  def getViewsNodesReturnsSomeNodes = {
+    val id = "someId"
+    val n1 = new Node()
+    val n2 = new Node(null, 0, 0, null, null, null)
+    Mockito.when(service.getViewNodes(id)).thenReturn(Some(Set(n1, n2)))
+    val result = mockMvc.perform(get("/views/" + id + "/nodes")).andExpect(status.isOk()).andReturn
+    val message = result.getResponse.getContentAsString
+    val n1Str = "{\"uri\":null,\"id\":null,\"label\":null,\"x\":0.0,\"y\":0.0,\"nodeTypes\":null,\"inParameters\":null,\"outParameters\":null}"
+    val n2Str = "{\"uri\":\"" + n2.getUri() + "\",\"id\":\"" + n2.getId() + "\",\"label\":null,\"x\":0.0,\"y\":0.0,\"nodeTypes\":null,\"inParameters\":null,\"outParameters\":null}"
+    assertTrue(message == "[" + n1Str + "," + n2Str + "]" ||
+      message == "[" + n2Str + "," + n1Str + "]")
   }
 
   @Test
