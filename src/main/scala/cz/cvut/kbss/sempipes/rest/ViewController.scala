@@ -4,10 +4,11 @@ package cz.cvut.kbss.sempipes.rest
 import java.net.URI
 
 import cz.cvut.kbss.jsonld.JsonLd
-import cz.cvut.kbss.sempipes.model.view.{Edge, View, Node}
+import cz.cvut.kbss.sempipes.model.view.{Edge, Node, View}
 import cz.cvut.kbss.sempipes.service.ViewService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation._
 
 import scala.collection.JavaConverters._
@@ -17,6 +18,7 @@ import scala.collection.JavaConverters._
   */
 @RestController
 @RequestMapping(path = Array("/views"))
+@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
 class ViewController {
 
   @Autowired
@@ -36,7 +38,7 @@ class ViewController {
       case None => new ResponseEntity(Set[Node]().asJava, HttpStatus.OK)
     }
 
-  @GetMapping(produces = Array(JsonLd.MEDIA_TYPE))
+  @GetMapping(path = Array("/edges"), produces = Array(JsonLd.MEDIA_TYPE))
   def getAllEdges: ResponseEntity[java.util.Set[Edge]] =
     viewService.getAllEdges() match {
       case Some(edges) => new ResponseEntity(edges.toSet.asJava, HttpStatus.OK)
