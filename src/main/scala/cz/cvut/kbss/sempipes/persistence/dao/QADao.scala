@@ -7,4 +7,4 @@ import org.springframework.stereotype.Repository
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 03.11.16.
   */
 @Repository
-class NodeDao extends AbstractDao[Node]
+class QADao extends AbstractDao[Node]

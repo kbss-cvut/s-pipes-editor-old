@@ -1,6 +1,6 @@
 package cz.cvut.kbss.sempipes.test.config
 
-import cz.cvut.kbss.sempipes.persistence.dao.{ViewDao, NodeDao, SempipesDao}
+import cz.cvut.kbss.sempipes.persistence.dao.{ViewDao, QADao, SempipesDao}
 import org.mockito.Mockito
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessorAdapter
 import org.springframework.context.annotation.{Bean, ComponentScan, Configuration}
@@ -17,7 +17,7 @@ class TestServiceConfig {
   def getViewDao: ViewDao = Mockito.mock(classOf[ViewDao])
 
   @Bean
-  def getNodeDao: NodeDao = Mockito.mock(classOf[NodeDao])
+  def getNodeDao: QADao = Mockito.mock(classOf[QADao])
 
   @Bean
   def getSempipesDao: SempipesDao = Mockito.mock(classOf[SempipesDao])

@@ -1,7 +1,7 @@
 package cz.cvut.kbss.sempipes.test.rest
 
 import cz.cvut.kbss.sempipes.rest.dto.RawJson
-import cz.cvut.kbss.sempipes.service.NodeService
+import cz.cvut.kbss.sempipes.service.QAService
 import org.junit.Assert._
 import org.junit.Test
 import org.mockito.Mockito
@@ -14,10 +14,10 @@ import org.springframework.web.client.RestTemplate
   * Created by yan on 2/10/17.
   */
 
-class NodeControllerTest extends BaseControllerTestRunner {
+class QAControllerTest extends BaseControllerTestRunner {
 
   @Autowired
-  private var service: NodeService = _
+  private var service: QAService = _
 
   private var restTemplate = new RestTemplate()
 
