@@ -20,7 +20,7 @@ class ViewDao extends AbstractDao[View] {
       val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[Node])
         .setParameter("type", URI.create(Vocabulary.s_c_node))
       query.getResultList() match {
-        case nonEmpty: java.util.List[Node] if nonEmpty.isEmpty =>
+        case nonEmpty: java.util.List[Node] if !nonEmpty.isEmpty =>
           Some(nonEmpty.asScala)
         case empty: java.util.List[Node] if empty.isEmpty =>
           None
@@ -37,7 +37,7 @@ class ViewDao extends AbstractDao[View] {
       val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[Edge])
         .setParameter("type", URI.create(Vocabulary.s_c_edge))
       query.getResultList() match {
-        case nonEmpty: java.util.List[Edge] if nonEmpty.isEmpty =>
+        case nonEmpty: java.util.List[Edge] if !nonEmpty.isEmpty =>
           Some(nonEmpty.asScala)
         case empty: java.util.List[Edge] if empty.isEmpty =>
           None
@@ -90,7 +90,7 @@ class ViewDao extends AbstractDao[View] {
       val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[View])
         .setParameter("type", URI.create(Vocabulary.s_c_view))
       query.getResultList() match {
-        case nonEmpty: java.util.List[View] if nonEmpty.isEmpty =>
+        case nonEmpty: java.util.List[View] if !nonEmpty.isEmpty =>
           Some(nonEmpty.asScala)
         case empty: java.util.List[View] if empty.isEmpty =>
           None
