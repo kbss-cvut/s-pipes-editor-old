@@ -14,6 +14,40 @@ import scala.collection.JavaConverters._
 @Repository
 class ViewDao extends AbstractDao[View] {
 
+  def getAllNodes(): Option[Traversable[Node]] = {
+    val em = emf.createEntityManager()
+    try {
+      val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[Node])
+        .setParameter("type", URI.create(Vocabulary.s_c_node))
+      query.getResultList() match {
+        case nonEmpty: java.util.List[Node] if nonEmpty.isEmpty =>
+          Some(nonEmpty.asScala)
+        case empty: java.util.List[Node] if empty.isEmpty =>
+          None
+      }
+    }
+    finally {
+      em.close()
+    }
+  }
+
+  def getAllEdges(): Option[Traversable[Edge]] = {
+    val em = emf.createEntityManager()
+    try {
+      val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[Edge])
+        .setParameter("type", URI.create(Vocabulary.s_c_edge))
+      query.getResultList() match {
+        case nonEmpty: java.util.List[Edge] if nonEmpty.isEmpty =>
+          Some(nonEmpty.asScala)
+        case empty: java.util.List[Edge] if empty.isEmpty =>
+          None
+      }
+    }
+    finally {
+      em.close()
+    }
+  }
+
   def getNode(uri: URI): Option[Node] = {
     val em = emf.createEntityManager()
     try {
@@ -56,7 +90,7 @@ class ViewDao extends AbstractDao[View] {
       val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[View])
         .setParameter("type", URI.create(Vocabulary.s_c_view))
       query.getResultList() match {
-        case nonEmpty: java.util.List[View] if !nonEmpty.isEmpty =>
+        case nonEmpty: java.util.List[View] if nonEmpty.isEmpty =>
           Some(nonEmpty.asScala)
         case empty: java.util.List[View] if empty.isEmpty =>
           None
@@ -67,7 +101,7 @@ class ViewDao extends AbstractDao[View] {
     }
   }
 
-  def getNodes(uri: URI): Option[Traversable[Node]] = {
+  def getViewNodes(uri: URI): Option[Traversable[Node]] = {
     val em = emf.createEntityManager()
     try {
       em.find(classOf[View], uri) match {
@@ -86,7 +120,7 @@ class ViewDao extends AbstractDao[View] {
     }
   }
 
-  def getEdges(uri: URI): Option[Traversable[Edge]] = {
+  def getViewEdges(uri: URI): Option[Traversable[Edge]] = {
     val em = emf.createEntityManager()
     try {
       em.find(classOf[View], uri) match {

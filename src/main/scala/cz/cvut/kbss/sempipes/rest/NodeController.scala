@@ -16,14 +16,6 @@ class NodeController {
   @Autowired
   private var service: NodeService = _
 
-  @GetMapping(path = Array("/{id}"))
-  def getNode(@PathVariable id: String): ResponseEntity[Node] = {
-    service.getNodeById(id) match {
-      case Some(n) => new ResponseEntity(n, HttpStatus.OK)
-      case None => new ResponseEntity(new Node(), HttpStatus.NOT_FOUND)
-    }
-  }
-
   @PostMapping(path = Array("/{id}/form"), produces = Array("application/json"))
   def generateForm(@PathVariable id: String): ResponseEntity[Any] =
     service.generateForm(id) match {

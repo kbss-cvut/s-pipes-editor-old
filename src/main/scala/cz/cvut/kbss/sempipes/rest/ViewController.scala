@@ -29,6 +29,20 @@ class ViewController {
       case None => new ResponseEntity(Set[View]().asJava, HttpStatus.OK)
     }
 
+  @GetMapping(path = Array("/nodes"), produces = Array(JsonLd.MEDIA_TYPE))
+  def getAllNodes: ResponseEntity[java.util.Set[Node]] =
+    viewService.getAllNodes() match {
+      case Some(nodes) => new ResponseEntity(nodes.toSet.asJava, HttpStatus.OK)
+      case None => new ResponseEntity(Set[Node]().asJava, HttpStatus.OK)
+    }
+
+  @GetMapping(produces = Array(JsonLd.MEDIA_TYPE))
+  def getAllEdges: ResponseEntity[java.util.Set[Edge]] =
+    viewService.getAllEdges() match {
+      case Some(edges) => new ResponseEntity(edges.toSet.asJava, HttpStatus.OK)
+      case None => new ResponseEntity(Set[Edge]().asJava, HttpStatus.OK)
+    }
+
   @GetMapping(path = Array("/{id}"), produces = Array(JsonLd.MEDIA_TYPE))
   def getView(@PathVariable id: String): ResponseEntity[View] =
     viewService.getView(id) match {

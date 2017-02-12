@@ -26,6 +26,12 @@ class ViewService {
   def getAllViews(): Option[Traversable[View]] =
     dao.getAllViews()
 
+  def getAllNodes(): Option[Traversable[Node]] =
+    dao.getAllNodes()
+
+  def getAllEdges(): Option[Traversable[Edge]] =
+    dao.getAllEdges()
+
   def addView(g: View): Option[View] =
     dao.add(g)
 
@@ -36,10 +42,10 @@ class ViewService {
     dao.delete(URI.create(Vocabulary.s_c_view + "/" + id))
 
   def getViewNodes(id: String): Option[Traversable[Node]] =
-    dao.getNodes(URI.create(Vocabulary.s_c_view + "/" + id))
+    dao.getViewNodes(URI.create(Vocabulary.s_c_view + "/" + id))
 
   def getViewEdges(id: String): Option[Traversable[Edge]] =
-    dao.getEdges(URI.create(Vocabulary.s_c_view + "/" + id))
+    dao.getViewEdges(URI.create(Vocabulary.s_c_view + "/" + id))
 
   def getEdge(id: String): Option[Edge] =
     dao.getEdge(URI.create(Vocabulary.s_c_edge + "/" + id))
