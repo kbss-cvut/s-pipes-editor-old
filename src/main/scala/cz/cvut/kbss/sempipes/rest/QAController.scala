@@ -3,6 +3,7 @@ package cz.cvut.kbss.sempipes.rest
 import cz.cvut.kbss.sempipes.service.QAService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation._
 
 /**
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation._
   */
 @RestController
 @RequestMapping(path = Array("/nodes"))
+@PreAuthorize("hasRole('ANY_ROLE')")
 class QAController {
 
   @Autowired
