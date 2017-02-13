@@ -15,7 +15,8 @@ import org.springframework.http.converter.{HttpMessageConverter, StringHttpMessa
 import org.springframework.web.servlet.config.annotation.{DefaultServletHandlerConfigurer, WebMvcConfigurerAdapter}
 
 @Configuration
-@Import(Array(classOf[RestConfig], classOf[PersistenceConfig], classOf[SecurityConfig]))
+//@Import(Array(classOf[RestConfig], classOf[PersistenceConfig], classOf[SecurityConfig]))
+@Import(Array(classOf[RestConfig], classOf[PersistenceConfig]))
 class AppConfig extends WebMvcConfigurerAdapter {
 
   @Autowired
