@@ -50,7 +50,6 @@ sp:has-question-origin a owl:ObjectProperty .
 
 sp:has-object-value a owl:ObjectProperty .
 
-#note What is rdf:type?
 sp:relates-to rdf:type owl:ObjectProperty .
 
 sp:has-part rdf:type owl:ObjectProperty ;
@@ -109,6 +108,10 @@ dct:identifier a owl:DatatypeProperty ;
     rdfs:range xsd:string .
 
 sp:has-data-value rdf:type owl:DatatypeProperty .
+
+sp-view:has-password a owl:DatatypeProperty .
+sp-view:has-username a owl:DatatypeProperty .
+
 # 
 # 
 # 
