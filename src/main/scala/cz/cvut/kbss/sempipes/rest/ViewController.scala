@@ -18,7 +18,7 @@ import scala.collection.JavaConverters._
   */
 @RestController
 @RequestMapping(path = Array("/views"))
-@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+//@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
 class ViewController {
 
   @Autowired

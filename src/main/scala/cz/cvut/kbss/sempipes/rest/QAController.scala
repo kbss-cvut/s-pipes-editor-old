@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation._
   */
 @RestController
 @RequestMapping(path = Array("/nodes"))
-@PreAuthorize("hasRole('ANY_ROLE')")
+//@PreAuthorize("hasRole('ANY_ROLE')")
 class QAController {
 
   @Autowired

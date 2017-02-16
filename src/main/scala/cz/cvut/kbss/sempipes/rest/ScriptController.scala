@@ -19,7 +19,7 @@ import scala.collection.JavaConverters._
   */
 @RestController
 @RequestMapping(path = Array("/scripts"))
-@PreAuthorize("hasRole('ROLE_SCRIPTS')")
+//@PreAuthorize("hasRole('ROLE_SCRIPTS')")
 @PropertySource(Array("classpath:config.properties"))
 class ScriptController {
 

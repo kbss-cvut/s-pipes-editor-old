@@ -19,29 +19,34 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 import org.springframework.security.web.csrf.CsrfFilter;
 import sun.security.util.SecurityConstants;
 
+/*
 @Configuration
 @EnableWebSecurity
 @ComponentScan(basePackages = "cz.cvut.kbss.sempipes.security")
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    /*private static final String[] COOKIES_TO_DESTROY = {
+    */
+/*private static final String[] COOKIES_TO_DESTROY = {
             SecurityConstants.SESSION_COOKIE_NAME,
             SecurityConstants.REMEMBER_ME_COOKIE_NAME,
             SecurityConstants.CSRF_COOKIE_NAME
-    };*/
+    };*//*
+
 
     @Autowired
     private AuthenticationEntryPoint authenticationEntryPoint;
 
-    /*@Autowired
+    */
+/*@Autowired
     private AuthenticationFailureHandler authenticationFailureHandler;
 
     @Autowired
     private AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Autowired
-    private LogoutSuccessHandler logoutSuccessHandler;*/
+    private LogoutSuccessHandler logoutSuccessHandler;*//*
+
 
     @Autowired
     private AuthenticationProvider ontologyAuthenticationProvider;
@@ -77,3 +82,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        ;
     }
 }
+*/

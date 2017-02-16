@@ -3,6 +3,8 @@ var ReactDOM = require('react-dom');
 var Router = require('react-router').Router;
 var Route = require('react-router').Route;
 var IndexRoute = require('react-router').IndexRoute;
+
+
 import { Button } from 'react-bootstrap';
 import { Configuration, WizardGenerator } from "semforms";
 import I18nStore from "./stores/I18nStore";
@@ -11,11 +13,11 @@ import RecordController from "./components/record/RecordController";
 
 var addLocaleData = require('react-intl').addLocaleData;
 var intlData = require('./i18n/en');
-
 var IntlProvider = require('react-intl').IntlProvider;
 
 var Sigma = require("./components/SigmaComp");
 var Panel = require("./components/PanelComp");
+var Popup = require("./components/Popup");
 
 
 
@@ -43,9 +45,9 @@ var App = React.createClass({
                 <div>
                     <Sigma/>
                     <Panel/>
+                    <Popup/>
                     <script type="text/javascript" src="popup.js"></script>
-                    <div className="RecordContr"><RecordController/></div>
-
+                    {/* <div className="RecordContr"><RecordController/></div> */}
                 </div>
             </IntlProvider>
         );

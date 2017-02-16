@@ -1,6 +1,3 @@
-
-
-
 function triggerMouseEvent (node, eventType) {
   var clickEvent = document.createEvent ('MouseEvents');
   clickEvent.initEvent (eventType, true, true);
@@ -63,7 +60,9 @@ function getMousePos(canvas, evt) {
   };
 }
 
+/*
 document.getElementsByClassName('sigma-mouse')[0].addEventListener('mouseup', function(evt) {
+  console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
   if (drawingEdge == false && (ifOnNode(canvas, evt)[0] == true || ifOnOutParamsZones(canvas, evt)[0] == true)) // user started drawing edge
   {
       if (ifOnNode(canvas, evt)[0] == true)
@@ -120,16 +119,11 @@ document.getElementsByClassName('sigma-mouse')[0].addEventListener('mouseup', fu
       }
   }
 }, true);
+*/
 
     
 
 
-
-
-    
-
-//import WizardGenerator from "semforms/src/components/model/WizardGenerator.js";
-//import {Configuration, WizardGenerator} from "semforms";
 
 // Open modal
 s.bind('doubleClickNode', function(e) {
