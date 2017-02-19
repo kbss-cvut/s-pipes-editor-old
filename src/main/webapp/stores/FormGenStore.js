@@ -12,6 +12,7 @@ var options = {};
 var FormGenStore = Reflux.createStore({
     init: function () {
         this.listenTo(Actions.loadFormOptions, this.onLoadFormOptions);
+        this.listenTo(Actions.loadNodeForm, this.onLoadNodeForm);
     },
 
     onLoadFormOptions: function (id, query) {
@@ -33,6 +34,11 @@ var FormGenStore = Reflux.createStore({
         }.bind(this), function () {
             this.trigger(id, this.getOptions(id));
         }.bind(this));
+    },
+
+    onLoadNodeForm: function() {
+        {/* from here the form should be reloaded for concrete node*/}
+        console.log("debug"); {/* but this is not shown at all */}
     },
 
     getOptions: function (id) {

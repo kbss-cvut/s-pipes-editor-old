@@ -25,8 +25,8 @@ class RecordController extends React.Component {
 
     _isNew() {
         //return !this.props.params.key;
-        return !this.props.key; //TODO this is dirty hack. Do smth with it
-        //return true;
+        //return !this.props.key; //TODO this is dirty hack. Do smth with it
+        return true;
     }
 
     componentDidMount() {
@@ -87,6 +87,7 @@ class RecordController extends React.Component {
             onCancel: this._onCancel,
             onChange: this._onChange
         };
+        console.log("------------------DEBUG------ ", this.props.nodeId);
         return <Record ref={(c) => this.recordComponent = c} handlers={handlers} record={this.state.record}
                        loading={this.state.loading}/>;
     }

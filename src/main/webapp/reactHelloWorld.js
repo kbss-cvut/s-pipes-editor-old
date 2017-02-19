@@ -15,13 +15,13 @@ var addLocaleData = require('react-intl').addLocaleData;
 var intlData = require('./i18n/en');
 var IntlProvider = require('react-intl').IntlProvider;
 
-var Sigma = require("./components/SigmaComp");
+var FoldableGraph = require("./components/FoldableGraph");
 var Panel = require("./components/PanelComp");
-var Popup = require("./components/Popup");
+var Popup = require("./components/PopupComp");
+var ContextMenu = require("./components/ContextMenuComp");
 
-
-
-
+Configuration.wizardStore = WizardStore;
+Configuration.intl = I18nStore.getIntl();
 
 I18nStore.setMessages(intlData.messages);
 
@@ -29,24 +29,18 @@ var callback2  = (prop)=>{
     console.log("prop: ", prop);
 };
 
-Configuration.wizardStore = WizardStore;
-Configuration.intl = I18nStore.getIntl();
-
-console.log("NOW");
 var wiz = WizardGenerator.createDefaultWizard(null, null, callback2);
-
-
-
 
 var App = React.createClass({
     render: function () {
         return (
             <IntlProvider {...intlData}>
                 <div>
-                    <Sigma/>
+                    <FoldableGraph/>
                     <Panel/>
                     <Popup/>
                     <script type="text/javascript" src="popup.js"></script>
+                    <ContextMenu/>
                     {/* <div className="RecordContr"><RecordController/></div> */}
                 </div>
             </IntlProvider>

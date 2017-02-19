@@ -4,13 +4,14 @@ sigma.canvas.nodes.def = (function() {
         url = node.url,
         textWidth,
         inParams = node.inParams,
-        outParams = node.outParams;
+        outParams = node.outParams,
         inParamsZones = node.inParamsZones;
         outParamsZones = node.outParamsZones;
     size = node[prefix + 'size'];
     textWidth = context.measureText(node.label).width;
 
     textWidthLabel = context.measureText(node.label).width;
+
 
     var allInsLength = 0;
     for (i = 0; i < inParams.length; i++)
@@ -271,6 +272,8 @@ sigma.canvas.nodes.def = (function() {
       size * 1.6,
       size * 1.6
     ); */
+
+
   };
 
 

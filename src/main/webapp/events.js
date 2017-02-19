@@ -121,14 +121,18 @@ document.getElementsByClassName('sigma-mouse')[0].addEventListener('mouseup', fu
 }, true);
 */
 
-    
 
 
-
+var obj = { x: 1 };
+var nodeIdForForm = {id: 0};
+var refNodeIdForForm = nodeIdForForm;
 // Open modal
 s.bind('doubleClickNode', function(e) {
   modal.style.display = "block"; //show modal
-  console.log(e.type, e.data.node.label, e.data.captor);
+
+  nodeIdForForm.id = e.data.node.id;
+  console.log("refNodeIdForForm.id =", refNodeIdForForm.id);
+
 });
 
 // When the user clicks anywhere outside of the modal, close it

@@ -5,6 +5,8 @@ var React = require('react');
 var injectIntl = require('../utils/injectIntl');
 
 var Panel = React.createClass({
+
+
     newnode(type) {
         console.log("New node ", type);
         window.newNode(type);

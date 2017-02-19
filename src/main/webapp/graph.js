@@ -1,8 +1,4 @@
 
-
-
-
-
 // function for downloading graph as json file
 function download(strData, strFileName, strMimeType) {
     var D = document,
@@ -159,8 +155,12 @@ function newNode(typeOfNode)
     break
   }
   console.log("Added ", s.graph.nodes()[idN]);
+    console.log("Nodes ", s.graph.nodes());
   idN++; 
   s.refresh();
+
+
+
 
 
   
