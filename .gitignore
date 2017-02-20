@@ -6,4 +6,5 @@ doc/*.toc
 doc/*.aux
 doc/*.log
 doc/*.out
-src/main/webapp/**/node_modules
+node_modules/
+*.log
