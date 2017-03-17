@@ -3,7 +3,7 @@
 <node TEXT="main" FOLDED="false" ID="ID_448131109" CREATED="1312805290594" MODIFIED="1489514323432">
 <font NAME="SansSerif"/>
 <hook NAME="MapStyle" zoom="1.003">
-    <properties show_icon_for_attributes="true" fit_to_viewport="false;" show_note_icons="true" show_notes_in_map="true"/>
+    <properties fit_to_viewport="false;" show_icon_for_attributes="true" show_note_icons="true" show_notes_in_map="true"/>
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node" STYLE="oval" UNIFORM_SHAPE="true" VGAP_QUANTITY="24.0 pt">
@@ -64,12 +64,12 @@
 <hook NAME="accessories/plugins/CreationModificationPlugin_new.properties"/>
 <node TEXT="research" STYLE_REF="onto-prop" POSITION="right" ID="ID_1925474745" CREATED="1489514327002" MODIFIED="1489514330272">
 <node TEXT="graph editor tools" ID="ID_761011584" CREATED="1489507196783" MODIFIED="1489507246731">
-<node TEXT="OntoDia" FOLDED="true" ID="ID_1372315863" CREATED="1489507929823" MODIFIED="1489507932138">
+<node TEXT="OntoDia" ID="ID_1372315863" CREATED="1489507929823" MODIFIED="1489507932138">
 <node TEXT="link" STYLE_REF="onto-prop" FOLDED="true" ID="ID_97856928" CREATED="1489507950046" MODIFIED="1489507951559">
 <node TEXT="http://ontodia.org/" ID="ID_771268989" CREATED="1487367761781" MODIFIED="1487367761781" LINK="http://ontodia.org/"/>
 <node TEXT="demo" ID="ID_936210370" CREATED="1489509295038" MODIFIED="1489509298112" LINK="http://app.ontodia.org/diagram?sharedDiagram=49689f29-82bc-405d-b5f6-33507f1c1444"/>
 </node>
-<node TEXT="features" STYLE_REF="onto-prop" FOLDED="true" ID="ID_984899553" CREATED="1489508958349" MODIFIED="1489508962358">
+<node TEXT="features" STYLE_REF="onto-prop" ID="ID_984899553" CREATED="1489508958349" MODIFIED="1489508962358">
 <node TEXT="automatic flow layout" ID="ID_378260427" CREATED="1489501284860" MODIFIED="1489509846705">
 <icon BUILTIN="button_ok"/>
 </node>
@@ -144,10 +144,10 @@
 <node TEXT="links between nodes can be defined by set of lines" ID="ID_1485637869" CREATED="1489507975862" MODIFIED="1489508026623"/>
 </node>
 </node>
-<node TEXT="The Graph Editor (NoFlo)" FOLDED="true" ID="ID_413301645" CREATED="1488789145734" MODIFIED="1489511729915">
+<node TEXT="The Graph Editor (NoFlo)" ID="ID_413301645" CREATED="1488789145734" MODIFIED="1489781347604">
 <icon BUILTIN="desktop_new"/>
 <icon BUILTIN="desktop_new"/>
-<node TEXT="link" STYLE_REF="onto-prop" ID="ID_984009182" CREATED="1488789149023" MODIFIED="1488789163532">
+<node TEXT="link" STYLE_REF="onto-prop" FOLDED="true" ID="ID_984009182" CREATED="1488789149023" MODIFIED="1488789163532">
 <node TEXT="demo-simple" ID="ID_286207561" CREATED="1488789017430" MODIFIED="1489509765513" LINK="https://flowhub.github.io/the-graph/examples/demo-simple.html"/>
 <node TEXT="demo-full" ID="ID_1261137698" CREATED="1489509766799" MODIFIED="1489509774032" LINK="https://flowhub.github.io/the-graph/examples/demo-full.html"/>
 <node TEXT="github" ID="ID_1779697256" CREATED="1488789152512" MODIFIED="1488789168748" LINK="https://github.com/flowhub/the-graph"/>
@@ -196,14 +196,58 @@
 </node>
 <node TEXT="-" STYLE_REF="onto-prop" ID="ID_833047921" CREATED="1489510646340" MODIFIED="1489510649098"/>
 <node TEXT="~" STYLE_REF="onto-prop" ID="ID_1845484065" CREATED="1489511252104" MODIFIED="1489511254703"/>
-<node TEXT="Uses PhantomJS" ID="ID_1832128329" CREATED="1489512465613" MODIFIED="1489512471026"/>
-<node TEXT="Library for dataflow JS programming" ID="ID_1136467352" CREATED="1489512465613" MODIFIED="1489512474818"/>
-<node TEXT="No tutorials, no runnable examples" ID="ID_1085693567" CREATED="1489512465614" MODIFIED="1489512478370"/>
-<node TEXT="Uses JSON graph definitions" ID="ID_1717711397" CREATED="1489512465614" MODIFIED="1489512481829"/>
+<node TEXT="Uses JSON graph definitions" ID="ID_1717711397" CREATED="1489512465614" MODIFIED="1489512481829">
+<node TEXT="consists of" STYLE_REF="onto-prop" ID="ID_1815414905" CREATED="1489781727923" MODIFIED="1489781739316">
+<node TEXT="properties (some random stuff like the graph name, can store UUID here, I guess)" FOLDED="true" ID="ID_24633873" CREATED="1489781741307" MODIFIED="1489781790277">
+<node TEXT="example" STYLE_REF="onto-prop" FOLDED="true" ID="ID_1264431006" CREATED="1489781931604" MODIFIED="1489781942615">
+<node TEXT="&quot;properties&quot;: {&#xa;    &quot;name&quot;: &quot;photobooth&quot;,&#xa;    &quot;environment&quot;: {&#xa;      &quot;runtime&quot;: &quot;html&quot;,&#xa;      &quot;src&quot;: &quot;preview/iframe.html&quot;,&#xa;      &quot;width&quot;: 300,&#xa;      &quot;height&quot;: 300,&#xa;      &quot;content&quot;: &quot;    &lt;video id=\&quot;vid\&quot; autoplay loop width=\&quot;640\&quot; height=\&quot;480\&quot; style=\&quot;display:none;\&quot;&gt;&lt;/video&gt;\n    &lt;canvas id=\&quot;out\&quot; width=\&quot;640\&quot; height=\&quot;480\&quot; style=\&quot;max-width:100%;\&quot;&gt;&lt;/canvas&gt;\n\n&lt;input id=\&quot;slider\&quot; type=\&quot;range\&quot; min=\&quot;0\&quot; max=\&quot;1\&quot; value=\&quot;0.5\&quot; step=\&quot;0.01\&quot;&gt;&lt;/input&gt;\n    &lt;button id=\&quot;start\&quot;&gt;start camera&lt;/button&gt;\n    &lt;button id=\&quot;prev\&quot;&gt;prev&lt;/button&gt;\n    &lt;button id=\&quot;next\&quot;&gt;next&lt;/button&gt;\n    &lt;button id=\&quot;save\&quot;&gt;save&lt;/button&gt;\n\n&lt;style&gt;\n  #saved img { width: 160px; height: 120px;}\n&lt;/style&gt;\n&lt;div id=\&quot;saved\&quot;&gt;&lt;/div&gt;&quot;&#xa;    }" ID="ID_1410754987" CREATED="1489781944700" MODIFIED="1489781957575"/>
+</node>
+</node>
+<node TEXT="processes (object that contains nodes)" FOLDED="true" ID="ID_1242818421" CREATED="1489781748371" MODIFIED="1489781985814">
+<node TEXT="example" STYLE_REF="onto-prop" ID="ID_1648010204" CREATED="1489781986811" MODIFIED="1489782104037">
+<node TEXT="&quot;processes&quot;: {&#xa;    &quot;dom/GetElement_f4nkd&quot;: {&#xa;      &quot;component&quot;: &quot;dom/GetElement&quot;,&#xa;      &quot;metadata&quot;: {&#xa;        &quot;x&quot;: 324,&#xa;        &quot;y&quot;: 144,&#xa;        &quot;label&quot;: &quot;startButton&quot;&#xa;      }&#xa;    },&#xa;    &quot;interaction/ListenMouse_1w3vt&quot;: {&#xa;      &quot;component&quot;: &quot;interaction/ListenMouse&quot;,&#xa;      &quot;metadata&quot;: {&#xa;        &quot;x&quot;: 324,&#xa;        &quot;y&quot;: 288,&#xa;        &quot;label&quot;: &quot;clickStart&quot;&#xa;      }&#xa;    }}" ID="ID_520666338" CREATED="1489782020603" MODIFIED="1489782104030">
+<node TEXT="explanation" STYLE_REF="onto-prop" ID="ID_747700684" CREATED="1489782842428" MODIFIED="1489782847574">
+<node TEXT="&quot;id&quot; : {&#xa;    &quot;component&quot; : &quot;SomethingLikeNodeType&quot;,&#xa;&quot;metadata&quot; : {&#xa;    &quot;label&quot; : &quot;SomeLabel&quot;,&#xa;    &quot;x&quot; : &quot;xCoordinateRelativeToIDKWTF&quot;,&#xa;    &quot;y&quot; : &quot;yCoordinateRelativeToSameStuff&quot;,&#xa;    &quot;width&quot; : &quot;widthOfTheNodeThatSeemsToBeRelativeToDisplayAspectRatio&quot;,&#xa;    &quot;height&quot;: &quot;heightSameAsWidthAndSeemsToIncludeLabel&quot;&#xa;}&#xa;}" ID="ID_1953258431" CREATED="1489782848940" MODIFIED="1489783396161"/>
+</node>
+</node>
+</node>
+</node>
+<node TEXT="connections (array of edges)" FOLDED="true" ID="ID_579889551" CREATED="1489781754091" MODIFIED="1489782050903">
+<node TEXT="example" STYLE_REF="onto-prop" ID="ID_387140977" CREATED="1489782041099" MODIFIED="1489782059312">
+<node TEXT="&quot;connections&quot;: [{&#xa;        &quot;src&quot;: {&quot;process&quot;: &quot;1k4m&quot;, &quot;port&quot;: &quot;out0&quot;},&#xa;        &quot;tgt&quot;: {&quot;process&quot;: &quot;1k4m&quot;, &quot;port&quot;: &quot;in4&quot;},&#xa;        &quot;metadata&quot;: {&quot;route&quot;: 1}&#xa;    }, {&#xa;        &quot;src&quot;: {&quot;process&quot;: &quot;8zd&quot;, &quot;port&quot;: &quot;out2&quot;},&#xa;        &quot;tgt&quot;: {&quot;process&quot;: &quot;1k4m&quot;, &quot;port&quot;: &quot;in9&quot;},&#xa;        &quot;metadata&quot;: {&quot;route&quot;: 2}&#xa;    }]" ID="ID_886755190" CREATED="1489782163628" MODIFIED="1489782171402">
+<node TEXT="explanation" STYLE_REF="onto-prop" ID="ID_1994538300" CREATED="1489783622780" MODIFIED="1489783627726">
+<node TEXT="{&#xa;        &quot;src&quot;: {&quot;process&quot;: &quot;sourceNodeId&quot;, &quot;port&quot;: &quot;portLabel&quot;},&#xa;        &quot;tgt&quot;: {&quot;process&quot;: &quot;targetNodeId&quot;, &quot;port&quot;: &quot;portLabel&quot;},&#xa;        &quot;metadata&quot;: {&quot;route&quot;: colorOfEdge}&#xa;    }" ID="ID_745301304" CREATED="1489783628492" MODIFIED="1489783629336"/>
+</node>
+</node>
+</node>
+</node>
+<node TEXT="groups (array of nodes)" FOLDED="true" ID="ID_1557397760" CREATED="1489781848731" MODIFIED="1489782234663">
+<node TEXT="example" STYLE_REF="onto-prop" FOLDED="true" ID="ID_983309001" CREATED="1489782176060" MODIFIED="1489782179359">
+<node TEXT="&quot;groups&quot;: [&#xa;    {&#xa;      &quot;name&quot;: &quot;elements&quot;,&#xa;      &quot;nodes&quot;: [&quot;dom/GetElement_ah82a&quot;, &quot;dom/GetElement_f4nkd&quot;, &quot;dom/GetElement_z64xf&quot;, &quot;dom/GetElement_ah36i&quot;, &quot;core/Split_jzzu2&quot;],&#xa;      &quot;metadata&quot;: {&#xa;        &quot;description&quot;: &quot;get the elements from the dom&quot;,&#xa;        &quot;color&quot;: 0&#xa;      }&#xa;    },&#xa;    {&#xa;      &quot;name&quot;: &quot;setup&quot;,&#xa;      &quot;nodes&quot;: [&quot;interaction/ListenMouse_1w3vt&quot;, &quot;core/Split_y0bla&quot;, &quot;seriously/SetSource_szf33&quot;, &quot;gum/GetUserMedia_9e9i4&quot;, &quot;dom/SetAttribute_uto4k&quot;, &quot;core/Split_occbw&quot;, &quot;core/RepeatAsync_647ff&quot;, &quot;core/Kick_4njgs&quot;],&#xa;      &quot;metadata&quot;: {&#xa;        &quot;color&quot;: 2&#xa;      }&#xa;    }]" ID="ID_1773293370" CREATED="1489782236148" MODIFIED="1489782240966"/>
+</node>
+</node>
+<node TEXT="inports (object of inputs of the entire graph)" FOLDED="true" ID="ID_689627348" CREATED="1489781863315" MODIFIED="1489782278351">
+<node TEXT="example" STYLE_REF="onto-prop" FOLDED="true" ID="ID_1971697032" CREATED="1489782248996" MODIFIED="1489782253975">
+<node TEXT="&quot;inports&quot;: {&#xa;    &quot;prev&quot;: {&#xa;      &quot;process&quot;: &quot;routers/KickRouter_bzaiw&quot;,&#xa;      &quot;port&quot;: &quot;prev&quot;,&#xa;      &quot;metadata&quot;: {&#xa;        &quot;x&quot;: 0,&#xa;        &quot;y&quot;: 144&#xa;      }&#xa;    },&#xa;    &quot;next&quot;: {&#xa;      &quot;process&quot;: &quot;routers/KickRouter_bzaiw&quot;,&#xa;      &quot;port&quot;: &quot;next&quot;&#xa;    }&#xa;  }" ID="ID_250078187" CREATED="1489782314996" MODIFIED="1489782317069"/>
+</node>
+</node>
+<node TEXT="outports (object of outputs of the entire graph)" FOLDED="true" ID="ID_250423331" CREATED="1489781873747" MODIFIED="1489782309048">
+<node TEXT="example" STYLE_REF="onto-prop" FOLDED="true" ID="ID_974021248" CREATED="1489782328059" MODIFIED="1489782330526">
+<node TEXT="&quot;outports&quot;: {&#xa;    &quot;image&quot;: {&#xa;      &quot;process&quot;: &quot;core/Split_xyb8x&quot;,&#xa;      &quot;port&quot;: &quot;out&quot;,&#xa;      &quot;metadata&quot;: {&#xa;        &quot;x&quot;: 2000,&#xa;        &quot;y&quot;: 1000&#xa;      }&#xa;    }&#xa;  }" ID="ID_679872197" CREATED="1489782331316" MODIFIED="1489782333241"/>
+</node>
+</node>
+<node TEXT="caseSensitive" FOLDED="true" ID="ID_1052847180" CREATED="1489782354876" MODIFIED="1489782371440">
+<node TEXT="can be" STYLE_REF="onto-prop" ID="ID_1250478741" CREATED="1489782376803" MODIFIED="1489782380886">
+<node TEXT="true" ID="ID_514430238" CREATED="1489782381964" MODIFIED="1489782383703"/>
+<node TEXT="false" ID="ID_1705155447" CREATED="1489782385484" MODIFIED="1489782386278"/>
+</node>
+</node>
+</node>
+</node>
 <node TEXT="NoFlo is part of The Graph Editor" ID="ID_68102417" CREATED="1489512483344" MODIFIED="1489512495012"/>
 </node>
 </node>
-<node TEXT="etl-linkedpipes" FOLDED="true" ID="ID_1015448470" CREATED="1489506475637" MODIFIED="1489506642895">
+<node TEXT="etl-linkedpipes" ID="ID_1015448470" CREATED="1489506475637" MODIFIED="1489506642895">
 <node TEXT="link" STYLE_REF="onto-prop" ID="ID_1168400689" CREATED="1489506482800" MODIFIED="1489506484407">
 <node TEXT="http://etl.linkedpipes.com/" ID="ID_1758943857" CREATED="1489506037312" MODIFIED="1489506039816" LINK="http://etl.linkedpipes.com/"/>
 <node TEXT="http://etl.linkedpipes.com/documentation/" ID="ID_1945930394" CREATED="1489508385398" MODIFIED="1489508385398" LINK="http://etl.linkedpipes.com/documentation/"/>
@@ -228,7 +272,7 @@
 <node TEXT="~" STYLE_REF="onto-prop" ID="ID_1064147370" CREATED="1489511942131" MODIFIED="1489511945155"/>
 </node>
 </node>
-<node TEXT="yed graph editor" FOLDED="true" ID="ID_1124418514" CREATED="1489501415516" MODIFIED="1489509504446">
+<node TEXT="yed graph editor" ID="ID_1124418514" CREATED="1489501415516" MODIFIED="1489509504446">
 <icon BUILTIN="button_cancel"/>
 <node TEXT="link" STYLE_REF="onto-prop" FOLDED="true" ID="ID_380106158" CREATED="1489509498041" MODIFIED="1489509502509">
 <node TEXT="https://www.yworks.com/yed-live/" ID="ID_1919955409" CREATED="1489509500929" MODIFIED="1489509500929" LINK="https://www.yworks.com/yed-live/"/>
@@ -301,7 +345,7 @@
 </node>
 </node>
 </node>
-<node TEXT="design" STYLE_REF="onto-prop" POSITION="right" ID="ID_819262605" CREATED="1489514358334" MODIFIED="1489514362312">
+<node TEXT="design" STYLE_REF="onto-prop" FOLDED="true" POSITION="right" ID="ID_819262605" CREATED="1489514358334" MODIFIED="1489514362312">
 <node TEXT="functional requirements" ID="ID_407884870" CREATED="1489514362624" MODIFIED="1489514387754">
 <node TEXT="automatic flow layout" ID="ID_1148610310" CREATED="1489501284860" MODIFIED="1489501292881"/>
 <node TEXT="collapsing nodes respecting layout" ID="ID_262212445" CREATED="1489501158811" MODIFIED="1489501279943"/>
@@ -319,7 +363,7 @@
 <node TEXT="list of scripts with views" ID="ID_907840220" CREATED="1484745034112" MODIFIED="1484745056915"/>
 </node>
 </node>
-<node TEXT="scenario" STYLE_REF="categorization" FOLDED="true" ID="ID_743457031" CREATED="1481803309926" MODIFIED="1481803317652">
+<node TEXT="scenario" STYLE_REF="categorization" ID="ID_743457031" CREATED="1481803309926" MODIFIED="1481803317652">
 <node TEXT="load all scripts" ID="ID_429393578" CREATED="1484745086564" MODIFIED="1484745092309">
 <node TEXT="legend" STYLE_REF="onto-prop" ID="ID_223001259" CREATED="1484745226863" MODIFIED="1484745228747">
 <node TEXT="sped-b" ID="ID_175565459" CREATED="1484745229017" MODIFIED="1484816820646"/>
@@ -412,7 +456,19 @@
 <node TEXT="specify new context" ID="ID_167531040" CREATED="1481803439266" MODIFIED="1481803579835"/>
 <node TEXT="assign default module-types-ontology (MTO) uri" ID="ID_1390358112" CREATED="1481803583688" MODIFIED="1481803660241">
 <node TEXT="e.g." STYLE_REF="onto-prop" ID="ID_116140066" CREATED="1481803792040" MODIFIED="1481803793251">
-<node TEXT="&lt;html&gt;&#xa;  &lt;head&gt;&#xa;    &#xa;  &lt;/head&gt;&#xa;  &lt;body&gt;&#xa;    &lt;span style=&quot;color: #000000; background-color: #ffffff&quot;&gt;&lt;font color=&quot;#000000&quot; face=&quot;monospace&quot;&gt;&amp;lt;http://onto.fel.cvut.cz/ontologies/lib/module&amp;gt;&lt;/font&gt;&lt;/span&gt;&lt;span style=&quot;font-family: monospace&quot;&gt;&lt;font face=&quot;monospace&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/span&gt;&#xa;  &lt;/body&gt;&#xa;&lt;/html&gt;" ID="ID_222554479" CREATED="1481803794189" MODIFIED="1481803794189" LINK="http://onto.fel.cvut.cz/ontologies/lib/module&amp;gt;"/>
+<node ID="ID_222554479" CREATED="1481803794189" MODIFIED="1481803794189" LINK="http://onto.fel.cvut.cz/ontologies/lib/module&amp;gt;"><richcontent TYPE="NODE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <span style="color: #000000; background-color: #ffffff"><font color="#000000" face="monospace">&lt;http://onto.fel.cvut.cz/ontologies/lib/module&gt;</font></span><span style="font-family: monospace"><font face="monospace"><br/></font></span>
+  </body>
+</html>
+
+</richcontent>
+</node>
 </node>
 </node>
 <node TEXT="load module types based on MTO uri" ID="ID_193006776" CREATED="1481803318705" MODIFIED="1481803653655">
@@ -555,8 +611,36 @@
 </node>
 <node TEXT="/data" ID="ID_1859042692" CREATED="1481793097955" MODIFIED="1484730770621">
 <icon BUILTIN="button_ok"/>
-<node TEXT="&lt;html&gt;&#xa;  &lt;head&gt;&#xa;    &#xa;  &lt;/head&gt;&#xa;  &lt;body&gt;&#xa;    &lt;p&gt;&#xa;      ?closure=[&lt;font color=&quot;#008000&quot;&gt;true&lt;/font&gt;/false]&#xa;    &lt;/p&gt;&#xa;  &lt;/body&gt;&#xa;&lt;/html&gt;" ID="ID_858545342" CREATED="1481793166251" MODIFIED="1481793572942"/>
-<node TEXT="&lt;html&gt;&#xa;  &lt;head&gt;&#xa;    &#xa;  &lt;/head&gt;&#xa;  &lt;body&gt;&#xa;    &lt;p&gt;&#xa;      ?inferred=[true/&lt;font color=&quot;#008000&quot;&gt;false&lt;/font&gt;]&#xa;    &lt;/p&gt;&#xa;  &lt;/body&gt;&#xa;&lt;/html&gt;" ID="ID_1604922199" CREATED="1481793144467" MODIFIED="1481793575494"/>
+<node ID="ID_858545342" CREATED="1481793166251" MODIFIED="1481793572942"><richcontent TYPE="NODE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      ?closure=[<font color="#008000">true</font>/false]
+    </p>
+  </body>
+</html>
+
+</richcontent>
+</node>
+<node ID="ID_1604922199" CREATED="1481793144467" MODIFIED="1481793575494"><richcontent TYPE="NODE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      ?inferred=[true/<font color="#008000">false</font>]
+    </p>
+  </body>
+</html>
+
+</richcontent>
+</node>
 </node>
 <node TEXT="/content-hash" ID="ID_24033997" CREATED="1484731020300" MODIFIED="1484731032743"/>
 </node>
