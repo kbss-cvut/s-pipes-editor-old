@@ -3,7 +3,7 @@
 <node TEXT="main" FOLDED="false" ID="ID_448131109" CREATED="1312805290594" MODIFIED="1489514323432">
 <font NAME="SansSerif"/>
 <hook NAME="MapStyle" zoom="1.003">
-    <properties fit_to_viewport="false;" show_icon_for_attributes="true" show_note_icons="true" show_notes_in_map="true"/>
+    <properties show_icon_for_attributes="true" fit_to_viewport="false;" show_note_icons="true" show_notes_in_map="true"/>
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node" STYLE="oval" UNIFORM_SHAPE="true" VGAP_QUANTITY="24.0 pt">
@@ -62,9 +62,9 @@
 </map_styles>
 </hook>
 <hook NAME="accessories/plugins/CreationModificationPlugin_new.properties"/>
-<node TEXT="research" STYLE_REF="onto-prop" POSITION="right" ID="ID_1925474745" CREATED="1489514327002" MODIFIED="1489514330272">
-<node TEXT="graph editor tools" ID="ID_761011584" CREATED="1489507196783" MODIFIED="1489507246731">
-<node TEXT="OntoDia" ID="ID_1372315863" CREATED="1489507929823" MODIFIED="1489507932138">
+<node TEXT="research" STYLE_REF="onto-prop" FOLDED="true" POSITION="right" ID="ID_1925474745" CREATED="1489514327002" MODIFIED="1489514330272">
+<node TEXT="graph editor tools" FOLDED="true" ID="ID_761011584" CREATED="1489507196783" MODIFIED="1489507246731">
+<node TEXT="OntoDia" FOLDED="true" ID="ID_1372315863" CREATED="1489507929823" MODIFIED="1489507932138">
 <node TEXT="link" STYLE_REF="onto-prop" FOLDED="true" ID="ID_97856928" CREATED="1489507950046" MODIFIED="1489507951559">
 <node TEXT="http://ontodia.org/" ID="ID_771268989" CREATED="1487367761781" MODIFIED="1487367761781" LINK="http://ontodia.org/"/>
 <node TEXT="demo" ID="ID_936210370" CREATED="1489509295038" MODIFIED="1489509298112" LINK="http://app.ontodia.org/diagram?sharedDiagram=49689f29-82bc-405d-b5f6-33507f1c1444"/>
@@ -144,10 +144,10 @@
 <node TEXT="links between nodes can be defined by set of lines" ID="ID_1485637869" CREATED="1489507975862" MODIFIED="1489508026623"/>
 </node>
 </node>
-<node TEXT="The Graph Editor (NoFlo)" ID="ID_413301645" CREATED="1488789145734" MODIFIED="1489781347604">
+<node TEXT="The Graph Editor (NoFlo)" FOLDED="true" ID="ID_413301645" CREATED="1488789145734" MODIFIED="1489781347604">
 <icon BUILTIN="desktop_new"/>
 <icon BUILTIN="desktop_new"/>
-<node TEXT="link" STYLE_REF="onto-prop" FOLDED="true" ID="ID_984009182" CREATED="1488789149023" MODIFIED="1488789163532">
+<node TEXT="link" STYLE_REF="onto-prop" ID="ID_984009182" CREATED="1488789149023" MODIFIED="1488789163532">
 <node TEXT="demo-simple" ID="ID_286207561" CREATED="1488789017430" MODIFIED="1489509765513" LINK="https://flowhub.github.io/the-graph/examples/demo-simple.html"/>
 <node TEXT="demo-full" ID="ID_1261137698" CREATED="1489509766799" MODIFIED="1489509774032" LINK="https://flowhub.github.io/the-graph/examples/demo-full.html"/>
 <node TEXT="github" ID="ID_1779697256" CREATED="1488789152512" MODIFIED="1488789168748" LINK="https://github.com/flowhub/the-graph"/>
@@ -197,7 +197,7 @@
 <node TEXT="-" STYLE_REF="onto-prop" ID="ID_833047921" CREATED="1489510646340" MODIFIED="1489510649098"/>
 <node TEXT="~" STYLE_REF="onto-prop" ID="ID_1845484065" CREATED="1489511252104" MODIFIED="1489511254703"/>
 <node TEXT="Uses JSON graph definitions" ID="ID_1717711397" CREATED="1489512465614" MODIFIED="1489512481829">
-<node TEXT="consists of" STYLE_REF="onto-prop" ID="ID_1815414905" CREATED="1489781727923" MODIFIED="1489781739316">
+<node TEXT="consists of" STYLE_REF="onto-prop" FOLDED="true" ID="ID_1815414905" CREATED="1489781727923" MODIFIED="1489781739316">
 <node TEXT="properties (some random stuff like the graph name, can store UUID here, I guess)" FOLDED="true" ID="ID_24633873" CREATED="1489781741307" MODIFIED="1489781790277">
 <node TEXT="example" STYLE_REF="onto-prop" FOLDED="true" ID="ID_1264431006" CREATED="1489781931604" MODIFIED="1489781942615">
 <node TEXT="&quot;properties&quot;: {&#xa;    &quot;name&quot;: &quot;photobooth&quot;,&#xa;    &quot;environment&quot;: {&#xa;      &quot;runtime&quot;: &quot;html&quot;,&#xa;      &quot;src&quot;: &quot;preview/iframe.html&quot;,&#xa;      &quot;width&quot;: 300,&#xa;      &quot;height&quot;: 300,&#xa;      &quot;content&quot;: &quot;    &lt;video id=\&quot;vid\&quot; autoplay loop width=\&quot;640\&quot; height=\&quot;480\&quot; style=\&quot;display:none;\&quot;&gt;&lt;/video&gt;\n    &lt;canvas id=\&quot;out\&quot; width=\&quot;640\&quot; height=\&quot;480\&quot; style=\&quot;max-width:100%;\&quot;&gt;&lt;/canvas&gt;\n\n&lt;input id=\&quot;slider\&quot; type=\&quot;range\&quot; min=\&quot;0\&quot; max=\&quot;1\&quot; value=\&quot;0.5\&quot; step=\&quot;0.01\&quot;&gt;&lt;/input&gt;\n    &lt;button id=\&quot;start\&quot;&gt;start camera&lt;/button&gt;\n    &lt;button id=\&quot;prev\&quot;&gt;prev&lt;/button&gt;\n    &lt;button id=\&quot;next\&quot;&gt;next&lt;/button&gt;\n    &lt;button id=\&quot;save\&quot;&gt;save&lt;/button&gt;\n\n&lt;style&gt;\n  #saved img { width: 160px; height: 120px;}\n&lt;/style&gt;\n&lt;div id=\&quot;saved\&quot;&gt;&lt;/div&gt;&quot;&#xa;    }" ID="ID_1410754987" CREATED="1489781944700" MODIFIED="1489781957575"/>
@@ -243,11 +243,14 @@
 </node>
 </node>
 </node>
+<node TEXT="is described by" STYLE_REF="onto-prop" ID="ID_1956222387" CREATED="1489788846628" MODIFIED="1489788965341">
+<node TEXT="Schema" ID="ID_1801063495" CREATED="1489788854450" MODIFIED="1489788918790" LINK="https://github.com/flowbased/fbp/blob/master/schema/graph.json"/>
+</node>
 </node>
 <node TEXT="NoFlo is part of The Graph Editor" ID="ID_68102417" CREATED="1489512483344" MODIFIED="1489512495012"/>
 </node>
 </node>
-<node TEXT="etl-linkedpipes" ID="ID_1015448470" CREATED="1489506475637" MODIFIED="1489506642895">
+<node TEXT="etl-linkedpipes" FOLDED="true" ID="ID_1015448470" CREATED="1489506475637" MODIFIED="1489506642895">
 <node TEXT="link" STYLE_REF="onto-prop" ID="ID_1168400689" CREATED="1489506482800" MODIFIED="1489506484407">
 <node TEXT="http://etl.linkedpipes.com/" ID="ID_1758943857" CREATED="1489506037312" MODIFIED="1489506039816" LINK="http://etl.linkedpipes.com/"/>
 <node TEXT="http://etl.linkedpipes.com/documentation/" ID="ID_1945930394" CREATED="1489508385398" MODIFIED="1489508385398" LINK="http://etl.linkedpipes.com/documentation/"/>
@@ -345,7 +348,7 @@
 </node>
 </node>
 </node>
-<node TEXT="design" STYLE_REF="onto-prop" FOLDED="true" POSITION="right" ID="ID_819262605" CREATED="1489514358334" MODIFIED="1489514362312">
+<node TEXT="design" STYLE_REF="onto-prop" FOLDED="true" POSITION="left" ID="ID_819262605" CREATED="1489514358334" MODIFIED="1489514362312">
 <node TEXT="functional requirements" ID="ID_407884870" CREATED="1489514362624" MODIFIED="1489514387754">
 <node TEXT="automatic flow layout" ID="ID_1148610310" CREATED="1489501284860" MODIFIED="1489501292881"/>
 <node TEXT="collapsing nodes respecting layout" ID="ID_262212445" CREATED="1489501158811" MODIFIED="1489501279943"/>
@@ -466,7 +469,6 @@
     <span style="color: #000000; background-color: #ffffff"><font color="#000000" face="monospace">&lt;http://onto.fel.cvut.cz/ontologies/lib/module&gt;</font></span><span style="font-family: monospace"><font face="monospace"><br/></font></span>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -623,7 +625,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 <node ID="ID_1604922199" CREATED="1481793144467" MODIFIED="1481793575494"><richcontent TYPE="NODE">
@@ -638,7 +639,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
