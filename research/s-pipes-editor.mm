@@ -3,7 +3,7 @@
 <node TEXT="main" FOLDED="false" ID="ID_448131109" CREATED="1312805290594" MODIFIED="1489514323432">
 <font NAME="SansSerif"/>
 <hook NAME="MapStyle" zoom="1.003">
-    <properties show_icon_for_attributes="true" fit_to_viewport="false;" show_note_icons="true" show_notes_in_map="true"/>
+    <properties fit_to_viewport="false;" show_icon_for_attributes="true" show_note_icons="true" show_notes_in_map="true"/>
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node" STYLE="oval" UNIFORM_SHAPE="true" VGAP_QUANTITY="24.0 pt">
@@ -62,8 +62,8 @@
 </map_styles>
 </hook>
 <hook NAME="accessories/plugins/CreationModificationPlugin_new.properties"/>
-<node TEXT="research" STYLE_REF="onto-prop" FOLDED="true" POSITION="right" ID="ID_1925474745" CREATED="1489514327002" MODIFIED="1489514330272">
-<node TEXT="graph editor tools" FOLDED="true" ID="ID_761011584" CREATED="1489507196783" MODIFIED="1489507246731">
+<node TEXT="research" STYLE_REF="onto-prop" POSITION="right" ID="ID_1925474745" CREATED="1489514327002" MODIFIED="1489514330272">
+<node TEXT="graph editor tools" ID="ID_761011584" CREATED="1489507196783" MODIFIED="1489507246731">
 <node TEXT="OntoDia" FOLDED="true" ID="ID_1372315863" CREATED="1489507929823" MODIFIED="1489507932138">
 <node TEXT="link" STYLE_REF="onto-prop" FOLDED="true" ID="ID_97856928" CREATED="1489507950046" MODIFIED="1489507951559">
 <node TEXT="http://ontodia.org/" ID="ID_771268989" CREATED="1487367761781" MODIFIED="1487367761781" LINK="http://ontodia.org/"/>
@@ -144,10 +144,10 @@
 <node TEXT="links between nodes can be defined by set of lines" ID="ID_1485637869" CREATED="1489507975862" MODIFIED="1489508026623"/>
 </node>
 </node>
-<node TEXT="The Graph Editor (NoFlo)" FOLDED="true" ID="ID_413301645" CREATED="1488789145734" MODIFIED="1489781347604">
+<node TEXT="The Graph Editor (NoFlo)" ID="ID_413301645" CREATED="1488789145734" MODIFIED="1489781347604">
 <icon BUILTIN="desktop_new"/>
 <icon BUILTIN="desktop_new"/>
-<node TEXT="link" STYLE_REF="onto-prop" ID="ID_984009182" CREATED="1488789149023" MODIFIED="1488789163532">
+<node TEXT="link" STYLE_REF="onto-prop" FOLDED="true" ID="ID_984009182" CREATED="1488789149023" MODIFIED="1488789163532">
 <node TEXT="demo-simple" ID="ID_286207561" CREATED="1488789017430" MODIFIED="1489509765513" LINK="https://flowhub.github.io/the-graph/examples/demo-simple.html"/>
 <node TEXT="demo-full" ID="ID_1261137698" CREATED="1489509766799" MODIFIED="1489509774032" LINK="https://flowhub.github.io/the-graph/examples/demo-full.html"/>
 <node TEXT="github" ID="ID_1779697256" CREATED="1488789152512" MODIFIED="1488789168748" LINK="https://github.com/flowhub/the-graph"/>
@@ -181,7 +181,7 @@
 <icon BUILTIN="button_ok"/>
 </node>
 </node>
-<node TEXT="notes" STYLE_REF="onto-prop" ID="ID_676620791" CREATED="1489510366500" MODIFIED="1489510368121">
+<node TEXT="notes" STYLE_REF="onto-prop" FOLDED="true" ID="ID_676620791" CREATED="1489510366500" MODIFIED="1489510368121">
 <node TEXT="+" STYLE_REF="onto-prop" ID="ID_788524047" CREATED="1489510645272" MODIFIED="1489510649434">
 <node TEXT="uses reactJs for virtual dom" ID="ID_582052517" CREATED="1489510368464" MODIFIED="1489510644016"/>
 <node TEXT="active development" ID="ID_790333096" CREATED="1489510639546" MODIFIED="1489511131792">
@@ -248,6 +248,13 @@
 </node>
 </node>
 <node TEXT="NoFlo is part of The Graph Editor" ID="ID_68102417" CREATED="1489512483344" MODIFIED="1489512495012"/>
+</node>
+<node TEXT="license" STYLE_REF="onto-prop" FOLDED="true" ID="ID_868216680" CREATED="1489851816501" MODIFIED="1489851822822">
+<node TEXT="MIT" FOLDED="true" ID="ID_773085775" CREATED="1489851823829" MODIFIED="1489851834796">
+<node TEXT="consequences" STYLE_REF="onto-prop" FOLDED="true" ID="ID_1846946000" CREATED="1489851840357" MODIFIED="1489851846217">
+<node TEXT="MIT-licensed code can be seamlessly re-licensed under GPL" ID="ID_184700907" CREATED="1489851848005" MODIFIED="1489852153954"/>
+</node>
+</node>
 </node>
 </node>
 <node TEXT="etl-linkedpipes" FOLDED="true" ID="ID_1015448470" CREATED="1489506475637" MODIFIED="1489506642895">
