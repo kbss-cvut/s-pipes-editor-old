@@ -10,7 +10,7 @@ import cz.cvut.kbss.jsonld.JsonLd
 import cz.cvut.kbss.ontodriver.config.OntoDriverProperties
 import cz.cvut.kbss.ontodriver.sesame.config.SesameOntoDriverProperties
 import cz.cvut.kbss.sempipes.model.Vocabulary
-import cz.cvut.kbss.sempipes.model.sempipes.{Module, ModuleType, Context}
+import cz.cvut.kbss.sempipes.model.sempipes.{Context, Module, ModuleType}
 import cz.cvut.kbss.sempipes.util.JopaPersistenceUtils
 import org.openrdf.rio.RDFFormat
 import org.springframework.beans.factory.annotation.Autowired
@@ -90,7 +90,7 @@ class SempipesDao {
 
   def getModules(url: String): Option[Traversable[Module]] = {
     // retrieve data from url
-    val uri = URI.create(url)
+    /*val uri = URI.create(url)
     val headers = new HttpHeaders()
     headers.set(HttpHeaders.ACCEPT, "text/turtle")
     val entity = new HttpEntity[String](null, headers)
@@ -98,13 +98,14 @@ class SempipesDao {
       HttpMethod.GET,
       entity,
       classOf[String]).getBody().getBytes())
+*/
 
     val em = emf.createEntityManager()
 
     try {
       //TODO load data into NEW TEMPORARY JOPA context
       val repo = JopaPersistenceUtils.getRepository(em)
-      repo.getConnection().add(is, "http://temporary", RDFFormat.TURTLE)
+      repo.getConnection().add(getClass.getClassLoader.getResourceAsStream("sample-script.ttl"), "http://temporary", RDFFormat.TURTLE)
 
       // retrieve JOPA objects by callback function
 

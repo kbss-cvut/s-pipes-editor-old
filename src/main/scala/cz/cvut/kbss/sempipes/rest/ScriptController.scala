@@ -9,7 +9,6 @@ import cz.cvut.kbss.sempipes.util.ConfigParam.SEMPIPES_LOCATION
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.PropertySource
 import org.springframework.http.{HttpStatus, ResponseEntity}
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.{GetMapping, PathVariable, RequestMapping, RestController}
 
 import scala.collection.JavaConverters._
@@ -19,7 +18,6 @@ import scala.collection.JavaConverters._
   */
 @RestController
 @RequestMapping(path = Array("/scripts"))
-@PreAuthorize("hasRole('ROLE_SCRIPTS')")
 @PropertySource(Array("classpath:config.properties"))
 class ScriptController {
 

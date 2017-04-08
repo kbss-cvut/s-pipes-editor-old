@@ -59,22 +59,21 @@ class ViewService {
   def createViewFromSempipes(id: String): Option[View] = {
     sempipesService.getModules(id) match {
       case Some(modules) =>
-        val nodes = modules.map(m => new Node(m.getLabel(), 0, 0, Set("").asJava, Set("").asJava, Set("").asJava))
-        val edges = modules.map(m => new Edge(
-          new Node(m.getLabel(), 0, 0, Set("").asJava, Set("").asJava, Set("").asJava),
-          new Node(m.getNext().getLabel(), 0, 0, Set("").asJava, Set("").asJava, Set("").asJava)))
-          .filterNot(e => e.getDestinationNode == null)
-        dao.get(URI.create(Vocabulary.s_c_view + "/" + id)) match {
-          case Some(view) =>
-            view.setNodes(nodes.toSet.asJava)
-            view.setEdges(edges.toSet.asJava)
-            dao.update(view.getUri, view)
-          case None =>
-            val view = new View("Some mr. view man",
-              nodes.toSet.asJava,
-              edges.toSet.asJava)
-            dao.add(view)
-        }
+        val nodes = modules.map(m => new Node(m.getLabel(), 0, 0, Set("").asJava, Set("").asJava, Set("").asJava)).toList
+        val edges = Seq(new Edge(nodes.head, nodes.last), new Edge(nodes.last, nodes.head))
+        //        dao.get(URI.create(Vocabulary.s_c_view + "/" + id)) match {
+        //          case Some(view) =>
+        //            view.setNodes(nodes.toSet.asJava)
+        //            view.setEdges(edges.toSet.asJava)
+        //            dao.update(view.getUri, view)
+        //          case None =>
+        //            val view = new View("Some mr. view man",
+        //              nodes.toSet.asJava,
+        //              edges.toSet.asJava)
+        //            dao.add(view)
+        //        }
+        import scala.collection.JavaConverters._
+        Some(new View("Label", nodes.toSet.asJava, edges.toSet.asJava))
       case None =>
         None
     }

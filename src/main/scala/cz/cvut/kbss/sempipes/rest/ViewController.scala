@@ -8,7 +8,6 @@ import cz.cvut.kbss.sempipes.model.view.{Edge, Node, View}
 import cz.cvut.kbss.sempipes.service.ViewService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation._
 
 import scala.collection.JavaConverters._
@@ -18,7 +17,6 @@ import scala.collection.JavaConverters._
   */
 @RestController
 @RequestMapping(path = Array("/views"))
-@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
 class ViewController {
 
   @Autowired
@@ -98,6 +96,13 @@ class ViewController {
   def deleteView(@PathVariable id: String): ResponseEntity[URI] =
     viewService.deleteView(id) match {
       case Some(u) => new ResponseEntity(u, HttpStatus.NO_CONTENT)
+      case None => new ResponseEntity(URI.create("https://not/found"), HttpStatus.NOT_FOUND)
+    }
+
+  @GetMapping(path = Array("/new"), produces = Array(JsonLd.MEDIA_TYPE))
+  def createFromSpipes =
+    viewService.createViewFromSempipes("http://localhost:8000/sample-script.ttl") match {
+      case Some(u) => new ResponseEntity(u, HttpStatus.CREATED)
       case None => new ResponseEntity(URI.create("https://not/found"), HttpStatus.NOT_FOUND)
     }
 }

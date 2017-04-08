@@ -18,7 +18,7 @@ class SempipesService {
     dataStreamDao.getModuleTypes(url + "/data")
 
   def getModules(url: String): Option[Traversable[Module]] =
-    dataStreamDao.getModules(url + "/data")
+    dataStreamDao.getModules(url)
 
   def getScripts(url: String): Option[Traversable[Context]] =
     dataStreamDao.getScripts(url)

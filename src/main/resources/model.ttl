@@ -34,9 +34,11 @@ sp-view:consists-of-node a owl:ObjectProperty ;
 sp-view:consists-of-edge a owl:ObjectProperty ;
     rdfs:domain sp-view:view ;
     rdfs:range sp-view:edge .
-sm:next a owl:ObjectProperty ;
+
+sm:next a owl:ObjectProperty , rdf:Property ;
     rdfs:domain sm:Modules ;
     rdfs:range sm:Modules .
+
 sp-view:has-author a owl:ObjectProperty ;
     rdfs:domain sp-view:view ;
     rdfs:range foaf:Person .
@@ -50,7 +52,6 @@ sp:has-question-origin a owl:ObjectProperty .
 
 sp:has-object-value a owl:ObjectProperty .
 
-#note What is rdf:type?
 sp:relates-to rdf:type owl:ObjectProperty .
 
 sp:has-part rdf:type owl:ObjectProperty ;
