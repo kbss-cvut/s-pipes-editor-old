@@ -22,8 +22,7 @@ em:download-uri rdf:type owl:NamedIndividual ,
 
 ###  http://onto.fel.cvut.cz/ontologies/s-pipes-view/editor-model/show-page-title
 em:show-page-title rdf:type owl:NamedIndividual ,
-                            <http://topbraid.org/sparqlmotion#Modules> ;
-                            <http://topbraid.org/sparqlmotion#next> em:download-uri .
+                            <http://topbraid.org/sparqlmotion#Modules> .
 
 
 <http://topbraid.org/sparqlmotion#next> rdf:type owl:ObjectProperty  .
