@@ -1,7 +1,9 @@
 package cz.cvut.kbss.sempipes.model.sempipes;
 
+import cz.cvut.kbss.jopa.model.annotations.FetchType;
 import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
+import cz.cvut.kbss.jopa.model.annotations.OWLObjectProperty;
 import cz.cvut.kbss.sempipes.model.AbstractEntity;
 import cz.cvut.kbss.sempipes.model.Vocabulary;
 
@@ -16,7 +18,7 @@ public class Module extends AbstractEntity {
 
     @OWLDataProperty(iri = Vocabulary.s_p_label)
     private String label;
-    @OWLDataProperty(iri = Vocabulary.s_p_next)
+    @OWLObjectProperty(iri = Vocabulary.s_p_next, fetch = FetchType.EAGER)
     private Module next;
 
     public Module() {
