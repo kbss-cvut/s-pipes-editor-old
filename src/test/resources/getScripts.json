@@ -1,22 +1,22 @@
 [{
   "@context": {
     "rdfs": "http://www.w3.org/2002/12/cal/ical#",
-    "sempipes": "http://onto.fel.cvut.cz/ontologies/sempipes/"
+    "spipes": "http://onto.fel.cvut.cz/ontologies/spipes/"
   },
   "@id": "http://onto.fel.cvut.cz/ontologies/ear-scripts",
-  "@type": "sempipes:Context",
-  "sempipes:has-key" : "11111111111",
-  "sempipes:has-content-hash": "0123012323",
+  "@type": "spipes:Context",
+  "spipes:has-key": "11111111111",
+  "spipes:has-content-hash": "0123012323",
   "rdfs:label": "Pomocne skripty pro EAR"
 },
 {
   "@context": {
     "rdfs": "http://www.w3.org/2002/12/cal/ical#",
-    "sempipes": "http://www.w3.org/2001/XMLSchema#"
+    "spipes": "http://www.w3.org/2001/XMLSchema#"
   },
   "@id": "http://onto.fel.cvut.cz/ontologies/wpa-scripts",
-  "@type": "sempipes:Context",
-  "sempipes:has-key" : "2222222222",
-  "sempipes:has-content-hash": "987654321",
+  "@type": "spipes:Context",
+  "spipes:has-key": "2222222222",
+  "spipes:has-content-hash": "987654321",
   "rdfs:label": "Pomocne skripty pro WPA"
 }]

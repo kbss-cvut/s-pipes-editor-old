@@ -1,9 +1,15 @@
 {
   "@id": "/nodes/12034",
   "http://www.w3.org/2000/01/rdf-schema#label": "create name",
-  "http://onto.fel.cvut.cz/ontologies/sempipes/has-x-coordinate": 1.0,
-  "http://onto.fel.cvut.cz/ontologies/sempipes/has-y-coordinate": 2.2,
-  "@type": "http://onto.fel.cvut.cz/ontologies/sempipes/node",
-  "http://onto.fel.cvut.cz/ontologies/sempipes/has-input-parameter" : ["a","b"],
-  "http://onto.fel.cvut.cz/ontologies/sempipes/has-output-parameter" : ["c","d"]
+  "http://onto.fel.cvut.cz/ontologies/spipes/has-x-coordinate": 1.0,
+  "http://onto.fel.cvut.cz/ontologies/spipes/has-y-coordinate": 2.2,
+  "@type": "http://onto.fel.cvut.cz/ontologies/spipes/node",
+  "http://onto.fel.cvut.cz/ontologies/spipes/has-input-parameter": [
+    "a",
+    "b"
+  ],
+  "http://onto.fel.cvut.cz/ontologies/spipes/has-output-parameter": [
+    "c",
+    "d"
+  ]
 }

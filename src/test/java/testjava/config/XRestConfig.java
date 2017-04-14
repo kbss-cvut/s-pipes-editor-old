@@ -18,8 +18,8 @@ public class XRestConfig {
 
 //
 //    @Bean
-//    public SempipesDao getDao() {
-//        return new SempipesDao();
+//    public spipesDao getDao() {
+//        return new spipesDao();
 //    }
 
 //    @Bean
