@@ -1,10 +1,10 @@
-package cz.cvut.kbss.sempipes.service
+package cz.cvut.kbss.spipes.service
 
 import java.net.URI
 
-import cz.cvut.kbss.sempipes.model.Vocabulary
-import cz.cvut.kbss.sempipes.model.view.{Edge, Node, View}
-import cz.cvut.kbss.sempipes.persistence.dao.ViewDao
+import cz.cvut.kbss.spipes.model.Vocabulary
+import cz.cvut.kbss.spipes.model.view.{Edge, Node, View}
+import cz.cvut.kbss.spipes.persistence.dao.ViewDao
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -18,7 +18,7 @@ class ViewService {
   private var dao: ViewDao = _
 
   @Autowired
-  private var sempipesService: SempipesService = _
+  private var spipesService: SpipesService = _
 
   def getView(id: String): Option[View] =
     dao.get(URI.create(Vocabulary.s_c_view + "/" + id))
@@ -53,27 +53,19 @@ class ViewService {
   def getNode(id: String): Option[Node] =
     dao.getNode(URI.create(Vocabulary.s_c_node + "/" + id))
 
-
-  import scala.collection.JavaConverters._
-
-  def createViewFromSempipes(id: String): Option[View] = {
-    sempipesService.getModules(id) match {
+  def createViewFromspipes(id: String): Option[View] = {
+    spipesService.getModules(id) match {
       case Some(modules) =>
-        val nodes = modules.map(m => new Node(m.getLabel(), 0, 0, Set("").asJava, Set("").asJava, Set("").asJava)).toList
-        val edges = Seq(new Edge(nodes.head, nodes.last), new Edge(nodes.last, nodes.head))
-        //        dao.get(URI.create(Vocabulary.s_c_view + "/" + id)) match {
-        //          case Some(view) =>
-        //            view.setNodes(nodes.toSet.asJava)
-        //            view.setEdges(edges.toSet.asJava)
-        //            dao.update(view.getUri, view)
-        //          case None =>
-        //            val view = new View("Some mr. view man",
-        //              nodes.toSet.asJava,
-        //              edges.toSet.asJava)
-        //            dao.add(view)
-        //        }
+        val nodes = modules.map(m => new Node(m.getLabel(), 0, 0, null, null, null))
+        val edges = modules
+          .filter(_.getNext() != null)
+          .map(m => new Edge(
+            nodes.find(_.getLabel() == m.getLabel()).get,
+            nodes.find(_.getLabel() == m.getNext().getLabel()).get))
         import scala.collection.JavaConverters._
-        Some(new View("Label", nodes.toSet.asJava, edges.toSet.asJava))
+        val view = new View("Label", nodes.toSet.asJava, edges.toSet.asJava)
+        dao.add(view)
+        Some(view)
       case None =>
         None
     }
