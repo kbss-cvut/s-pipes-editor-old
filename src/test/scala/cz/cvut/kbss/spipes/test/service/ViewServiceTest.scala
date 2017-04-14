@@ -213,7 +213,7 @@ class ViewServiceTest extends BaseServiceTestRunner {
   def createViewWhenSpipesServiceReturnsNone = {
     val id = "id"
     Mockito.when(spipesService.getModules(id)).thenReturn(None)
-    assertEquals(None, service.createViewFromspipes(id))
+    assertEquals(None, service.createViewFromSpipes(id))
   }
 
   //todo Finish the stupid test and make more
@@ -225,6 +225,6 @@ class ViewServiceTest extends BaseServiceTestRunner {
     Mockito.when(spipesService.getModules(id)).thenReturn(Some(Set[Module]()))
     Mockito.when(dao.get(URI.create(Vocabulary.s_c_view + "/" + id))).thenReturn(None)
     Mockito.when(dao.update(any(classOf[URI]), any(classOf[View]))).thenReturn(None)
-    assertEquals(None, service.createViewFromspipes(id))
+    assertEquals(None, service.createViewFromSpipes(id))
   }
 }
