@@ -3,10 +3,13 @@ package cz.cvut.kbss.spipes.service
 import java.net.URI
 
 import cz.cvut.kbss.spipes.model.Vocabulary
+import cz.cvut.kbss.spipes.model.dto.{Child, KGraph, Edge => KEdge}
 import cz.cvut.kbss.spipes.model.view.{Edge, Node, View}
 import cz.cvut.kbss.spipes.persistence.dao.ViewDao
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+
+import scala.collection.JavaConverters._
 
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 22.12.16.
@@ -53,7 +56,7 @@ class ViewService {
   def getNode(id: String): Option[Node] =
     dao.getNode(URI.create(Vocabulary.s_c_node + "/" + id))
 
-  def createViewFromspipes(id: String): Option[View] = {
+  def createViewFromSpipes(id: String): Option[View] = {
     spipesService.getModules(id) match {
       case Some(modules) =>
         val nodes = modules.map(m => new Node(m.getLabel(), 0, 0, null, null, null))
@@ -62,7 +65,6 @@ class ViewService {
           .map(m => new Edge(
             nodes.find(_.getLabel() == m.getLabel()).get,
             nodes.find(_.getLabel() == m.getNext().getLabel()).get))
-        import scala.collection.JavaConverters._
         val view = new View("Label", nodes.toSet.asJava, edges.toSet.asJava)
         dao.add(view)
         Some(view)
@@ -70,4 +72,28 @@ class ViewService {
         None
     }
   }
+
+  def createJsonFromSpipes(id: String) =
+    createViewFromSpipes(id) match {
+      case Some(v) =>
+        val g = new KGraph(v.getLabel(),
+          v.getNodes().asScala
+            .map(n => new Child(
+              if (n.getLabel() == null)
+                "null"
+              else n.getLabel(),
+              100, 100)).asJava,
+          v.getEdges().asScala
+            .map(e => new KEdge("next",
+              if (e.getSourceNode().getLabel() == null)
+                "null"
+              else
+                e.getSourceNode().getLabel(),
+              if (e.getDestinationNode().getLabel() == null)
+                "null"
+              else
+                e.getDestinationNode().getLabel()))
+            .asJava)
+        g
+    }
 }
