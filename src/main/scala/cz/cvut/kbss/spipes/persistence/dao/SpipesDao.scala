@@ -97,14 +97,15 @@ class SpipesDao {
     val is = new ByteArrayInputStream(restTemplate.exchange(uri,
       HttpMethod.GET,
       entity,
-      classOf[String]).getBody().getBytes())
+      classOf[String])
+      .getBody().getBytes())
 
     val em = emf.createEntityManager()
 
     try {
       //TODO load data into NEW TEMPORARY JOPA context
       val repo = JopaPersistenceUtils.getRepository(em)
-      repo.getConnection().add(getClass.getClassLoader.getResourceAsStream("sample-script.ttl"), "http://temporary", RDFFormat.TURTLE)
+      repo.getConnection().add(is, "http://temporary", RDFFormat.TURTLE)
 
       // retrieve JOPA objects by callback function
 

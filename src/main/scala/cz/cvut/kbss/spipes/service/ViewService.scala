@@ -62,9 +62,8 @@ class ViewService {
         val nodes = modules.map(m => new Node(m.getLabel(), 0, 0, null, null, null))
         val edges = modules
           .filter(_.getNext() != null)
-          .map(m => new Edge(
-            nodes.find(_.getLabel() == m.getLabel()).get,
-            nodes.find(_.getLabel() == m.getNext().getLabel()).get))
+          .flatMap(m => m.getNext().asScala
+            .map(n => new Edge(nodes.find(_.getLabel == m.getLabel).get, nodes.find(_.getLabel == n.getLabel).get)))
         val view = new View("Label", nodes.toSet.asJava, edges.toSet.asJava)
         dao.add(view)
         Some(view)
