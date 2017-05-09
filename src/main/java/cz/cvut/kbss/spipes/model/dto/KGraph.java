@@ -7,6 +7,7 @@ import java.util.Set;
  */
 public class KGraph {
     private String id;
+    private int x, y;
     private Set<Child> children;
     private Set<Edge> edges;
 
@@ -38,5 +39,21 @@ public class KGraph {
 
     public void setEdges(Set<Edge> edges) {
         this.edges = edges;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 }
