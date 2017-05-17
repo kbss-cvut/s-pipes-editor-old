@@ -1,4 +1,4 @@
-package cz.cvut.kbss.spipes.model.dto;
+package cz.cvut.kbss.spipes.model.klay;
 
 import java.util.Set;
 

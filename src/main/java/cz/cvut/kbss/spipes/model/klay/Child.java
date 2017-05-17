@@ -1,4 +1,4 @@
-package cz.cvut.kbss.spipes.model.dto;
+package cz.cvut.kbss.spipes.model.klay;
 
 /**
  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 14.04.2017.

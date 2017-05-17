@@ -5,7 +5,7 @@ import java.util
 import java.util.UUID
 
 import cz.cvut.kbss.spipes.model.Vocabulary
-import cz.cvut.kbss.spipes.model.dto.{Child, KGraph, Edge => KEdge}
+import cz.cvut.kbss.spipes.model.klay.{Child, KGraph, Edge => KEdge}
 import cz.cvut.kbss.spipes.model.view.{Edge, Node, View}
 import cz.cvut.kbss.spipes.persistence.dao.ViewDao
 import org.springframework.beans.factory.annotation.Autowired
@@ -61,11 +61,21 @@ class ViewService {
   def createViewFromSpipes(id: String): Option[View] = {
     spipesService.getModules(id) match {
       case Some(modules) =>
-        val nodes = modules.map(m => new Node(m.getUri(), m.getId(), m.getLabel(), 0d, 0d, new util.HashSet[String](), new util.HashSet[String](), new util.HashSet[String]()))
+        val nodes = modules.map(m => new Node(
+          m.getUri(),
+          m.getId(),
+          m.getLabel(),
+          0d,
+          0d,
+          new util.HashSet[String](),
+          new util.HashSet[String](),
+          new util.HashSet[String]()))
         val edges = modules
           .filter(_.getNext() != null)
           .flatMap(m => m.getNext().asScala
-            .map(n => new Edge(nodes.find(_.getUri == m.getUri).get, nodes.find(_.getUri == n.getUri()).get)))
+            .map(n => new Edge(
+              nodes.find(_.getUri == m.getUri).get,
+              nodes.find(_.getUri == n.getUri()).get)))
         val view = new View("Label", nodes.toSet.asJava, edges.toSet.asJava)
         dao.add(view)
         Some(view)
