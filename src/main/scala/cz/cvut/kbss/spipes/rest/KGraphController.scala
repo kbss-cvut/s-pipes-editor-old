@@ -17,9 +17,7 @@ class KGraphController {
 
   @GetMapping(path = Array("/new"), produces = Array("application/json"))
   def createFromSpipesJson = {
-    import com.fasterxml.jackson.databind.ObjectMapper
-    val mapper = new ObjectMapper
-    val kg = viewService.createJsonFromSpipes("http://kbss.felk.cvut.cz/spipes-sped/contexts/12/data")
-    new ResponseEntity(mapper.writeValueAsString(kg), HttpStatus.CREATED)
+    val kg = viewService.createJsonFromSpipes("https://kbss.felk.cvut.cz/sempipes-sped/contexts/12/data")
+    new ResponseEntity(kg, HttpStatus.CREATED)
   }
 }

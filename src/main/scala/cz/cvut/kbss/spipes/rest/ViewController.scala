@@ -99,9 +99,9 @@ class ViewController {
       case None => new ResponseEntity(URI.create("https://not/found"), HttpStatus.NOT_FOUND)
     }
 
-  @GetMapping(path = Array("/new"), produces = Array(JsonLd.MEDIA_TYPE))
+  @GetMapping(path = Array("/new"), produces = Array("application/json"))
   def createFromSpipes =
-    viewService.createViewFromSpipes("http://kbss.felk.cvut.cz/spipes-sped/contexts/12/data") match {
+    viewService.createViewFromSpipes("https://kbss.felk.cvut.cz/sempipes-sped/contexts/12/data") match {
       case Some(u) => new ResponseEntity(u, HttpStatus.CREATED)
       case None => new ResponseEntity(URI.create("https://not/found"), HttpStatus.NOT_FOUND)
     }

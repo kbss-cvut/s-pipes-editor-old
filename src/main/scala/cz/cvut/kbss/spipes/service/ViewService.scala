@@ -1,9 +1,11 @@
 package cz.cvut.kbss.spipes.service
 
 import java.net.URI
+import java.util
+import java.util.UUID
 
 import cz.cvut.kbss.spipes.model.Vocabulary
-import cz.cvut.kbss.spipes.model.dto.{Child, KGraph, Edge => KEdge}
+import cz.cvut.kbss.spipes.model.klay.{Child, KGraph, Edge => KEdge}
 import cz.cvut.kbss.spipes.model.view.{Edge, Node, View}
 import cz.cvut.kbss.spipes.persistence.dao.ViewDao
 import org.springframework.beans.factory.annotation.Autowired
@@ -59,12 +61,21 @@ class ViewService {
   def createViewFromSpipes(id: String): Option[View] = {
     spipesService.getModules(id) match {
       case Some(modules) =>
-        val nodes = modules.map(m => new Node(m.getLabel(), 0, 0, null, null, null))
+        val nodes = modules.map(m => new Node(
+          m.getUri(),
+          m.getId(),
+          m.getLabel(),
+          0d,
+          0d,
+          new util.HashSet[String](),
+          new util.HashSet[String](),
+          new util.HashSet[String]()))
         val edges = modules
           .filter(_.getNext() != null)
-          .map(m => new Edge(
-            nodes.find(_.getLabel() == m.getLabel()).get,
-            nodes.find(_.getLabel() == m.getNext().getLabel()).get))
+          .flatMap(m => m.getNext().asScala
+            .map(n => new Edge(
+              nodes.find(_.getUri == m.getUri).get,
+              nodes.find(_.getUri == n.getUri()).get)))
         val view = new View("Label", nodes.toSet.asJava, edges.toSet.asJava)
         dao.add(view)
         Some(view)
@@ -73,7 +84,7 @@ class ViewService {
     }
   }
 
-  def createJsonFromSpipes(id: String) =
+  def createJsonFromSpipes(id: String): KGraph =
     createViewFromSpipes(id) match {
       case Some(v) =>
         val g = new KGraph(v.getLabel(),
@@ -84,7 +95,7 @@ class ViewService {
               else n.getLabel(),
               100, 100)).asJava,
           v.getEdges().asScala
-            .map(e => new KEdge("next",
+            .map(e => new KEdge(UUID.randomUUID().toString,
               if (e.getSourceNode().getLabel() == null)
                 "null"
               else

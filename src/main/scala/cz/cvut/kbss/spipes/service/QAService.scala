@@ -27,7 +27,7 @@ class QAService {
     dao.get(URI.create(Vocabulary.s_c_node + "/" + id))
 
   def generateForm(uri: String): Option[RawJson] = {
-    val r = restTemplate.exchange("https://kbss.felk.cvut.cz/spipes-sped/service?_pId=generate-fss-form",
+    val r = restTemplate.exchange("https://kbss.felk.cvut.cz/sempipes-sped/service?_pId=generate-fss-form",
       HttpMethod.GET,
       new HttpEntity[AnyRef](null, new HttpHeaders()),
       classOf[String])
