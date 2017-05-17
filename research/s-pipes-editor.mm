@@ -3,7 +3,7 @@
 <node TEXT="main" FOLDED="false" ID="ID_448131109" CREATED="1312805290594" MODIFIED="1489514323432">
 <font NAME="SansSerif"/>
 <hook NAME="MapStyle" zoom="1.003">
-    <properties show_icon_for_attributes="true" fit_to_viewport="false;" show_note_icons="true" show_notes_in_map="false"/>
+    <properties fit_to_viewport="false;" show_icon_for_attributes="true" show_note_icons="true" show_notes_in_map="false"/>
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node" STYLE="oval" UNIFORM_SHAPE="true" VGAP_QUANTITY="24.0 pt">
@@ -63,14 +63,17 @@
 </hook>
 <hook NAME="accessories/plugins/CreationModificationPlugin_new.properties"/>
 <node TEXT="research" STYLE_REF="onto-prop" POSITION="right" ID="ID_1925474745" CREATED="1489514327002" MODIFIED="1489514330272">
+<node TEXT="search" ID="ID_1850182722" CREATED="1495039146646" MODIFIED="1495039149524">
+<node TEXT="workflow editor" ID="ID_682581431" CREATED="1495039157788" MODIFIED="1495039161155"/>
+</node>
 <node TEXT="js libraries" STYLE_REF="categorization" ID="ID_215157754" CREATED="1492776052027" MODIFIED="1492776133514">
-<node TEXT="graph editor libraries" ID="ID_761011584" CREATED="1489507196783" MODIFIED="1492776130261">
-<node TEXT="OntoDia" FOLDED="true" ID="ID_1372315863" CREATED="1489507929823" MODIFIED="1489507932138">
+<node TEXT="graph editor libraries" FOLDED="true" ID="ID_761011584" CREATED="1489507196783" MODIFIED="1492776130261">
+<node TEXT="OntoDia" ID="ID_1372315863" CREATED="1489507929823" MODIFIED="1489507932138">
 <node TEXT="link" STYLE_REF="onto-prop" FOLDED="true" ID="ID_97856928" CREATED="1489507950046" MODIFIED="1489507951559">
 <node TEXT="http://ontodia.org/" ID="ID_771268989" CREATED="1487367761781" MODIFIED="1487367761781" LINK="http://ontodia.org/"/>
 <node TEXT="demo" ID="ID_936210370" CREATED="1489509295038" MODIFIED="1489509298112" LINK="http://app.ontodia.org/diagram?sharedDiagram=49689f29-82bc-405d-b5f6-33507f1c1444"/>
 </node>
-<node TEXT="features" STYLE_REF="onto-prop" ID="ID_984899553" CREATED="1489508958349" MODIFIED="1489508962358">
+<node TEXT="features" STYLE_REF="onto-prop" FOLDED="true" ID="ID_984899553" CREATED="1489508958349" MODIFIED="1489508962358">
 <node TEXT="automatic flow layout" ID="ID_378260427" CREATED="1489501284860" MODIFIED="1489509846705">
 <icon BUILTIN="button_ok"/>
 </node>
@@ -145,10 +148,10 @@
 <node TEXT="links between nodes can be defined by set of lines" ID="ID_1485637869" CREATED="1489507975862" MODIFIED="1489508026623"/>
 </node>
 </node>
-<node TEXT="The Graph Editor (NoFlo)" FOLDED="true" ID="ID_413301645" CREATED="1488789145734" MODIFIED="1489781347604">
+<node TEXT="The Graph Editor (NoFlo)" ID="ID_413301645" CREATED="1488789145734" MODIFIED="1489781347604">
 <icon BUILTIN="desktop_new"/>
 <icon BUILTIN="desktop_new"/>
-<node TEXT="link" STYLE_REF="onto-prop" FOLDED="true" ID="ID_984009182" CREATED="1488789149023" MODIFIED="1488789163532">
+<node TEXT="link" STYLE_REF="onto-prop" ID="ID_984009182" CREATED="1488789149023" MODIFIED="1488789163532">
 <node TEXT="demo-simple" ID="ID_286207561" CREATED="1488789017430" MODIFIED="1489509765513" LINK="https://flowhub.github.io/the-graph/examples/demo-simple.html"/>
 <node TEXT="demo-full" ID="ID_1261137698" CREATED="1489509766799" MODIFIED="1489509774032" LINK="https://flowhub.github.io/the-graph/examples/demo-full.html"/>
 <node TEXT="github" ID="ID_1779697256" CREATED="1488789152512" MODIFIED="1488789168748" LINK="https://github.com/flowhub/the-graph"/>
@@ -156,7 +159,7 @@
 <icon BUILTIN="yes"/>
 </node>
 </node>
-<node TEXT="features" STYLE_REF="onto-prop" FOLDED="true" ID="ID_297676179" CREATED="1489501034179" MODIFIED="1489509822417">
+<node TEXT="features" STYLE_REF="onto-prop" ID="ID_297676179" CREATED="1489501034179" MODIFIED="1489509822417">
 <node TEXT="automatic flow layout" ID="ID_1910568350" CREATED="1489501284860" MODIFIED="1489509930315">
 <icon BUILTIN="button_ok"/>
 <icon BUILTIN="button_ok"/>
@@ -250,7 +253,7 @@
 </node>
 <node TEXT="NoFlo is part of The Graph Editor" ID="ID_68102417" CREATED="1489512483344" MODIFIED="1489512495012"/>
 </node>
-<node TEXT="model" STYLE_REF="onto-prop" FOLDED="true" ID="ID_161487745" CREATED="1490020595469" MODIFIED="1490020597148">
+<node TEXT="model" STYLE_REF="onto-prop" ID="ID_161487745" CREATED="1490020595469" MODIFIED="1490020597148">
 <node TEXT="graph" ID="ID_1200155662" CREATED="1490020941207" MODIFIED="1490021535987"><richcontent TYPE="NOTE">
 
 <html>
@@ -365,7 +368,7 @@
 </node>
 </node>
 </node>
-<node TEXT="license" STYLE_REF="onto-prop" FOLDED="true" ID="ID_868216680" CREATED="1489851816501" MODIFIED="1489851822822">
+<node TEXT="license" STYLE_REF="onto-prop" ID="ID_868216680" CREATED="1489851816501" MODIFIED="1489851822822">
 <node TEXT="MIT" ID="ID_773085775" CREATED="1489851823829" MODIFIED="1489851834796">
 <node TEXT="consequences" STYLE_REF="onto-prop" FOLDED="true" ID="ID_1846946000" CREATED="1489851840357" MODIFIED="1489851846217">
 <node TEXT="MIT-licensed code can be seamlessly re-licensed under GPL" ID="ID_184700907" CREATED="1489851848005" MODIFIED="1489852153954"/>
@@ -386,8 +389,22 @@
 <node TEXT="multiple input/output ports" ID="ID_58391149" CREATED="1489501127216" MODIFIED="1489508469073"/>
 <node TEXT="node icons" ID="ID_1062812423" CREATED="1489507665334" MODIFIED="1489507669863"/>
 </node>
+<node TEXT="frontend-technology" STYLE_REF="onto-prop" ID="ID_167255168" CREATED="1495038322213" MODIFIED="1495038332116">
+<node TEXT="https://www.npmjs.com/package/express" ID="ID_331773962" CREATED="1495038333204" MODIFIED="1495038333204" LINK="https://www.npmjs.com/package/express"/>
+<node TEXT="https://github.com/linkedpipes/etl/tree/master/frontend" ID="ID_477793629" CREATED="1495038582987" MODIFIED="1495038582987" LINK="https://github.com/linkedpipes/etl/tree/master/frontend"/>
+<node TEXT="jquery" ID="ID_254938253" CREATED="1495038533038" MODIFIED="1495038615533" LINK="https://github.com/linkedpipes/etl/blob/master/frontend/public/app/components/canvas/pipelineCanvas.js"/>
+<node TEXT="jointjs" FOLDED="true" ID="ID_1460821221" CREATED="1495038657716" MODIFIED="1495039030919" LINK="https://github.com/linkedpipes/etl/blob/master/frontend/public/app/components/canvas/pipelineCanvas.js">
+<node TEXT="desc" STYLE_REF="onto-prop" ID="ID_35735399" CREATED="1495038669539" MODIFIED="1495038670398">
+<node TEXT="JointJS is a JavaScript diagramming library" ID="ID_872241231" CREATED="1495038670723" MODIFIED="1495038671163"/>
+</node>
+</node>
+<node TEXT="angular" ID="ID_466759095" CREATED="1489506809219" MODIFIED="1495040407074"/>
+<node TEXT="linear programming solver" ID="ID_699724808" CREATED="1495038999690" MODIFIED="1495039028637" LINK="https://github.com/linkedpipes/etl/blob/master/frontend/public/app/components/canvas/pipelineCanvas.js">
+<icon BUILTIN="yes"/>
+<icon BUILTIN="help"/>
+</node>
+</node>
 <node TEXT="notes" STYLE_REF="onto-prop" ID="ID_1127704176" CREATED="1489506804392" MODIFIED="1489508056728">
-<node TEXT="uses angular, jquery" ID="ID_466759095" CREATED="1489506809219" MODIFIED="1489511975023"/>
 <node TEXT="+" STYLE_REF="onto-prop" ID="ID_1994478286" CREATED="1489511940287" MODIFIED="1489511945152">
 <node TEXT="visualization of execution" ID="ID_155867423" CREATED="1489511946826" MODIFIED="1489511951562"/>
 <node TEXT="multiple ports in nodes" ID="ID_729183658" CREATED="1489508435202" MODIFIED="1489508449094"/>
@@ -434,8 +451,7 @@
 <node TEXT="Force layout available" ID="ID_198505343" CREATED="1489512753252" MODIFIED="1489512894281"/>
 </node>
 </node>
-<node TEXT="Dagre-React" FOLDED="true" ID="ID_792068959" CREATED="1489512933269" MODIFIED="1489513044589">
-<icon BUILTIN="button_cancel"/>
+<node TEXT="Dagre-React" FOLDED="true" ID="ID_792068959" CREATED="1489512933269" MODIFIED="1495042166989">
 <node TEXT="link" STYLE_REF="onto-prop" ID="ID_1023875697" CREATED="1489513006715" MODIFIED="1489513008028">
 <node TEXT="https://github.com/osnr/dagre-react" ID="ID_1026469101" CREATED="1489513009506" MODIFIED="1489513009506" LINK="https://github.com/osnr/dagre-react"/>
 </node>
@@ -458,6 +474,21 @@
 <node TEXT="- Kinda resembles molecular structure" ID="ID_1785850454" CREATED="1489513161467" MODIFIED="1489513161467"/>
 </node>
 </node>
+<node TEXT="dagre-d3" FOLDED="true" ID="ID_1100504809" CREATED="1495041111632" MODIFIED="1495041115991">
+<node TEXT="link" STYLE_REF="onto-prop" ID="ID_1210794293" CREATED="1495041156659" MODIFIED="1495041159324">
+<node TEXT="github" ID="ID_19640313" CREATED="1495041001393" MODIFIED="1495041163157" LINK="https://github.com/cpettitt/dagre-d3"/>
+</node>
+<node TEXT="is fronted for" STYLE_REF="onto-prop" ID="ID_1084442761" CREATED="1495041116850" MODIFIED="1495041144991">
+<arrowlink SHAPE="CUBIC_CURVE" COLOR="#000000" WIDTH="2" TRANSPARENCY="200" FONT_SIZE="9" FONT_FAMILY="SansSerif" DESTINATION="ID_573652865" STARTINCLINATION="324;0;" ENDINCLINATION="324;0;" STARTARROW="NONE" ENDARROW="DEFAULT"/>
+</node>
+<node TEXT="demo" STYLE_REF="onto-prop" ID="ID_1879584815" CREATED="1495041206842" MODIFIED="1495041209569">
+<node TEXT="ETL visualisation" ID="ID_1784001011" CREATED="1495041209914" MODIFIED="1495041226025" LINK="http://www.samsarin.com/project/dagre-d3/latest/demo/etl-status.html">
+<icon BUILTIN="yes"/>
+<icon BUILTIN="yes"/>
+<icon BUILTIN="yes"/>
+</node>
+</node>
+</node>
 <node TEXT="D3.js" ID="ID_1526883069" CREATED="1478782354128" MODIFIED="1489513410164">
 <icon BUILTIN="desktop_new"/>
 </node>
@@ -469,9 +500,91 @@
 <node TEXT="lots of existing plugins" ID="ID_1310231976" CREATED="1478782354133" MODIFIED="1489508276655"/>
 </node>
 </node>
+<node TEXT="visjs" ID="ID_1603449590" CREATED="1495040482734" MODIFIED="1495040484022"/>
+<node TEXT="draw2D" ID="ID_943527829" CREATED="1495042346967" MODIFIED="1495042350371">
+<node TEXT="link" STYLE_REF="onto-prop" ID="ID_610099459" CREATED="1495042447552" MODIFIED="1495042449454">
+<node TEXT="http://www.draw2d.org/draw2d/" ID="ID_1526398871" CREATED="1495042450982" MODIFIED="1495042450982" LINK="http://www.draw2d.org/draw2d/"/>
+<node TEXT="demo" ID="ID_1196179836" CREATED="1495042502546" MODIFIED="1495042505675" LINK="http://freegroup.github.io/draw2d_js.app.brainbox/"/>
+</node>
+</node>
+</node>
+<node TEXT="workflow editor" ID="ID_1833433777" CREATED="1495040183321" MODIFIED="1495040187476">
+<node TEXT="JointJS" FOLDED="true" ID="ID_1648387758" CREATED="1495039069957" MODIFIED="1495039070751">
+<node TEXT="link" STYLE_REF="onto-prop" ID="ID_178840537" CREATED="1495039087762" MODIFIED="1495039089407">
+<node TEXT="https://www.jointjs.com/" ID="ID_473576958" CREATED="1495039090119" MODIFIED="1495039090119" LINK="https://www.jointjs.com/"/>
+</node>
+<node TEXT="features" STYLE_REF="onto-prop" ID="ID_862835412" CREATED="1495039090721" MODIFIED="1495039472745" LINK="https://www.jointjs.com/opensource#JointJS-Features"><richcontent TYPE="NOTE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      Hierarchical Diagrams
+    </p>
+    <p>
+      Zooming
+    </p>
+    <p>
+      Magnets/ports (link connection points) can be placed anywhere
+    </p>
+    <p>
+      Filters And Gradients
+    </p>
+    <p>
+      Interactive Elements And Links
+    </p>
+  </body>
+</html>
+
+</richcontent>
+<node TEXT="automatic flow layout" ID="ID_987944696" CREATED="1489501284860" MODIFIED="1495039714330">
+<icon BUILTIN="button_ok"/>
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="collapsing nodes respecting layout" ID="ID_1005574920" CREATED="1489501158811" MODIFIED="1495039862699">
+<icon BUILTIN="button_cancel"/>
+<icon BUILTIN="yes"/>
+<icon BUILTIN="help"/>
+</node>
+<node TEXT="node parameters visualization" ID="ID_284654821" CREATED="1489501140089" MODIFIED="1495040065192">
+<icon BUILTIN="button_ok"/>
+<icon BUILTIN="button_cancel"/>
+<richcontent TYPE="NOTE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      can visualize class diagrams (attributes can be used for this purpose)
+    </p>
+  </body>
+</html>
+
+</richcontent>
+</node>
+<node TEXT="overall view of diagram" ID="ID_129616406" CREATED="1489505895917" MODIFIED="1489509984951">
+<icon BUILTIN="button_ok"/>
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="multiple input/output ports" ID="ID_1040367676" CREATED="1489501127216" MODIFIED="1489509990132">
+<icon BUILTIN="button_ok"/>
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="node icons" ID="ID_1582168156" CREATED="1489507665334" MODIFIED="1495040127260">
+<icon BUILTIN="button_ok"/>
+<icon BUILTIN="yes"/>
+<icon BUILTIN="help"/>
+</node>
+</node>
+</node>
 </node>
 <node TEXT="layout library" ID="ID_1379496651" CREATED="1492773453737" MODIFIED="1492776106827">
 <node TEXT="KlayJs" ID="ID_806651049" CREATED="1492773459977" MODIFIED="1492776010008"/>
+<node TEXT="dagre" ID="ID_573652865" CREATED="1495041053894" MODIFIED="1495041054335"/>
 </node>
 </node>
 </node>
@@ -586,7 +699,19 @@
 <node TEXT="specify new context" ID="ID_167531040" CREATED="1481803439266" MODIFIED="1481803579835"/>
 <node TEXT="assign default module-types-ontology (MTO) uri" ID="ID_1390358112" CREATED="1481803583688" MODIFIED="1481803660241">
 <node TEXT="e.g." STYLE_REF="onto-prop" ID="ID_116140066" CREATED="1481803792040" MODIFIED="1481803793251">
-<node TEXT="&lt;html&gt;&#xa;  &lt;head&gt;&#xa;    &#xa;  &lt;/head&gt;&#xa;  &lt;body&gt;&#xa;    &lt;span style=&quot;color: #000000; background-color: #ffffff&quot;&gt;&lt;font color=&quot;#000000&quot; face=&quot;monospace&quot;&gt;&amp;lt;http://onto.fel.cvut.cz/ontologies/lib/module&amp;gt;&lt;/font&gt;&lt;/span&gt;&lt;span style=&quot;font-family: monospace&quot;&gt;&lt;font face=&quot;monospace&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/span&gt;&#xa;  &lt;/body&gt;&#xa;&lt;/html&gt;" ID="ID_222554479" CREATED="1481803794189" MODIFIED="1481803794189" LINK="http://onto.fel.cvut.cz/ontologies/lib/module&amp;gt;"/>
+<node ID="ID_222554479" CREATED="1481803794189" MODIFIED="1481803794189" LINK="http://onto.fel.cvut.cz/ontologies/lib/module&amp;gt;"><richcontent TYPE="NODE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <span style="color: #000000; background-color: #ffffff"><font color="#000000" face="monospace">&lt;http://onto.fel.cvut.cz/ontologies/lib/module&gt;</font></span><span style="font-family: monospace"><font face="monospace"><br/></font></span>
+  </body>
+</html>
+
+</richcontent>
+</node>
 </node>
 </node>
 <node TEXT="load module types based on MTO uri" ID="ID_193006776" CREATED="1481803318705" MODIFIED="1481803653655">
@@ -729,8 +854,36 @@
 </node>
 <node TEXT="/data" ID="ID_1859042692" CREATED="1481793097955" MODIFIED="1484730770621">
 <icon BUILTIN="button_ok"/>
-<node TEXT="&lt;html&gt;&#xa;  &lt;head&gt;&#xa;    &#xa;  &lt;/head&gt;&#xa;  &lt;body&gt;&#xa;    &lt;p&gt;&#xa;      ?closure=[&lt;font color=&quot;#008000&quot;&gt;true&lt;/font&gt;/false]&#xa;    &lt;/p&gt;&#xa;  &lt;/body&gt;&#xa;&lt;/html&gt;" ID="ID_858545342" CREATED="1481793166251" MODIFIED="1481793572942"/>
-<node TEXT="&lt;html&gt;&#xa;  &lt;head&gt;&#xa;    &#xa;  &lt;/head&gt;&#xa;  &lt;body&gt;&#xa;    &lt;p&gt;&#xa;      ?inferred=[true/&lt;font color=&quot;#008000&quot;&gt;false&lt;/font&gt;]&#xa;    &lt;/p&gt;&#xa;  &lt;/body&gt;&#xa;&lt;/html&gt;" ID="ID_1604922199" CREATED="1481793144467" MODIFIED="1481793575494"/>
+<node ID="ID_858545342" CREATED="1481793166251" MODIFIED="1481793572942"><richcontent TYPE="NODE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      ?closure=[<font color="#008000">true</font>/false]
+    </p>
+  </body>
+</html>
+
+</richcontent>
+</node>
+<node ID="ID_1604922199" CREATED="1481793144467" MODIFIED="1481793575494"><richcontent TYPE="NODE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      ?inferred=[true/<font color="#008000">false</font>]
+    </p>
+  </body>
+</html>
+
+</richcontent>
+</node>
 </node>
 <node TEXT="/content-hash" ID="ID_24033997" CREATED="1484731020300" MODIFIED="1484731032743"/>
 </node>
@@ -763,9 +916,9 @@
 </node>
 </node>
 <node TEXT="meeting notes" STYLE_REF="onto-prop" POSITION="right" ID="ID_1366068811" CREATED="1490021605551" MODIFIED="1490021610196">
-<node TEXT=" 2017-03-20" ID="ID_47142624" CREATED="1490021610905" MODIFIED="1490021648880">
-<node TEXT="notes" STYLE_REF="onto-prop" FOLDED="true" ID="ID_258579301" CREATED="1490021650015" MODIFIED="1490021653853">
-<node TEXT="rewrite schema ?" FOLDED="true" ID="ID_908364624" CREATED="1490021654255" MODIFIED="1490021674702">
+<node TEXT=" 2017-03-20" FOLDED="true" ID="ID_47142624" CREATED="1490021610905" MODIFIED="1490021648880">
+<node TEXT="notes" STYLE_REF="onto-prop" ID="ID_258579301" CREATED="1490021650015" MODIFIED="1490021653853">
+<node TEXT="rewrite schema ?" ID="ID_908364624" CREATED="1490021654255" MODIFIED="1490021674702">
 <node TEXT="q" STYLE_REF="onto-prop" ID="ID_108135127" CREATED="1490021755553" MODIFIED="1490021757142">
 <node TEXT="is KLay layered library used there ?" ID="ID_1297662980" CREATED="1490021757725" MODIFIED="1490021816944" LINK="https://rtsys.informatik.uni-kiel.de/confluence/display/KIELER/KLay+Layered">
 <node TEXT="yes" ID="ID_1693850536" CREATED="1490021900588" MODIFIED="1490021901335"/>
@@ -775,11 +928,11 @@
 </node>
 </node>
 </node>
-<node TEXT="klay-noflo" FOLDED="true" ID="ID_1462838856" CREATED="1490022244031" MODIFIED="1490024689482" LINK="https://github.com/noflo/klayjs-noflo">
+<node TEXT="klay-noflo" ID="ID_1462838856" CREATED="1490022244031" MODIFIED="1490024689482" LINK="https://github.com/noflo/klayjs-noflo">
 <node TEXT="desc" STYLE_REF="onto-prop" FOLDED="true" ID="ID_1235409821" CREATED="1490022296646" MODIFIED="1490022299037">
 <node TEXT="KGraph JSON graphs" ID="ID_836806217" CREATED="1490022336760" MODIFIED="1490022362289"/>
 </node>
-<node TEXT="uses" STYLE_REF="onto-prop" FOLDED="true" ID="ID_1191764590" CREATED="1490022472257" MODIFIED="1490022473589">
+<node TEXT="uses" STYLE_REF="onto-prop" ID="ID_1191764590" CREATED="1490022472257" MODIFIED="1490022473589">
 <node TEXT="klayjs" ID="ID_483998181" CREATED="1490022507509" MODIFIED="1490022514956" LINK="https://github.com/OpenKieler/klayjs">
 <icon BUILTIN="yes"/>
 <icon BUILTIN="yes"/>
@@ -859,7 +1012,7 @@
 </node>
 </node>
 </node>
-<node TEXT=" 2017-04-04" ID="ID_1521768385" CREATED="1491310046667" MODIFIED="1491310055398">
+<node TEXT=" 2017-04-04" FOLDED="true" ID="ID_1521768385" CREATED="1491310046667" MODIFIED="1491310055398">
 <node TEXT="task" STYLE_REF="onto-prop" ID="ID_754253015" CREATED="1491313834086" MODIFIED="1491313835361">
 <node TEXT="yan" STYLE_REF="categorization" ID="ID_131536995" CREATED="1491314532522" MODIFIED="1491314533852">
 <node TEXT="create example of simple script" FOLDED="true" ID="ID_1437060527" CREATED="1491315273537" MODIFIED="1492009581296">
@@ -929,7 +1082,7 @@
 </node>
 </node>
 </node>
-<node TEXT=" 2017-04-12" ID="ID_779739287" CREATED="1492002680290" MODIFIED="1492002684836">
+<node TEXT=" 2017-04-12" FOLDED="true" ID="ID_779739287" CREATED="1492002680290" MODIFIED="1492002684836">
 <node TEXT="notes" STYLE_REF="onto-prop" ID="ID_1515679398" CREATED="1492002685819" MODIFIED="1492002691198">
 <node TEXT="graphdb is running at http://onto.fel.cvut.cz:7200/" ID="ID_1182283782" CREATED="1492002691533" MODIFIED="1492002721102">
 <node TEXT="username" STYLE_REF="onto-prop" ID="ID_1645009006" CREATED="1492002722267" MODIFIED="1492002730802">
@@ -942,12 +1095,14 @@
 <node TEXT="transform simple script (using JOPA -&gt; JSON REST) into KGraph API" ID="ID_278524910" CREATED="1491315323894" MODIFIED="1492772958962">
 <icon BUILTIN="button_ok"/>
 </node>
-<node TEXT="visualize one node in D3-klayjs graph" ID="ID_684738107" CREATED="1491313836018" MODIFIED="1491314130605">
+<node TEXT="visualize one node in D3-klayjs graph" ID="ID_684738107" CREATED="1491313836018" MODIFIED="1495037945647">
+<icon BUILTIN="button_ok"/>
 <node TEXT="desc" STYLE_REF="onto-prop" ID="ID_1553890935" CREATED="1491316324204" MODIFIED="1491316325816">
 <node TEXT="use json-ld contexts" ID="ID_1036735281" CREATED="1491316326133" MODIFIED="1491316335177"/>
 </node>
 </node>
-<node TEXT="review D3 features with respect to D3-klayjs" ID="ID_1102559311" CREATED="1491314148713" MODIFIED="1492775975289">
+<node TEXT="review D3 features with respect to D3-klayjs" ID="ID_1102559311" CREATED="1491314148713" MODIFIED="1495037946512">
+<icon BUILTIN="button_cancel"/>
 <node TEXT="link" STYLE_REF="onto-prop" ID="ID_850599091" CREATED="1491314352457" MODIFIED="1491314355923">
 <node TEXT="http://openkieler.github.io/klayjs-d3/examples/interactive/" ID="ID_798487859" CREATED="1491311088194" MODIFIED="1491311088194" LINK="http://openkieler.github.io/klayjs-d3/examples/interactive/"/>
 </node>
@@ -957,7 +1112,7 @@
 </node>
 </node>
 <node TEXT="miro &amp; yan" STYLE_REF="categorization" ID="ID_1380907352" CREATED="1491314536757" MODIFIED="1491314544760">
-<node TEXT="scratch overall architecture of s-pipes editor using klayjs" FOLDED="true" ID="ID_806888668" CREATED="1491314545313" MODIFIED="1491314692113">
+<node TEXT="scratch overall architecture of s-pipes editor using klayjs" ID="ID_806888668" CREATED="1491314545313" MODIFIED="1495037931853">
 <node TEXT="possible components" STYLE_REF="onto-prop" ID="ID_1735273837" CREATED="1491314571551" MODIFIED="1491316403709">
 <node TEXT="D3" ID="ID_1583206223" CREATED="1491314600270" MODIFIED="1491314641199">
 <icon BUILTIN="help"/>
@@ -974,6 +1129,46 @@
 <node TEXT="klayjs" ID="ID_1468775739" CREATED="1491314642123" MODIFIED="1491314644730"/>
 </node>
 </node>
+</node>
+</node>
+</node>
+<node TEXT=" 2017-05-17" ID="ID_1200801512" CREATED="1495037951051" MODIFIED="1495037959411">
+<node TEXT="task" STYLE_REF="onto-prop" ID="ID_1937015267" CREATED="1491313834086" MODIFIED="1491313835361">
+<node TEXT="yan" STYLE_REF="categorization" ID="ID_507340812" CREATED="1491314532522" MODIFIED="1491314533852">
+<node TEXT="review D3 features with respect to D3-klayjs" ID="ID_34949623" CREATED="1491314148713" MODIFIED="1495037972349">
+<node TEXT="link" STYLE_REF="onto-prop" ID="ID_340747744" CREATED="1491314352457" MODIFIED="1491314355923">
+<node TEXT="http://openkieler.github.io/klayjs-d3/examples/interactive/" ID="ID_75640443" CREATED="1491311088194" MODIFIED="1491311088194" LINK="http://openkieler.github.io/klayjs-d3/examples/interactive/"/>
+</node>
+<node TEXT="desc" STYLE_REF="onto-prop" ID="ID_25871705" CREATED="1492777113984" MODIFIED="1492777114905">
+<node TEXT="add it to" ID="ID_1081479734" CREATED="1492777115267" MODIFIED="1492777128668" LINK="#ID_1526883069"/>
+</node>
+</node>
+</node>
+<node TEXT="miro &amp; yan" STYLE_REF="categorization" ID="ID_1856553493" CREATED="1491314536757" MODIFIED="1491314544760">
+<node TEXT="scratch overall architecture of s-pipes editor" ID="ID_649482934" CREATED="1491314545313" MODIFIED="1495040590999">
+<node TEXT="e.g." STYLE_REF="onto-prop" ID="ID_369821613" CREATED="1495040592512" MODIFIED="1495040603531">
+<node TEXT=" using klayjs" ID="ID_807758627" CREATED="1495040604160" MODIFIED="1495040604889">
+<node TEXT="possible components" STYLE_REF="onto-prop" ID="ID_213016211" CREATED="1491314571551" MODIFIED="1491316403709">
+<node TEXT="D3" ID="ID_1088599282" CREATED="1491314600270" MODIFIED="1491314641199">
+<icon BUILTIN="help"/>
+<icon BUILTIN="yes"/>
+</node>
+<node TEXT="klay-noflo.js" ID="ID_1704099630" CREATED="1491314700411" MODIFIED="1491314706877">
+<icon BUILTIN="help"/>
+<icon BUILTIN="yes"/>
+</node>
+<node TEXT="the-graph" ID="ID_1017197575" CREATED="1491314630255" MODIFIED="1491314637670">
+<icon BUILTIN="yes"/>
+<icon BUILTIN="help"/>
+</node>
+<node TEXT="klayjs" ID="ID_1331242680" CREATED="1491314642123" MODIFIED="1491314644730"/>
+</node>
+</node>
+</node>
+</node>
+</node>
+<node TEXT="miro" STYLE_REF="categorization" ID="ID_465942818" CREATED="1495038184420" MODIFIED="1495038185987">
+<node TEXT="review etllinked pipes" ID="ID_86786439" CREATED="1495038186383" MODIFIED="1495043119617"/>
 </node>
 </node>
 </node>
