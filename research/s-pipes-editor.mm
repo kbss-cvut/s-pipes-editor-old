@@ -3,7 +3,7 @@
 <node TEXT="main" FOLDED="false" ID="ID_448131109" CREATED="1312805290594" MODIFIED="1489514323432">
 <font NAME="SansSerif"/>
 <hook NAME="MapStyle" zoom="1.948">
-    <properties fit_to_viewport="false;" show_icon_for_attributes="true" show_note_icons="true" show_notes_in_map="false"/>
+    <properties show_icon_for_attributes="true" fit_to_viewport="false;" show_note_icons="true" show_notes_in_map="false"/>
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node" STYLE="oval" UNIFORM_SHAPE="true" VGAP_QUANTITY="24.0 pt">
@@ -68,8 +68,8 @@
 <node TEXT="diagramming library" ID="ID_364575232" CREATED="1496666721280" MODIFIED="1496666737532"/>
 <node TEXT="graph layout library" ID="ID_498493377" CREATED="1496666728678" MODIFIED="1496666734012"/>
 </node>
-<node TEXT="js tools/libraries" STYLE_REF="categorization" ID="ID_215157754" CREATED="1492776052027" MODIFIED="1496666838913">
-<node TEXT="graph editor tools" ID="ID_761011584" CREATED="1489507196783" MODIFIED="1496666560998">
+<node TEXT="js tools/libraries" STYLE_REF="categorization" FOLDED="true" ID="ID_215157754" CREATED="1492776052027" MODIFIED="1496666838913">
+<node TEXT="graph editor tools" FOLDED="true" ID="ID_761011584" CREATED="1489507196783" MODIFIED="1496666560998">
 <node TEXT="OntoDia" FOLDED="true" ID="ID_1372315863" CREATED="1489507929823" MODIFIED="1496666495644">
 <icon BUILTIN="button_cancel"/>
 <node TEXT="link" STYLE_REF="onto-prop" FOLDED="true" ID="ID_97856928" CREATED="1489507950046" MODIFIED="1489507951559">
@@ -172,7 +172,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 <node TEXT="frontend-technology" STYLE_REF="onto-prop" ID="ID_167255168" CREATED="1495038322213" MODIFIED="1495038332116">
@@ -239,7 +238,7 @@
 <node TEXT="licence ?" ID="ID_1733808794" CREATED="1489509898014" MODIFIED="1489509908272"/>
 </node>
 </node>
-<node TEXT="The Graph Editor (NoFlo)" FOLDED="true" ID="ID_413301645" CREATED="1488789145734" MODIFIED="1496666504218">
+<node TEXT="The Graph Editor (NoFlo)" ID="ID_413301645" CREATED="1488789145734" MODIFIED="1496666504218">
 <icon BUILTIN="desktop_new"/>
 <node TEXT="link" STYLE_REF="onto-prop" ID="ID_984009182" CREATED="1488789149023" MODIFIED="1488789163532">
 <node TEXT="demo-simple" ID="ID_286207561" CREATED="1488789017430" MODIFIED="1489509765513" LINK="https://flowhub.github.io/the-graph/examples/demo-simple.html"/>
@@ -467,7 +466,7 @@
 </node>
 </node>
 </node>
-<node TEXT="diagramming libraries" ID="ID_1833433777" CREATED="1495040183321" MODIFIED="1496664913894">
+<node TEXT="diagramming libraries" FOLDED="true" ID="ID_1833433777" CREATED="1495040183321" MODIFIED="1496664913894">
 <node TEXT="JointJS" ID="ID_1648387758" CREATED="1495039069957" MODIFIED="1495039070751">
 <node TEXT="link" STYLE_REF="onto-prop" FOLDED="true" ID="ID_178840537" CREATED="1495039087762" MODIFIED="1495039089407">
 <node TEXT="https://www.jointjs.com/" ID="ID_473576958" CREATED="1495039090119" MODIFIED="1495039090119" LINK="https://www.jointjs.com/"/>
@@ -512,7 +511,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 <node TEXT="collapsing nodes respecting layout" ID="ID_1005574920" CREATED="1489501158811" MODIFIED="1496664614778">
@@ -536,7 +534,6 @@
     </ul>
   </body>
 </html>
-
 </richcontent>
 </node>
 <node TEXT="node parameters visualization" ID="ID_284654821" CREATED="1489501140089" MODIFIED="1495040065192">
@@ -599,7 +596,6 @@
     
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -611,7 +607,7 @@
 </node>
 </node>
 </node>
-<node TEXT="generic graph visualization libraries" ID="ID_28955740" CREATED="1496664915019" MODIFIED="1496666357728">
+<node TEXT="generic graph visualization libraries" FOLDED="true" ID="ID_28955740" CREATED="1496664915019" MODIFIED="1496666357728">
 <node TEXT="Dagre-React" FOLDED="true" ID="ID_792068959" CREATED="1489512933269" MODIFIED="1496664832685">
 <icon BUILTIN="button_cancel"/>
 <node TEXT="link" STYLE_REF="onto-prop" ID="ID_1023875697" CREATED="1489513006715" MODIFIED="1489513008028">
@@ -649,9 +645,23 @@
 <arrowlink SHAPE="CUBIC_CURVE" COLOR="#000000" WIDTH="2" TRANSPARENCY="200" FONT_SIZE="9" FONT_FAMILY="SansSerif" DESTINATION="ID_806651049" STARTINCLINATION="201;0;" ENDINCLINATION="201;0;" STARTARROW="NONE" ENDARROW="DEFAULT"/>
 </node>
 <node TEXT="features" STYLE_REF="onto-prop" ID="ID_701336234" CREATED="1489501034179" MODIFIED="1489509822417">
-<node TEXT="automatic flow layout" ID="ID_289658590" CREATED="1489501284860" MODIFIED="1489509930315">
+<node TEXT="automatic flow layout" ID="ID_289658590" CREATED="1489501284860" MODIFIED="1497017471033">
 <icon BUILTIN="button_ok"/>
 <icon BUILTIN="button_ok"/>
+<richcontent TYPE="NOTE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      - both vertical/horizontal
+    </p>
+  </body>
+</html>
+
+</richcontent>
 </node>
 <node TEXT="node parameters visualization" ID="ID_262253291" CREATED="1489501140089" MODIFIED="1495880431917">
 <icon BUILTIN="button_cancel"/>
@@ -752,14 +762,60 @@
 </node>
 </node>
 </node>
-<node TEXT="design" STYLE_REF="onto-prop" POSITION="left" ID="ID_819262605" CREATED="1489514358334" MODIFIED="1489514362312">
+<node TEXT="design" STYLE_REF="onto-prop" POSITION="right" ID="ID_819262605" CREATED="1489514358334" MODIFIED="1489514362312">
+<node TEXT="Structure of the web-app" FOLDED="true" ID="ID_118115769" CREATED="1497016266576" MODIFIED="1497017505020">
+<node TEXT="Dashboard" ID="ID_348861492" CREATED="1497014834424" MODIFIED="1497016265139">
+<node TEXT="Create script" ID="ID_342095383" CREATED="1497014890890" MODIFIED="1497014895055">
+<node TEXT="wizard" ID="ID_53633041" CREATED="1497015030330" MODIFIED="1497015032529">
+<node TEXT="name" ID="ID_1828193806" CREATED="1497015081214" MODIFIED="1497015087737"/>
+<node TEXT="description" ID="ID_1425511891" CREATED="1497015178778" MODIFIED="1497015181915"/>
+<node TEXT="uri" ID="ID_1531713264" CREATED="1497015091050" MODIFIED="1497015117842"/>
+</node>
+</node>
+<node TEXT="View scripts" ID="ID_1173301376" CREATED="1497014864978" MODIFIED="1497014876797">
+<node TEXT="shows list of scripts (with views?)" ID="ID_1642378641" CREATED="1497014897064" MODIFIED="1497015005437"/>
+<node TEXT="navigates to" STYLE_REF="onto-prop" ID="ID_826392551" CREATED="1497015060425" MODIFIED="1497015071178"/>
+</node>
+<node TEXT="View executions" ID="ID_904324356" CREATED="1497016481305" MODIFIED="1497016489080"/>
+<node TEXT="View users" ID="ID_1107265075" CREATED="1497014934717" MODIFIED="1497016481150">
+<node TEXT="roles" ID="ID_280531793" CREATED="1497016108159" MODIFIED="1497016124167">
+<node TEXT="admin" ID="ID_521366429" CREATED="1497016181377" MODIFIED="1497016182386"/>
+<node TEXT="user" ID="ID_1846888108" CREATED="1497016182532" MODIFIED="1497016183361"/>
+<node TEXT="guest" ID="ID_1781328920" CREATED="1497016219904" MODIFIED="1497016684559">
+<icon BUILTIN="help"/>
+<icon BUILTIN="yes"/>
+</node>
+</node>
+</node>
+</node>
+<node TEXT="Edit script" ID="ID_1710449787" CREATED="1497015050037" MODIFIED="1497015052985">
+<node TEXT="one view will be always active" ID="ID_1577638123" CREATED="1497015469916" MODIFIED="1497015491637"/>
+<node TEXT="part" STYLE_REF="onto-prop" ID="ID_1953144595" CREATED="1497015747497" MODIFIED="1497015751136">
+<node TEXT="toolbar (horizontal)" ID="ID_1133116230" CREATED="1497015801763" MODIFIED="1497016752659">
+<node TEXT="run/debug of script" ID="ID_1887845285" CREATED="1497015810834" MODIFIED="1497015840810"/>
+<node TEXT="layout" ID="ID_1522253077" CREATED="1497015817701" MODIFIED="1497015821082"/>
+<node TEXT="reload" ID="ID_1588930445" CREATED="1497015847020" MODIFIED="1497015854826"/>
+<node TEXT="manage imports" ID="ID_817850958" CREATED="1497015854999" MODIFIED="1497015867222"/>
+<node TEXT="switch to different view" ID="ID_1694343864" CREATED="1497015876688" MODIFIED="1497015885763"/>
+</node>
+<node TEXT="panel for module types (vertical)" ID="ID_430720145" CREATED="1497015475273" MODIFIED="1497016745151"/>
+<node TEXT="canvas visualization of view" ID="ID_1544998825" CREATED="1497015676692" MODIFIED="1497015701052"/>
+<node TEXT="overall preview of view" ID="ID_1930705271" CREATED="1497015753884" MODIFIED="1497015779329"/>
+</node>
+</node>
+</node>
 <node TEXT="functional requirements" FOLDED="true" ID="ID_407884870" CREATED="1489514362624" MODIFIED="1489514387754">
+<node TEXT="Visualization of script" FOLDED="true" ID="ID_1015017961" CREATED="1497017394261" MODIFIED="1497017546849">
 <node TEXT="automatic flow layout" ID="ID_1148610310" CREATED="1489501284860" MODIFIED="1489501292881"/>
 <node TEXT="collapsing nodes respecting layout" ID="ID_262212445" CREATED="1489501158811" MODIFIED="1489501279943"/>
 <node TEXT="node parameters visualization" ID="ID_1251407502" CREATED="1489501140089" MODIFIED="1489501348995"/>
 <node TEXT="overall view of diagram" ID="ID_1101288005" CREATED="1489505895917" MODIFIED="1489505904625"/>
 <node TEXT="multiple input/output ports" ID="ID_587152916" CREATED="1489501127216" MODIFIED="1489508469073"/>
 <node TEXT="node icons" ID="ID_1214855422" CREATED="1489507665334" MODIFIED="1489507669863"/>
+</node>
+<node TEXT="Same/different views can be opened in multiple tabs" FOLDED="true" ID="ID_939847765" CREATED="1497016293990" MODIFIED="1497016351127">
+<node TEXT="possibly always have only one view RW" ID="ID_216686928" CREATED="1497016401817" MODIFIED="1497016425327"/>
+</node>
 </node>
 <node TEXT="non-functional requirements" FOLDED="true" ID="ID_770889340" CREATED="1489514390949" MODIFIED="1489514399402">
 <node TEXT="reactJs" ID="ID_633412816" CREATED="1489514413991" MODIFIED="1489514418456"/>
@@ -863,7 +919,19 @@
 <node TEXT="specify new context" ID="ID_167531040" CREATED="1481803439266" MODIFIED="1481803579835"/>
 <node TEXT="assign default module-types-ontology (MTO) uri" ID="ID_1390358112" CREATED="1481803583688" MODIFIED="1481803660241">
 <node TEXT="e.g." STYLE_REF="onto-prop" ID="ID_116140066" CREATED="1481803792040" MODIFIED="1481803793251">
-<node TEXT="&lt;html&gt;&#xa;  &lt;head&gt;&#xa;    &#xa;  &lt;/head&gt;&#xa;  &lt;body&gt;&#xa;    &lt;span style=&quot;color: #000000; background-color: #ffffff&quot;&gt;&lt;font color=&quot;#000000&quot; face=&quot;monospace&quot;&gt;&amp;lt;http://onto.fel.cvut.cz/ontologies/lib/module&amp;gt;&lt;/font&gt;&lt;/span&gt;&lt;span style=&quot;font-family: monospace&quot;&gt;&lt;font face=&quot;monospace&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/span&gt;&#xa;  &lt;/body&gt;&#xa;&lt;/html&gt;" ID="ID_222554479" CREATED="1481803794189" MODIFIED="1481803794189" LINK="http://onto.fel.cvut.cz/ontologies/lib/module&amp;gt;"/>
+<node ID="ID_222554479" CREATED="1481803794189" MODIFIED="1481803794189" LINK="http://onto.fel.cvut.cz/ontologies/lib/module&amp;gt;"><richcontent TYPE="NODE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <span style="color: #000000; background-color: #ffffff"><font color="#000000" face="monospace">&lt;http://onto.fel.cvut.cz/ontologies/lib/module&gt;</font></span><span style="font-family: monospace"><font face="monospace"><br/></font></span>
+  </body>
+</html>
+
+</richcontent>
+</node>
 </node>
 </node>
 <node TEXT="load module types based on MTO uri" ID="ID_193006776" CREATED="1481803318705" MODIFIED="1481803653655">
@@ -1006,8 +1074,36 @@
 </node>
 <node TEXT="/data" ID="ID_1859042692" CREATED="1481793097955" MODIFIED="1484730770621">
 <icon BUILTIN="button_ok"/>
-<node TEXT="&lt;html&gt;&#xa;  &lt;head&gt;&#xa;    &#xa;  &lt;/head&gt;&#xa;  &lt;body&gt;&#xa;    &lt;p&gt;&#xa;      ?closure=[&lt;font color=&quot;#008000&quot;&gt;true&lt;/font&gt;/false]&#xa;    &lt;/p&gt;&#xa;  &lt;/body&gt;&#xa;&lt;/html&gt;" ID="ID_858545342" CREATED="1481793166251" MODIFIED="1481793572942"/>
-<node TEXT="&lt;html&gt;&#xa;  &lt;head&gt;&#xa;    &#xa;  &lt;/head&gt;&#xa;  &lt;body&gt;&#xa;    &lt;p&gt;&#xa;      ?inferred=[true/&lt;font color=&quot;#008000&quot;&gt;false&lt;/font&gt;]&#xa;    &lt;/p&gt;&#xa;  &lt;/body&gt;&#xa;&lt;/html&gt;" ID="ID_1604922199" CREATED="1481793144467" MODIFIED="1481793575494"/>
+<node ID="ID_858545342" CREATED="1481793166251" MODIFIED="1481793572942"><richcontent TYPE="NODE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      ?closure=[<font color="#008000">true</font>/false]
+    </p>
+  </body>
+</html>
+
+</richcontent>
+</node>
+<node ID="ID_1604922199" CREATED="1481793144467" MODIFIED="1481793575494"><richcontent TYPE="NODE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      ?inferred=[true/<font color="#008000">false</font>]
+    </p>
+  </body>
+</html>
+
+</richcontent>
+</node>
 </node>
 <node TEXT="/content-hash" ID="ID_24033997" CREATED="1484731020300" MODIFIED="1484731032743"/>
 </node>
@@ -1256,7 +1352,7 @@
 </node>
 </node>
 </node>
-<node TEXT=" 2017-05-17" ID="ID_1200801512" CREATED="1495037951051" MODIFIED="1495037959411">
+<node TEXT=" 2017-05-17" FOLDED="true" ID="ID_1200801512" CREATED="1495037951051" MODIFIED="1495037959411">
 <node TEXT="task" STYLE_REF="onto-prop" ID="ID_1937015267" CREATED="1491313834086" MODIFIED="1491313835361">
 <node TEXT="yan" STYLE_REF="categorization" ID="ID_1346759888" CREATED="1489501284860" MODIFIED="1495881213575">
 <icon BUILTIN="button_ok"/>
@@ -1297,18 +1393,77 @@
 </node>
 </node>
 </node>
-<node TEXT=" 2017-06-05" ID="ID_1339379545" CREATED="1496667453348" MODIFIED="1496667463562">
+<node TEXT=" 2017-06-05" FOLDED="true" ID="ID_1339379545" CREATED="1496667453348" MODIFIED="1496667463562">
 <node TEXT="desc" STYLE_REF="onto-prop" FOLDED="true" ID="ID_1457032488" CREATED="1496667464610" MODIFIED="1496667467442">
 <node TEXT="s-pipes script loader" ID="ID_1160766180" CREATED="1496667622060" MODIFIED="1496667747927">
 <node TEXT="s-pipes ontology loader" ID="ID_773797481" CREATED="1496667817909" MODIFIED="1496667823560"/>
 </node>
 </node>
-<node TEXT="yan" STYLE_REF="categorization" ID="ID_124958656" CREATED="1496675085794" MODIFIED="1496675087693">
-<node TEXT="show s-forms on data from fss" ID="ID_1124086605" CREATED="1496675088499" MODIFIED="1496675102738">
-<node TEXT="it should be shown if you click on one of pipeline nodes" ID="ID_1882402846" CREATED="1496675135647" MODIFIED="1496675162960"/>
+<node TEXT="yan" STYLE_REF="categorization" FOLDED="true" ID="ID_124958656" CREATED="1496675085794" MODIFIED="1496675087693">
+<node TEXT="show s-forms on data from fss" ID="ID_1124086605" CREATED="1496675088499" MODIFIED="1497017348974">
+<icon BUILTIN="button_ok"/>
+<node TEXT="it should be shown if you click on one of pipeline nodes" ID="ID_1882402846" CREATED="1496675135647" MODIFIED="1497017353918">
+<icon BUILTIN="button_cancel"/>
 </node>
 </node>
-<node TEXT="miro" STYLE_REF="categorization" ID="ID_1262073202" CREATED="1495038184420" MODIFIED="1495038185987">
+</node>
+<node TEXT="miro" STYLE_REF="categorization" ID="ID_1262073202" CREATED="1495038184420" MODIFIED="1495038185987"/>
+</node>
+<node TEXT=" 2017-06-09" ID="ID_1892467944" CREATED="1497014833339" MODIFIED="1497016807075">
+<node TEXT="notes" STYLE_REF="onto-prop" ID="ID_70663843" CREATED="1497016809107" MODIFIED="1497016810793">
+<node TEXT="Structure of the web-app" FOLDED="true" ID="ID_4155220" CREATED="1497016266576" MODIFIED="1497017512337">
+<icon BUILTIN="button_ok"/>
+<node TEXT="Dashboard" ID="ID_454068753" CREATED="1497014834424" MODIFIED="1497016265139">
+<node TEXT="Create script" ID="ID_977549321" CREATED="1497014890890" MODIFIED="1497014895055">
+<node TEXT="wizard" ID="ID_78873153" CREATED="1497015030330" MODIFIED="1497015032529">
+<node TEXT="name" ID="ID_664366233" CREATED="1497015081214" MODIFIED="1497015087737"/>
+<node TEXT="description" ID="ID_198277001" CREATED="1497015178778" MODIFIED="1497015181915"/>
+<node TEXT="uri" ID="ID_1351211842" CREATED="1497015091050" MODIFIED="1497015117842"/>
+</node>
+</node>
+<node TEXT="View scripts" ID="ID_721355935" CREATED="1497014864978" MODIFIED="1497014876797">
+<node TEXT="shows list of scripts (with views?)" ID="ID_941255250" CREATED="1497014897064" MODIFIED="1497015005437"/>
+<node TEXT="navigates to" STYLE_REF="onto-prop" ID="ID_627761856" CREATED="1497015060425" MODIFIED="1497015071178"/>
+</node>
+<node TEXT="View executions" ID="ID_568807933" CREATED="1497016481305" MODIFIED="1497016489080"/>
+<node TEXT="View users" ID="ID_53357220" CREATED="1497014934717" MODIFIED="1497016481150">
+<node TEXT="roles" ID="ID_182411078" CREATED="1497016108159" MODIFIED="1497016124167">
+<node TEXT="admin" ID="ID_1530481348" CREATED="1497016181377" MODIFIED="1497016182386"/>
+<node TEXT="user" ID="ID_1847355816" CREATED="1497016182532" MODIFIED="1497016183361"/>
+<node TEXT="guest" ID="ID_1741511725" CREATED="1497016219904" MODIFIED="1497016684559">
+<icon BUILTIN="help"/>
+<icon BUILTIN="yes"/>
+</node>
+</node>
+</node>
+</node>
+<node TEXT="Edit script" ID="ID_883060735" CREATED="1497015050037" MODIFIED="1497015052985">
+<node TEXT="one view will be always active" ID="ID_1185014488" CREATED="1497015469916" MODIFIED="1497015491637"/>
+<node TEXT="part" STYLE_REF="onto-prop" ID="ID_675926902" CREATED="1497015747497" MODIFIED="1497015751136">
+<node TEXT="toolbar (horizontal)" ID="ID_541122549" CREATED="1497015801763" MODIFIED="1497016752659">
+<node TEXT="run/debug of script" ID="ID_1034182096" CREATED="1497015810834" MODIFIED="1497015840810"/>
+<node TEXT="layout" ID="ID_1111970859" CREATED="1497015817701" MODIFIED="1497015821082"/>
+<node TEXT="reload" ID="ID_275879893" CREATED="1497015847020" MODIFIED="1497015854826"/>
+<node TEXT="manage imports" ID="ID_1376980626" CREATED="1497015854999" MODIFIED="1497015867222"/>
+<node TEXT="switch to different view" ID="ID_1109994745" CREATED="1497015876688" MODIFIED="1497015885763"/>
+</node>
+<node TEXT="panel for module types (vertical)" ID="ID_1942736218" CREATED="1497015475273" MODIFIED="1497016745151"/>
+<node TEXT="canvas visualization of view" ID="ID_160525073" CREATED="1497015676692" MODIFIED="1497015701052"/>
+<node TEXT="overall preview of view" ID="ID_1897297569" CREATED="1497015753884" MODIFIED="1497015779329"/>
+</node>
+</node>
+</node>
+<node TEXT="Requirements" FOLDED="true" ID="ID_1969338964" CREATED="1497016280994" MODIFIED="1497017513078">
+<icon BUILTIN="button_ok"/>
+<node TEXT="Same/different views can be opened in multiple tabs" ID="ID_1477371788" CREATED="1497016293990" MODIFIED="1497016351127">
+<node TEXT="possibly always have only one view RW" ID="ID_893836753" CREATED="1497016401817" MODIFIED="1497016425327"/>
+</node>
+</node>
+</node>
+<node TEXT="task" STYLE_REF="onto-prop" ID="ID_1874250129" CREATED="1497016817065" MODIFIED="1497016818878">
+<node TEXT="miro" STYLE_REF="categorization" ID="ID_1938652797" CREATED="1497016819220" MODIFIED="1497016823392">
+<node TEXT="how to save scripts into specific folder .. within git ?" ID="ID_338064079" CREATED="1497015369292" MODIFIED="1497015406140"/>
+<node TEXT="can we show 2 s-forms per page ?" ID="ID_32492327" CREATED="1497016039871" MODIFIED="1497016063672"/>
 <node TEXT="fix gitblit RSA noclass def found" ID="ID_1295945378" CREATED="1496670283978" MODIFIED="1496670315617"><richcontent TYPE="NOTE">
 
 <html>
@@ -1321,8 +1476,36 @@
     </p>
   </body>
 </html>
+</richcontent>
+</node>
+</node>
+<node TEXT="yan" STYLE_REF="categorization" ID="ID_630996246" CREATED="1497016836765" MODIFIED="1497016838221">
+<node TEXT="create dashboard" ID="ID_602845960" CREATED="1497016924306" MODIFIED="1497016933264"/>
+<node TEXT="create &quot;Edit script&quot; page" ID="ID_1114660611" CREATED="1497016866477" MODIFIED="1497016970082">
+<node TEXT="with visualized script (view)" ID="ID_1254124444" CREATED="1497016970948" MODIFIED="1497017137872">
+<icon BUILTIN="yes"/>
+</node>
+<node TEXT="on click it should show the fss form in modal dialog" ID="ID_241015975" CREATED="1497016911051" MODIFIED="1497017165967">
+<icon BUILTIN="yes"/>
+</node>
+<node TEXT="with overall preview of view" ID="ID_1992043515" CREATED="1497016987707" MODIFIED="1497016993931"/>
+<node TEXT="with simple panel of module types" ID="ID_963314675" CREATED="1497017030235" MODIFIED="1497017132885"><richcontent TYPE="NOTE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      - module types can be retrieved from same file/url from which the script loaded
+    </p>
+  </body>
+</html>
 
 </richcontent>
+</node>
+<node TEXT="duplicate view in next tab" ID="ID_489389638" CREATED="1497017277723" MODIFIED="1497017285137"/>
+</node>
 </node>
 </node>
 </node>
