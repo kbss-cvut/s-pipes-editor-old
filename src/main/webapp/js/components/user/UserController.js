@@ -6,7 +6,7 @@ import assign from 'object-assign';
 import Actions from '../../actions/Actions';
 import Authentication from '../../utils/Authentication';
 import injectIntl from '../../utils/injectIntl';
-import I18nWrapper from '.././I18nWrapper';
+import I18nWrapper from '../../i18n/I18nWrapper';
 import Messager from '../wrapper/Messager';
 import User from './User';
 import UserFactory from '../../utils/EntityFactory';

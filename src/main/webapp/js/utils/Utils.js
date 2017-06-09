@@ -1,6 +1,6 @@
 'use strict';
 
-var Constants = require('./Constants');
+var Constants = require('../constants/Constants');
 
 /**
  * Common propositions that should not be capitalized

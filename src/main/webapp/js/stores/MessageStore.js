@@ -2,7 +2,7 @@
 
 var Reflux = require('reflux');
 
-var Actions = require('./Actions');
+var Actions = require('../actions/Actions');
 
 var MessageStore = Reflux.createStore({
     init: function () {

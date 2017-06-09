@@ -3,7 +3,7 @@
 import React from 'react';
 
 import HelpIcon from '../HelpIcon';
-import I18nWrapper from '.././I18nWrapper';
+import I18nWrapper from '../../i18n/I18nWrapper';
 import injectIntl from '../../utils/injectIntl';
 import Input from '../Input';
 

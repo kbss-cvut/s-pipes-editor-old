@@ -7,7 +7,7 @@ var injectIntl = require('../utils/injectIntl');
 var FormattedMessage = require('react-intl').FormattedMessage;
 
 var Routing = require('../utils/Routing');
-var I18nMixin = require('./I18nMixin');
+var I18nMixin = require('../i18n/I18nMixin');
 
 /**
  * Shows alert with message informing that a resource could not be found.

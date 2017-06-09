@@ -21,12 +21,12 @@ class QAControllerTest extends BaseControllerTestRunner {
 
   private var restTemplate = new RestTemplate()
 
-  @Test
+  /*@Test
   def generateFormGeneratesCorrectForm = {
     Mockito.when(service.generateForm("1")).thenReturn(Some(RawJson(restTemplate.exchange("https://kbss.felk.cvut.cz/spipes-sped/service?_pId=generate-fss-form",
       HttpMethod.GET,
       new HttpEntity[AnyRef](null, new HttpHeaders()),
       classOf[String]).getBody())))
     assertTrue(mockMvc.perform(post("/nodes/1/form")).andReturn().getResponse().getContentType().contains(MediaType.APPLICATION_JSON.toString()))
-  }
+  }*/
 }

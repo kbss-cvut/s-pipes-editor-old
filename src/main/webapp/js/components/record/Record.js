@@ -3,7 +3,7 @@
 import React from "react";
 import {Button, Panel} from "react-bootstrap";
 import {FormattedMessage} from "react-intl";
-import I18nWrapper from ".././I18nWrapper";
+import I18nWrapper from "../../i18n/I18nWrapper";
 import injectIntl from "../../utils/injectIntl";
 import Input from '../Input';
 import Mask from "../Mask";

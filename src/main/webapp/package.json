@@ -1,8 +1,8 @@
 {
-  "name": "hw",
+  "name": "fertility-study-manager",
   "version": "0.0.1",
   "description": "Fertility Study Manager UI",
-  "main": "reactHelloWorld.js",
+  "main": "js/app.js",
   "dependencies": {
     "react": "~15.0.2",
     "react-dom": "~15.0.2",
@@ -16,16 +16,16 @@
     "body-parser": "~1.15.0",
     "express": "~4.13.4",
     "reflux": "~0.4.1",
-    "kbss-react-bootstrap-datetimepicker": "https://dev.inbas.cz/dist/kbss-react-bootstrap-datetimepicker-0.0.4.tgz",
+    "react-bootstrap-datetimepicker": "https://kbss.felk.cvut.cz/dist/react-bootstrap-datetimepicker-0.0.5.tgz",
     "classnames": "~2.2.3",
-    "react-bootstrap-typeahead": "https://dev.inbas.cz/dist/react-bootstrap-typeahead-0.0.7.tgz",
+    "react-bootstrap-typeahead": "https://kbss.felk.cvut.cz/dist/react-bootstrap-typeahead-0.0.11.tgz",
     "remarkable": "~1.6.2",
     "js-cookie": "~2.1.0",
     "halogen": "~0.2.0",
     "react-intl": "~2.0.1",
     "jsonld": "~0.4.6",
     "jsonld-utils": "https://kbss.felk.cvut.cz/dist/jsonld-utils-0.0.2.tgz",
-    "semforms": "https://kbss.felk.cvut.cz/dist/semforms-0.1.0.tgz"
+    "semforms": "https://kbss.felk.cvut.cz/dist/semforms-0.1.2.tgz"
   },
   "devDependencies": {
     "babel-core": "^6.7.5",
@@ -33,8 +33,8 @@
     "babel-loader": "^6.2.4",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.7.0",
     "babel-plugin-transform-runtime": "^6.7.5",
-    "babel-preset-es2015": "^6.18.0",
-    "babel-preset-react": "^6.16.0",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
@@ -54,10 +54,11 @@
     "webpack": "^1.12.15"
   },
   "scripts": {
-    "start": "watchify -o ../../../target/sped-0.1/js/bundle.js -v -d reactHelloWorld.js",
-    "browserify": "browserify . -t  -o js/bundle.js",
-    "build-js": "browserify . -t  | uglifyjs -cm > ../../../profiles/production/js/bundle.min.js",
-    "build": "npm run build-js",
+    "start": "watchify -o ../../../target/sped-0.1/js/bundle.js -v -d js/app.js",
+    "browserify": "browserify . -t [envify --NODE_ENV production] -o js/bundle.js",
+    "build-js": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > ../../../profiles/production/js/bundle.min.js",
+    "build-css": "cleancss --skip-rebase -d -o ../../../profiles/production/resources/css/study-manager.min.css resources/css/study-manager.css",
+    "build": "npm run build-css & npm run build-js",
     "prebuild": "npm install",
     "test": "",
     "lint": "eslint js"
@@ -67,7 +68,10 @@
       "babelify"
     ]
   },
-  "author": "Artem Kelpe,Yan Doroshenko",
+  "author": "Miroslav Blaško",
+  "contributors": [
+    "Martin Ledvinka"
+  ],
   "repository": {
     "type": "git",
     "url": "https://kbss.felk.cvut.cz/git/fertility-saving-study.git"

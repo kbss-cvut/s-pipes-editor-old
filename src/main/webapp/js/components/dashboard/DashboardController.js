@@ -10,7 +10,7 @@ var Routes = require('../../utils/Routes');
 var UserStore = require('../../stores/UserStore');
 var RouterStore = require('../../stores/RouterStore');
 var Dashboard = require('./Dashboard');
-var I18nMixin = require('.././I18nMixin');
+var I18nMixin = require('../../i18n/I18nMixin');
 
 var DashboardController = React.createClass({
     mixins: [

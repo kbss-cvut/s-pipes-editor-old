@@ -10,7 +10,7 @@ var HelpIcon = require('semforms').HelpIcon;
 var JsonLdUtils = require('jsonld-utils').default;
 
 var injectIntl = require('../../utils/injectIntl');
-var I18nMixin = require('.././I18nMixin');
+var I18nMixin = require('../../i18n/I18nMixin');
 var WizardStore = require('../../stores/WizardStore');
 
 var WizardStep = React.createClass({

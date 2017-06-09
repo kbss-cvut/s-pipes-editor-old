@@ -5,7 +5,7 @@ import {Button, Table} from "react-bootstrap";
 import DeleteItemDialog from "../DeleteItemDialog";
 import HelpIcon from "../HelpIcon";
 import injectIntl from "../../utils/injectIntl";
-import I18nWrapper from ".././I18nWrapper";
+import I18nWrapper from "../../i18n/I18nWrapper";
 import RecordValidator from "../../validation/RecordValidator";
 import Routes from "../../utils/Routes";
 import Utils from "../../utils/Utils";

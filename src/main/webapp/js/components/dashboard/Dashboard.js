@@ -14,9 +14,9 @@ var injectIntl = require('../../utils/injectIntl');
 var FormattedMessage = require('react-intl').FormattedMessage;
 
 var Authentication = require('../../utils/Authentication');
-var Constants = require('.././Constants');
+var Constants = require('../../constants/Constants');
 var Tile = require('./DashboardTile').default;
-var I18nMixin = require('.././I18nMixin');
+var I18nMixin = require('../../i18n/I18nMixin');
 
 var Dashboard = React.createClass({
     mixins: [I18nMixin],

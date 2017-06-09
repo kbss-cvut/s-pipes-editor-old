@@ -1,61 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Demonstration</title>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="resources/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="resources/css/bootstrap-datetimepicker.min.css"/>
+    <link rel="stylesheet" href="resources/css/study-manager.css"/>
+    <link rel="stylesheet" href="resources/css/semforms.min.css"/>
+    <link rel="icon" type="image/png" href="resources/images/favicon.ico"/>
 
-
-    <link rel="stylesheet" type="text/css" href="js/stylesheet.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
-
-    <script src="js/sigma.js/build/sigma.min.js"></script>
-  <!-- dragNodes plugin -->
-    <script src="js/sigma.js/plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
-  <!-- custom shapes plugin-->
-    <script src="js/sigma.js/plugins/sigma.renderers.customShapes/shape-library.js"></script>
-    <script src="js/sigma.js/plugins/sigma.renderers.customShapes/sigma.renderers.customShapes.js"></script>
-
-  <!-- changed way how to show labels when node is hovered (actualy not to show anything) -->
-    <script src="js/sigma.js/src/renderers/canvas/sigma.canvas.hovers.def.js"></script>
-
-  <!-- plugin with forceAtlas2 - algorithm of optimal positioning of nodes-->
-    <script src="js/sigma.js/plugins/sigma.layout.forceAtlas2/worker.js"></script>
-    <script src="js/sigma.js/plugins/sigma.layout.forceAtlas2/supervisor.js"></script>
-
-    <script src="js/dagre-0.7.3/dagre.js"></script>
-    <script src="js/sigma.js/plugins/dagre/sigma.layout.dagre.js"></script>
-
-
-
+    <script type="text/javascript" src="resources/locale/cs.js"></script>
+    <title>Fertility Study Manager</title>
 </head>
 <body>
-
-<div id="root">
-
+<div id="wrap">
+    <div id="content" class="container-fluid"></div>
 </div>
-
-<script>
-    function newNode(typeOfNode) {
-    }
-</script>
-
-
-<script src="https://fb.me/react-15.0.1.js"></script>
-<script src="https://fb.me/react-dom-15.0.1.js"></script>
+<footer class="footer">3.14159
+    <div class="container-fluid">
+        <p class="text-muted" style="float: left">
+            &copy; <a href="https://kbss.felk.cvut.cz" target="_blank" title="KBSS at FEL ČVUT">KBSS FEL ČVUT v
+            Praze</a>, 2016
+        </p>
+        <p class="text-muted" style="float: right">
+            Version: Dev
+        </p>
+    </div>
+</footer>
 <script type="text/javascript" src="js/bundle.js"></script>
-
-
-<script type="text/javascript" src="js/createGraph.js"></script>
-<script type="text/javascript" src="js/modal.js"></script>
-<script type="text/javascript" src="view.js"></script>
-<script type="text/javascript" src="js/nodeRenderer.js"></script>
-<script type="text/javascript" src="js/edgeRenderer.js"></script>
-<script type="text/javascript" src="js/labelRenderer.js"></script>
-<script type="text/javascript" src="js/events.js"></script>
-<script type="text/javascript" src="js/sigma.js/src/misc/sigma.misc.bindEvents.js"></script>
-<script type="text/javascript" src="js/otherFunctions.js"></script>
-
-
-<script type="text/javascript" src="js/popup.js"></script>
 </body>
 </html>

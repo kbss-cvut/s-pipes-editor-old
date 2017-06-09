@@ -13,8 +13,8 @@ var LinkContainer = require('react-router-bootstrap').LinkContainer;
 var injectIntl = require('../utils/injectIntl');
 
 var Actions = require('../actions/Actions');
-var Constants = require('./Constants');
-var I18nMixin = require('./I18nMixin');
+var Constants = require('../constants/Constants');
+var I18nMixin = require('../i18n/I18nMixin');
 var I18nStore = require('../stores/I18nStore');
 
 var Authentication = require('../utils/Authentication');

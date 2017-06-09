@@ -4,7 +4,7 @@ import React from "react";
 import {Button, Table} from "react-bootstrap";
 import DeleteItemDialog from "../DeleteItemDialog";
 import injectIntl from "../../utils/injectIntl";
-import I18nWrapper from ".././I18nWrapper";
+import I18nWrapper from "../../i18n/I18nWrapper";
 import Routes from "../../utils/Routes";
 
 class UserTable extends React.Component {

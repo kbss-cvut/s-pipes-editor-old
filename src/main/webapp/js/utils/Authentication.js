@@ -1,12 +1,12 @@
 'use strict';
 
-var Actions = require('./Actions');
+var Actions = require('../actions/Actions');
 var Ajax = require('./Ajax');
 var Routes = require('./Routes');
 var Routing = require('./Routing');
 var Logger = require('./Logger');
-var UserStore = require('./UserStore');
-var Vocabulary = require('./Vocabulary');
+var UserStore = require('../stores/UserStore');
+var Vocabulary = require('../constants/Vocabulary');
 
 var Authentication = {
 

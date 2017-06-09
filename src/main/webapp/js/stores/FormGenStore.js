@@ -3,9 +3,9 @@
 var Reflux = require('reflux');
 var jsonld = require('jsonld');
 
-var Actions = require('./Actions');
-var Ajax = require('./Ajax');
-var Logger = require('./Logger');
+var Actions = require('../actions/Actions');
+var Ajax = require('../utils/Ajax');
+var Logger = require('../utils/Logger');
 
 var options = {};
 

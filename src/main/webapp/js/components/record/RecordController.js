@@ -6,7 +6,7 @@ import assign from 'object-assign';
 import Actions from '../../actions/Actions';
 import EntityFactory from '../../utils/EntityFactory';
 import injectIntl from '../../utils/injectIntl';
-import I18nWrapper from '.././I18nWrapper';
+import I18nWrapper from '../../i18n/I18nWrapper';
 import Messager from '../wrapper/Messager';
 import Record from './Record';
 import RecordStore from '../../stores/RecordStore';
@@ -24,9 +24,7 @@ class RecordController extends React.Component {
     }
 
     _isNew() {
-        //return !this.props.params.key;
-        //return !this.props.key; //TODO this is dirty hack. Do smth with it
-        return true;
+        return !this.props.params.key;
     }
 
     componentDidMount() {

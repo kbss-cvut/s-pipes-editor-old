@@ -2,11 +2,11 @@
 
 var Reflux = require('reflux');
 
-var Actions = require('./Actions');
-var Ajax = require('./Ajax');
-var Authentication = require('./Authentication');
+var Actions = require('../actions/Actions');
+var Ajax = require('../utils/Ajax');
+var Authentication = require('../utils/Authentication');
 var UserStore = require('./UserStore');
-var Utils = require('./Utils');
+var Utils = require('../utils/Utils');
 
 var RecordStore = Reflux.createStore({
     listenables: [Actions],

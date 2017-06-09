@@ -3,7 +3,7 @@
 var Routes = require('../utils/Routes');
 
 module.exports = {
-    APP_NAME: 'Fertility Saving Study Manager',
+    APP_NAME: 'SPEd',
     HOME_ROUTE: Routes.dashboard,
 
     /**

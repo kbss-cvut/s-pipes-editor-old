@@ -8,7 +8,7 @@ var React = require('react');
 var injectIntl = require('../utils/injectIntl');
 
 var Input = require('./Input');
-var I18nMixin = require('./I18nMixin');
+var I18nMixin = require('../i18n/I18nMixin');
 
 var Select = React.createClass({
     mixins: [I18nMixin],

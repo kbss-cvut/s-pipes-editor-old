@@ -2,8 +2,8 @@
 
 var hashHistory = require('react-router').hashHistory;
 
-var Constants = require('./Constants');
-var RouterStore = require('./RouterStore');
+var Constants = require('../constants/Constants');
+var RouterStore = require('../stores/RouterStore');
 var RoutingRules = require('./RoutingRules');
 
 var Routing = {

@@ -4,14 +4,13 @@ import React from "react";
 import {Button, Panel} from "react-bootstrap";
 import Actions from "../../actions/Actions";
 import Authentication from "../../utils/Authentication";
-import ClinicStore from "../../stores/ClinicStore";
-import I18nWrapper from ".././I18nWrapper";
+import I18nWrapper from "../../i18n/I18nWrapper";
 import injectIntl from "../../utils/injectIntl";
 import Input from "../Input";
 import Mask from "../Mask";
 import Select from "../Select";
 import UserValidator from "../../validation/UserValidator";
-import Vocabulary from ".././Vocabulary";
+import Vocabulary from "../../constants/Vocabulary";
 
 class User extends React.Component {
     static propTypes = {

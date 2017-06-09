@@ -5,7 +5,7 @@ import {Button, Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import injectIntl from '../utils/injectIntl';
-import I18nWrapper from './I18nWrapper';
+import I18nWrapper from '../i18n/I18nWrapper';
 
 var DeleteItemDialog = (props) => {
     if (!props.item) {
@@ -24,7 +24,7 @@ var DeleteItemDialog = (props) => {
         <Modal.Footer>
             <Button bsStyle='warning' bsSize='small'
                     onClick={props.onSubmit}>{props.i18n('delete')}</Button>
-            <Button bsSize='small' onClick={props.onClose}>{props.i18n('cancel')}</Button>
+            <Button bsSize='small'  onClick={props.onClose}>{props.i18n('cancel')}</Button>
         </Modal.Footer>
     </Modal>
 };

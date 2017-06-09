@@ -3,7 +3,7 @@
 var Reflux = require('reflux');
 var assign = require('object-assign');
 
-var Actions = require('./Actions');
+var Actions = require('../actions/Actions');
 
 /**
  * Stores state of components.

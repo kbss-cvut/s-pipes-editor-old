@@ -12,7 +12,7 @@ var Input = require('../Input');
 var Routing = require('../../utils/Routing');
 var Routes = require('../../utils/Routes');
 var Authentication = require('../../utils/Authentication');
-var I18nMixin = require('.././I18nMixin');
+var I18nMixin = require('../../i18n/I18nMixin');
 
 
 var Login = React.createClass({

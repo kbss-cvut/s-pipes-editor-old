@@ -2,9 +2,9 @@
 
 var Reflux = require('reflux');
 
-var Actions = require('./Actions');
-var Ajax = require('./Ajax');
-var Utils = require('./Utils');
+var Actions = require('../actions/Actions');
+var Ajax = require('../utils/Ajax');
+var Utils = require('../utils/Utils');
 
 var currentUser = null;
 var loaded = false;
