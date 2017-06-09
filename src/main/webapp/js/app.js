@@ -42,8 +42,6 @@ var Actions = require('./actions/Actions');
 
 var Login = require('./components/login/Login');
 var MainView = require('./components/MainView');
-var ClinicController = require('./components/clinic/ClinicController').default;
-var ClinicsController = require('./components/clinic/ClinicsController').default;
 var DashboardController = require('./components/dashboard/DashboardController');
 var RecordController = require('./components/record/RecordController').default;
 var RecordsController = require('./components/record/RecordsController').default;
@@ -67,9 +65,6 @@ var App = React.createClass({
                     <Route path={Routes.users.path} onEnter={onRouteEnter} component={UsersController}/>
                     <Route path={Routes.createUser.path} onEnter={onRouteEnter} component={UserController}/>
                     <Route path={Routes.editUser.path} onEnter={onRouteEnter} component={UserController}/>
-                    <Route path={Routes.clinics.path} onEnter={onRouteEnter} component={ClinicsController}/>
-                    <Route path={Routes.createClinic.path} onEnter={onRouteEnter} component={ClinicController}/>
-                    <Route path={Routes.editClinic.path} onEnter={onRouteEnter} component={ClinicController}/>
                     <Route path={Routes.records.path} onEnter={onRouteEnter} component={RecordsController}/>
                     <Route path={Routes.createRecord.path} onEnter={onRouteEnter} component={RecordController}/>
                     <Route path={Routes.editRecord.path} onEnter={onRouteEnter} component={RecordController}/>
