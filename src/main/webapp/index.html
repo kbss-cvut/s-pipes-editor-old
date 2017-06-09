@@ -10,12 +10,65 @@
 
     <script type="text/javascript" src="resources/locale/cs.js"></script>
     <title>Fertility Study Manager</title>
+
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./bower_components/klayjs/klay.js"></script>
+    <script type="text/javascript" src="./dist/klayjs-d3-ww.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+    <style>
+        #content {
+            margin-top: 5px;
+        }
+
+        dl {
+            margin-bottom: 5px;
+        }
+
+        g.leaf > rect {
+            stroke: #fff;
+            stroke-width: 1px;
+            opacity: .5;
+        }
+
+        g.leaf > text {
+            fill: #ffffff;
+        }
+
+        g.compound > rect {
+            opacity: 0.1;
+        }
+
+        .node {
+        }
+
+        .link {
+            stroke: #999;
+            stroke-opacity: .6;
+            fill: none;
+        }
+
+        .port {
+            stroke: #000;
+            width: 1px;
+            opacity: .6;
+        }
+    </style>
 </head>
 <body>
 <div id="wrap">
     <div id="content" class="container-fluid"></div>
+    <div>
+        <button onclick="layoutFix();">Fixed</button>
+        <button onclick="layout();">Automatic</button>
+        <button onclick="layoutLayerPreserve();">Layer Preserving</button>
+        <button onclick="layoutOrderPreserve();">Order Preserving</button>
+        <button onclick="layoutLayerAndOrderPreserve();">Layer & Order Preserving</button>
+        <div id="content1" width="1000pt">
+            <script type="text/javascript" src="index.js"></script>
+        </div>
+    </div>
 </div>
-<footer class="footer">3.14159
+<footer class="footer">
     <div class="container-fluid">
         <p class="text-muted" style="float: left">
             &copy; <a href="https://kbss.felk.cvut.cz" target="_blank" title="KBSS at FEL ČVUT">KBSS FEL ČVUT v

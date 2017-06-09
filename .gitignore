@@ -7,3 +7,4 @@ doc/*.aux
 doc/*.log
 doc/*.out
 src/main/webapp/**/node_modules
+*.log
