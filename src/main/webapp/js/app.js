@@ -194,13 +194,36 @@ d3.json("interactive.json", function (error, graph) {
 
         var node = nodeData.enter()
             .append("g")
-            .attr("onclick", "alert(12345)")
             .attr("class", function (d) {
                 if (d.children)
                     return "node compound";
                 else
                     return "node leaf";
             });
+
+        let leaves = document.getElementsByClassName("node leaf");
+        for (let i = 0; i < leaves.length; i++) {
+            leaves[i].addEventListener('dblclick', function (evvvvv) {
+
+                evvvvv.stopPropagation();
+
+                // RoutingRules.execute(Routes.createRecord.path)
+                switch (i % 5) {
+                    case 1:
+                        layoutOrderPreserve();
+                        break;
+                    case 2:
+                        layoutLayerPreserve();
+                        break;
+                    case 3:
+                        layoutLayerAndOrderPreserve();
+                        break;
+                    default:
+                        layout()
+                }
+
+            });
+        }
 
         // add representing boxes for nodes
         var box = node.append("rect")
