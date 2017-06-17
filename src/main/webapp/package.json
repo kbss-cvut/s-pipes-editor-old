@@ -1,7 +1,7 @@
 {
-  "name": "fertility-study-manager",
+  "name": "sped",
   "version": "0.0.1",
-  "description": "Fertility Study Manager UI",
+  "description": "SPEd",
   "main": "js/app.js",
   "dependencies": {
     "react": "~15.0.2",
@@ -68,13 +68,13 @@
       "babelify"
     ]
   },
-  "author": "Miroslav Blaško",
+  "author": "Yan Doroshenko",
   "contributors": [
-    "Martin Ledvinka"
+    "Miroslav Blaško"
   ],
   "repository": {
     "type": "git",
-    "url": "https://kbss.felk.cvut.cz/git/fertility-saving-study.git"
+    "url": "https://kbss.felk.cvut.cz/gitblit/summary/students!2017-bachelor-thesis-dorosyan.git"
   },
   "private": true
 }
