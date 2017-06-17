@@ -179,10 +179,6 @@ var layoutGraph;
 // load data and render elements
 d3.json("interactive.json", function (error, graph) {
 
-    svg.onMouseOver = function () {
-        alert("Abcx");
-    };
-
     layoutGraph = graph;
 
     layouter.on("finish", function (d) {
@@ -198,6 +194,7 @@ d3.json("interactive.json", function (error, graph) {
 
         var node = nodeData.enter()
             .append("g")
+            .attr("onclick", "alert(12345)")
             .attr("class", function (d) {
                 if (d.children)
                     return "node compound";
