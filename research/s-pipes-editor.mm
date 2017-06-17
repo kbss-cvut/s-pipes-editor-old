@@ -3,7 +3,7 @@
 <node TEXT="main" FOLDED="false" ID="ID_448131109" CREATED="1312805290594" MODIFIED="1489514323432">
 <font NAME="SansSerif"/>
 <hook NAME="MapStyle" zoom="1.948">
-    <properties show_icon_for_attributes="true" fit_to_viewport="false;" show_note_icons="true" show_notes_in_map="false"/>
+    <properties fit_to_viewport="false;" show_icon_for_attributes="true" show_note_icons="true" show_notes_in_map="false"/>
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node" STYLE="oval" UNIFORM_SHAPE="true" VGAP_QUANTITY="24.0 pt">
@@ -68,7 +68,7 @@
 <node TEXT="diagramming library" ID="ID_364575232" CREATED="1496666721280" MODIFIED="1496666737532"/>
 <node TEXT="graph layout library" ID="ID_498493377" CREATED="1496666728678" MODIFIED="1496666734012"/>
 </node>
-<node TEXT="js tools/libraries" STYLE_REF="categorization" FOLDED="true" ID="ID_215157754" CREATED="1492776052027" MODIFIED="1496666838913">
+<node TEXT="js tools/libraries" STYLE_REF="categorization" ID="ID_215157754" CREATED="1492776052027" MODIFIED="1496666838913">
 <node TEXT="graph editor tools" FOLDED="true" ID="ID_761011584" CREATED="1489507196783" MODIFIED="1496666560998">
 <node TEXT="OntoDia" FOLDED="true" ID="ID_1372315863" CREATED="1489507929823" MODIFIED="1496666495644">
 <icon BUILTIN="button_cancel"/>
@@ -607,7 +607,7 @@
 </node>
 </node>
 </node>
-<node TEXT="generic graph visualization libraries" FOLDED="true" ID="ID_28955740" CREATED="1496664915019" MODIFIED="1496666357728">
+<node TEXT="generic graph visualization libraries" ID="ID_28955740" CREATED="1496664915019" MODIFIED="1496666357728">
 <node TEXT="Dagre-React" FOLDED="true" ID="ID_792068959" CREATED="1489512933269" MODIFIED="1496664832685">
 <icon BUILTIN="button_cancel"/>
 <node TEXT="link" STYLE_REF="onto-prop" ID="ID_1023875697" CREATED="1489513006715" MODIFIED="1489513008028">
@@ -636,7 +636,8 @@
 </node>
 </node>
 </node>
-<node TEXT="KlayJS-D3" FOLDED="true" ID="ID_1526883069" CREATED="1478782354128" MODIFIED="1496664983105">
+<node TEXT="KlayJS-D3" ID="ID_1526883069" CREATED="1478782354128" MODIFIED="1497518014637">
+<icon BUILTIN="button_cancel"/>
 <node TEXT="link" STYLE_REF="onto-prop" ID="ID_1196217984" CREATED="1488789149023" MODIFIED="1488789163532">
 <node TEXT="demo-interactive" ID="ID_1917438654" CREATED="1489509766799" MODIFIED="1495880384545" LINK="https://openkieler.github.io/klayjs-d3/examples/interactive/"/>
 <node TEXT="github" ID="ID_1148070438" CREATED="1488789152512" MODIFIED="1495880290749" LINK="https://github.com/OpenKieler/klayjs-d3"/>
@@ -660,7 +661,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 <node TEXT="node parameters visualization" ID="ID_262253291" CREATED="1489501140089" MODIFIED="1495880431917">
@@ -697,6 +697,9 @@
 </node>
 <node TEXT="-" STYLE_REF="onto-prop" ID="ID_346170306" CREATED="1489510646340" MODIFIED="1489510649098">
 <node TEXT="inactive develpment (last commit over a year ago)" ID="ID_1681909684" CREATED="1489510639546" MODIFIED="1495880798370">
+<icon BUILTIN="yes"/>
+</node>
+<node TEXT="does not support nodes dragging" ID="ID_788253737" CREATED="1497517648746" MODIFIED="1497517662741">
 <icon BUILTIN="yes"/>
 </node>
 </node>
@@ -919,19 +922,7 @@
 <node TEXT="specify new context" ID="ID_167531040" CREATED="1481803439266" MODIFIED="1481803579835"/>
 <node TEXT="assign default module-types-ontology (MTO) uri" ID="ID_1390358112" CREATED="1481803583688" MODIFIED="1481803660241">
 <node TEXT="e.g." STYLE_REF="onto-prop" ID="ID_116140066" CREATED="1481803792040" MODIFIED="1481803793251">
-<node ID="ID_222554479" CREATED="1481803794189" MODIFIED="1481803794189" LINK="http://onto.fel.cvut.cz/ontologies/lib/module&amp;gt;"><richcontent TYPE="NODE">
-
-<html>
-  <head>
-    
-  </head>
-  <body>
-    <span style="color: #000000; background-color: #ffffff"><font color="#000000" face="monospace">&lt;http://onto.fel.cvut.cz/ontologies/lib/module&gt;</font></span><span style="font-family: monospace"><font face="monospace"><br/></font></span>
-  </body>
-</html>
-
-</richcontent>
-</node>
+<node TEXT="&lt;html&gt;&#xa;  &lt;head&gt;&#xa;    &#xa;  &lt;/head&gt;&#xa;  &lt;body&gt;&#xa;    &lt;span style=&quot;color: #000000; background-color: #ffffff&quot;&gt;&lt;font color=&quot;#000000&quot; face=&quot;monospace&quot;&gt;&amp;lt;http://onto.fel.cvut.cz/ontologies/lib/module&amp;gt;&lt;/font&gt;&lt;/span&gt;&lt;span style=&quot;font-family: monospace&quot;&gt;&lt;font face=&quot;monospace&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/span&gt;&#xa;  &lt;/body&gt;&#xa;&lt;/html&gt;" ID="ID_222554479" CREATED="1481803794189" MODIFIED="1481803794189" LINK="http://onto.fel.cvut.cz/ontologies/lib/module&amp;gt;"/>
 </node>
 </node>
 <node TEXT="load module types based on MTO uri" ID="ID_193006776" CREATED="1481803318705" MODIFIED="1481803653655">
@@ -1074,36 +1065,8 @@
 </node>
 <node TEXT="/data" ID="ID_1859042692" CREATED="1481793097955" MODIFIED="1484730770621">
 <icon BUILTIN="button_ok"/>
-<node ID="ID_858545342" CREATED="1481793166251" MODIFIED="1481793572942"><richcontent TYPE="NODE">
-
-<html>
-  <head>
-    
-  </head>
-  <body>
-    <p>
-      ?closure=[<font color="#008000">true</font>/false]
-    </p>
-  </body>
-</html>
-
-</richcontent>
-</node>
-<node ID="ID_1604922199" CREATED="1481793144467" MODIFIED="1481793575494"><richcontent TYPE="NODE">
-
-<html>
-  <head>
-    
-  </head>
-  <body>
-    <p>
-      ?inferred=[true/<font color="#008000">false</font>]
-    </p>
-  </body>
-</html>
-
-</richcontent>
-</node>
+<node TEXT="&lt;html&gt;&#xa;  &lt;head&gt;&#xa;    &#xa;  &lt;/head&gt;&#xa;  &lt;body&gt;&#xa;    &lt;p&gt;&#xa;      ?closure=[&lt;font color=&quot;#008000&quot;&gt;true&lt;/font&gt;/false]&#xa;    &lt;/p&gt;&#xa;  &lt;/body&gt;&#xa;&lt;/html&gt;" ID="ID_858545342" CREATED="1481793166251" MODIFIED="1481793572942"/>
+<node TEXT="&lt;html&gt;&#xa;  &lt;head&gt;&#xa;    &#xa;  &lt;/head&gt;&#xa;  &lt;body&gt;&#xa;    &lt;p&gt;&#xa;      ?inferred=[true/&lt;font color=&quot;#008000&quot;&gt;false&lt;/font&gt;]&#xa;    &lt;/p&gt;&#xa;  &lt;/body&gt;&#xa;&lt;/html&gt;" ID="ID_1604922199" CREATED="1481793144467" MODIFIED="1481793575494"/>
 </node>
 <node TEXT="/content-hash" ID="ID_24033997" CREATED="1484731020300" MODIFIED="1484731032743"/>
 </node>
@@ -1463,7 +1426,9 @@
 <node TEXT="task" STYLE_REF="onto-prop" ID="ID_1874250129" CREATED="1497016817065" MODIFIED="1497016818878">
 <node TEXT="miro" STYLE_REF="categorization" ID="ID_1938652797" CREATED="1497016819220" MODIFIED="1497016823392">
 <node TEXT="how to save scripts into specific folder .. within git ?" ID="ID_338064079" CREATED="1497015369292" MODIFIED="1497015406140"/>
-<node TEXT="can we show 2 s-forms per page ?" ID="ID_32492327" CREATED="1497016039871" MODIFIED="1497016063672"/>
+<node TEXT="can we show 2 s-forms per page ?" ID="ID_32492327" CREATED="1497016039871" MODIFIED="1497016063672">
+<node TEXT="no" ID="ID_788741475" CREATED="1497517794075" MODIFIED="1497517795230"/>
+</node>
 <node TEXT="fix gitblit RSA noclass def found" ID="ID_1295945378" CREATED="1496670283978" MODIFIED="1496670315617"><richcontent TYPE="NOTE">
 
 <html>
@@ -1501,7 +1466,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 <node TEXT="duplicate view in next tab" ID="ID_489389638" CREATED="1497017277723" MODIFIED="1497017285137"/>
