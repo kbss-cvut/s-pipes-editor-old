@@ -177,7 +177,7 @@ var layouter = klay.d3kgraph()
 var layoutGraph;
 
 // load data and render elements
-d3.json("interactive.json", function (error, graph) {
+d3.json("rest/json/new", function (error, graph) {
 
     layoutGraph = graph;
 
@@ -216,7 +216,7 @@ d3.json("interactive.json", function (error, graph) {
                         layoutLayerPreserve();
                         break;
                     case 3:
-                        layoutLayerAndOrderPreserve();
+                        RoutingRules.execute(Routes.createRecord.path);
                         break;
                     default:
                         layout()
@@ -365,12 +365,3 @@ function applyInitialCoordinates(parent) {
         });
     }
 }
-
-$.ajax("rest/json/new", {
-    type: "GET",
-    statusCode: {
-        200: function (response) {
-            console.log(response)
-        }
-    }
-});
