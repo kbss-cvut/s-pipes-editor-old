@@ -18,6 +18,6 @@ class KGraphController {
   @GetMapping(path = Array("/new"), produces = Array("application/json"))
   def createFromSpipesJson = {
     val kg = viewService.createJsonFromSpipes("https://kbss.felk.cvut.cz/sempipes-sped/contexts/12/data")
-    new ResponseEntity(kg, HttpStatus.CREATED)
+    new ResponseEntity(kg, HttpStatus.OK)
   }
 }
