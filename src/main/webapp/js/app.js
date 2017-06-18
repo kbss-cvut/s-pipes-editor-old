@@ -76,7 +76,7 @@ var App = React.createClass({
     }
 });
 
-Actions.loadCurrentUser();
+// Actions.loadCurrentUser();
 
 // Pass intl data to the top-level component
 ReactDOM.render(<App/>, document.getElementById('content'));
@@ -203,9 +203,9 @@ d3.json("rest/json/new", function (error, graph) {
 
         let leaves = document.getElementsByClassName("node leaf");
         for (let i = 0; i < leaves.length; i++) {
-            leaves[i].addEventListener('dblclick', function (evvvvv) {
+            leaves[i].addEventListener('dblclick', function (e) {
 
-                evvvvv.stopPropagation();
+                e.stopPropagation();
 
                 // RoutingRules.execute(Routes.createRecord.path)
                 switch (i % 5) {
@@ -216,7 +216,7 @@ d3.json("rest/json/new", function (error, graph) {
                         layoutLayerPreserve();
                         break;
                     case 3:
-                        RoutingRules.execute(Routes.createRecord.path);
+                        layoutLayerAndOrderPreserve();
                         break;
                     default:
                         layout()
