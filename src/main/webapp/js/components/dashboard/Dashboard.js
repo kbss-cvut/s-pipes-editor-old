@@ -79,7 +79,10 @@ var Dashboard = React.createClass({
                 </Col>
                 {this._renderUsersTile()}
                 <Col xs={3} className='dashboard-sector'>
-                    <Tile onClick={this.props.handlers.showRecords}>{this.i18n('dashboard.records-tile')}</Tile>
+                    <Tile onClick={this.props.handlers.showUsers}>{this.i18n('dashboard.users-tile')}</Tile>
+                </Col>
+                <Col xs={3} className='dashboard-sector'>
+                    <Tile onClick={this.props.handlers.showViews}>{this.i18n('dashboard.views-tile')}</Tile>
                 </Col>
             </Row>
         </Grid>;

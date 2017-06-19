@@ -73,6 +73,7 @@ class ViewService {
         val edges = modules
           .filter(_.getNext() != null)
           .flatMap(m => m.getNext().asScala
+            .filter(_ != null)
             .map(n => new Edge(
               nodes.find(_.getUri == m.getUri).get,
               nodes.find(_.getUri == n.getUri()).get)))

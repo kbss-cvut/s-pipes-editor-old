@@ -47,9 +47,9 @@ module.exports = {
         'main.my-profile': 'My profile',
 
         'dashboard.welcome': 'Hello {name}, Welcome to ' + Constants.APP_NAME + '.',
-        'dashboard.create-tile': 'Create view',
+        'dashboard.create-tile': 'Create record',
         'dashboard.users-tile': 'View users',
-        'dashboard.records-tile': 'Browse views',
+        'dashboard.views-tile': 'Browse views',
 
         'notfound.title': 'Not found',
         'notfound.msg-with-id': '{resource} with id {identifier} not found.',

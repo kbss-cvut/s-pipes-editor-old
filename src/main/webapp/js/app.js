@@ -47,6 +47,7 @@ var MainView = require('./components/MainView');
 var DashboardController = require('./components/dashboard/DashboardController');
 var RecordController = require('./components/record/RecordController').default;
 var RecordsController = require('./components/record/RecordsController').default;
+var ViewController = require('./components/view/ViewController').default;
 var UsersController = require('./components/user/UsersController').default;
 var UserController = require('./components/user/UserController').default;
 var RoutingRules = require('./utils/RoutingRules');
@@ -70,6 +71,7 @@ var App = React.createClass({
                     <Route path={Routes.records.path} onEnter={onRouteEnter} component={RecordsController}/>
                     <Route path={Routes.createRecord.path} onEnter={onRouteEnter} component={RecordController}/>
                     <Route path={Routes.editRecord.path} onEnter={onRouteEnter} component={RecordController}/>
+                    <Route path={Routes.views.path} onEnter={onRouteEnter} component={ViewController}/>
                 </Route>
             </Router>
         </IntlProvider>;
