@@ -70,7 +70,7 @@ class RecordController extends React.Component {
         if (handlers) {
             Routing.transitionTo(handlers.onCancel);
         } else {
-            Routing.transitionTo(Routes.records);
+            Routing.transitionTo(Routes.dashboard);
         }
     };
 
