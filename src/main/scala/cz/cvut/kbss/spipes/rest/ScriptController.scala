@@ -29,7 +29,7 @@ class ScriptController {
   @GetMapping(produces = Array(JsonLd.MEDIA_TYPE))
   def getScripts: ResponseEntity[JSet[Context]] = service.getScripts(spipesLocation + "/scripts") match {
     case Some(contexts) => new ResponseEntity(contexts.toSet.asJava, HttpStatus.OK)
-    case None => new ResponseEntity(Set[Context]().asJava, HttpStatus.OK)
+    case None => new ResponseEntity(Set[Context]().asJava, HttpStatus.NOT_FOUND)
   }
 
   @GetMapping(path = Array("/{id}"), produces = Array(JsonLd.MEDIA_TYPE))

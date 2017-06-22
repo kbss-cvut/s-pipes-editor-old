@@ -7,7 +7,7 @@ import java.util.UUID
 import cz.cvut.kbss.spipes.model.Vocabulary
 import cz.cvut.kbss.spipes.model.klay.{Child, KGraph, Edge => KEdge}
 import cz.cvut.kbss.spipes.model.view.{Edge, Node, View}
-import cz.cvut.kbss.spipes.persistence.dao.ViewDao
+import cz.cvut.kbss.spipes.persistence.dao.{EdgeDao, NodeDao, ViewDao}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -20,74 +20,77 @@ import scala.collection.JavaConverters._
 class ViewService {
 
   @Autowired
-  private var dao: ViewDao = _
+  private var viewDao: ViewDao = _
+
+  @Autowired
+  private var nodeDao: NodeDao = _
+
+  @Autowired
+  private var edgeDao: EdgeDao = _
 
   @Autowired
   private var spipesService: SpipesService = _
 
   def getView(id: String): Option[View] =
-    dao.get(URI.create(Vocabulary.s_c_view + "/" + id))
+    viewDao.get(URI.create(Vocabulary.s_c_view + "/" + id))
 
-  def getAllViews(): Option[Traversable[View]] =
-    dao.getAllViews()
+  def getAllViews: Option[Traversable[View]] =
+    viewDao.getAllViews
 
-  def getAllNodes(): Option[Traversable[Node]] =
-    dao.getAllNodes()
+  def getAllNodes: Option[Traversable[Node]] =
+    viewDao.getAllNodes
 
-  def getAllEdges(): Option[Traversable[Edge]] =
-    dao.getAllEdges()
+  def getAllEdges: Option[Traversable[Edge]] =
+    viewDao.getAllEdges
 
   def addView(g: View): Option[View] =
-    dao.add(g)
+    viewDao.save(g)
 
   def updateView(id: String, g: View): Option[View] =
-    dao.update(URI.create(Vocabulary.s_c_view + "/" + id), g)
+    viewDao.updateView(URI.create(Vocabulary.s_c_view + "/" + id), g)
 
   def deleteView(id: String): Option[URI] =
-    dao.delete(URI.create(Vocabulary.s_c_view + "/" + id))
+    viewDao.delete(URI.create(Vocabulary.s_c_view + "/" + id))
 
   def getViewNodes(id: String): Option[Traversable[Node]] =
-    dao.getViewNodes(URI.create(Vocabulary.s_c_view + "/" + id))
+    viewDao.getViewNodes(URI.create(Vocabulary.s_c_view + "/" + id))
 
   def getViewEdges(id: String): Option[Traversable[Edge]] =
-    dao.getViewEdges(URI.create(Vocabulary.s_c_view + "/" + id))
+    viewDao.getViewEdges(URI.create(Vocabulary.s_c_view + "/" + id))
 
   def getEdge(id: String): Option[Edge] =
-    dao.getEdge(URI.create(Vocabulary.s_c_edge + "/" + id))
+    edgeDao.get(URI.create(Vocabulary.s_c_edge + "/" + id))
 
   def getNode(id: String): Option[Node] =
-    dao.getNode(URI.create(Vocabulary.s_c_node + "/" + id))
+    nodeDao.get(URI.create(Vocabulary.s_c_node + "/" + id))
 
   def createViewFromSpipes(id: String): Option[View] = {
-    spipesService.getModules(id) match {
-      case Some(modules) =>
-        val nodes = modules.map(m => new Node(
-          m.getUri(),
-          m.getId(),
-          m.getLabel(),
-          0d,
-          0d,
-          new util.HashSet[String](),
-          new util.HashSet[String](),
-          new util.HashSet[String]()))
-        val edges = modules
-          .filter(_.getNext() != null)
-          .flatMap(m => m.getNext().asScala
-            .filter(_ != null)
-            .map(n => new Edge(
-              nodes.find(_.getUri == m.getUri).get,
-              nodes.find(_.getUri == n.getUri()).get)))
-        val view = new View("Label", nodes.toSet.asJava, edges.toSet.asJava)
-        dao.add(view)
-        Some(view)
-      case None =>
-        None
+    spipesService.getModules(id).map(modules => {
+      val nodes = modules.map(m => new Node(
+        m.getUri(),
+        m.getId(),
+        m.getLabel(),
+        0d,
+        0d,
+        new util.HashSet[String](),
+        new util.HashSet[String](),
+        new util.HashSet[String]()))
+      val edges = modules
+        .filter(_.getNext() != null)
+        .flatMap(m => m.getNext().asScala
+          .filter(_ != null)
+          .map(n => new Edge(
+            nodes.find(_.getUri == m.getUri).get,
+            nodes.find(_.getUri == n.getUri()).get)))
+      val view = new View("Label", nodes.toSet.asJava, edges.toSet.asJava)
+      viewDao.save(view)
+      view
     }
+    )
   }
 
-  def createJsonFromSpipes(id: String): KGraph =
-    createViewFromSpipes(id) match {
-      case Some(v) =>
+  def createJsonFromSpipes(id: String): Option[KGraph] =
+    createViewFromSpipes(id).map(v => {
         val g = new KGraph(v.getLabel(),
           v.getNodes().asScala
             .map(n => new Child(
@@ -107,5 +110,5 @@ class ViewService {
                 e.getDestinationNode().getLabel()))
             .asJava)
         g
-    }
+    })
 }

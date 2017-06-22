@@ -12,17 +12,17 @@ import org.springframework.stereotype.Service
 class SpipesService {
 
   @Autowired
-  private var dataStreamDao: SpipesDao = _
+  private var spipesDao: SpipesDao = _
 
   def getModuleTypes(url: String): Option[Traversable[ModuleType]] =
-    dataStreamDao.getModuleTypes(url + "/data")
+    spipesDao.getModuleTypes(url + "/data")
 
   def getModules(url: String): Option[Traversable[Module]] =
-    dataStreamDao.getModules(url)
+    spipesDao.getModules(url)
 
   def getScripts(url: String): Option[Traversable[Context]] =
-    dataStreamDao.getScripts(url)
+    spipesDao.getScripts(url)
 
   def getScript(url: String, id: String): Option[Context] =
-    dataStreamDao.getScripts(url).get.find(_.getUri == id)
+    spipesDao.getScripts(url).get.find(_.getUri == id)
 }

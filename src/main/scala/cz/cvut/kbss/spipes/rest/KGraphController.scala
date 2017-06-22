@@ -16,8 +16,11 @@ class KGraphController {
   private var viewService: ViewService = _
 
   @GetMapping(path = Array("/new"), produces = Array("application/json"))
-  def createFromSpipesJson = {
+  def createFromSpipesJson: ResponseEntity[Any] = {
     val kg = viewService.createJsonFromSpipes("https://kbss.felk.cvut.cz/sempipes-sped/contexts/12/data")
-    new ResponseEntity(kg, HttpStatus.OK)
+    kg match {
+      case Some(g) => new ResponseEntity(g, HttpStatus.OK)
+      case _ => new ResponseEntity[Any]("KGraph can not be generated", HttpStatus.BAD_REQUEST)
+    }
   }
 }

@@ -32,7 +32,7 @@ class SpipesDao {
   private var restTemplate: RestTemplate = _
 
   @PostConstruct
-  def init(): Unit = {
+  def init: Unit = {
     // create persistence unit
     val props: Map[String, String] = Map(
       // Here we set up basic storage access properties - driver class, physical location of the storage
@@ -49,10 +49,6 @@ class SpipesDao {
       PersistenceProperties.JPA_PERSISTENCE_PROVIDER -> classOf[JOPAPersistenceProvider].getName(),
       SesameOntoDriverProperties.SESAME_USE_VOLATILE_STORAGE -> true.toString())
     emf = Persistence.createEntityManagerFactory("testPersistenceUnit", props.asJava)
-  }
-
-  def createNewContext(): Unit = {
-
   }
 
   def getModuleTypes(url: String): Option[Traversable[ModuleType]] = {

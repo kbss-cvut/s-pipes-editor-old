@@ -31,7 +31,7 @@ class ViewDaoTest extends BaseDaoTestRunner {
     val nodes = Set[Node](n)
     val edges = Set[Edge](e)
     val v = new View("View", nodes.asJava, edges.asJava)
-    assertEquals(Some(v), dao.add(v))
+    assertEquals(Some(v), dao.save(v))
     assertEquals(Some(v), dao.get(v.getUri()))
     assertEquals(v.getNodes, dao.get(v.getUri()).get.getNodes())
     assertEquals(Some(v.getUri()), dao.delete(v.getUri()))
@@ -50,19 +50,19 @@ class ViewDaoTest extends BaseDaoTestRunner {
     val edges = Set[Edge](e)
     val v01 = new View("View", nodes.asJava, edges.asJava)
     val v02 = new View("View", nodes.asJava, edges.asJava)
-    val v1 = dao.add(v01).get
+    val v1 = dao.save(v01).get
     val uri1 = v01.getUri()
-    val v2 = dao.add(v02).get
+    val v2 = dao.save(v02).get
     val uri2 = v02.getUri()
     assertEquals(v01, v1)
     assertEquals(v02, v2)
-    val size = dao.getAllViews().get.size
+    val size = dao.getAllViews.get.size
     assertEquals(Some(uri1), dao.delete(uri1))
     assertEquals(None, dao.get(uri1))
-    assertEquals(size - 1, dao.getAllViews().get.size)
+    assertEquals(size - 1, dao.getAllViews.get.size)
     assertEquals(Some(uri2), dao.delete(uri2))
     assertEquals(None, dao.get(uri2))
-    assertTrue(dao.getAllViews().isEmpty)
+    assertTrue(dao.getAllViews.isEmpty)
   }
 
   @Test

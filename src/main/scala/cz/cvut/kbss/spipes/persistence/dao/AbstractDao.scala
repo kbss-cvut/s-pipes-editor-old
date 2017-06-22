@@ -4,105 +4,68 @@ import java.net.URI
 
 import cz.cvut.kbss.jopa.model.EntityManagerFactory
 import cz.cvut.kbss.spipes.model.AbstractEntity
-import cz.cvut.kbss.spipes.model.view.View
-import org.slf4j.LoggerFactory
+import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
 
 import scala.reflect.ClassTag
+import scala.util.{Success, Try}
 
 /**
   * Created by yan on 2/10/17.
   */
 abstract class AbstractDao[T <: AbstractEntity] {
 
-  protected val LOG = LoggerFactory.getLogger(getClass())
+  protected val LOG: Logger = LoggerFactory.getLogger(getClass())
 
   @Autowired
   protected var emf: EntityManagerFactory = _
 
   def get(uri: URI)(implicit tag: ClassTag[T]): Option[T] = {
     val em = emf.createEntityManager()
-    try {
-      em.find(tag.runtimeClass, uri) match {
-        case n: T => Some(n)
-        case null => None
-      }
-    }
-    catch {
-      case e: Exception =>
-        LOG.error("Exception in " + getClass().getSimpleName(), e)
+    Try(
+      em.find(tag.runtimeClass, uri)
+    ) match {
+      case Success(v: T) if v != null =>
+        em.close()
+        Some(v)
+      case _ =>
+        em.close()
         None
-    }
-    finally {
-      em.close()
     }
   }
 
-  def add(e: T): Option[T] = {
-    assert(e != null)
+  def save(e: T): Option[T] = {
     val em = emf.createEntityManager()
-    try {
+    Try {
       em.getTransaction().begin()
       em.persist(e)
       em.getTransaction().commit()
-      Some(e)
-    }
-    catch {
-      case e: Exception =>
-        LOG.error("Exception in " + getClass().getSimpleName(), e)
+      e
+    } match {
+      case Success(v: T) if v != null =>
+        em.close()
+        Some(e)
+      case _ =>
+        em.close()
         None
-    }
-    finally {
-      em.close()
+
     }
   }
 
   def delete(uri: URI)(implicit tag: ClassTag[T]): Option[URI] = {
     val em = emf.createEntityManager()
-    try {
-      em.find(tag.runtimeClass, uri) match {
-        case n: View =>
+    Try {
           em.getTransaction().begin()
-          em.remove(n)
+      em.remove(get(uri))
           em.getTransaction().commit()
-          Some(uri)
-        case null =>
-          None
-      }
-    }
-    catch {
-      case e: Exception =>
-        LOG.error("Exception in " + getClass().getSimpleName(), e)
+      uri
+    } match {
+      case Success(uri: URI) if uri != null =>
+        em.close()
+        Some(uri)
+      case _ =>
+        em.close()
         None
-    }
-    finally {
-      em.close()
-    }
-  }
-
-  def update(uri: URI, other: View)(implicit tag: ClassTag[T]): Option[View] = {
-    assert(other != null)
-    val em = emf.createEntityManager()
-    try {
-      em.getTransaction().begin()
-      em.find(tag.runtimeClass, uri) match {
-        case g: View =>
-          g.setLabel(other.getLabel)
-          g.setNodes(other.getNodes)
-          g.setEdges(other.getEdges)
-          em.merge(g)
-          em.getTransaction().commit()
-          Some(g)
-        case null => None
-      }
-    }
-    catch {
-      case e: Exception =>
-        LOG.error("Exception in " + getClass().getSimpleName(), e)
-        None
-    }
-    finally {
-      em.close()
     }
   }
 }

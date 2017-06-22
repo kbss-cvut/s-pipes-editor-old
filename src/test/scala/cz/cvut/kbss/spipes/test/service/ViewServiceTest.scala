@@ -5,7 +5,7 @@ import java.net.URI
 import cz.cvut.kbss.spipes.model.Vocabulary
 import cz.cvut.kbss.spipes.model.spipes.Module
 import cz.cvut.kbss.spipes.model.view.{Edge, Node, View}
-import cz.cvut.kbss.spipes.persistence.dao.{SpipesDao, ViewDao}
+import cz.cvut.kbss.spipes.persistence.dao.{EdgeDao, NodeDao, SpipesDao, ViewDao}
 import cz.cvut.kbss.spipes.service.{SpipesService, ViewService}
 import org.junit.Assert.assertEquals
 import org.junit.{Ignore, Test}
@@ -21,7 +21,13 @@ import scala.collection.JavaConverters._
 class ViewServiceTest extends BaseServiceTestRunner {
 
   @Autowired
-  private var dao: ViewDao = _
+  private var viewDao: ViewDao = _
+
+  @Autowired
+  private var nodeDao: NodeDao = _
+
+  @Autowired
+  private var edgeDao: EdgeDao = _
 
   @Autowired
   private var spipesDao: SpipesDao = _
@@ -35,21 +41,21 @@ class ViewServiceTest extends BaseServiceTestRunner {
   @Test
   def getNodeWhenDaoReturnsNone = {
     val id = "id"
-    Mockito.when(dao.getNode(URI.create(Vocabulary.s_c_node + "/" + id))).thenReturn(None)
+    Mockito.when(nodeDao.get(URI.create(Vocabulary.s_c_node + "/" + id))).thenReturn(None)
     assertEquals(None, service.getNode(id))
   }
 
   @Test
   def getNodeWhenDaoReturnsNode = {
     val node1 = new Node("label", 0, 0, Set[String]().asJava, Set[String]().asJava, Set[String]().asJava)
-    Mockito.when(dao.getNode(node1.getUri)).thenReturn(Some(node1))
+    Mockito.when(nodeDao.get(node1.getUri)).thenReturn(Some(node1))
     assertEquals(Some(node1), service.getNode(node1.getId))
   }
 
   @Test
   def getEdgeWhenDaoReturnsNone = {
     val id = "id"
-    Mockito.when(dao.getEdge(URI.create(Vocabulary.s_c_edge + "/" + id))).thenReturn(None)
+    Mockito.when(edgeDao.get(URI.create(Vocabulary.s_c_edge + "/" + id))).thenReturn(None)
     assertEquals(None, service.getEdge(id))
   }
 
@@ -58,14 +64,14 @@ class ViewServiceTest extends BaseServiceTestRunner {
   def getEdgeWhenDaoReturnsEdge = {
     val node1 = new Node("label", 0, 0, Set[String]().asJava, Set[String]().asJava, Set[String]().asJava)
     val edge1 = new Edge(node1, node1)
-    Mockito.when(dao.getEdge(edge1.getUri)).thenReturn(Some(edge1))
+    Mockito.when(edgeDao.get(edge1.getUri)).thenReturn(Some(edge1))
     assertEquals(Some(edge1), service.getEdge(edge1.getId()))
   }
 
   @Test
   def getViewReturnsNone = {
     val id = "id"
-    Mockito.when(dao.get(URI.create(Vocabulary.s_c_view + "/" + id))).thenReturn(None)
+    Mockito.when(viewDao.get(URI.create(Vocabulary.s_c_view + "/" + id))).thenReturn(None)
     assertEquals(None, service.getView(id))
   }
 
@@ -73,68 +79,68 @@ class ViewServiceTest extends BaseServiceTestRunner {
   def getViewReturnsView = {
     val v = new View(null, null, null)
     val id = v.getId()
-    Mockito.when(dao.get(URI.create(Vocabulary.s_c_view + "/" + id))).thenReturn(Some(v))
+    Mockito.when(viewDao.get(URI.create(Vocabulary.s_c_view + "/" + id))).thenReturn(Some(v))
     assertEquals(Some(v), service.getView(id))
   }
 
   @Test
   def getAllViewsReturnsNone = {
-    Mockito.when(dao.getAllViews()).thenReturn(None)
-    assertEquals(None, service.getAllViews())
+    Mockito.when(viewDao.getAllViews).thenReturn(None)
+    assertEquals(None, service.getAllViews)
   }
 
   @Test
   def getAllViewsReturnsEmpty = {
-    Mockito.when(dao.getAllViews()).thenReturn(Some(Set[View]()))
-    assertEquals(Some(Set()), service.getAllViews())
+    Mockito.when(viewDao.getAllViews).thenReturn(Some(Set[View]()))
+    assertEquals(Some(Set()), service.getAllViews)
   }
 
   @Test
   def getAllViewsReturnsSomeViews = {
     val s = Set(new View(null, null, null), new View(null, null, null), new View(null, null, null))
-    Mockito.when(dao.getAllViews()).thenReturn(Some(s))
-    assertEquals(Some(s), service.getAllViews())
+    Mockito.when(viewDao.getAllViews).thenReturn(Some(s))
+    assertEquals(Some(s), service.getAllViews)
   }
 
   @Test
   def addViewSucceeds = {
     val v = new View(null, null, null)
-    Mockito.when(dao.add(v)).thenReturn(Some(v))
+    Mockito.when(viewDao.save(v)).thenReturn(Some(v))
     assertEquals(Some(v), service.addView(v))
   }
 
   @Test
   def addViewFails = {
     val v = new View(null, null, null)
-    Mockito.when(dao.add(v)).thenReturn(None)
+    Mockito.when(viewDao.save(v)).thenReturn(None)
     assertEquals(None, service.addView(v))
   }
 
   @Test
   def updateViewSucceeds = {
     val v = new View(null, null, null)
-    Mockito.when(dao.update(v.getUri(), v)).thenReturn(Some(v))
+    Mockito.when(viewDao.updateView(v.getUri(), v)).thenReturn(Some(v))
     assertEquals(Some(v), service.updateView(v.getId(), v))
   }
 
   @Test
   def updateViewFails = {
     val v = new View(null, null, null)
-    Mockito.when(dao.update(v.getUri(), v)).thenReturn(None)
+    Mockito.when(viewDao.updateView(v.getUri(), v)).thenReturn(None)
     assertEquals(None, service.updateView(v.getId(), v))
   }
 
   @Test
   def deleteViewSucceeds = {
     val v = new View(null, null, null)
-    Mockito.when(dao.delete(v.getUri())).thenReturn(Some(v.getUri()))
+    Mockito.when(viewDao.delete(v.getUri())).thenReturn(Some(v.getUri()))
     assertEquals(Some(v.getUri()), service.deleteView(v.getId()))
   }
 
   @Test
   def deleteViewFails = {
     val v = new View(null, null, null)
-    Mockito.when(dao.delete(v.getUri())).thenReturn(None)
+    Mockito.when(viewDao.delete(v.getUri())).thenReturn(None)
     assertEquals(None, service.deleteView(v.getId()))
   }
 
@@ -223,8 +229,8 @@ class ViewServiceTest extends BaseServiceTestRunner {
     val v = new View()
     val id = v.getId()
     Mockito.when(spipesService.getModules(id)).thenReturn(Some(Set[Module]()))
-    Mockito.when(dao.get(URI.create(Vocabulary.s_c_view + "/" + id))).thenReturn(None)
-    Mockito.when(dao.update(any(classOf[URI]), any(classOf[View]))).thenReturn(None)
+    Mockito.when(viewDao.get(URI.create(Vocabulary.s_c_view + "/" + id))).thenReturn(None)
+    Mockito.when(viewDao.updateView(any(classOf[URI]), any(classOf[View]))).thenReturn(None)
     assertEquals(None, service.createViewFromSpipes(id))
   }
 }
