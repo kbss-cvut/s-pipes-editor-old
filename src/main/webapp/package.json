@@ -70,11 +70,12 @@
   },
   "author": "Yan Doroshenko",
   "contributors": [
-    "Miroslav Blaško"
+    "Miroslav Blaško",
+    "Martin Ledvinka"
   ],
   "repository": {
     "type": "git",
     "url": "https://kbss.felk.cvut.cz/gitblit/summary/students!2017-bachelor-thesis-dorosyan.git"
   },
-  "private": true
+  "private": false
 }
