@@ -10,7 +10,6 @@ import Mask from "../Mask";
 import RecordForm from "./RecordForm";
 import RecordProvenance from "./RecordProvenance";
 import RecordValidator from "../../validation/RecordValidator";
-import RequiredAttributes from "./RequiredAttributes";
 import WizardStore from "../../stores/WizardStore";
 import {FormUtils} from "semforms";
 
@@ -41,10 +40,9 @@ class Record extends React.Component {
             return <Mask text={this.i18n('please-wait')}/>;
         }
         var record = this.props.record,
-            complete = RecordValidator.isComplete(record);
+            complete = true;
         return <Panel header={this._renderHeader()} bsStyle='primary'>
             <form className='form-horizontal'>
-                <RequiredAttributes record={record} onChange={this._onChange} completed={complete}/>
                 {this._renderClinic()}
                 <RecordProvenance record={record}/>
             </form>
