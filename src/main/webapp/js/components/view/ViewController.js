@@ -10,6 +10,9 @@ import I18nWrapper from "../../i18n/I18nWrapper";
 import Messager from "../wrapper/Messager";
 var RoutingRules = require('../../utils/RoutingRules');
 var Routes = require('../../utils/Routes');
+var Routing = require('../../utils/Routing');
+
+var that;
 
 class ViewController extends React.Component {
 
@@ -22,8 +25,13 @@ class ViewController extends React.Component {
     }
 
     componentDidMount() {
+        that = this;
         renderView();
         return null;
+    }
+
+    openForm() {
+        Routing.transitionTo(Routes.createRecord);
     }
 }
 
@@ -156,20 +164,9 @@ function renderView() {
 
                     e.stopPropagation();
 
-                    // RoutingRules.execute(Routes.createRecord.path)
-                    switch (i % 5) {
-                        case 1:
-                            layoutOrderPreserve();
-                            break;
-                        case 2:
-                            layoutLayerPreserve();
-                            break;
-                        case 3:
-                            layoutLayerAndOrderPreserve();
-                            break;
-                        default:
-                            layout()
-                    }
+                    //alert(e.currentTarget.textContent);
+
+                    that.openForm();
 
                 });
             }
