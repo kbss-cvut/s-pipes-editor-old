@@ -8,6 +8,8 @@ import React from "react";
 import injectIntl from "../../utils/injectIntl";
 import I18nWrapper from "../../i18n/I18nWrapper";
 import Messager from "../wrapper/Messager";
+var RoutingRules = require('../../utils/RoutingRules');
+var Routes = require('../../utils/Routes');
 
 class ViewController extends React.Component {
 
@@ -16,7 +18,7 @@ class ViewController extends React.Component {
     }
 
     render() {
-        return <div id="view112"></div>;
+        return <div id="view"></div>;
     }
 
     componentDidMount() {
@@ -47,7 +49,7 @@ function renderView() {
 
     var zoom = d3.behavior.zoom()
         .on("zoom", redraw);
-    var svg = d3.select("#view112")
+    var svg = d3.select("#view")
         .append("svg")
         .attr("width", width)
         .attr("height", height)
@@ -234,83 +236,83 @@ function renderView() {
         // start an initial layout
         layouter.kgraph(graph);
     })
-}
 
-function redraw() {
-    svg.attr("transform", "translate(" + d3.event.translate + ")"
-        + " scale(" + d3.event.scale + ")");
-}
-
-function layoutFix() {
-    applyInitialCoordinates(layoutGraph);
-    clearBendpoints(layoutGraph);
-
-    layouter.options(options.fix)
-        .kgraph(layoutGraph);
-}
-
-function layoutLayerPreserve() {
-    applyInitialCoordinates(layoutGraph);
-    clearBendpoints(layoutGraph);
-
-    layouter.options(options.layer)
-        .kgraph(layoutGraph);
-}
-
-function layoutOrderPreserve() {
-    applyInitialCoordinates(layoutGraph);
-    clearBendpoints(layoutGraph);
-
-    layouter.options(options.order)
-        .kgraph(layoutGraph);
-}
-
-function layoutLayerAndOrderPreserve() {
-    applyInitialCoordinates(layoutGraph);
-    clearBendpoints(layoutGraph);
-
-    layouter.options(options.layerOrder)
-        .kgraph(layoutGraph);
-}
-
-function layout() {
-    applyInitialCoordinates(layoutGraph);
-    clearBendpoints(layoutGraph);
-
-    layouter.options(options.auto)
-        .kgraph(layoutGraph);
-}
-
-function clearBendpoints(parent) {
-    if (parent.edges) {
-        parent.edges.forEach(function (e) {
-            e.sourcePoint = {x: 0, y: 0};
-            e.targetPoint = {x: 0, y: 0};
-            e.bendPoints = [];
-        });
+    function redraw() {
+        svg.attr("transform", "translate(" + d3.event.translate + ")"
+            + " scale(" + d3.event.scale + ")");
     }
-    if (parent.children) {
-        parent.children.forEach(function (c) {
-            clearBendpoints(c);
-        });
+
+    function layoutFix() {
+        applyInitialCoordinates(layoutGraph);
+        clearBendpoints(layoutGraph);
+
+        layouter.options(options.fix)
+            .kgraph(layoutGraph);
     }
-}
 
-function applyInitialCoordinates(parent) {
-    if (parent.children) {
-        parent.children.forEach(function (c) {
+    function layoutLayerPreserve() {
+        applyInitialCoordinates(layoutGraph);
+        clearBendpoints(layoutGraph);
 
-            if (c.properties && c.properties["de.cau.cs.kieler.position"]) {
-                var position = c.properties["de.cau.cs.kieler.position"].split(",");
-                c.x = parseInt(position[0]);
-                c.y = parseInt(position[1]);
-            } else {
-                c.x = 0;
-                c.y = 0;
-            }
+        layouter.options(options.layer)
+            .kgraph(layoutGraph);
+    }
 
-            applyInitialCoordinates(c);
-        });
+    function layoutOrderPreserve() {
+        applyInitialCoordinates(layoutGraph);
+        clearBendpoints(layoutGraph);
+
+        layouter.options(options.order)
+            .kgraph(layoutGraph);
+    }
+
+    function layoutLayerAndOrderPreserve() {
+        applyInitialCoordinates(layoutGraph);
+        clearBendpoints(layoutGraph);
+
+        layouter.options(options.layerOrder)
+            .kgraph(layoutGraph);
+    }
+
+    function layout() {
+        applyInitialCoordinates(layoutGraph);
+        clearBendpoints(layoutGraph);
+
+        layouter.options(options.auto)
+            .kgraph(layoutGraph);
+    }
+
+    function clearBendpoints(parent) {
+        if (parent.edges) {
+            parent.edges.forEach(function (e) {
+                e.sourcePoint = {x: 0, y: 0};
+                e.targetPoint = {x: 0, y: 0};
+                e.bendPoints = [];
+            });
+        }
+        if (parent.children) {
+            parent.children.forEach(function (c) {
+                clearBendpoints(c);
+            });
+        }
+    }
+
+    function applyInitialCoordinates(parent) {
+        if (parent.children) {
+            parent.children.forEach(function (c) {
+
+                if (c.properties && c.properties["de.cau.cs.kieler.position"]) {
+                    var position = c.properties["de.cau.cs.kieler.position"].split(",");
+                    c.x = parseInt(position[0]);
+                    c.y = parseInt(position[1]);
+                } else {
+                    c.x = 0;
+                    c.y = 0;
+                }
+
+                applyInitialCoordinates(c);
+            });
+        }
     }
 }
 
