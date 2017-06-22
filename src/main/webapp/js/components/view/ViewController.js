@@ -16,7 +16,7 @@ class ViewController extends React.Component {
     }
 
     render() {
-        return null;
+        return <div id="view112"></div>;
     }
 
     componentDidMount() {
@@ -25,103 +25,105 @@ class ViewController extends React.Component {
     }
 }
 
-function viewport() {
-    var e = window,
-        a = 'inner';
-    if (!('innerWidth' in window)) {
-        a = 'client';
-        e = document.documentElement || document.body;
-    }
-    return {
-        width: e[a + 'Width'],
-        height: 900
-    }
-}
-
-var width = viewport().width,
-    height = viewport().height;
-
-var zoom = d3.behavior.zoom()
-    .on("zoom", redraw);
-var svg = d3.select("#content")
-    .append("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .call(zoom)
-    .append("g");
-
-// specify different layout options for the three modes
-var options = {
-    fix: {
-        algorithm: "de.cau.cs.kieler.fixed",
-        layoutHierarchy: false
-    },
-    auto: {
-        algorithm: "de.cau.cs.kieler.klay.layered",
-        spacing: 10,
-        layoutHierarchy: true,
-        intCoordinates: true,
-        direction: "RIGHT",
-        edgeRouting: "ORTHOGONAL",
-    },
-    layer: {
-        algorithm: "de.cau.cs.kieler.klay.layered",
-        spacing: 10,
-        layoutHierarchy: true,
-        intCoordinates: true,
-        direction: "RIGHT",
-        edgeRouting: "ORTHOGONAL",
-        cycleBreaking: "INTERACTIVE",
-        nodeLayering: "INTERACTIVE",
-    },
-    order: {
-        algorithm: "de.cau.cs.kieler.klay.layered",
-        spacing: 10,
-        layoutHierarchy: true,
-        intCoordinates: true,
-        direction: "RIGHT",
-        edgeRouting: "ORTHOGONAL",
-        crossMin: "INTERACTIVE",
-    },
-    layerOrder: {
-        algorithm: "de.cau.cs.kieler.klay.layered",
-        spacing: 10,
-        layoutHierarchy: true,
-        intCoordinates: true,
-        direction: "RIGHT",
-        edgeRouting: "ORTHOGONAL",
-        cycleBreaking: "INTERACTIVE",
-        nodeLayering: "INTERACTIVE",
-        crossMin: "INTERACTIVE",
-    }
-};
-
-// define an arrow head
-svg.append("svg:defs")
-    .append("svg:marker")
-    .attr("id", "end")
-    .attr("viewBox", "0 -5 10 10")
-    .attr("refX", 10)
-    .attr("refY", 0)
-    .attr("markerWidth", 3)        // marker settings
-    .attr("markerHeight", 5)
-    .attr("orient", "auto")
-    .style("fill", "#999")
-    .style("stroke-opacity", 0.6)  // arrowhead color
-    .append("svg:path")
-    .attr("d", "M0,-5L10,0L0,5");
-
-// group
-var root = svg.append("g");
-var layouter = klay.d3kgraph()
-    .size([width, height])
-    .transformGroup(root)
-    .options(options.auto);
-
-var layoutGraph;
 
 // load data and render elements
 function renderView() {
+
+    function viewport() {
+        var e = window,
+            a = 'inner';
+        if (!('innerWidth' in window)) {
+            a = 'client';
+            e = document.documentElement || document.body;
+        }
+        return {
+            width: e[a + 'Width'],
+            height: 900
+        }
+    }
+
+    var width = viewport().width,
+        height = viewport().height;
+
+    var zoom = d3.behavior.zoom()
+        .on("zoom", redraw);
+    var svg = d3.select("#view112")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .call(zoom)
+        .append("g");
+
+// specify different layout options for the three modes
+    var options = {
+        fix: {
+            algorithm: "de.cau.cs.kieler.fixed",
+            layoutHierarchy: false
+        },
+        auto: {
+            algorithm: "de.cau.cs.kieler.klay.layered",
+            spacing: 10,
+            layoutHierarchy: true,
+            intCoordinates: true,
+            direction: "RIGHT",
+            edgeRouting: "ORTHOGONAL",
+        },
+        layer: {
+            algorithm: "de.cau.cs.kieler.klay.layered",
+            spacing: 10,
+            layoutHierarchy: true,
+            intCoordinates: true,
+            direction: "RIGHT",
+            edgeRouting: "ORTHOGONAL",
+            cycleBreaking: "INTERACTIVE",
+            nodeLayering: "INTERACTIVE",
+        },
+        order: {
+            algorithm: "de.cau.cs.kieler.klay.layered",
+            spacing: 10,
+            layoutHierarchy: true,
+            intCoordinates: true,
+            direction: "RIGHT",
+            edgeRouting: "ORTHOGONAL",
+            crossMin: "INTERACTIVE",
+        },
+        layerOrder: {
+            algorithm: "de.cau.cs.kieler.klay.layered",
+            spacing: 10,
+            layoutHierarchy: true,
+            intCoordinates: true,
+            direction: "RIGHT",
+            edgeRouting: "ORTHOGONAL",
+            cycleBreaking: "INTERACTIVE",
+            nodeLayering: "INTERACTIVE",
+            crossMin: "INTERACTIVE",
+        }
+    };
+
+// define an arrow head
+    svg.append("svg:defs")
+        .append("svg:marker")
+        .attr("id", "end")
+        .attr("viewBox", "0 -5 10 10")
+        .attr("refX", 10)
+        .attr("refY", 0)
+        .attr("markerWidth", 3)        // marker settings
+        .attr("markerHeight", 5)
+        .attr("orient", "auto")
+        .style("fill", "#999")
+        .style("stroke-opacity", 0.6)  // arrowhead color
+        .append("svg:path")
+        .attr("d", "M0,-5L10,0L0,5");
+
+// group
+    var root = svg.append("g");
+    var layouter = klay.d3kgraph()
+        .size([width, height])
+        .transformGroup(root)
+        .options(options.auto);
+
+    var layoutGraph;
+
     d3.json("rest/json/new", function (error, graph) {
 
         layoutGraph = graph;
