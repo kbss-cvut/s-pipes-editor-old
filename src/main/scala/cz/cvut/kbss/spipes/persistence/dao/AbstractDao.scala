@@ -1,12 +1,15 @@
 package cz.cvut.kbss.spipes.persistence.dao
 
 import java.net.URI
+import java.util.{List => JList}
 
 import cz.cvut.kbss.jopa.model.EntityManagerFactory
+import cz.cvut.kbss.jopa.model.annotations.OWLClass
 import cz.cvut.kbss.spipes.model.AbstractEntity
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
 
+import scala.collection.JavaConverters._
 import scala.reflect.ClassTag
 import scala.util.{Success, Try}
 
@@ -28,6 +31,23 @@ abstract class AbstractDao[T <: AbstractEntity] {
       case Success(v: T) if v != null =>
         em.close()
         Some(v)
+      case _ =>
+        em.close()
+        None
+    }
+  }
+
+  def findAll(implicit tag: ClassTag[T]): Option[Traversable[T]] = {
+    val em = emf.createEntityManager()
+    Try {
+      val query = em.createNativeQuery("select ?s where { ?s a ?type }", tag.runtimeClass)
+        .setParameter("type", URI.create(tag.runtimeClass.getAnnotation(classOf[OWLClass]).iri()))
+      query.getResultList()
+    }
+    match {
+      case Success(es: JList[T]) =>
+        em.close()
+        Some(es.asScala.asInstanceOf[Traversable[T]])
       case _ =>
         em.close()
         None

@@ -56,13 +56,13 @@ class ViewDaoTest extends BaseDaoTestRunner {
     val uri2 = v02.getUri()
     assertEquals(v01, v1)
     assertEquals(v02, v2)
-    val size = dao.getAllViews.get.size
+    val size = dao.findAll.get.size
     assertEquals(Some(uri1), dao.delete(uri1))
     assertEquals(None, dao.get(uri1))
-    assertEquals(size - 1, dao.getAllViews.get.size)
+    assertEquals(size - 1, dao.findAll.get.size)
     assertEquals(Some(uri2), dao.delete(uri2))
     assertEquals(None, dao.get(uri2))
-    assertTrue(dao.getAllViews.isEmpty)
+    assertTrue(dao.findAll.isEmpty)
   }
 
   @Test

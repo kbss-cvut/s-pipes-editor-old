@@ -85,20 +85,20 @@ class ViewServiceTest extends BaseServiceTestRunner {
 
   @Test
   def getAllViewsReturnsNone = {
-    Mockito.when(viewDao.getAllViews).thenReturn(None)
+    Mockito.when(viewDao.findAll).thenReturn(None)
     assertEquals(None, service.getAllViews)
   }
 
   @Test
   def getAllViewsReturnsEmpty = {
-    Mockito.when(viewDao.getAllViews).thenReturn(Some(Set[View]()))
+    Mockito.when(viewDao.findAll).thenReturn(Some(Set[View]()))
     assertEquals(Some(Set()), service.getAllViews)
   }
 
   @Test
   def getAllViewsReturnsSomeViews = {
     val s = Set(new View(null, null, null), new View(null, null, null), new View(null, null, null))
-    Mockito.when(viewDao.getAllViews).thenReturn(Some(s))
+    Mockito.when(viewDao.findAll).thenReturn(Some(s))
     assertEquals(Some(s), service.getAllViews)
   }
 

@@ -35,13 +35,13 @@ class ViewService {
     viewDao.get(URI.create(Vocabulary.s_c_view + "/" + id))
 
   def getAllViews: Option[Traversable[View]] =
-    viewDao.getAllViews
+    viewDao.findAll
 
   def getAllNodes: Option[Traversable[Node]] =
-    viewDao.getAllNodes
+    nodeDao.findAll
 
   def getAllEdges: Option[Traversable[Edge]] =
-    viewDao.getAllEdges
+    edgeDao.findAll
 
   def addView(g: View): Option[View] =
     viewDao.save(g)
