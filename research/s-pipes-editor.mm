@@ -2,7 +2,7 @@
 <!--To view this file, download free mind mapping software Freeplane from http://freeplane.sourceforge.net -->
 <node TEXT="main" FOLDED="false" ID="ID_448131109" CREATED="1312805290594" MODIFIED="1489514323432">
 <font NAME="SansSerif"/>
-<hook NAME="MapStyle" zoom="1.948">
+<hook NAME="MapStyle" zoom="1.1">
     <properties fit_to_viewport="false;" show_icon_for_attributes="true" show_note_icons="true" show_notes_in_map="false"/>
 
 <map_styles>
@@ -62,7 +62,7 @@
 </map_styles>
 </hook>
 <hook NAME="accessories/plugins/CreationModificationPlugin_new.properties"/>
-<node TEXT="research" STYLE_REF="onto-prop" POSITION="right" ID="ID_1925474745" CREATED="1489514327002" MODIFIED="1489514330272">
+<node TEXT="research" STYLE_REF="onto-prop" FOLDED="true" POSITION="right" ID="ID_1925474745" CREATED="1489514327002" MODIFIED="1489514330272">
 <node TEXT="search" FOLDED="true" ID="ID_1850182722" CREATED="1495039146646" MODIFIED="1495039149524">
 <node TEXT="workflow editor" ID="ID_682581431" CREATED="1495039157788" MODIFIED="1495039161155"/>
 <node TEXT="diagramming library" ID="ID_364575232" CREATED="1496666721280" MODIFIED="1496666737532"/>
@@ -823,7 +823,7 @@
 <node TEXT="non-functional requirements" FOLDED="true" ID="ID_770889340" CREATED="1489514390949" MODIFIED="1489514399402">
 <node TEXT="reactJs" ID="ID_633412816" CREATED="1489514413991" MODIFIED="1489514418456"/>
 </node>
-<node TEXT="editor API" FOLDED="true" ID="ID_1480594241" CREATED="1489514477027" MODIFIED="1489514601546">
+<node TEXT="editor API" ID="ID_1480594241" CREATED="1489514477027" MODIFIED="1489514601546">
 <node TEXT="idea" STYLE_REF="categorization" FOLDED="true" ID="ID_1985491572" CREATED="1484745027441" MODIFIED="1484745028980">
 <node TEXT="GUI" ID="ID_976420259" CREATED="1484745032238" MODIFIED="1484745033536">
 <node TEXT="list of scripts with views" ID="ID_907840220" CREATED="1484745034112" MODIFIED="1484745056915"/>
@@ -945,7 +945,7 @@
 <node TEXT="label" ID="ID_62472286" CREATED="1481805725267" MODIFIED="1481805726716"/>
 </node>
 <node TEXT="POST" STYLE_REF="categorization" ID="ID_376212910" CREATED="1481804673059" MODIFIED="1481804682450">
-<node TEXT="sped/graphs/$S_CTX/nodes" FOLDED="true" ID="ID_720594923" CREATED="1481804683400" MODIFIED="1481804744998">
+<node TEXT="sped/graphs/$S_CTX/nodes" ID="ID_720594923" CREATED="1481804683400" MODIFIED="1481804744998">
 <node TEXT="calls" STYLE_REF="onto-prop" ID="ID_1098229017" CREATED="1481804751028" MODIFIED="1481804752759">
 <node TEXT="retrieve module-type form" ID="ID_1078987498" CREATED="1481804478339" MODIFIED="1481805394460">
 <node TEXT="GET" STYLE_REF="categorization" ID="ID_438675338" CREATED="1481804267363" MODIFIED="1481804269706">
@@ -993,7 +993,20 @@
 </node>
 <node TEXT="add edge" ID="ID_1700052407" CREATED="1481803876481" MODIFIED="1481803880180"/>
 <node TEXT="delete node" ID="ID_1833437172" CREATED="1481803889150" MODIFIED="1481803892086"/>
-<node TEXT="delete edge" ID="ID_453545579" CREATED="1481803892253" MODIFIED="1481803894776"/>
+<node TEXT="delete edge" STYLE_REF="categorization" ID="ID_453545579" CREATED="1481803892253" MODIFIED="1498133887074"/>
+<node TEXT="edit module" ID="ID_1604528964" CREATED="1498133841186" MODIFIED="1498133850111">
+<node TEXT="click module" ID="ID_44614921" CREATED="1498133863990" MODIFIED="1498133876257">
+<node TEXT="executes" STYLE_REF="onto-prop" ID="ID_1067405270" CREATED="1498133877139" MODIFIED="1498133880632">
+<node TEXT="GET" STYLE_REF="categorization" ID="ID_569710927" CREATED="1498133882298" MODIFIED="1498133887074">
+<node TEXT="sped/scripts/$S_CTX/modules/239023/form" ID="ID_191900195" CREATED="1498133887760" MODIFIED="1498133939582">
+<node TEXT="returns" STYLE_REF="onto-prop" ID="ID_1627247449" CREATED="1481804283681" MODIFIED="1481804285480">
+<node TEXT="&lt;html&gt;&#xa;  &lt;head&gt;&#xa;    &#xa;  &lt;/head&gt;&#xa;  &lt;body&gt;&#xa;    &lt;p&gt;&#xa;      {&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@id&amp;quot;: form:deploy_q ,&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@type&amp;quot;: doc:question,&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;layout-class&amp;quot;: &amp;quot;form&amp;quot;&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;label: &amp;quot;Deploy to sesame&amp;quot;&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;has-related-question&amp;quot;: [&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;{&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@id&amp;quot;: form:repository-url-q,&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@type&amp;quot;: doc:question,&amp;#160; &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;label: &amp;quot;Repository url&amp;quot;,&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;layout-class&amp;quot;: &amp;quot;type-ahead&amp;quot;,&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160; &lt;font color=&quot;#000000&quot; face=&quot;monospace&quot;&gt;&amp;quot;doc:has_answer&amp;quot;: { &lt;/font&gt;&lt;font face=&quot;monospace&quot;&gt;&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@id&amp;quot;: &amp;quot;http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#instance124294681-a&amp;quot;,&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@type&amp;quot;: &amp;quot;doc:answer&amp;quot;,&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;doc:has_object_value&amp;quot;: {&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@id&amp;quot;: &amp;quot;http://onto.fel.cvut.cz/ontologies/repository/my-repository&amp;quot;,&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;rdfs:comment&amp;quot;: {&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@value&amp;quot;: &amp;quot;My repository that is used for whatever&amp;quot;,&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@language&amp;quot;: &amp;quot;en&amp;quot;&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;},&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;rdfs:label&amp;quot;: {&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@value&amp;quot;: &amp;quot;My repository&amp;quot;,&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@language&amp;quot;: &amp;quot;en&amp;quot;&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;}&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;},&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;form:has-answer-origin&amp;quot;: {&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@id&amp;quot;: &amp;quot;http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#instance124294681&amp;quot;,&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@type&amp;quot;: &amp;quot;http://onto.fel.cvut.cz/ontologies/eccairs/model/instance&amp;quot;&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;}&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;},&lt;br&gt;&lt;br&gt;&lt;/font&gt;&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;}&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;]&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      }&#xa;    &lt;/p&gt;&#xa;  &lt;/body&gt;&#xa;&lt;/html&gt;" ID="ID_1392313762" CREATED="1481793735766" MODIFIED="1498134518236"/>
+</node>
+</node>
+</node>
+</node>
+</node>
+</node>
 <node TEXT="save" ID="ID_1737068883" CREATED="1481803884479" MODIFIED="1481803885901"/>
 </node>
 </node>
@@ -1372,8 +1385,11 @@
 </node>
 <node TEXT="miro" STYLE_REF="categorization" ID="ID_1262073202" CREATED="1495038184420" MODIFIED="1495038185987"/>
 </node>
-<node TEXT=" 2017-06-09" ID="ID_1892467944" CREATED="1497014833339" MODIFIED="1497016807075">
-<node TEXT="notes" STYLE_REF="onto-prop" ID="ID_70663843" CREATED="1497016809107" MODIFIED="1497016810793">
+<node TEXT=" 2017-06-09" ID="ID_1892467944" CREATED="1497014833339" MODIFIED="1498134902196">
+<icon BUILTIN="button_ok"/>
+<icon BUILTIN="button_ok"/>
+<icon BUILTIN="button_ok"/>
+<node TEXT="notes" STYLE_REF="onto-prop" FOLDED="true" ID="ID_70663843" CREATED="1497016809107" MODIFIED="1497016810793">
 <node TEXT="Structure of the web-app" FOLDED="true" ID="ID_4155220" CREATED="1497016266576" MODIFIED="1497017512337">
 <icon BUILTIN="button_ok"/>
 <node TEXT="Dashboard" ID="ID_454068753" CREATED="1497014834424" MODIFIED="1497016265139">
@@ -1423,10 +1439,11 @@
 </node>
 </node>
 </node>
-<node TEXT="task" STYLE_REF="onto-prop" ID="ID_1874250129" CREATED="1497016817065" MODIFIED="1497016818878">
-<node TEXT="miro" STYLE_REF="categorization" ID="ID_1938652797" CREATED="1497016819220" MODIFIED="1497016823392">
+<node TEXT="task" STYLE_REF="onto-prop" FOLDED="true" ID="ID_1874250129" CREATED="1497016817065" MODIFIED="1497016818878">
+<node TEXT="miro" STYLE_REF="categorization" FOLDED="true" ID="ID_1938652797" CREATED="1497016819220" MODIFIED="1497016823392">
 <node TEXT="how to save scripts into specific folder .. within git ?" ID="ID_338064079" CREATED="1497015369292" MODIFIED="1497015406140"/>
-<node TEXT="can we show 2 s-forms per page ?" ID="ID_32492327" CREATED="1497016039871" MODIFIED="1497016063672">
+<node TEXT="can we show 2 s-forms per page ?" ID="ID_32492327" CREATED="1497016039871" MODIFIED="1498134599708">
+<icon BUILTIN="button_ok"/>
 <node TEXT="no" ID="ID_788741475" CREATED="1497517794075" MODIFIED="1497517795230"/>
 </node>
 <node TEXT="fix gitblit RSA noclass def found" ID="ID_1295945378" CREATED="1496670283978" MODIFIED="1496670315617"><richcontent TYPE="NOTE">
@@ -1444,14 +1461,30 @@
 </richcontent>
 </node>
 </node>
-<node TEXT="yan" STYLE_REF="categorization" ID="ID_630996246" CREATED="1497016836765" MODIFIED="1497016838221">
-<node TEXT="create dashboard" ID="ID_602845960" CREATED="1497016924306" MODIFIED="1497016933264"/>
-<node TEXT="create &quot;Edit script&quot; page" ID="ID_1114660611" CREATED="1497016866477" MODIFIED="1497016970082">
-<node TEXT="with visualized script (view)" ID="ID_1254124444" CREATED="1497016970948" MODIFIED="1497017137872">
-<icon BUILTIN="yes"/>
+<node TEXT="yan" STYLE_REF="categorization" FOLDED="true" ID="ID_630996246" CREATED="1497016836765" MODIFIED="1497016838221">
+<node TEXT="create dashboard" ID="ID_602845960" CREATED="1497016924306" MODIFIED="1498134578725">
+<icon BUILTIN="button_ok"/>
 </node>
-<node TEXT="on click it should show the fss form in modal dialog" ID="ID_241015975" CREATED="1497016911051" MODIFIED="1497017165967">
+<node TEXT="create &quot;Edit script&quot; page" FOLDED="true" ID="ID_1114660611" CREATED="1497016866477" MODIFIED="1497016970082">
+<node TEXT="with visualized script (view)" ID="ID_1254124444" CREATED="1497016970948" MODIFIED="1498134613193">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="on click it should show the fss form in modal dialog" ID="ID_241015975" CREATED="1497016911051" MODIFIED="1498134801600">
+<icon BUILTIN="help"/>
 <icon BUILTIN="yes"/>
+<richcontent TYPE="NOTE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      - maybe does not have to be modal, but it should support viewing graph and editing form at same time
+    </p>
+  </body>
+</html>
+</richcontent>
 </node>
 <node TEXT="with overall preview of view" ID="ID_1992043515" CREATED="1497016987707" MODIFIED="1497016993931"/>
 <node TEXT="with simple panel of module types" ID="ID_963314675" CREATED="1497017030235" MODIFIED="1497017132885"><richcontent TYPE="NOTE">
@@ -1470,6 +1503,74 @@
 </node>
 <node TEXT="duplicate view in next tab" ID="ID_489389638" CREATED="1497017277723" MODIFIED="1497017285137"/>
 </node>
+</node>
+</node>
+</node>
+<node TEXT=" 2017-06-22" ID="ID_603231193" CREATED="1498134860309" MODIFIED="1498134866490">
+<node TEXT="task" STYLE_REF="onto-prop" ID="ID_1685596717" CREATED="1497016817065" MODIFIED="1497016818878">
+<node TEXT="miro" STYLE_REF="categorization" FOLDED="true" ID="ID_1190880680" CREATED="1497016819220" MODIFIED="1497016823392">
+<node TEXT="how to save scripts into specific folder .. within git ?" ID="ID_1916208032" CREATED="1497015369292" MODIFIED="1497015406140"/>
+<node TEXT="can we show 2 s-forms per page ?" ID="ID_1181263716" CREATED="1497016039871" MODIFIED="1498134880452">
+<node TEXT="no" ID="ID_1289052042" CREATED="1497517794075" MODIFIED="1497517795230"/>
+</node>
+<node TEXT="fix gitblit RSA noclass def found" ID="ID_249352555" CREATED="1496670283978" MODIFIED="1496670315617"><richcontent TYPE="NOTE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      - see email from YAN
+    </p>
+  </body>
+</html>
+</richcontent>
+</node>
+</node>
+<node TEXT="yan" STYLE_REF="categorization" ID="ID_1560272606" CREATED="1497016836765" MODIFIED="1497016838221">
+<node TEXT="create &quot;Edit script&quot; page" ID="ID_1450310109" CREATED="1497016866477" MODIFIED="1497016970082">
+<node TEXT="on click it should show the fss form in modal dialog" ID="ID_1689470915" CREATED="1497016911051" MODIFIED="1498134801600">
+<icon BUILTIN="help"/>
+<icon BUILTIN="yes"/>
+<richcontent TYPE="NOTE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      - maybe does not have to be modal, but it should support viewing graph and editing form at same time
+    </p>
+  </body>
+</html>
+</richcontent>
+</node>
+<node TEXT="with overall preview of view" ID="ID_1564377159" CREATED="1497016987707" MODIFIED="1497016993931"/>
+<node TEXT="with simple panel of module types" ID="ID_406100573" CREATED="1497017030235" MODIFIED="1497017132885"><richcontent TYPE="NOTE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      - module types can be retrieved from same file/url from which the script loaded
+    </p>
+  </body>
+</html>
+</richcontent>
+</node>
+<node TEXT="duplicate view in next tab" ID="ID_1071937383" CREATED="1497017277723" MODIFIED="1497017285137"/>
+</node>
+</node>
+</node>
+</node>
+<node TEXT=" 2017-07-10" ID="ID_1525399542" CREATED="1499694536497" MODIFIED="1499694542465">
+<node TEXT="task" STYLE_REF="onto-prop" ID="ID_1612135237" CREATED="1499698772117" MODIFIED="1499698773236">
+<node TEXT="yan" STYLE_REF="categorization" ID="ID_803931033" CREATED="1499694543470" MODIFIED="1499694546461">
+<node TEXT="read reflux tutorial" ID="ID_353996077" CREATED="1499694546829" MODIFIED="1499695124440" LINK="https://github.com/reflux/refluxjs"/>
 </node>
 </node>
 </node>
