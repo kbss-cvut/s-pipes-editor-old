@@ -4,6 +4,7 @@
 
 'use strict';
 
+import Actions from "../../actions/Actions";
 import React from "react";
 import injectIntl from "../../utils/injectIntl";
 import I18nWrapper from "../../i18n/I18nWrapper";
@@ -11,6 +12,7 @@ import Messager from "../wrapper/Messager";
 var RoutingRules = require('../../utils/RoutingRules');
 var Routes = require('../../utils/Routes');
 var Routing = require('../../utils/Routing');
+var ModuleTypeStore = require('../../stores/ModuleTypeStore');
 
 var that;
 
@@ -18,16 +20,58 @@ class ViewController extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            moduleTypes: ModuleTypeStore.getAllRecords(),
+            loading: false
+        }
     }
 
     render() {
-        return <div id="view"></div>;
+        if (this.state.loading)
+            return (
+
+                <div>
+                    Loading
+                    <div id="view"></div>
+                </div>);
+        return (
+            <div>
+                <div>
+                    Before
+                    {this.state.moduleTypes}
+                    After
+                </div>
+                <div id="view"></div>
+            </div>);
+    }
+
+    componentWillMount() {
+        Actions.loadAllRecords();
     }
 
     componentDidMount() {
         that = this;
         renderView();
-        return null;
+
+        if (!this.state.moduleTypes) {
+            Actions.loadAllRecords();
+            this.setState({loading: true});
+        }
+        this.unsubscribe = ModuleTypeStore.listen(this._recordsLoaded);
+    }
+
+    _recordsLoaded = (data) => {
+        if (data.action === Actions.loadAllRecords) {
+            this.setState({moduleTypes: data.data, loading: false});
+        }
+    };
+
+    componentWillUnmount() {
+        this.unsubscribe();
+    }
+
+    getAllModuleTypes() {
+        ModuleTypeStore.getAllRecords();
     }
 
     openForm() {
@@ -232,7 +276,7 @@ function renderView() {
 
         // start an initial layout
         layouter.kgraph(graph);
-    })
+    });
 
     function redraw() {
         svg.attr("transform", "translate(" + d3.event.translate + ")"
