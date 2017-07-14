@@ -19,7 +19,7 @@ class ViewControllerTest extends BaseControllerTestRunner {
 
   @Test
   def getAllViewsReturnsEmpty = {
-    Mockito.when(service.getAllViews()).thenReturn(None)
+    Mockito.when(service.getAllViews).thenReturn(None)
     val result = mockMvc.perform(get("/views")).andExpect(status.isOk()).andReturn
     val message = result.getResponse.getContentAsString
     assertEquals("[]", message)
@@ -27,7 +27,7 @@ class ViewControllerTest extends BaseControllerTestRunner {
 
   @Test
   def getAllViewsReturnsSomeViews = {
-    Mockito.when(service.getAllViews()).thenReturn(Some(Set(new View())))
+    Mockito.when(service.getAllViews).thenReturn(Some(Set(new View())))
     val result = mockMvc.perform(get("/views")).andExpect(status.isOk()).andReturn
     val message = result.getResponse.getContentAsString
     assertEquals("[{\"uri\":null,\"id\":null,\"label\":null,\"nodes\":null,\"edges\":null,\"contentHash\":null,\"author\":null}]", message)

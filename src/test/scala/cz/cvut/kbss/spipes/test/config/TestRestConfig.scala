@@ -1,6 +1,6 @@
 package cz.cvut.kbss.spipes.test.config
 
-import cz.cvut.kbss.spipes.service.{QAService, SpipesService, ViewService}
+import cz.cvut.kbss.spipes.service.{FileWatcher, QAService, SpipesService, ViewService}
 import org.mockito.Mockito
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessorAdapter
 import org.springframework.context.annotation.{Bean, ComponentScan, Configuration}
@@ -22,6 +22,9 @@ class TestRestConfig {
 
   @Bean
   def getNodeService: QAService = Mockito.mock(classOf[QAService])
+
+  @Bean
+  def getFileWatcher: FileWatcher = Mockito.mock(classOf[FileWatcher])
 
   @Bean
   def mockBeanFactory = new MockBeanFactory

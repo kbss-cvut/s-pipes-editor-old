@@ -1,6 +1,6 @@
 package cz.cvut.kbss.spipes.test.config
 
-import cz.cvut.kbss.spipes.persistence.dao.{QADao, SpipesDao, ViewDao}
+import cz.cvut.kbss.spipes.persistence.dao._
 import org.mockito.Mockito
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessorAdapter
 import org.springframework.context.annotation.{Bean, ComponentScan, Configuration}
@@ -17,7 +17,13 @@ class TestServiceConfig {
   def getViewDao: ViewDao = Mockito.mock(classOf[ViewDao])
 
   @Bean
-  def getNodeDao: QADao = Mockito.mock(classOf[QADao])
+  def getNodeDao: NodeDao = Mockito.mock(classOf[NodeDao])
+
+  @Bean
+  def getEdgeDao: EdgeDao = Mockito.mock(classOf[EdgeDao])
+
+  @Bean
+  def getQADao: QADao = Mockito.mock(classOf[QADao])
 
   @Bean
   def getspipesDao: SpipesDao = Mockito.mock(classOf[SpipesDao])
