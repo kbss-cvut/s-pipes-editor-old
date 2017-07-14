@@ -62,7 +62,7 @@ abstract class AbstractDao[T <: AbstractEntity] {
       em.getTransaction().commit()
       e
     } match {
-      case Success(v: T) if v != null =>
+      case Success(v) if v != null =>
         em.close()
         Some(e)
       case _ =>
