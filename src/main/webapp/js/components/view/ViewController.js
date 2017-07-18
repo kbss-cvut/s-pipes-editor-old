@@ -14,17 +14,11 @@ var Routes = require('../../utils/Routes');
 var Routing = require('../../utils/Routing');
 var ModuleTypeStore = require('../../stores/ModuleTypeStore');
 
-var socket = new WebSocket("ws://localhost:8080/ws");
-socket.onopen = function () {
-    socket.send("")
-};
-socket.onmessage = onMessage;
+var that;
 
-function onMessage(event) {
+function onMessageReceived(event) {
     that.setState({msg: event.data})
 }
-
-var that;
 
 class ViewController extends React.Component {
 
@@ -33,8 +27,13 @@ class ViewController extends React.Component {
         this.state = {
             moduleTypes: ModuleTypeStore.getAllRecords(),
             loading: false,
-            msg: "Initial message"
-        }
+            msg: "Initial message",
+            socket: new WebSocket("ws://localhost:8080/websocket")
+        };
+        /*this.state.socket.onopen = function() {
+         socket.send("");
+         };*/
+        this.state.socket.onmessage = onMessageReceived;
     }
 
     render() {
@@ -44,7 +43,6 @@ class ViewController extends React.Component {
                 <div>
                     {this.state.msg}<br/>
                     Loading<br/>
-                    <button onClick={this._pollFSEvents}>Read FS events</button>
                 </div>);
         return (
             <div>
@@ -71,10 +69,6 @@ class ViewController extends React.Component {
         renderView();
         this.unsubscribe = ModuleTypeStore.listen(this._recordsLoaded);
     }
-
-    _pollFSEvents = () => {
-        socket.send("")
-    };
 
     _recordsLoaded = (data) => {
         if (data.action === Actions.loadAllRecords) {
