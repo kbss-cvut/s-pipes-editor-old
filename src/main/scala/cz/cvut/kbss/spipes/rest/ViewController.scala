@@ -3,27 +3,20 @@ package cz.cvut.kbss.spipes.rest
 
 import cz.cvut.kbss.jsonld.JsonLd
 import cz.cvut.kbss.spipes.model.view.View
-import cz.cvut.kbss.spipes.service.{FileWatcher, ViewService}
-import org.springframework.beans.factory.InitializingBean
+import cz.cvut.kbss.spipes.service.ViewService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
 import org.springframework.web.bind.annotation._
-
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 28.10.16.
   */
 @RestController
 @RequestMapping(path = Array("/views"))
-class ViewController extends InitializingBean {
+class ViewController {
 
   @Autowired
   private var viewService: ViewService = _
-
-  @Autowired
-  private var fileWatcher: FileWatcher = _
 
   @GetMapping(produces = Array(JsonLd.MEDIA_TYPE))
   def getAllViews: ResponseEntity[Any] =
@@ -109,6 +102,4 @@ class ViewController extends InitializingBean {
       case None => new ResponseEntity("Not found", HttpStatus.NOT_FOUND)
     }
   }
-
-  override def afterPropertiesSet(): Unit = Future(fileWatcher.watch())
 }
