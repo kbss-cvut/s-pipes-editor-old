@@ -2,8 +2,8 @@
 <!--To view this file, download free mind mapping software Freeplane from http://freeplane.sourceforge.net -->
 <node TEXT="main" FOLDED="false" ID="ID_448131109" CREATED="1312805290594" MODIFIED="1489514323432">
 <font NAME="SansSerif"/>
-<hook NAME="MapStyle" zoom="1.1">
-    <properties fit_to_viewport="false;" show_icon_for_attributes="true" show_note_icons="true" show_notes_in_map="false"/>
+<hook NAME="MapStyle" zoom="1.21">
+    <properties show_icon_for_attributes="true" fit_to_viewport="false;" show_note_icons="true" show_notes_in_map="false"/>
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node" STYLE="oval" UNIFORM_SHAPE="true" VGAP_QUANTITY="24.0 pt">
@@ -62,7 +62,7 @@
 </map_styles>
 </hook>
 <hook NAME="accessories/plugins/CreationModificationPlugin_new.properties"/>
-<node TEXT="research" STYLE_REF="onto-prop" FOLDED="true" POSITION="right" ID="ID_1925474745" CREATED="1489514327002" MODIFIED="1489514330272">
+<node TEXT="research" STYLE_REF="onto-prop" POSITION="right" ID="ID_1925474745" CREATED="1489514327002" MODIFIED="1489514330272">
 <node TEXT="search" FOLDED="true" ID="ID_1850182722" CREATED="1495039146646" MODIFIED="1495039149524">
 <node TEXT="workflow editor" ID="ID_682581431" CREATED="1495039157788" MODIFIED="1495039161155"/>
 <node TEXT="diagramming library" ID="ID_364575232" CREATED="1496666721280" MODIFIED="1496666737532"/>
@@ -238,7 +238,7 @@
 <node TEXT="licence ?" ID="ID_1733808794" CREATED="1489509898014" MODIFIED="1489509908272"/>
 </node>
 </node>
-<node TEXT="The Graph Editor (NoFlo)" ID="ID_413301645" CREATED="1488789145734" MODIFIED="1496666504218">
+<node TEXT="The Graph Editor (NoFlo)" FOLDED="true" ID="ID_413301645" CREATED="1488789145734" MODIFIED="1496666504218">
 <icon BUILTIN="desktop_new"/>
 <node TEXT="link" STYLE_REF="onto-prop" ID="ID_984009182" CREATED="1488789149023" MODIFIED="1488789163532">
 <node TEXT="demo-simple" ID="ID_286207561" CREATED="1488789017430" MODIFIED="1489509765513" LINK="https://flowhub.github.io/the-graph/examples/demo-simple.html"/>
@@ -467,11 +467,11 @@
 </node>
 </node>
 <node TEXT="diagramming libraries" FOLDED="true" ID="ID_1833433777" CREATED="1495040183321" MODIFIED="1496664913894">
-<node TEXT="JointJS" ID="ID_1648387758" CREATED="1495039069957" MODIFIED="1495039070751">
+<node TEXT="JointJS" FOLDED="true" ID="ID_1648387758" CREATED="1495039069957" MODIFIED="1495039070751">
 <node TEXT="link" STYLE_REF="onto-prop" FOLDED="true" ID="ID_178840537" CREATED="1495039087762" MODIFIED="1495039089407">
 <node TEXT="https://www.jointjs.com/" ID="ID_473576958" CREATED="1495039090119" MODIFIED="1495039090119" LINK="https://www.jointjs.com/"/>
 </node>
-<node TEXT="features" STYLE_REF="onto-prop" FOLDED="true" ID="ID_862835412" CREATED="1495039090721" MODIFIED="1495039472745" LINK="https://www.jointjs.com/opensource#JointJS-Features"><richcontent TYPE="NOTE">
+<node TEXT="features" STYLE_REF="onto-prop" ID="ID_862835412" CREATED="1495039090721" MODIFIED="1495039472745" LINK="https://www.jointjs.com/opensource#JointJS-Features"><richcontent TYPE="NOTE">
 
 <html>
   <head>
@@ -567,7 +567,7 @@
 <icon BUILTIN="help"/>
 </node>
 </node>
-<node TEXT="is frontend for" STYLE_REF="onto-prop" ID="ID_1963025207" CREATED="1496670494177" MODIFIED="1496670505355">
+<node TEXT="is frontend for" STYLE_REF="onto-prop" ID="ID_1963025207" CREATED="1496670494177" MODIFIED="1500465226245">
 <arrowlink SHAPE="CUBIC_CURVE" COLOR="#000000" WIDTH="2" TRANSPARENCY="200" FONT_SIZE="9" FONT_FAMILY="SansSerif" DESTINATION="ID_573652865" STARTINCLINATION="290;0;" ENDINCLINATION="290;0;" STARTARROW="NONE" ENDARROW="DEFAULT"/>
 </node>
 <node TEXT="uses" STYLE_REF="onto-prop" FOLDED="true" ID="ID_931573255" CREATED="1496670647583" MODIFIED="1496670649107">
@@ -607,7 +607,7 @@
 </node>
 </node>
 </node>
-<node TEXT="generic graph visualization libraries" ID="ID_28955740" CREATED="1496664915019" MODIFIED="1496666357728">
+<node TEXT="generic graph visualization libraries" FOLDED="true" ID="ID_28955740" CREATED="1496664915019" MODIFIED="1496666357728">
 <node TEXT="Dagre-React" FOLDED="true" ID="ID_792068959" CREATED="1489512933269" MODIFIED="1496664832685">
 <icon BUILTIN="button_cancel"/>
 <node TEXT="link" STYLE_REF="onto-prop" ID="ID_1023875697" CREATED="1489513006715" MODIFIED="1489513008028">
@@ -636,7 +636,7 @@
 </node>
 </node>
 </node>
-<node TEXT="KlayJS-D3" ID="ID_1526883069" CREATED="1478782354128" MODIFIED="1497518014637">
+<node TEXT="KlayJS-D3" FOLDED="true" ID="ID_1526883069" CREATED="1478782354128" MODIFIED="1497518014637">
 <icon BUILTIN="button_cancel"/>
 <node TEXT="link" STYLE_REF="onto-prop" ID="ID_1196217984" CREATED="1488789149023" MODIFIED="1488789163532">
 <node TEXT="demo-interactive" ID="ID_1917438654" CREATED="1489509766799" MODIFIED="1495880384545" LINK="https://openkieler.github.io/klayjs-d3/examples/interactive/"/>
@@ -759,7 +759,7 @@
 </node>
 </node>
 </node>
-<node TEXT="graph layout backend libraries" ID="ID_1379496651" CREATED="1492773453737" MODIFIED="1496666182514">
+<node TEXT="graph layout backend libraries" FOLDED="true" ID="ID_1379496651" CREATED="1492773453737" MODIFIED="1496666182514">
 <node TEXT="KlayJs" ID="ID_806651049" CREATED="1492773459977" MODIFIED="1492776010008"/>
 <node TEXT="dagre" ID="ID_573652865" CREATED="1495041053894" MODIFIED="1495041054335"/>
 </node>
@@ -767,7 +767,7 @@
 </node>
 <node TEXT="design" STYLE_REF="onto-prop" POSITION="right" ID="ID_819262605" CREATED="1489514358334" MODIFIED="1489514362312">
 <node TEXT="Structure of the web-app" FOLDED="true" ID="ID_118115769" CREATED="1497016266576" MODIFIED="1497017505020">
-<node TEXT="Dashboard" ID="ID_348861492" CREATED="1497014834424" MODIFIED="1497016265139">
+<node TEXT="Dashboard" FOLDED="true" ID="ID_348861492" CREATED="1497014834424" MODIFIED="1497016265139">
 <node TEXT="Create script" ID="ID_342095383" CREATED="1497014890890" MODIFIED="1497014895055">
 <node TEXT="wizard" ID="ID_53633041" CREATED="1497015030330" MODIFIED="1497015032529">
 <node TEXT="name" ID="ID_1828193806" CREATED="1497015081214" MODIFIED="1497015087737"/>
@@ -791,7 +791,7 @@
 </node>
 </node>
 </node>
-<node TEXT="Edit script" ID="ID_1710449787" CREATED="1497015050037" MODIFIED="1497015052985">
+<node TEXT="Edit script" FOLDED="true" ID="ID_1710449787" CREATED="1497015050037" MODIFIED="1497015052985">
 <node TEXT="one view will be always active" ID="ID_1577638123" CREATED="1497015469916" MODIFIED="1497015491637"/>
 <node TEXT="part" STYLE_REF="onto-prop" ID="ID_1953144595" CREATED="1497015747497" MODIFIED="1497015751136">
 <node TEXT="toolbar (horizontal)" ID="ID_1133116230" CREATED="1497015801763" MODIFIED="1497016752659">
@@ -829,15 +829,15 @@
 <node TEXT="list of scripts with views" ID="ID_907840220" CREATED="1484745034112" MODIFIED="1484745056915"/>
 </node>
 </node>
-<node TEXT="scenario" STYLE_REF="categorization" ID="ID_743457031" CREATED="1481803309926" MODIFIED="1481803317652">
-<node TEXT="load all scripts" ID="ID_429393578" CREATED="1484745086564" MODIFIED="1484745092309">
+<node TEXT="scenario" STYLE_REF="categorization" FOLDED="true" ID="ID_743457031" CREATED="1481803309926" MODIFIED="1481803317652">
+<node TEXT="load all scripts" FOLDED="true" ID="ID_429393578" CREATED="1484745086564" MODIFIED="1484745092309">
 <node TEXT="legend" STYLE_REF="onto-prop" ID="ID_223001259" CREATED="1484745226863" MODIFIED="1484745228747">
 <node TEXT="sped-b" ID="ID_175565459" CREATED="1484745229017" MODIFIED="1484816820646"/>
 <node TEXT="sped-f" ID="ID_34381891" CREATED="1484745246725" MODIFIED="1484816822412"/>
 <node TEXT="s-pipes" ID="ID_1309206971" CREATED="1484745271551" MODIFIED="1484745274520"/>
 </node>
 <node TEXT="part" STYLE_REF="onto-prop" FOLDED="true" ID="ID_349433673" CREATED="1484745095181" MODIFIED="1484745097028">
-<node TEXT="sped-f" STYLE_REF="categorization" ID="ID_1139894700" CREATED="1484747444636" MODIFIED="1484817151839">
+<node TEXT="sped-f" STYLE_REF="categorization" FOLDED="true" ID="ID_1139894700" CREATED="1484747444636" MODIFIED="1484817151839">
 <node TEXT="executes" STYLE_REF="onto-prop" FOLDED="true" ID="ID_1684129240" CREATED="1484747469186" MODIFIED="1484747473134">
 <node TEXT="GET sped-b/scripts" ID="ID_258762739" CREATED="1484747473829" MODIFIED="1484817201047">
 <node TEXT="executes" STYLE_REF="onto-prop" ID="ID_1246114965" CREATED="1484745110434" MODIFIED="1484745113541">
@@ -922,7 +922,19 @@
 <node TEXT="specify new context" ID="ID_167531040" CREATED="1481803439266" MODIFIED="1481803579835"/>
 <node TEXT="assign default module-types-ontology (MTO) uri" ID="ID_1390358112" CREATED="1481803583688" MODIFIED="1481803660241">
 <node TEXT="e.g." STYLE_REF="onto-prop" ID="ID_116140066" CREATED="1481803792040" MODIFIED="1481803793251">
-<node TEXT="&lt;html&gt;&#xa;  &lt;head&gt;&#xa;    &#xa;  &lt;/head&gt;&#xa;  &lt;body&gt;&#xa;    &lt;span style=&quot;color: #000000; background-color: #ffffff&quot;&gt;&lt;font color=&quot;#000000&quot; face=&quot;monospace&quot;&gt;&amp;lt;http://onto.fel.cvut.cz/ontologies/lib/module&amp;gt;&lt;/font&gt;&lt;/span&gt;&lt;span style=&quot;font-family: monospace&quot;&gt;&lt;font face=&quot;monospace&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/span&gt;&#xa;  &lt;/body&gt;&#xa;&lt;/html&gt;" ID="ID_222554479" CREATED="1481803794189" MODIFIED="1481803794189" LINK="http://onto.fel.cvut.cz/ontologies/lib/module&amp;gt;"/>
+<node ID="ID_222554479" CREATED="1481803794189" MODIFIED="1481803794189" LINK="http://onto.fel.cvut.cz/ontologies/lib/module&amp;gt;"><richcontent TYPE="NODE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <span style="color: #000000; background-color: #ffffff"><font color="#000000" face="monospace">&lt;http://onto.fel.cvut.cz/ontologies/lib/module&gt;</font></span><span style="font-family: monospace"><font face="monospace"><br/></font></span>
+  </body>
+</html>
+
+</richcontent>
+</node>
 </node>
 </node>
 <node TEXT="load module types based on MTO uri" ID="ID_193006776" CREATED="1481803318705" MODIFIED="1481803653655">
@@ -932,13 +944,13 @@
 </node>
 </node>
 </node>
-<node TEXT="modify and save script" ID="ID_1126639632" CREATED="1481803804931" MODIFIED="1481803845970">
+<node TEXT="modify and save script" FOLDED="true" ID="ID_1126639632" CREATED="1481803804931" MODIFIED="1481803845970">
 <node TEXT="pre-condition" STYLE_REF="onto-prop" ID="ID_1062502456" CREATED="1481804102790" MODIFIED="1481804112056">
 <node TEXT="script is loaded in s-pipes" ID="ID_179558890" CREATED="1481804112895" MODIFIED="1481804183386"/>
 <node TEXT="script context = $S_CTX" ID="ID_1244857914" CREATED="1481804138282" MODIFIED="1481804162003"/>
 </node>
 <node TEXT="part" STYLE_REF="onto-prop" ID="ID_1280253558" CREATED="1481803854134" MODIFIED="1481803856046">
-<node TEXT="add module" ID="ID_762149496" CREATED="1481803857065" MODIFIED="1481803928252">
+<node TEXT="add module" FOLDED="true" ID="ID_762149496" CREATED="1481803857065" MODIFIED="1481803928252">
 <node TEXT="drag node-type to canvas" ID="ID_226898526" CREATED="1481806569627" MODIFIED="1481806605590">
 <node TEXT="executes" STYLE_REF="onto-prop" ID="ID_63679085" CREATED="1481804441335" MODIFIED="1481806655209">
 <node TEXT="show simple label prompt" ID="ID_1832942519" CREATED="1481805624910" MODIFIED="1481805717923">
@@ -1000,7 +1012,63 @@
 <node TEXT="GET" STYLE_REF="categorization" ID="ID_569710927" CREATED="1498133882298" MODIFIED="1498133887074">
 <node TEXT="sped/scripts/$S_CTX/modules/239023/form" ID="ID_191900195" CREATED="1498133887760" MODIFIED="1498133939582">
 <node TEXT="returns" STYLE_REF="onto-prop" ID="ID_1627247449" CREATED="1481804283681" MODIFIED="1481804285480">
-<node TEXT="&lt;html&gt;&#xa;  &lt;head&gt;&#xa;    &#xa;  &lt;/head&gt;&#xa;  &lt;body&gt;&#xa;    &lt;p&gt;&#xa;      {&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@id&amp;quot;: form:deploy_q ,&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@type&amp;quot;: doc:question,&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;layout-class&amp;quot;: &amp;quot;form&amp;quot;&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;label: &amp;quot;Deploy to sesame&amp;quot;&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;has-related-question&amp;quot;: [&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;{&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@id&amp;quot;: form:repository-url-q,&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@type&amp;quot;: doc:question,&amp;#160; &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;label: &amp;quot;Repository url&amp;quot;,&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;layout-class&amp;quot;: &amp;quot;type-ahead&amp;quot;,&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160; &lt;font color=&quot;#000000&quot; face=&quot;monospace&quot;&gt;&amp;quot;doc:has_answer&amp;quot;: { &lt;/font&gt;&lt;font face=&quot;monospace&quot;&gt;&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@id&amp;quot;: &amp;quot;http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#instance124294681-a&amp;quot;,&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@type&amp;quot;: &amp;quot;doc:answer&amp;quot;,&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;doc:has_object_value&amp;quot;: {&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@id&amp;quot;: &amp;quot;http://onto.fel.cvut.cz/ontologies/repository/my-repository&amp;quot;,&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;rdfs:comment&amp;quot;: {&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@value&amp;quot;: &amp;quot;My repository that is used for whatever&amp;quot;,&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@language&amp;quot;: &amp;quot;en&amp;quot;&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;},&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;rdfs:label&amp;quot;: {&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@value&amp;quot;: &amp;quot;My repository&amp;quot;,&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@language&amp;quot;: &amp;quot;en&amp;quot;&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;}&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;},&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;form:has-answer-origin&amp;quot;: {&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@id&amp;quot;: &amp;quot;http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#instance124294681&amp;quot;,&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;quot;@type&amp;quot;: &amp;quot;http://onto.fel.cvut.cz/ontologies/eccairs/model/instance&amp;quot;&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;}&lt;br&gt;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;},&lt;br&gt;&lt;br&gt;&lt;/font&gt;&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;}&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      &amp;#160;&amp;#160;&amp;#160;&amp;#160;]&#xa;    &lt;/p&gt;&#xa;    &lt;p&gt;&#xa;      }&#xa;    &lt;/p&gt;&#xa;  &lt;/body&gt;&#xa;&lt;/html&gt;" ID="ID_1392313762" CREATED="1481793735766" MODIFIED="1498134518236"/>
+<node ID="ID_1392313762" CREATED="1481793735766" MODIFIED="1498134518236"><richcontent TYPE="NODE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      {
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;&quot;@id&quot;: form:deploy_q ,
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;&quot;@type&quot;: doc:question,
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;&quot;layout-class&quot;: &quot;form&quot;
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;&quot;label: &quot;Deploy to sesame&quot;
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;&quot;has-related-question&quot;: [
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;@id&quot;: form:repository-url-q,
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;@type&quot;: doc:question,&#160; &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;label: &quot;Repository url&quot;,
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;layout-class&quot;: &quot;type-ahead&quot;,
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <font color="#000000" face="monospace">&quot;doc:has_answer&quot;: { </font><font face="monospace"><br/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;@id&quot;: &quot;http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#instance124294681-a&quot;,<br/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;@type&quot;: &quot;doc:answer&quot;,<br/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;doc:has_object_value&quot;: {<br/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;@id&quot;: &quot;http://onto.fel.cvut.cz/ontologies/repository/my-repository&quot;,<br/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;rdfs:comment&quot;: {<br/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;@value&quot;: &quot;My repository that is used for whatever&quot;,<br/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;@language&quot;: &quot;en&quot;<br/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;},<br/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;rdfs:label&quot;: {<br/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;@value&quot;: &quot;My repository&quot;,<br/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;@language&quot;: &quot;en&quot;<br/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}<br/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;},<br/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;form:has-answer-origin&quot;: {<br/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;@id&quot;: &quot;http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#instance124294681&quot;,<br/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;@type&quot;: &quot;http://onto.fel.cvut.cz/ontologies/eccairs/model/instance&quot;<br/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}<br/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;},<br/><br/></font>
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;]
+    </p>
+    <p>
+      }
+    </p>
+  </body>
+</html>
+
+</richcontent>
+</node>
 </node>
 </node>
 </node>
@@ -1016,15 +1084,15 @@
 </node>
 <node TEXT="add multiple s-pipes engines" ID="ID_605925562" CREATED="1486931836882" MODIFIED="1486932000861"/>
 </node>
-<node TEXT="SPed rest API" STYLE_REF="categorization" FOLDED="true" ID="ID_264185912" CREATED="1484747444636" MODIFIED="1484751476375">
-<node TEXT="/graphs" FOLDED="true" ID="ID_1826049305" CREATED="1484748785039" MODIFIED="1486980958789">
+<node TEXT="SPed rest API" STYLE_REF="categorization" ID="ID_264185912" CREATED="1484747444636" MODIFIED="1484751476375">
+<node TEXT="/graphs" ID="ID_1826049305" CREATED="1484748785039" MODIFIED="1486980958789">
 <node TEXT="/{id}" ID="ID_1232417222" CREATED="1484748854637" MODIFIED="1484748859385">
 <node TEXT="/views" ID="ID_1127795739" CREATED="1484748964633" MODIFIED="1486981046355"/>
 </node>
 </node>
 <node TEXT="/views" ID="ID_1067898449" CREATED="1484748785039" MODIFIED="1486980962803">
-<node TEXT="/{id}" ID="ID_472799355" CREATED="1484748854637" MODIFIED="1484748859385">
-<node TEXT="/nodes" FOLDED="true" ID="ID_1920717613" CREATED="1485285786733" MODIFIED="1485285794887">
+<node TEXT="/{id}" FOLDED="true" ID="ID_472799355" CREATED="1484748854637" MODIFIED="1484748859385">
+<node TEXT="/nodes" ID="ID_1920717613" CREATED="1485285786733" MODIFIED="1485285794887">
 <node TEXT="returns" STYLE_REF="onto-prop" ID="ID_813630847" CREATED="1486654763298" MODIFIED="1486654774061">
 <node TEXT="e.g." STYLE_REF="onto-prop" ID="ID_210437939" CREATED="1486654779129" MODIFIED="1486654782015">
 <node TEXT="[&#xa; {&#xa;    &quot;@id&quot;: &quot;http://onto.fel...../sempipes/nodes/1932-32981321-32139021&quot;&#xa;    &quot;key&quot;: &quot;1932-32981321-32139021&quot;&#xa; },&#xa;]" ID="ID_697171336" CREATED="1486654782749" MODIFIED="1486654882169"/>
@@ -1036,7 +1104,7 @@
 </node>
 <node TEXT="/nodes" ID="ID_450281142" CREATED="1485285802562" MODIFIED="1485285807279">
 <node TEXT="/{id}" FOLDED="true" ID="ID_1806707572" CREATED="1485285808017" MODIFIED="1485285811582">
-<node TEXT="/form" FOLDED="true" ID="ID_422780234" CREATED="1485285814822" MODIFIED="1485285825866">
+<node TEXT="/form" ID="ID_422780234" CREATED="1485285814822" MODIFIED="1485285825866">
 <node TEXT="returns" STYLE_REF="onto-prop" FOLDED="true" ID="ID_548772905" CREATED="1485285920535" MODIFIED="1485285922984">
 <node TEXT="{&#xa;&quot;@graph&quot;: [&#xa;{&#xa;&quot;@id&quot;: &quot;http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#instance1593220805-q&quot;,&#xa;&quot;@type&quot;: &quot;http://onto.fel.cvut.cz/ontologies/documentation/question&quot;,&#xa;&quot;has_related_question&quot;: [&#xa;&quot;http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#instance-1703962809-q&quot;,&#xa;&quot;http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#instance-344005680-q&quot;,&#xa;&quot;http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#instance236102958-q&quot;&#xa;],&#xa;&quot;has-layout-class&quot;: &quot;form&quot;,&#xa;&quot;has-origin-type&quot;: &quot;http://onto.fel.cvut.cz/ontologies/eccairs/aviation-3.4.0.2/e-24&quot;,&#xa;&quot;has-question-origin&quot;: &quot;http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#instance1593220805&quot;,&#xa;&quot;has-template&quot;: &quot;http://onto.fel.cvut.cz/ontologies/eccairs/aviation-3.4.0.2/e-24-qt&quot;,&#xa;&quot;comment&quot;: {&#xa;&quot;@language&quot;: &quot;en&quot;,&#xa;&quot;@value&quot;: &quot;General information and classification of the occurrence.&quot;&#xa;},&#xa;&quot;label&quot;: {&#xa;&quot;@language&quot;: &quot;en&quot;,&#xa;&quot;@value&quot;: &quot;24 - Occurrence&quot;&#xa;}&#xa;},{&#xa;&quot;@id&quot;: &quot;http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#instance1660774797-q&quot;,&#xa;&quot;@type&quot;: &quot;http://onto.fel.cvut.cz/ontologies/documentation/question&quot;,&#xa;&quot;has_answer&quot;: &quot;http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#instance-718772297-a&quot;,&#xa;&quot;has-origin-type&quot;: &quot;http://onto.fel.cvut.cz/ontologies/eccairs/aviation-3.4.0.2/a-114&quot;,&#xa;&quot;has-question-origin&quot;: &quot;http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#instance1660774797&quot;,&#xa;&quot;has-template&quot;: &quot;http://onto.fel.cvut.cz/ontologies/eccairs/aviation-3.4.0.2/a-114-qt&quot;,&#xa;&quot;comment&quot;: {&#xa;&quot;@language&quot;: &quot;en&quot;,&#xa;&quot;@value&quot;: &quot;The total number of persons fatally injured on board the aircraft. For the definition of &#x201c;fatal&#x201d; see &#x201c;fatal&#x201d; under injury level.&quot;&#xa;},&#xa;&quot;label&quot;: {&#xa;&quot;@language&quot;: &quot;en&quot;,&#xa;&quot;@value&quot;: &quot;114 - Total number fatalities&quot;&#xa;}&#xa;}]&#xa;}" ID="ID_765744718" CREATED="1485286115041" MODIFIED="1485286210107"/>
 </node>
@@ -1078,8 +1146,36 @@
 </node>
 <node TEXT="/data" ID="ID_1859042692" CREATED="1481793097955" MODIFIED="1484730770621">
 <icon BUILTIN="button_ok"/>
-<node TEXT="&lt;html&gt;&#xa;  &lt;head&gt;&#xa;    &#xa;  &lt;/head&gt;&#xa;  &lt;body&gt;&#xa;    &lt;p&gt;&#xa;      ?closure=[&lt;font color=&quot;#008000&quot;&gt;true&lt;/font&gt;/false]&#xa;    &lt;/p&gt;&#xa;  &lt;/body&gt;&#xa;&lt;/html&gt;" ID="ID_858545342" CREATED="1481793166251" MODIFIED="1481793572942"/>
-<node TEXT="&lt;html&gt;&#xa;  &lt;head&gt;&#xa;    &#xa;  &lt;/head&gt;&#xa;  &lt;body&gt;&#xa;    &lt;p&gt;&#xa;      ?inferred=[true/&lt;font color=&quot;#008000&quot;&gt;false&lt;/font&gt;]&#xa;    &lt;/p&gt;&#xa;  &lt;/body&gt;&#xa;&lt;/html&gt;" ID="ID_1604922199" CREATED="1481793144467" MODIFIED="1481793575494"/>
+<node ID="ID_858545342" CREATED="1481793166251" MODIFIED="1481793572942"><richcontent TYPE="NODE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      ?closure=[<font color="#008000">true</font>/false]
+    </p>
+  </body>
+</html>
+
+</richcontent>
+</node>
+<node ID="ID_1604922199" CREATED="1481793144467" MODIFIED="1481793575494"><richcontent TYPE="NODE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      ?inferred=[true/<font color="#008000">false</font>]
+    </p>
+  </body>
+</html>
+
+</richcontent>
+</node>
 </node>
 <node TEXT="/content-hash" ID="ID_24033997" CREATED="1484731020300" MODIFIED="1484731032743"/>
 </node>
@@ -1385,7 +1481,7 @@
 </node>
 <node TEXT="miro" STYLE_REF="categorization" ID="ID_1262073202" CREATED="1495038184420" MODIFIED="1495038185987"/>
 </node>
-<node TEXT=" 2017-06-09" ID="ID_1892467944" CREATED="1497014833339" MODIFIED="1498134902196">
+<node TEXT=" 2017-06-09" FOLDED="true" ID="ID_1892467944" CREATED="1497014833339" MODIFIED="1498134902196">
 <icon BUILTIN="button_ok"/>
 <icon BUILTIN="button_ok"/>
 <icon BUILTIN="button_ok"/>
@@ -1506,9 +1602,9 @@
 </node>
 </node>
 </node>
-<node TEXT=" 2017-06-22" ID="ID_603231193" CREATED="1498134860309" MODIFIED="1498134866490">
+<node TEXT=" 2017-06-22" FOLDED="true" ID="ID_603231193" CREATED="1498134860309" MODIFIED="1498134866490">
 <node TEXT="task" STYLE_REF="onto-prop" ID="ID_1685596717" CREATED="1497016817065" MODIFIED="1497016818878">
-<node TEXT="miro" STYLE_REF="categorization" FOLDED="true" ID="ID_1190880680" CREATED="1497016819220" MODIFIED="1497016823392">
+<node TEXT="miro" STYLE_REF="categorization" ID="ID_1190880680" CREATED="1497016819220" MODIFIED="1497016823392">
 <node TEXT="how to save scripts into specific folder .. within git ?" ID="ID_1916208032" CREATED="1497015369292" MODIFIED="1497015406140"/>
 <node TEXT="can we show 2 s-forms per page ?" ID="ID_1181263716" CREATED="1497016039871" MODIFIED="1498134880452">
 <node TEXT="no" ID="ID_1289052042" CREATED="1497517794075" MODIFIED="1497517795230"/>
@@ -1567,11 +1663,77 @@
 </node>
 </node>
 </node>
-<node TEXT=" 2017-07-10" ID="ID_1525399542" CREATED="1499694536497" MODIFIED="1499694542465">
+<node TEXT=" 2017-07-10" FOLDED="true" ID="ID_1525399542" CREATED="1499694536497" MODIFIED="1500482032347">
+<icon BUILTIN="button_ok"/>
+<icon BUILTIN="button_ok"/>
+<icon BUILTIN="button_ok"/>
 <node TEXT="task" STYLE_REF="onto-prop" ID="ID_1612135237" CREATED="1499698772117" MODIFIED="1499698773236">
 <node TEXT="yan" STYLE_REF="categorization" ID="ID_803931033" CREATED="1499694543470" MODIFIED="1499694546461">
 <node TEXT="read reflux tutorial" ID="ID_353996077" CREATED="1499694546829" MODIFIED="1499695124440" LINK="https://github.com/reflux/refluxjs"/>
 </node>
+</node>
+</node>
+<node TEXT=" 2017-07-19" FOLDED="true" ID="ID_324238756" CREATED="1500466921049" MODIFIED="1500466928903">
+<node TEXT="task" STYLE_REF="onto-prop" ID="ID_1387136330" CREATED="1500478615220" MODIFIED="1500478619188">
+<node TEXT="yan" STYLE_REF="categorization" ID="ID_1509015255" CREATED="1500478775681" MODIFIED="1500478777180">
+<node TEXT="create &quot;Edit script&quot; page" ID="ID_705705002" CREATED="1497016866477" MODIFIED="1497016970082">
+<node TEXT="pop-up if file in fs changes and reload view" ID="ID_1872371181" CREATED="1500478777517" MODIFIED="1500480072310">
+<node ID="ID_1767843242" CREATED="1500480012339" MODIFIED="1500480012339"><richcontent TYPE="NODE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      reload&#160;&#160;? yes/no
+    </p>
+  </body>
+</html>
+
+</richcontent>
+</node>
+</node>
+<node TEXT="with simple panel of module types" ID="ID_578633139" CREATED="1497017030235" MODIFIED="1497017132885"><richcontent TYPE="NOTE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      - module types can be retrieved from same file/url from which the script loaded
+    </p>
+  </body>
+</html>
+</richcontent>
+</node>
+<node TEXT="on click it should show the fss form in modal dialog" ID="ID_1430465088" CREATED="1497016911051" MODIFIED="1500480043096"><richcontent TYPE="NOTE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      - maybe does not have to be modal, but it should support viewing graph and editing form at same time
+    </p>
+  </body>
+</html>
+</richcontent>
+<node TEXT="bootstrap" ID="ID_1675048164" CREATED="1500480638782" MODIFIED="1500480702448" LINK="https://react-bootstrap.github.io/components.html"/>
+</node>
+<node TEXT="duplicate view in next tab" ID="ID_1386083336" CREATED="1497017277723" MODIFIED="1497017285137"/>
+<node TEXT="with overall preview of view" ID="ID_879392314" CREATED="1497016987707" MODIFIED="1500480960099">
+<icon BUILTIN="button_cancel"/>
+</node>
+</node>
+</node>
+<node TEXT="miro" STYLE_REF="categorization" ID="ID_87361845" CREATED="1500480270948" MODIFIED="1500480272408">
+<node TEXT="how to save files" ID="ID_91178798" CREATED="1500480279094" MODIFIED="1500480283596"/>
+<node TEXT="how to save layout" ID="ID_921326903" CREATED="1500480285513" MODIFIED="1500480288540"/>
+</node>
+<node TEXT="show specific form for a module" ID="ID_101588634" CREATED="1500479027650" MODIFIED="1500479045615"/>
 </node>
 </node>
 </node>
