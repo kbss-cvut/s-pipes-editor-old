@@ -3,7 +3,7 @@
 <node TEXT="main" FOLDED="false" ID="ID_448131109" CREATED="1312805290594" MODIFIED="1489514323432">
 <font NAME="SansSerif"/>
 <hook NAME="MapStyle" zoom="1.21">
-    <properties show_icon_for_attributes="true" fit_to_viewport="false;" show_note_icons="true" show_notes_in_map="false"/>
+    <properties fit_to_viewport="false;" show_icon_for_attributes="true" show_note_icons="true" show_notes_in_map="false"/>
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node" STYLE="oval" UNIFORM_SHAPE="true" VGAP_QUANTITY="24.0 pt">
@@ -932,7 +932,6 @@
     <span style="color: #000000; background-color: #ffffff"><font color="#000000" face="monospace">&lt;http://onto.fel.cvut.cz/ontologies/lib/module&gt;</font></span><span style="font-family: monospace"><font face="monospace"><br/></font></span>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -1066,7 +1065,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -1158,7 +1156,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 <node ID="ID_1604922199" CREATED="1481793144467" MODIFIED="1481793575494"><richcontent TYPE="NODE">
@@ -1173,7 +1170,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -1304,10 +1300,10 @@
 </node>
 </node>
 </node>
-<node TEXT=" 2017-04-04" FOLDED="true" ID="ID_1521768385" CREATED="1491310046667" MODIFIED="1491310055398">
+<node TEXT=" 2017-04-04" ID="ID_1521768385" CREATED="1491310046667" MODIFIED="1491310055398">
 <node TEXT="task" STYLE_REF="onto-prop" ID="ID_754253015" CREATED="1491313834086" MODIFIED="1491313835361">
 <node TEXT="yan" STYLE_REF="categorization" ID="ID_131536995" CREATED="1491314532522" MODIFIED="1491314533852">
-<node TEXT="create example of simple script" FOLDED="true" ID="ID_1437060527" CREATED="1491315273537" MODIFIED="1492009581296">
+<node TEXT="create example of simple script" ID="ID_1437060527" CREATED="1491315273537" MODIFIED="1492009581296">
 <icon BUILTIN="button_ok"/>
 <node TEXT="desc" STYLE_REF="onto-prop" ID="ID_453526052" CREATED="1491315317484" MODIFIED="1491315318638">
 <node TEXT="use protege" ID="ID_513584260" CREATED="1491315313918" MODIFIED="1491315316489"/>
@@ -1663,7 +1659,7 @@
 </node>
 </node>
 </node>
-<node TEXT=" 2017-07-10" FOLDED="true" ID="ID_1525399542" CREATED="1499694536497" MODIFIED="1500482032347">
+<node TEXT=" 2017-07-10" FOLDED="true" ID="ID_1525399542" CREATED="1499694536497" MODIFIED="1500545904667">
 <icon BUILTIN="button_ok"/>
 <icon BUILTIN="button_ok"/>
 <icon BUILTIN="button_ok"/>
@@ -1673,11 +1669,12 @@
 </node>
 </node>
 </node>
-<node TEXT=" 2017-07-19" FOLDED="true" ID="ID_324238756" CREATED="1500466921049" MODIFIED="1500466928903">
+<node TEXT=" 2017-07-19" ID="ID_324238756" CREATED="1500466921049" MODIFIED="1500466928903">
 <node TEXT="task" STYLE_REF="onto-prop" ID="ID_1387136330" CREATED="1500478615220" MODIFIED="1500478619188">
 <node TEXT="yan" STYLE_REF="categorization" ID="ID_1509015255" CREATED="1500478775681" MODIFIED="1500478777180">
 <node TEXT="create &quot;Edit script&quot; page" ID="ID_705705002" CREATED="1497016866477" MODIFIED="1497016970082">
-<node TEXT="pop-up if file in fs changes and reload view" ID="ID_1872371181" CREATED="1500478777517" MODIFIED="1500480072310">
+<node TEXT="pop-up if file in fs changes and reload view" ID="ID_1420737933" CREATED="1491315273537" MODIFIED="1500545993079">
+<icon BUILTIN="button_ok"/>
 <node ID="ID_1767843242" CREATED="1500480012339" MODIFIED="1500480012339"><richcontent TYPE="NODE">
 
 <html>
@@ -1690,7 +1687,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>

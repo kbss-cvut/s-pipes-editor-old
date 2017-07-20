@@ -9,6 +9,8 @@ import React from "react";
 import injectIntl from "../../utils/injectIntl";
 import I18nWrapper from "../../i18n/I18nWrapper";
 import Messager from "../wrapper/Messager";
+import {Button, Modal} from "react-bootstrap";
+
 var RoutingRules = require('../../utils/RoutingRules');
 var Routes = require('../../utils/Routes');
 var Routing = require('../../utils/Routing');
@@ -17,7 +19,7 @@ var ModuleTypeStore = require('../../stores/ModuleTypeStore');
 var that;
 
 function onMessageReceived(event) {
-    that.setState({msg: event.data})
+    that.setState({modalVisible: true});
 }
 
 class ViewController extends React.Component {
@@ -27,12 +29,9 @@ class ViewController extends React.Component {
         this.state = {
             moduleTypes: ModuleTypeStore.getAllRecords(),
             loading: false,
-            msg: "Initial message",
+            modalVisible: false,
             socket: new WebSocket("ws://localhost:8080/websocket")
         };
-        /*this.state.socket.onopen = function() {
-         socket.send("");
-         };*/
         this.state.socket.onmessage = onMessageReceived;
     }
 
@@ -41,32 +40,40 @@ class ViewController extends React.Component {
             return (
 
                 <div>
-                    {this.state.msg}<br/>
-                    Loading<br/>
+                    Loading
                 </div>);
         return (
             <div>
                 <div>
-                    {this.state.msg}<br/>
-                    {this.state.moduleTypes}
+                    {JSON.stringify(this.state.moduleTypes)}
                 </div>
                 <div id="view"></div>
+                <Modal show={this.state.modalVisible}>
+                    <Modal.Header>
+                        <Modal.Title>View has been changed. Reload?</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Button onClick={() => this.closeModal()}>Ignore</Button>
+                        <Button onClick={() => location.reload()}>Reload</Button>
+                    </Modal.Body>
+                </Modal>
             </div>);
     }
 
     componentWillMount() {
-        // Actions.loadAllRecords();
+        Actions.loadAllRecords();
     }
 
     componentDidMount() {
         that = this;
 
         if (!this.state.moduleTypes) {
-            // Actions.loadAllRecords();
             this.setState({loading: true});
         }
 
-        renderView();
+        if (!this.state.loading)
+            renderView();
+
         this.unsubscribe = ModuleTypeStore.listen(this._recordsLoaded);
     }
 
@@ -80,12 +87,12 @@ class ViewController extends React.Component {
         this.unsubscribe();
     }
 
-    getAllModuleTypes() {
-        ModuleTypeStore.getAllRecords();
-    }
-
     openForm() {
         Routing.transitionTo(Routes.createRecord);
+    }
+
+    closeModal() {
+        this.setState({modalVisible: false});
     }
 }
 
