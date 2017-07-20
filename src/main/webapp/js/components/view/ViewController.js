@@ -28,7 +28,7 @@ class ViewController extends React.Component {
         super(props);
         this.state = {
             moduleTypes: ModuleTypeStore.getAllRecords(),
-            loading: false,
+            loading: true,
             modalVisible: false,
             socket: new WebSocket("ws://localhost:8080/websocket")
         };
@@ -38,15 +38,12 @@ class ViewController extends React.Component {
     render() {
         if (this.state.loading)
             return (
-
                 <div>
                     Loading
                 </div>);
         return (
             <div>
-                <div>
-                    {JSON.stringify(this.state.moduleTypes)}
-                </div>
+                {this.state.moduleTypes.map((m) => <Button key={m["@id"]}>{m["@id"]}</Button>)}
                 <div id="view"></div>
                 <Modal show={this.state.modalVisible}>
                     <Modal.Header>
