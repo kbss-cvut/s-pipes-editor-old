@@ -39,10 +39,12 @@ class ViewController extends React.Component {
         if (this.state.loading)
             return (
                 <div>
+                    <Button bsStyle="primary" onClick={() => window.open(location.href, '_blank')}>Duplicate</Button>
                     Loading
                 </div>);
         return (
             <div>
+                <Button bsStyle="primary" onClick={() => window.open(location.href, '_blank')}>Duplicate</Button>
                 {this.state.moduleTypes.map((m) => <Button key={m["@id"]}>{m["@id"]}</Button>)}
                 <div id="view"></div>
                 <Modal show={this.state.modalVisible}>
