@@ -3,7 +3,7 @@
 <node TEXT="main" FOLDED="false" ID="ID_448131109" CREATED="1312805290594" MODIFIED="1489514323432">
 <font NAME="SansSerif"/>
 <hook NAME="MapStyle" zoom="1.21">
-    <properties show_icon_for_attributes="true" fit_to_viewport="false;" show_note_icons="true" show_notes_in_map="false"/>
+    <properties fit_to_viewport="false;" show_icon_for_attributes="true" show_note_icons="true" show_notes_in_map="false"/>
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node" STYLE="oval" UNIFORM_SHAPE="true" VGAP_QUANTITY="24.0 pt">
@@ -1690,9 +1690,6 @@
 </richcontent>
 </node>
 </node>
-<node TEXT="duplicate view in next tab" ID="ID_1252834065" CREATED="1491315273537" MODIFIED="1500554403732">
-<icon BUILTIN="button_ok"/>
-</node>
 <node TEXT="with simple panel of module types" ID="ID_913664012" CREATED="1491315273537" MODIFIED="1500551959002">
 <icon BUILTIN="button_ok"/>
 <richcontent TYPE="NOTE">
@@ -1707,10 +1704,11 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
-<node TEXT="on click it should show the fss form in modal dialog" ID="ID_1430465088" CREATED="1497016911051" MODIFIED="1500480043096"><richcontent TYPE="NOTE">
+<node TEXT="on click it should show the fss form in modal dialog" ID="ID_261321748" CREATED="1491315273537" MODIFIED="1500567289496">
+<icon BUILTIN="button_ok"/>
+<richcontent TYPE="NOTE">
 
 <html>
   <head>
@@ -1722,8 +1720,12 @@
     </p>
   </body>
 </html>
+
 </richcontent>
 <node TEXT="bootstrap" ID="ID_1675048164" CREATED="1500480638782" MODIFIED="1500480702448" LINK="https://react-bootstrap.github.io/components.html"/>
+</node>
+<node TEXT="duplicate view in next tab" ID="ID_1252834065" CREATED="1491315273537" MODIFIED="1500554403732">
+<icon BUILTIN="button_ok"/>
 </node>
 <node TEXT="with overall preview of view" ID="ID_879392314" CREATED="1497016987707" MODIFIED="1500480960099">
 <icon BUILTIN="button_cancel"/>

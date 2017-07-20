@@ -10,6 +10,9 @@ import injectIntl from "../../utils/injectIntl";
 import I18nWrapper from "../../i18n/I18nWrapper";
 import Messager from "../wrapper/Messager";
 import {Button, Modal} from "react-bootstrap";
+import Record from "../record/Record";
+import * as RouterStore from "../../stores/RouterStore";
+import * as EntityFactory from "../../utils/EntityFactory";
 
 var RoutingRules = require('../../utils/RoutingRules');
 var Routes = require('../../utils/Routes');
@@ -17,10 +20,6 @@ var Routing = require('../../utils/Routing');
 var ModuleTypeStore = require('../../stores/ModuleTypeStore');
 
 var that;
-
-function onMessageReceived(event) {
-    that.setState({modalVisible: true});
-}
 
 class ViewController extends React.Component {
 
@@ -30,9 +29,11 @@ class ViewController extends React.Component {
             moduleTypes: ModuleTypeStore.getAllRecords(),
             loading: true,
             modalVisible: false,
+            formVisible: false,
+            record: EntityFactory.initNewPatientRecord(),
             socket: new WebSocket("ws://localhost:8080/websocket")
         };
-        this.state.socket.onmessage = onMessageReceived;
+        this.state.socket.onmessage = () => this.onMessageReceived();
     }
 
     render() {
@@ -43,6 +44,10 @@ class ViewController extends React.Component {
                     Loading
                     <div id="view"></div>
                 </div>);
+        let handlers = {
+            onCancel: this._onCancel,
+            onChange: this._onChange
+        };
         return (
             <div>
                 <Button bsStyle="primary" onClick={() => window.open(location.href, '_blank')}>Duplicate</Button>
@@ -55,6 +60,12 @@ class ViewController extends React.Component {
                     <Modal.Body>
                         <Button onClick={() => this.closeModal()}>Ignore</Button>
                         <Button onClick={() => location.reload()}>Reload</Button>
+                    </Modal.Body>
+                </Modal>
+                <Modal show={this.state.formVisible}>
+                    <Modal.Body>
+                        <Record ref={(c) => this.recordComponent = c} handlers={handlers} record={this.state.record}
+                                loading={this.state.loading}/>
                     </Modal.Body>
                 </Modal>
             </div>);
@@ -82,16 +93,34 @@ class ViewController extends React.Component {
         }
     };
 
+    _onCancel = () => {
+        let handlers = RouterStore.getViewHandlers(Routes.editRecord.name);
+        if (handlers) {
+            Routing.transitionTo(handlers.onCancel);
+        } else {
+            this.setState({formVisible: false})
+        }
+    };
+
+    _onChange = (change) => {
+        var update = assign({}, this.state.record, change);
+        this.setState({record: update});
+    };
+
     componentWillUnmount() {
         this.unsubscribe();
     }
 
     openForm() {
-        Routing.transitionTo(Routes.createRecord);
+        this.setState({formVisible: true})
     }
 
     closeModal() {
         this.setState({modalVisible: false});
+    }
+
+    onMessageReceived() {
+        this.setState({modalVisible: true});
     }
 }
 
