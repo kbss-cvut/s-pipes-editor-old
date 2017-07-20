@@ -41,6 +41,7 @@ class ViewController extends React.Component {
                 <div>
                     <Button bsStyle="primary" onClick={() => window.open(location.href, '_blank')}>Duplicate</Button>
                     Loading
+                    <div id="view"></div>
                 </div>);
         return (
             <div>
@@ -70,8 +71,7 @@ class ViewController extends React.Component {
             this.setState({loading: true});
         }
 
-        if (!this.state.loading)
-            renderView();
+        renderView();
 
         this.unsubscribe = ModuleTypeStore.listen(this._recordsLoaded);
     }
