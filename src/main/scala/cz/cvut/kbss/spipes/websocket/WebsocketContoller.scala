@@ -12,6 +12,7 @@ import scala.collection.JavaConverters.asScalaBufferConverter
 import scala.collection.parallel.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.util.{Failure, Try}
 
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 16.07.2017.
@@ -48,10 +49,20 @@ class WebsocketContoller extends InitializingBean {
     Future {
       while (true) { // fixme More reactive? At least not while true
         val wk = ws.take()
-        if (wk != null) {
+        Try {
           val es = wk.pollEvents().asScala
-          WebsocketContoller.sessions.foreach(s => s.getBasicRemote.sendText(es.mkString("", "\n", "\n")))
+          es.foreach(e => log.info("Registered file system event " + e.kind() + " on file " + path + "/" + e.context()))
+          synchronized(WebsocketContoller.sessions.foreach(s => {
+            log.info("Sending list of events to: " + s.toString())
+            s.getBasicRemote.sendText(es.mkString("", "\n", "\n"))
+          }))
           wk.reset()
+        } match {
+          case Failure(t) =>
+            wk.reset()
+            log.error(t.getLocalizedMessage())
+            log.error(t.getStackTrace().mkString("\n"))
+          case _ =>
         }
       }
     }
