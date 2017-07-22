@@ -2,8 +2,9 @@ package cz.cvut.kbss.spipes.websocket
 
 import java.nio.file.{Paths, StandardWatchEventKinds}
 import javax.websocket.server.ServerEndpoint
-import javax.websocket.{OnError, OnOpen, Session}
+import javax.websocket.{OnClose, OnError, OnOpen, Session}
 
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.stereotype.Controller
 
@@ -19,15 +20,29 @@ import scala.concurrent.Future
 @ServerEndpoint("/websocket")
 class WebsocketContoller extends InitializingBean {
 
+  private final val log = LoggerFactory.getLogger(classOf[WebsocketContoller])
+
   private val path = Paths.get("/home/yan/Audiobooks")
   private val ws = path.getFileSystem().newWatchService()
   path.register(ws, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_DELETE, StandardWatchEventKinds.ENTRY_MODIFY)
 
   @OnOpen
-  def register(s: Session): Unit = WebsocketContoller.sessions += s
+  def onOpen(s: Session): Unit = {
+    log.info("Session registered: " + s.toString())
+    WebsocketContoller.sessions += s
+  }
 
   @OnError
-  def doNothing(t: Throwable): Unit = ()
+  def onError(t: Throwable): Unit = {
+    log.error(t.getLocalizedMessage())
+    log.error(t.getStackTrace().mkString("\n"))
+  }
+
+  @OnClose
+  def close(s: Session): Unit = {
+    log.info("Session closed: " + s.toString())
+    WebsocketContoller.sessions -= s
+  }
 
   override def afterPropertiesSet(): Unit = {
     Future {
