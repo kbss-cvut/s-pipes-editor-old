@@ -524,3 +524,8 @@ button.reset-filters {
 .help-icon {
     margin-top: 7px
 }
+
+.form-modal {
+    width: 70% !important;
+    alignment: center !important;
+}

@@ -62,7 +62,7 @@ class ViewController extends React.Component {
                         <Button onClick={() => location.reload()}>Reload</Button>
                     </Modal.Body>
                 </Modal>
-                <Modal show={this.state.formVisible}>
+                <Modal dialogClassName="form-modal" show={this.state.formVisible}>
                     <Modal.Body>
                         <Record ref={(c) => this.recordComponent = c} handlers={handlers} record={this.state.record}
                                 loading={this.state.loading}/>
