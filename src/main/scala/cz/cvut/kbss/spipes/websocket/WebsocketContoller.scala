@@ -9,7 +9,7 @@ import org.springframework.beans.factory.InitializingBean
 import org.springframework.stereotype.Controller
 
 import scala.collection.JavaConverters.asScalaBufferConverter
-import scala.collection.mutable
+import scala.collection.parallel.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -59,5 +59,5 @@ class WebsocketContoller extends InitializingBean {
 }
 
 object WebsocketContoller {
-  private val sessions = mutable.Set[Session]()
+  private val sessions = mutable.ParSet[Session]()
 }
