@@ -26,7 +26,7 @@ class ViewController extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            moduleTypes: ModuleTypeStore.getAllRecords(),
+            moduleTypes: null,
             loading: true,
             modalVisible: false,
             formVisible: false,
@@ -72,7 +72,7 @@ class ViewController extends React.Component {
     }
 
     componentWillMount() {
-        Actions.loadAllRecords();
+        Actions.loadAllModuleTypes();
     }
 
     componentDidMount() {
@@ -84,11 +84,11 @@ class ViewController extends React.Component {
 
         renderView();
 
-        this.unsubscribe = ModuleTypeStore.listen(this._recordsLoaded);
+        this.unsubscribe = ModuleTypeStore.listen(this._moduleTypesLoaded);
     }
 
-    _recordsLoaded = (data) => {
-        if (data.action === Actions.loadAllRecords) {
+    _moduleTypesLoaded = (data) => {
+        if (data.action === Actions.loadAllModuleTypes) {
             this.setState({moduleTypes: data.data, loading: false});
         }
     };
