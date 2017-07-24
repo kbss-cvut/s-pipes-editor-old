@@ -34,7 +34,7 @@ class QAService {
       val url = "https://kbss.felk.cvut.cz/sempipes-vfn-dev/service"
       import org.springframework.web.util.UriComponentsBuilder
       val builder = UriComponentsBuilder.fromHttpUrl(url)
-        .queryParam("_pId", "generate-fss-form")
+        .queryParam("_pId", "clone-fss-form")
         .queryParam("formGenRepositoryUrl", "http://onto.fel.cvut.cz/rdf4j-server/repositories/fss-study-dev-formgen")
         .queryParam("recordGraphId", "http://vfn.cz/ontologies/study-manager/formGen1496673137843")
         .queryParam("repositoryUrl", "http://onto.fel.cvut.cz/rdf4j-server/repositories/fss-study-dev-app")
