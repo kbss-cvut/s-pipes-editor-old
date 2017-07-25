@@ -13,6 +13,7 @@ import {Button, Modal} from "react-bootstrap";
 import Record from "../record/Record";
 import * as RouterStore from "../../stores/RouterStore";
 import * as EntityFactory from "../../utils/EntityFactory";
+import Mask from "../Mask";
 
 var RoutingRules = require('../../utils/RoutingRules');
 var Routes = require('../../utils/Routes');
@@ -25,6 +26,7 @@ class ViewController extends React.Component {
 
     constructor(props) {
         super(props);
+        this.i18n = this.props.i18n;
         this.state = {
             moduleTypes: null,
             loading: true,
@@ -39,11 +41,8 @@ class ViewController extends React.Component {
     render() {
         if (this.state.loading)
             return (
-                <div>
-                    <Button bsStyle="primary" onClick={() => window.open(location.href, '_blank')}>Duplicate</Button>
-                    Loading
-                    <div id="view"></div>
-                </div>);
+                <Mask/>
+            );
         let handlers = {
             onCancel: this._onCancel,
             onChange: this._onChange
@@ -77,19 +76,13 @@ class ViewController extends React.Component {
 
     componentDidMount() {
         that = this;
-
-        if (!this.state.moduleTypes) {
-            this.setState({loading: true});
-        }
-
-        renderView();
-
         this.unsubscribe = ModuleTypeStore.listen(this._moduleTypesLoaded);
     }
 
     _moduleTypesLoaded = (data) => {
         if (data.action === Actions.loadAllModuleTypes) {
             this.setState({moduleTypes: data.data, loading: false});
+            renderView();
         }
     };
 
