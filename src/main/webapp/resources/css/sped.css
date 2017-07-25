@@ -5,7 +5,7 @@ html {
 }
 
 body {
-    height: 100%;
+    height: 99.5%; /* Because of the stupid scrollbar */
 }
 
 #wrap {
@@ -526,6 +526,29 @@ button.reset-filters {
 }
 
 .form-modal {
-    width: 70% !important;
+    width: 70vw !important;
     alignment: center !important;
+}
+
+#main {
+    display: flex;
+    flex-direction: row;
+    height: calc(99.5vh - 60px);
+}
+
+#left-panel {
+    overflow: scroll !important;
+    max-width: 20vw !important;
+}
+
+#view {
+    flex: 1;
+}
+
+#right-panel {
+    width: max-content;
+}
+
+.popover {
+    max-width: 440px !important;
 }

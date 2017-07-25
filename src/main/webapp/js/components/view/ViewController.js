@@ -9,7 +9,7 @@ import React from "react";
 import injectIntl from "../../utils/injectIntl";
 import I18nWrapper from "../../i18n/I18nWrapper";
 import Messager from "../wrapper/Messager";
-import {Button, Modal} from "react-bootstrap";
+import {Button, ButtonGroup, Modal, OverlayTrigger, Popover, Tooltip} from "react-bootstrap";
 import Record from "../record/Record";
 import * as RouterStore from "../../stores/RouterStore";
 import * as EntityFactory from "../../utils/EntityFactory";
@@ -48,10 +48,38 @@ class ViewController extends React.Component {
             onChange: this._onChange
         };
         return (
-            <div>
-                <Button bsStyle="primary" onClick={() => window.open(location.href, '_blank')}>Duplicate</Button>
-                {this.state.moduleTypes.map((m) => <Button key={m["@id"]}>{m["@id"]}</Button>)}
-                <div id="view"></div>
+            <div id="main">
+                <ButtonGroup vertical id="left-panel">
+                    {this.state.moduleTypes.map((m) => {
+                        let popover = (
+                            <Popover
+                                bsClass="module-type popover"
+                                id={m["@id"]}
+                                key={m["@id"]}
+                                title={m["@id"]}>
+                                {m["http://www.w3.org/2000/01/rdf-schema#comment"]}
+                            </Popover>);
+                        return <OverlayTrigger
+                            placement="right"
+                            key={m["@id"]}
+                            overlay={popover}>
+                            <Button block
+                                    key={m["@id"]}>
+                                {m["@id"].toString().split("/").reverse()[0]}
+                            </Button>
+                        </OverlayTrigger>
+                    })}
+                </ButtonGroup>
+                <div id="view">
+                </div>
+                <ButtonGroup vertical id="right-panel">
+                    <OverlayTrigger placement="left"
+                                    overlay={<Tooltip block
+                                                      id="duplicate">
+                                        Duplicate current graph in a new tab</Tooltip>}>
+                        <Button bsStyle="info" onClick={() => window.open(location.href, '_blank')}>Duplicate</Button>
+                    </OverlayTrigger>
+                </ButtonGroup>
                 <Modal show={this.state.modalVisible}>
                     <Modal.Header>
                         <Modal.Title>View has been changed. Reload?</Modal.Title>
@@ -121,21 +149,8 @@ class ViewController extends React.Component {
 // load data and render elements
 function renderView() {
 
-    function viewport() {
-        var e = window,
-            a = 'inner';
-        if (!('innerWidth' in window)) {
-            a = 'client';
-            e = document.documentElement || document.body;
-        }
-        return {
-            width: e[a + 'Width'],
-            height: 900
-        }
-    }
-
-    var width = viewport().width,
-        height = viewport().height;
+    var width = document.getElementById('view').offsetWidth,
+        height = document.getElementById('view').offsetHeight;
 
     var zoom = d3.behavior.zoom()
         .on("zoom", redraw);
