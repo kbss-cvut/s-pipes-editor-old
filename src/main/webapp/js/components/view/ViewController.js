@@ -14,6 +14,7 @@ import Record from "../record/Record";
 import * as RouterStore from "../../stores/RouterStore";
 import * as EntityFactory from "../../utils/EntityFactory";
 import Mask from "../Mask";
+import {ClipLoader} from "halogen";
 
 var RoutingRules = require('../../utils/RoutingRules');
 var Routes = require('../../utils/Routes');
@@ -30,6 +31,7 @@ class ViewController extends React.Component {
         this.state = {
             moduleTypes: null,
             loading: true,
+            viewLoaded: false,
             modalVisible: false,
             formVisible: false,
             record: EntityFactory.initNewPatientRecord(),
@@ -43,10 +45,6 @@ class ViewController extends React.Component {
             return (
                 <Mask/>
             );
-        let handlers = {
-            onCancel: this._onCancel,
-            onChange: this._onChange
-        };
         return (
             <div id="main">
                 <ButtonGroup vertical id="left-panel">
@@ -71,6 +69,14 @@ class ViewController extends React.Component {
                     })}
                 </ButtonGroup>
                 <div id="view">
+                    <div id="view-loading" hidden={this.state.viewLoaded}>
+                        <div className='spinner-container'>
+                            <div style={{width: 32, height: 32, margin: 'auto'}}>
+                                <ClipLoader color='#337ab7' size='32px'/>
+                            </div>
+                            <div className='spinner-message'>Loading view...</div>
+                        </div>
+                    </div>
                 </div>
                 <ButtonGroup vertical id="right-panel">
                     <OverlayTrigger placement="left"
@@ -79,6 +85,12 @@ class ViewController extends React.Component {
                                         Duplicate current graph in a new tab</Tooltip>}>
                         <Button bsStyle="info" onClick={() => window.open(location.href, '_blank')}>Duplicate</Button>
                     </OverlayTrigger>
+                    <Button bsStyle="danger" onClick={() => renderView("fix")}>Fixed</Button>
+                    <Button bsStyle="primary" onClick={() => renderView("auto")}>Auto</Button>
+                    <Button bsStyle="primary" onClick={() => renderView("layer")}>Layer</Button>
+                    <Button bsStyle="primary" onClick={() => renderView("order")}>Order</Button>
+                    <Button bsStyle="primary" onClick={() => renderView("layerOrder")}>Layer And Order</Button>
+
                 </ButtonGroup>
                 <Modal show={this.state.modalVisible}>
                     <Modal.Header>
@@ -96,6 +108,10 @@ class ViewController extends React.Component {
                     </Modal.Body>
                 </Modal>
             </div>);
+        let handlers = {
+            onCancel: this._onCancel,
+            onChange: this._onChange
+        };
     }
 
     componentWillMount() {
@@ -110,7 +126,7 @@ class ViewController extends React.Component {
     _moduleTypesLoaded = (data) => {
         if (data.action === Actions.loadAllModuleTypes) {
             this.setState({moduleTypes: data.data, loading: false});
-            renderView();
+            renderView("auto");
         }
     };
 
@@ -147,13 +163,16 @@ class ViewController extends React.Component {
 
 
 // load data and render elements
-function renderView() {
+function renderView(layout) {
+
+    that.setState({viewLoaded: false});
 
     var width = document.getElementById('view').offsetWidth,
         height = document.getElementById('view').offsetHeight;
 
     var zoom = d3.behavior.zoom()
         .on("zoom", redraw);
+    d3.select("svg").remove();
     var svg = d3.select("#view")
         .append("svg")
         .attr("width", width)
@@ -261,8 +280,6 @@ function renderView() {
 
                     e.stopPropagation();
 
-                    //alert(e.currentTarget.textContent);
-
                     that.openForm();
 
                 });
@@ -327,6 +344,7 @@ function renderView() {
 
         });
 
+        that.setState({viewLoaded: true});
         // start an initial layout
         layouter.kgraph(graph);
     });
@@ -372,8 +390,23 @@ function renderView() {
         applyInitialCoordinates(layoutGraph);
         clearBendpoints(layoutGraph);
 
-        layouter.options(options.auto)
-            .kgraph(layoutGraph);
+        switch (layout) {
+            case "fix":
+                layouter.options(options.fix).kgraph(layoutGraph);
+                break;
+            case "layer":
+                layouter.options(options.layer).kgraph(layoutGraph);
+                break;
+            case "order":
+                layouter.options(options.order).kgraph(layoutGraph);
+                break;
+            case "layerOrder":
+                layouter.options(options.layerOrder).kgraph(layoutGraph);
+                break;
+            default:
+                layouter.options(options.auto).kgraph(layoutGraph);
+        }
+
     }
 
     function clearBendpoints(parent) {
