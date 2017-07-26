@@ -15,6 +15,7 @@ import * as RouterStore from "../../stores/RouterStore";
 import * as EntityFactory from "../../utils/EntityFactory";
 import Mask from "../Mask";
 import {ClipLoader} from "halogen";
+import * as I18Store from "../../stores/I18nStore";
 
 var RoutingRules = require('../../utils/RoutingRules');
 var Routes = require('../../utils/Routes');
@@ -74,7 +75,7 @@ class ViewController extends React.Component {
                             <div style={{width: 32, height: 32, margin: 'auto'}}>
                                 <ClipLoader color='#337ab7' size='32px'/>
                             </div>
-                            <div className='spinner-message'>Loading view...</div>
+                            <div className='spinner-message'>{I18Store.i18n('view.loading-view')}</div>
                         </div>
                     </div>
                 </div>
@@ -82,23 +83,31 @@ class ViewController extends React.Component {
                     <OverlayTrigger placement="left"
                                     overlay={<Tooltip block
                                                       id="duplicate">
-                                        Duplicate current graph in a new tab</Tooltip>}>
-                        <Button bsStyle="info" onClick={() => window.open(location.href, '_blank')}>Duplicate</Button>
+                                        {I18Store.i18n('view.duplicate-new-tab')}
+                                    </Tooltip>}>
+                        <Button bsStyle="info" onClick={() => window.open(location.href, '_blank')}>
+                            {I18Store.i18n('view.duplicate')}
+                        </Button>
                     </OverlayTrigger>
-                    <Button bsStyle="danger" onClick={() => renderView("fix")}>Fixed</Button>
-                    <Button bsStyle="primary" onClick={() => renderView("auto")}>Auto</Button>
-                    <Button bsStyle="primary" onClick={() => renderView("layer")}>Layer</Button>
-                    <Button bsStyle="primary" onClick={() => renderView("order")}>Order</Button>
-                    <Button bsStyle="primary" onClick={() => renderView("layerOrder")}>Layer And Order</Button>
+                    <Button bsStyle="danger"
+                            onClick={() => renderView("fix")}>{I18Store.i18n('view.layout.fix')}</Button>
+                    <Button bsStyle="primary"
+                            onClick={() => renderView("auto")}>{I18Store.i18n('view.layout.auto')}</Button>
+                    <Button bsStyle="primary"
+                            onClick={() => renderView("layer")}>{I18Store.i18n('view.layout.layer')}</Button>
+                    <Button bsStyle="primary"
+                            onClick={() => renderView("order")}>{I18Store.i18n('view.layout.order')}</Button>
+                    <Button bsStyle="primary"
+                            onClick={() => renderView("layerOrder")}>{I18Store.i18n('view.layout.layerOrder')}</Button>
 
                 </ButtonGroup>
                 <Modal show={this.state.modalVisible}>
                     <Modal.Header>
-                        <Modal.Title>View has been changed. Reload?</Modal.Title>
+                        <Modal.Title>{I18Store.i18n('view.script-changed')}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <Button onClick={() => this.closeModal()}>Ignore</Button>
-                        <Button onClick={() => location.reload()}>Reload</Button>
+                        <Button onClick={() => this.closeModal()}>{I18Store.i18n('view.ignore')}</Button>
+                        <Button onClick={() => location.reload()}>{I18Store.i18n('view.reload')}</Button>
                     </Modal.Body>
                 </Modal>
                 <Modal dialogClassName="form-modal" show={this.state.formVisible}>
