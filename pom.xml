@@ -26,10 +26,10 @@
         <org.codehaus.mojo.build-helper-maven-plugin.version>3.0.0</org.codehaus.mojo.build-helper-maven-plugin.version>
         <org.mockito.mockito-all.version>1.10.19</org.mockito.mockito-all.version>
         <org.openrdf.sesame.sesame-rio-rdfjson.version>2.9.0</org.openrdf.sesame.sesame-rio-rdfjson.version>
-        <org.scala-lang.version>2.12.2</org.scala-lang.version>
+        <org.scala-lang.version>2.12.3</org.scala-lang.version>
         <org.slf4j.slf4j-api.version>1.7.25</org.slf4j.slf4j-api.version>
         <org.springframework.security.version>4.2.3.RELEASE</org.springframework.security.version>
-        <org.springframework.version>4.3.9.RELEASE</org.springframework.version>
+        <org.springframework.version>4.3.10.RELEASE</org.springframework.version>
         <commons.io.version>2.5</commons.io.version>
     </properties>
 
