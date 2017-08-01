@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 import scala.collection.JavaConverters._
+import scala.util.Try
 
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 22.12.16.
@@ -31,40 +32,40 @@ class ViewService {
   @Autowired
   private var spipesService: SpipesService = _
 
-  def getView(id: String): Option[View] =
+  def getView(id: String): Try[Option[View]] =
     viewDao.get(URI.create(Vocabulary.s_c_view + "/" + id))
 
-  def getAllViews: Option[Traversable[View]] =
+  def getAllViews: Try[Traversable[View]] =
     viewDao.findAll
 
-  def getAllNodes: Option[Traversable[Node]] =
+  def getAllNodes: Try[Traversable[Node]] =
     nodeDao.findAll
 
-  def getAllEdges: Option[Traversable[Edge]] =
+  def getAllEdges: Try[Traversable[Edge]] =
     edgeDao.findAll
 
-  def addView(g: View): Option[View] =
+  def addView(g: View): Try[View] =
     viewDao.save(g)
 
-  def updateView(id: String, g: View): Option[View] =
+  def updateView(id: String, g: View): Try[View] =
     viewDao.updateView(URI.create(Vocabulary.s_c_view + "/" + id), g)
 
-  def deleteView(id: String): Option[URI] =
+  def deleteView(id: String): Try[URI] =
     viewDao.delete(URI.create(Vocabulary.s_c_view + "/" + id))
 
-  def getViewNodes(id: String): Option[Traversable[Node]] =
+  def getViewNodes(id: String): Try[Option[Traversable[Node]]] =
     viewDao.getViewNodes(URI.create(Vocabulary.s_c_view + "/" + id))
 
-  def getViewEdges(id: String): Option[Traversable[Edge]] =
+  def getViewEdges(id: String): Try[Option[Traversable[Edge]]] =
     viewDao.getViewEdges(URI.create(Vocabulary.s_c_view + "/" + id))
 
-  def getEdge(id: String): Option[Edge] =
+  def getEdge(id: String): Try[Option[Edge]] =
     edgeDao.get(URI.create(Vocabulary.s_c_edge + "/" + id))
 
-  def getNode(id: String): Option[Node] =
+  def getNode(id: String): Try[Option[Node]] =
     nodeDao.get(URI.create(Vocabulary.s_c_node + "/" + id))
 
-  def createViewFromSpipes(id: String): Option[View] = {
+  def createViewFromSpipes(id: String): Try[View] = {
     spipesService.getModules(id).map(modules => {
       val nodes = modules.map(m => new Node(
         m.getUri(),
@@ -89,7 +90,7 @@ class ViewService {
     )
   }
 
-  def createJsonFromSpipes(id: String): Option[KGraph] =
+  def createJsonFromSpipes(id: String): Try[KGraph] =
     createViewFromSpipes(id).map(v => {
         val g = new KGraph(v.getLabel(),
           v.getNodes().asScala

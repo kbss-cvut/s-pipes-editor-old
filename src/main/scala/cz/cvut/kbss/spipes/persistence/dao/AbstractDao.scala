@@ -9,9 +9,9 @@ import cz.cvut.kbss.spipes.model.AbstractEntity
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
 
-import scala.collection.JavaConverters._
+import scala.collection.JavaConverters.asScalaBufferConverter
 import scala.reflect.ClassTag
-import scala.util.{Success, Try}
+import scala.util.{Failure, Success, Try}
 
 /**
   * Created by yan on 2/10/17.
@@ -23,21 +23,24 @@ abstract class AbstractDao[T <: AbstractEntity] {
   @Autowired
   protected var emf: EntityManagerFactory = _
 
-  def get(uri: URI)(implicit tag: ClassTag[T]): Option[T] = {
+  def get(uri: URI)(implicit tag: ClassTag[T]): Try[Option[T]] = {
     val em = emf.createEntityManager()
     Try(
       em.find(tag.runtimeClass, uri)
     ) match {
-      case Success(v: T) if v != null =>
+      case Success(null) =>
         em.close()
-        Some(v)
-      case _ =>
+        Success(None)
+      case Success(v: T) =>
         em.close()
-        None
+        Success(Some(v))
+      case Failure(e) =>
+        em.close()
+        Failure(e)
     }
   }
 
-  def findAll(implicit tag: ClassTag[T]): Option[Traversable[T]] = {
+  def findAll(implicit tag: ClassTag[T]): Try[Traversable[T]] = {
     val em = emf.createEntityManager()
     Try {
       val query = em.createNativeQuery("select ?s where { ?s a ?type }", tag.runtimeClass)
@@ -47,45 +50,36 @@ abstract class AbstractDao[T <: AbstractEntity] {
     match {
       case Success(es: JList[T]) =>
         em.close()
-        Some(es.asScala.asInstanceOf[Traversable[T]])
-      case _ =>
+        Success(es.asScala.asInstanceOf[Traversable[T]])
+      case Failure(x) =>
         em.close()
-        None
+        Failure(x)
     }
   }
 
-  def save(e: T): Option[T] = {
-    val em = emf.createEntityManager()
+  def save(e: T): Try[T] =
     Try {
+      val em = emf.createEntityManager()
       em.getTransaction().begin()
       em.persist(e)
       em.getTransaction().commit()
+      em.close()
       e
-    } match {
-      case Success(v) if v != null =>
-        em.close()
-        Some(e)
-      case _ =>
-        em.close()
-        None
-
     }
-  }
 
-  def delete(uri: URI)(implicit tag: ClassTag[T]): Option[URI] = {
-    val em = emf.createEntityManager()
-    Try {
-          em.getTransaction().begin()
-      em.remove(get(uri))
-          em.getTransaction().commit()
-      uri
-    } match {
-      case Success(uri: URI) if uri != null =>
+  def delete(uri: URI)(implicit tag: ClassTag[T]): Try[URI] = {
+
+    get(uri) match {
+      case Success(Some(e)) =>
+        val em = emf.createEntityManager()
+        em.getTransaction().begin()
+        em.remove(e)
+        em.getTransaction().commit()
         em.close()
-        Some(uri)
-      case _ =>
-        em.close()
-        None
+        Success(uri)
+      case Success(None) =>
+        Failure(new IllegalArgumentException("Entity with URI " + uri + " not found and can not be deleted"))
+      case Failure(e) => Failure(e)
     }
   }
 }

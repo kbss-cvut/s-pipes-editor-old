@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
+import scala.util.{Failure, Success}
+
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 28.01.17.
   */
@@ -19,51 +21,51 @@ class ViewControllerTest extends BaseControllerTestRunner {
 
   @Test
   def getAllViewsReturnsEmpty = {
-    Mockito.when(service.getAllViews).thenReturn(None)
-    val result = mockMvc.perform(get("/views")).andExpect(status.isOk()).andReturn
+    Mockito.when(service.getAllViews).thenReturn(Failure(new Throwable()))
+    val result = mockMvc.perform(get("/views")).andExpect(status.isNotFound()).andReturn
     val message = result.getResponse.getContentAsString
-    assertEquals("[]", message)
+    assertEquals("No views found", message)
   }
 
   @Test
   def getAllViewsReturnsSomeViews = {
-    Mockito.when(service.getAllViews).thenReturn(Some(Set(new View())))
+    Mockito.when(service.getAllViews).thenReturn(Success(Set(new View())))
     val result = mockMvc.perform(get("/views")).andExpect(status.isOk()).andReturn
     val message = result.getResponse.getContentAsString
     assertEquals("[{\"uri\":null,\"id\":null,\"label\":null,\"nodes\":null,\"edges\":null,\"contentHash\":null,\"author\":null}]", message)
   }
 
   @Test
-  def getViewReturnsNone = {
+  def getViewFails = {
     val id = "someId"
-    Mockito.when(service.getView(id)).thenReturn(None)
-    val result = mockMvc.perform(get("/views/" + id)).andExpect(status.isNotFound()).andReturn
+    Mockito.when(service.getView(id)).thenReturn(Failure(new Throwable()))
+    val result = mockMvc.perform(get("/views/" + id)).andExpect(status.isInternalServerError()).andReturn
     val message = result.getResponse.getContentAsString
-    assertEquals("{\"uri\":null,\"id\":null,\"label\":null,\"nodes\":null,\"edges\":null,\"contentHash\":null,\"author\":null}", message)
+    assertEquals("", message)
   }
 
   @Test
   def getViewReturnsSomeView = {
     val v = new View(null, null, null)
-    Mockito.when(service.getView(v.getId())).thenReturn(Some(v))
+    Mockito.when(service.getView(v.getId())).thenReturn(Success(Some(v)))
     val result = mockMvc.perform(get("/views/" + v.getId())).andExpect(status.isOk()).andReturn
     val message = result.getResponse.getContentAsString
     assertEquals("{\"uri\":\"" + v.getUri() + "\",\"id\":\"" + v.getId() + "\",\"label\":null,\"nodes\":null,\"edges\":null,\"contentHash\":null,\"author\":null}", message)
   }
 
   @Test
-  def getViewsEdgesReturnsNone = {
+  def getViewsEdgesFails = {
     val id = "someId"
-    Mockito.when(service.getViewEdges(id)).thenReturn(None)
-    val result = mockMvc.perform(get("/views/" + id + "/edges")).andExpect(status.isNotFound()).andReturn
+    Mockito.when(service.getViewEdges(id)).thenReturn(Failure(new Throwable()))
+    val result = mockMvc.perform(get("/views/" + id + "/edges")).andExpect(status.isInternalServerError()).andReturn
     val message = result.getResponse.getContentAsString
-    assertEquals("[]", message)
+    assertEquals("", message)
   }
 
   @Test
   def getViewEdgesReturnsEmpty = {
     val id = "someId"
-    Mockito.when(service.getViewEdges(id)).thenReturn(Some(Set()))
+    Mockito.when(service.getViewEdges(id)).thenReturn(Success(Some(Set())))
     val result = mockMvc.perform(get("/views/" + id + "/edges")).andExpect(status.isOk()).andReturn
     val message = result.getResponse.getContentAsString
     assertEquals("[]", message)
@@ -75,7 +77,7 @@ class ViewControllerTest extends BaseControllerTestRunner {
     val e1 = new Edge(n, null)
     val e2 = new Edge(null, null)
     val id = "id"
-    Mockito.when(service.getViewEdges(id)).thenReturn(Some(Set(e1, e2)))
+    Mockito.when(service.getViewEdges(id)).thenReturn(Success(Some(Set(e1, e2))))
     val result = mockMvc.perform(get("/views/" + id + "/edges")).andExpect(status.isOk()).andReturn
     val message = result.getResponse.getContentAsString
     assertTrue(
@@ -85,18 +87,18 @@ class ViewControllerTest extends BaseControllerTestRunner {
   }
 
   @Test
-  def getViewNodesReturnsNone = {
+  def getViewNodesFails = {
     val id = "someId"
-    Mockito.when(service.getViewNodes(id)).thenReturn(None)
-    val result = mockMvc.perform(get("/views/" + id + "/nodes")).andExpect(status.isNotFound()).andReturn
+    Mockito.when(service.getViewNodes(id)).thenReturn(Failure(new Throwable()))
+    val result = mockMvc.perform(get("/views/" + id + "/nodes")).andExpect(status.isInternalServerError()).andReturn
     val message = result.getResponse.getContentAsString
-    assertEquals("[]", message)
+    assertEquals("", message)
   }
 
   @Test
   def getViewsNodesReturnsEmpty = {
     val id = "someId"
-    Mockito.when(service.getViewNodes(id)).thenReturn(Some(Set()))
+    Mockito.when(service.getViewNodes(id)).thenReturn(Success(Some(Set())))
     val result = mockMvc.perform(get("/views/" + id + "/nodes")).andExpect(status.isOk()).andReturn
     val message = result.getResponse.getContentAsString
     assertEquals("[]", message)
@@ -107,7 +109,7 @@ class ViewControllerTest extends BaseControllerTestRunner {
     val id = "someId"
     val n1 = new Node()
     val n2 = new Node(null, 0, 0, null, null, null)
-    Mockito.when(service.getViewNodes(id)).thenReturn(Some(Set(n1, n2)))
+    Mockito.when(service.getViewNodes(id)).thenReturn(Success(Some(Set(n1, n2))))
     val result = mockMvc.perform(get("/views/" + id + "/nodes")).andExpect(status.isOk()).andReturn
     val message = result.getResponse.getContentAsString
     val n1Str = "{\"uri\":null,\"id\":null,\"label\":null,\"x\":0.0,\"y\":0.0,\"nodeTypes\":null,\"inParameters\":null,\"outParameters\":null}"
@@ -117,19 +119,19 @@ class ViewControllerTest extends BaseControllerTestRunner {
   }
 
   @Test
-  def getEdgeReturnsNone = {
+  def getEdgeFails = {
     val id = "someId"
-    Mockito.when(service.getEdge(id)).thenReturn(None)
-    val result = mockMvc.perform(get("/views/edges/" + id)).andExpect(status.isNotFound()).andReturn
+    Mockito.when(service.getEdge(id)).thenReturn(Failure(new Throwable()))
+    val result = mockMvc.perform(get("/views/edges/" + id)).andExpect(status.isInternalServerError()).andReturn
     val message = result.getResponse.getContentAsString
-    assertEquals("{\"uri\":null,\"id\":null,\"sourceNode\":null,\"destinationNode\":null}", message)
+    assertEquals("", message)
   }
 
   @Test
   def getEdgeReturnsSomeEdge = {
     val e = new Edge(null, null)
     val id = e.getId()
-    Mockito.when(service.getEdge(id)).thenReturn(Some(e))
+    Mockito.when(service.getEdge(id)).thenReturn(Success(Some(e)))
     val result = mockMvc.perform(get("/views/edges/" + id)).andExpect(status.isOk()).andReturn
     val message = result.getResponse.getContentAsString
     assertEquals("{\"uri\":\"" + e.getUri() + "\",\"id\":\"" + id + "\",\"sourceNode\":null,\"destinationNode\":null}", message)
@@ -138,12 +140,12 @@ class ViewControllerTest extends BaseControllerTestRunner {
   import scala.collection.JavaConverters.setAsJavaSetConverter
 
   @Test
-  def getNodeReturnsNone = {
+  def getNodeFails = {
     val id = "123-456"
-    Mockito.when(service.getNode(id)).thenReturn(None)
-    val result = mockMvc.perform(get("/views/nodes/" + id)).andExpect(status.isNotFound()).andReturn
+    Mockito.when(service.getNode(id)).thenReturn(Failure(new Throwable()))
+    val result = mockMvc.perform(get("/views/nodes/" + id)).andExpect(status.isInternalServerError()).andReturn
     val message = result.getResponse.getContentAsString
-    assertEquals("{\"uri\":null,\"id\":null,\"label\":null,\"x\":0.0,\"y\":0.0,\"nodeTypes\":null,\"inParameters\":null,\"outParameters\":null}", message)
+    assertEquals("", message)
   }
 
   @Test
@@ -153,7 +155,7 @@ class ViewControllerTest extends BaseControllerTestRunner {
       "https://type/3")
     val n = new Node("Label", 1, 2, types.asJava, Set[String]().asJava, Set[String]().asJava)
     val id = n.getId()
-    Mockito.when(service.getNode(id)).thenReturn(Some(n))
+    Mockito.when(service.getNode(id)).thenReturn(Success(Some(n)))
     val result = mockMvc.perform(get("/views/nodes/" + id)).andExpect(status().isOk()).andReturn
     val message = result.getResponse.getContentAsString
     assertEquals("{\"uri\":\"" + n.getUri() + "\",\"id\":\"" + id + "\",\"label\":\"Label\",\"x\":1.0,\"y\":2.0,\"nodeTypes\":[\"https://type/1\",\"https://type/2\",\"https://type/3\"],\"inParameters\":[],\"outParameters\":[]}", message)

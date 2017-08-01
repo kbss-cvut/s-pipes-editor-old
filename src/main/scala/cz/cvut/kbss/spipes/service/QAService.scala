@@ -25,7 +25,7 @@ class QAService {
   @Autowired
   private var restTemplate: RestTemplate = _
 
-  def getNodeById(id: String): Option[Node] =
+  def getNodeById(id: String): Try[Option[Node]] =
     dao.get(URI.create(Vocabulary.s_c_node + "/" + id))
 
   def generateForm(uri: String): Try[RawJson] =

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Repository
 import org.springframework.web.client.RestTemplate
 
 import scala.collection.JavaConverters._
+import scala.util.Try
 
 /**
   * Created by Miroslav Blasko on 2.1.17.
@@ -51,7 +52,7 @@ class SpipesDao {
     emf = Persistence.createEntityManagerFactory("testPersistenceUnit", props.asJava)
   }
 
-  def getModuleTypes(url: String): Option[Traversable[ModuleType]] = {
+  def getModuleTypes(url: String): Try[Traversable[ModuleType]] = {
     // retrieve data from url
     val uri = URI.create(url)
     val headers = new HttpHeaders()
@@ -64,7 +65,7 @@ class SpipesDao {
 
     val em = emf.createEntityManager()
 
-    try {
+    Try {
       //TODO load data into NEW TEMPORARY JOPA context
       val repo = JopaPersistenceUtils.getRepository(em)
       repo.getConnection().add(is, "http://temporary", RDFFormat.TURTLE)
@@ -73,18 +74,11 @@ class SpipesDao {
 
       val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[ModuleType])
         .setParameter("type", URI.create(Vocabulary.s_c_Module))
-      query.getResultList() match {
-        case l: java.util.List[ModuleType] if !l.isEmpty =>
-          Some(l.asScala)
-        case _ => None
-      }
-    }
-    finally {
-      // TODO destroy temporary context
+      query.getResultList().asScala
     }
   }
 
-  def getModules(url: String): Option[Traversable[Module]] = {
+  def getModules(url: String): Try[Traversable[Module]] = {
     // retrieve data from url
     val uri = URI.create(url)
     val headers = new HttpHeaders()
@@ -98,7 +92,7 @@ class SpipesDao {
 
     val em = emf.createEntityManager()
 
-    try {
+    Try {
       //TODO load data into NEW TEMPORARY JOPA context
       val repo = JopaPersistenceUtils.getRepository(em)
       repo.getConnection().add(is, "http://temporary", RDFFormat.TURTLE)
@@ -107,18 +101,11 @@ class SpipesDao {
 
       val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[Module])
         .setParameter("type", URI.create(Vocabulary.s_c_Modules))
-      query.getResultList() match {
-        case l: java.util.List[Module] if !l.isEmpty =>
-          Some(l.asScala)
-        case _ => None
-      }
-    }
-    finally {
-      // TODO destroy temporary context
+      query.getResultList().asScala
     }
   }
 
-  def getScripts(url: String): Option[Traversable[Context]] = {
+  def getScripts(url: String): Try[Traversable[Context]] = {
     // retrieve data from url
     val uri = URI.create(url)
     val headers = new HttpHeaders()
@@ -131,7 +118,7 @@ class SpipesDao {
 
     val em = emf.createEntityManager()
 
-    try {
+    Try {
       //TODO load data into NEW TEMPORARY JOPA context
       val repo = JopaPersistenceUtils.getRepository(em)
       repo.getConnection().add(is, "http://temporary", RDFFormat.TURTLE)
@@ -140,14 +127,8 @@ class SpipesDao {
 
       val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[Context])
         .setParameter("type", URI.create(Vocabulary.s_c_context))
-      query.getResultList() match {
-        case l: java.util.List[Context] if !l.isEmpty =>
-          Some(l.asScala)
-        case _ => None
-      }
-    }
-    finally {
-      // TODO destroy temporary context
+      query.getResultList().asScala
+
     }
   }
 }
