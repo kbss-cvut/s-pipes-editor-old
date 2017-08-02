@@ -41,7 +41,7 @@ class TestPersistenceFactory {
   private def init = {
     val properties = DEFAULT_PARAMS +
       (ONTOLOGY_PHYSICAL_URI_KEY -> "local://temp") +
-      (DATA_SOURCE_CLASS -> environment.getProperty(DRIVER.toString)) +
+      (DATA_SOURCE_CLASS -> environment.getProperty(DRIVER.value)) +
       (SesameOntoDriverProperties.SESAME_USE_VOLATILE_STORAGE -> "true")
     emf = Persistence.createEntityManagerFactory("persistenceFactory", properties.asJava)
   }

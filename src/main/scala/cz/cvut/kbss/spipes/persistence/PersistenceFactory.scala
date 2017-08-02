@@ -35,8 +35,8 @@ class PersistenceFactory {
   @PostConstruct
   private def init(): Unit = {
     val properties = DEFAULT_PARAMS +
-      (ONTOLOGY_PHYSICAL_URI_KEY -> environment.getProperty(REPOSITORY_URL.toString)) +
-      (DATA_SOURCE_CLASS -> environment.getProperty(DRIVER.toString))
+      (ONTOLOGY_PHYSICAL_URI_KEY -> environment.getProperty(REPOSITORY_URL.value)) +
+      (DATA_SOURCE_CLASS -> environment.getProperty(DRIVER.value))
     emf = Persistence.createEntityManagerFactory("persistenceFactory", properties.asJava)
   }
 

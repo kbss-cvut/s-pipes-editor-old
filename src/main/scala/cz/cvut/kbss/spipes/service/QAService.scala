@@ -6,7 +6,9 @@ import cz.cvut.kbss.spipes.model.Vocabulary
 import cz.cvut.kbss.spipes.model.view.Node
 import cz.cvut.kbss.spipes.persistence.dao.QADao
 import cz.cvut.kbss.spipes.rest.dto.RawJson
+import cz.cvut.kbss.spipes.util.ConfigParam._
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.core.env.Environment
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 
@@ -25,6 +27,11 @@ class QAService {
   @Autowired
   private var restTemplate: RestTemplate = _
 
+  @Autowired
+  private var environment: Environment = _
+
+  private val scriptsLocation = SCRIPTS_LOCATION.toString()
+
   def getNodeById(id: String): Try[Option[Node]] =
     dao.get(URI.create(Vocabulary.s_c_node + "/" + id))
 
@@ -32,7 +39,7 @@ class QAService {
     Try(
       RawJson(
         Source.fromFile(
-          "/home/yan/git/kbss/2017-bachelor-thesis-dorosyan/scripts/fss-form.jsonld")
+          environment.getProperty(scriptsLocation) + "/fss-form.jsonld")
           .mkString)
     )
 }

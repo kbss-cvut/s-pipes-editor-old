@@ -24,7 +24,7 @@ class ScriptControllerTest extends BaseControllerTestRunner {
 
   @Test
   def getScriptsReturnsFailure {
-    Mockito.when(service.getScripts(ConfigParam.spipes_LOCATION + "/scripts")).thenReturn(Failure(new Throwable()))
+    Mockito.when(service.getScripts(ConfigParam.SPIPES_LOCATION + "/scripts")).thenReturn(Failure(new Throwable()))
     val result = mockMvc.perform(get("/scripts")).andExpect(status.isNotFound).andReturn
     val message = result.getResponse.getContentAsString
     assertTrue(message.isEmpty)
@@ -33,7 +33,7 @@ class ScriptControllerTest extends BaseControllerTestRunner {
   @Test
   def getScriptReturnsNotFound {
     val id = "someRandomId"
-    Mockito.when(service.getScript(spipes_LOCATION + "/contexts", id)).thenReturn(Failure(new Throwable()))
+    Mockito.when(service.getScript(SPIPES_LOCATION + "/contexts", id)).thenReturn(Failure(new Throwable()))
     val result = mockMvc.perform(get("/script/" + id)).andExpect(status.isNotFound).andReturn
     val message = result.getResponse.getContentAsString
     assertTrue(message.isEmpty)
@@ -43,7 +43,7 @@ class ScriptControllerTest extends BaseControllerTestRunner {
   def getScriptReturnsScript {
     val context = new Context(null, null)
     val id = context.getId()
-    Mockito.when(service.getScript(spipes_LOCATION + "/contexts", id)).thenReturn(Success(Some(context)))
+    Mockito.when(service.getScript(SPIPES_LOCATION + "/contexts", id)).thenReturn(Success(Some(context)))
     val result = mockMvc.perform(get("/scripts/" + id)).andExpect(status.isOk).andReturn
     val message = result.getResponse.getContentAsString
     assertEquals("{\"uri\":\"" + context.getUri() + "\",\"id\":\"" + id + "\",\"label\":null,\"comment\":null}", message)

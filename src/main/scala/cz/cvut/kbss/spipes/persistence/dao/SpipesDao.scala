@@ -11,7 +11,7 @@ import cz.cvut.kbss.ontodriver.config.OntoDriverProperties
 import cz.cvut.kbss.ontodriver.sesame.config.SesameOntoDriverProperties
 import cz.cvut.kbss.spipes.model.Vocabulary
 import cz.cvut.kbss.spipes.model.spipes.{Context, Module, ModuleType}
-import cz.cvut.kbss.spipes.util.JopaPersistenceUtils
+import cz.cvut.kbss.spipes.util.{Constants, JopaPersistenceUtils}
 import org.openrdf.rio.RDFFormat
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpEntity, HttpHeaders, HttpMethod}
@@ -43,7 +43,7 @@ class SpipesDao {
       // View transactional changes during transaction
       OntoDriverProperties.USE_TRANSACTIONAL_ONTOLOGY -> true.toString(),
       // Ontology language
-      JOPAPersistenceProperties.LANG -> "en",
+      JOPAPersistenceProperties.LANG -> Constants.PU_LANGUAGE,
       // Where to look for entity classes
       JOPAPersistenceProperties.SCAN_PACKAGE -> "cz.cvut.kbss.spipes.model",
       // Persistence provider name
@@ -53,19 +53,19 @@ class SpipesDao {
   }
 
   def getModuleTypes(url: String): Try[Traversable[ModuleType]] = {
-    // retrieve data from url
-    val uri = URI.create(url)
-    val headers = new HttpHeaders()
-    headers.set(HttpHeaders.ACCEPT, "text/turtle")
-    val entity = new HttpEntity[String](null, headers)
-    val is = new ByteArrayInputStream(restTemplate.exchange(uri,
-      HttpMethod.GET,
-      entity,
-      classOf[String]).getBody().getBytes())
-
-    val em = emf.createEntityManager()
-
     Try {
+      // retrieve data from url
+      val uri = URI.create(url)
+      val headers = new HttpHeaders()
+      headers.set(HttpHeaders.ACCEPT, "text/turtle")
+      val entity = new HttpEntity[String](null, headers)
+      val is = new ByteArrayInputStream(restTemplate.exchange(uri,
+        HttpMethod.GET,
+        entity,
+        classOf[String]).getBody().getBytes())
+
+      val em = emf.createEntityManager()
+
       //TODO load data into NEW TEMPORARY JOPA context
       val repo = JopaPersistenceUtils.getRepository(em)
       repo.getConnection().add(is, "http://temporary", RDFFormat.TURTLE)
@@ -79,20 +79,20 @@ class SpipesDao {
   }
 
   def getModules(url: String): Try[Traversable[Module]] = {
-    // retrieve data from url
-    val uri = URI.create(url)
-    val headers = new HttpHeaders()
-    headers.set(HttpHeaders.ACCEPT, "text/turtle")
-    val entity = new HttpEntity[String](null, headers)
-    val is = new ByteArrayInputStream(restTemplate.exchange(uri,
-      HttpMethod.GET,
-      entity,
-      classOf[String])
-      .getBody().getBytes())
-
-    val em = emf.createEntityManager()
-
     Try {
+      // retrieve data from url
+      val uri = URI.create(url)
+      val headers = new HttpHeaders()
+      headers.set(HttpHeaders.ACCEPT, "text/turtle")
+      val entity = new HttpEntity[String](null, headers)
+      val is = new ByteArrayInputStream(restTemplate.exchange(uri,
+        HttpMethod.GET,
+        entity,
+        classOf[String])
+        .getBody().getBytes())
+
+      val em = emf.createEntityManager()
+
       //TODO load data into NEW TEMPORARY JOPA context
       val repo = JopaPersistenceUtils.getRepository(em)
       repo.getConnection().add(is, "http://temporary", RDFFormat.TURTLE)
@@ -106,19 +106,19 @@ class SpipesDao {
   }
 
   def getScripts(url: String): Try[Traversable[Context]] = {
-    // retrieve data from url
-    val uri = URI.create(url)
-    val headers = new HttpHeaders()
-    headers.set(HttpHeaders.ACCEPT, JsonLd.MEDIA_TYPE)
-    val entity = new HttpEntity[String](null, headers)
-    val is = new ByteArrayInputStream(restTemplate.exchange(uri,
-      HttpMethod.GET,
-      entity,
-      classOf[String]).getBody().getBytes())
-
-    val em = emf.createEntityManager()
-
     Try {
+      // retrieve data from url
+      val uri = URI.create(url)
+      val headers = new HttpHeaders()
+      headers.set(HttpHeaders.ACCEPT, JsonLd.MEDIA_TYPE)
+      val entity = new HttpEntity[String](null, headers)
+      val is = new ByteArrayInputStream(restTemplate.exchange(uri,
+        HttpMethod.GET,
+        entity,
+        classOf[String]).getBody().getBytes())
+
+      val em = emf.createEntityManager()
+
       //TODO load data into NEW TEMPORARY JOPA context
       val repo = JopaPersistenceUtils.getRepository(em)
       repo.getConnection().add(is, "http://temporary", RDFFormat.TURTLE)
@@ -128,7 +128,6 @@ class SpipesDao {
       val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[Context])
         .setParameter("type", URI.create(Vocabulary.s_c_context))
       query.getResultList().asScala
-
     }
   }
 }
