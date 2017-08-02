@@ -46,6 +46,10 @@ class ViewController extends React.Component {
             return (
                 <Mask/>
             );
+        let handlers = {
+            onCancel: this._onCancel,
+            onChange: this._onChange
+        };
         return (
             <div id="main">
                 <ButtonGroup vertical id="left-panel">
@@ -117,10 +121,6 @@ class ViewController extends React.Component {
                     </Modal.Body>
                 </Modal>
             </div>);
-        let handlers = {
-            onCancel: this._onCancel,
-            onChange: this._onChange
-        };
     }
 
     componentWillMount() {
