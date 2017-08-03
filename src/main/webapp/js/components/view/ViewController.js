@@ -233,6 +233,12 @@ class ViewController extends React.Component {
                     graph.addEdge(e["source"], 'out', e["target"], 'in', undefined);
                 });
                 graph.endTransaction('loadgraph');
+                graph.nodes.map((n) => {
+                    document.querySelectorAll('[title="' + n.id + '"]')[0].addEventListener('dblclick', function (e) {
+                        e.stopPropagation();
+                        that.openForm();
+                    });
+                });
                 that.setState({viewLoaded: true});
             },
             () => {
