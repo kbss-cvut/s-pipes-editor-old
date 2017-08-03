@@ -30,7 +30,7 @@ class QAService {
   @Autowired
   private var environment: Environment = _
 
-  private val scriptsLocation = SCRIPTS_LOCATION.toString()
+  private val scriptsLocation = SCRIPTS_LOCATION.value
 
   def getNodeById(id: String): Try[Option[Node]] =
     dao.get(URI.create(Vocabulary.s_c_node + "/" + id))
