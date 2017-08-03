@@ -19,7 +19,7 @@ var Ajax = {
     },
 
     get: function (url) {
-        this.req = request.get(url, null, null).accept('application/ld+json');
+        this.req = request.get(url, null, null).accept('application/ld+json, application/json');
         return this;
     },
 
