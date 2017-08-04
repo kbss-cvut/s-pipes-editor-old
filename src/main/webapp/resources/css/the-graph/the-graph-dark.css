@@ -1182,8 +1182,17 @@
     }
 }
 
-#editor {
+#view {
     flex: 1;
+    background-color: transparent;
+    position: relative;
+    top: unset;
+    left: unset;
+}
+
+#editor {
+    width: inherit;
+    height: 100%;
     background-color: transparent;
     position: relative;
     top: unset;

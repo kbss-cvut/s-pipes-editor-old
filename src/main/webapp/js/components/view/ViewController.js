@@ -14,7 +14,6 @@ import Record from "../record/Record";
 import * as RouterStore from "../../stores/RouterStore";
 import * as EntityFactory from "../../utils/EntityFactory";
 import Mask from "../Mask";
-import {ClipLoader} from "halogen";
 import * as I18Store from "../../stores/I18nStore";
 
 let Routes = require('../../utils/Routes');
@@ -23,6 +22,8 @@ let ModuleTypeStore = require('../../stores/ModuleTypeStore');
 let ViewStore = require('../../stores/ViewStore');
 let ELK = require('elkjs');
 
+let direction = 'RIGHT';
+let defaultLayout = 'layered';
 var that;
 
 class ViewController extends React.Component {
@@ -76,20 +77,13 @@ class ViewController extends React.Component {
                         </OverlayTrigger>
                     })}
                 </ButtonGroup>
-                <div id="editor">
-                    <div id="view-loading">
-                        <div className='spinner-container' hidden={this.state.viewLoaded}>
-                            <div style={{width: 32, height: 32, margin: 'auto'}}>
-                                <ClipLoader color='#337ab7' size='32px'/>
-                            </div>
-                            <div className='spinner-message'>{I18Store.i18n('view.loading-view')}</div>
-                        </div>
-                        <div className='spinner-container' hidden={!this.state.viewLoaded || this.state.viewLaidOut}>
-                            <div style={{width: 32, height: 32, margin: 'auto'}}>
-                                <ClipLoader color='#337ab7' size='32px'/>
-                            </div>
-                            <div className='spinner-message'>{I18Store.i18n('view.laying-out-view')}</div>
-                        </div>
+                <div id="view">
+                    <div id="editor"/>
+                    <div hidden={this.state.viewLoaded}>
+                        <Mask text={I18Store.i18n('view.loading-view')}/>
+                    </div>
+                    <div className='spinner-container' hidden={!this.state.viewLoaded || this.state.viewLaidOut}>
+                        <Mask text={I18Store.i18n('view.laying-out-view')}/>
                     </div>
                 </div>
                 <ButtonGroup vertical id="right-panel">
@@ -156,7 +150,7 @@ class ViewController extends React.Component {
     _viewLoaded = (data) => {
         if (data.action === Actions.loadView) {
             this.setState({view: data.data, viewLoaded: true});
-            this._renderView('layered');
+            this._renderView(defaultLayout);
         }
     };
 
@@ -195,7 +189,8 @@ class ViewController extends React.Component {
     _renderView(algorithm) {
 
         this.setState({viewLaidOut: false});
-        this.state.view.properties = {'algorithm': algorithm};
+
+        this.state.view.properties = {'elk.algorithm': algorithm, 'elk.direction': direction};
 
         var fbpGraph = window.TheGraph.fbpGraph;
 
