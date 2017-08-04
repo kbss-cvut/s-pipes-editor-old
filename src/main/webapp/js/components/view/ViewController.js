@@ -16,11 +16,12 @@ import * as EntityFactory from "../../utils/EntityFactory";
 import Mask from "../Mask";
 import {ClipLoader} from "halogen";
 import * as I18Store from "../../stores/I18nStore";
-import * as Ajax from "../../utils/Ajax";
 
-var Routes = require('../../utils/Routes');
-var Routing = require('../../utils/Routing');
-var ModuleTypeStore = require('../../stores/ModuleTypeStore');
+let Routes = require('../../utils/Routes');
+let Routing = require('../../utils/Routing');
+let ModuleTypeStore = require('../../stores/ModuleTypeStore');
+let ViewStore = require('../../stores/ViewStore');
+let ELK = require('elkjs');
 
 var that;
 
@@ -31,8 +32,10 @@ class ViewController extends React.Component {
         this.i18n = this.props.i18n;
         this.state = {
             moduleTypes: null,
+            view: null,
             loading: true,
             viewLoaded: false,
+            viewLayedOut: false,
             modalVisible: false,
             formVisible: false,
             record: EntityFactory.initNewPatientRecord(),
@@ -74,12 +77,18 @@ class ViewController extends React.Component {
                     })}
                 </ButtonGroup>
                 <div id="editor">
-                    <div id="view-loading" hidden={this.state.viewLoaded}>
-                        <div className='spinner-container'>
+                    <div id="view-loading">
+                        <div className='spinner-container' hidden={this.state.viewLoaded}>
                             <div style={{width: 32, height: 32, margin: 'auto'}}>
                                 <ClipLoader color='#337ab7' size='32px'/>
                             </div>
                             <div className='spinner-message'>{I18Store.i18n('view.loading-view')}</div>
+                        </div>
+                        <div className='spinner-container' hidden={!this.state.viewLoaded || this.state.viewLayedOut}>
+                            <div style={{width: 32, height: 32, margin: 'auto'}}>
+                                <ClipLoader color='#337ab7' size='32px'/>
+                            </div>
+                            <div className='spinner-message'>{I18Store.i18n('view.laying-out-view')}</div>
                         </div>
                     </div>
                 </div>
@@ -94,15 +103,19 @@ class ViewController extends React.Component {
                         </Button>
                     </OverlayTrigger>
                     <Button bsStyle="danger"
-                            onClick={() => renderView("fix")}>{I18Store.i18n('view.layout.fix')}</Button>
+                            onClick={() => this._renderView('fixed')}>{I18Store.i18n('view.layout.fixed')}</Button>
                     <Button bsStyle="primary"
-                            onClick={() => renderView("auto")}>{I18Store.i18n('view.layout.auto')}</Button>
+                            onClick={() => this._renderView('box')}>{I18Store.i18n('view.layout.box')}</Button>
                     <Button bsStyle="primary"
-                            onClick={() => renderView("layer")}>{I18Store.i18n('view.layout.layer')}</Button>
+                            onClick={() => this._renderView('layered')}>{I18Store.i18n('view.layout.layered')}</Button>
                     <Button bsStyle="primary"
-                            onClick={() => renderView("order")}>{I18Store.i18n('view.layout.order')}</Button>
+                            onClick={() => this._renderView('stress')}>{I18Store.i18n('view.layout.stress')}</Button>
                     <Button bsStyle="primary"
-                            onClick={() => renderView("layerOrder")}>{I18Store.i18n('view.layout.layerOrder')}</Button>
+                            onClick={() => this._renderView('mrtree')}>{I18Store.i18n('view.layout.mrtree')}</Button>
+                    <Button bsStyle="primary"
+                            onClick={() => this._renderView('radial')}>{I18Store.i18n('view.layout.radial')}</Button>
+                    <Button bsStyle="primary"
+                            onClick={() => this._renderView('force')}>{I18Store.i18n('view.layout.force')}</Button>
 
                 </ButtonGroup>
                 <Modal show={this.state.modalVisible}>
@@ -129,13 +142,21 @@ class ViewController extends React.Component {
 
     componentDidMount() {
         that = this;
-        this.unsubscribe = ModuleTypeStore.listen(this._moduleTypesLoaded);
+        this.unsubscribeModuleTypes = ModuleTypeStore.listen(this._moduleTypesLoaded);
+        this.unsubscribeView = ViewStore.listen(this._viewLoaded);
     }
 
     _moduleTypesLoaded = (data) => {
         if (data.action === Actions.loadAllModuleTypes) {
             this.setState({moduleTypes: data.data, loading: false});
-            this._renderView();
+            Actions.loadView();
+        }
+    };
+
+    _viewLoaded = (data) => {
+        if (data.action === Actions.loadView) {
+            this.setState({view: data.data, viewLoaded: true});
+            this._renderView('layered');
         }
     };
 
@@ -154,7 +175,8 @@ class ViewController extends React.Component {
     };
 
     componentWillUnmount() {
-        this.unsubscribe();
+        this.unsubscribeModuleTypes();
+        this.unsubscribeView();
     }
 
     openForm() {
@@ -169,8 +191,10 @@ class ViewController extends React.Component {
         this.setState({modalVisible: true});
     }
 
-    _renderView() {
-        "use strict";
+    // TODO Different layouts
+    _renderView(algorithm) {
+        this.setState({viewLayedOut: false});
+
         var fbpGraph = window.TheGraph.fbpGraph;
 
         // The graph editor
@@ -210,26 +234,23 @@ class ViewController extends React.Component {
             editor.height = props.height;
             var element = React.createElement(TheGraph.App, props);
             ReactDOM.render(element, editor);
-            that.setState({viewLoaded: true});
         }
 
         graph.on('endTransaction', renderEditor); // graph changed
         window.addEventListener("resize", renderEditor);
 
-        // Load graph
-        Ajax.get('rest/json/new').end(
-            (data) => {
+        let elk = new ELK({algorithm: algorithm});
+        elk.layout(this.state.view).then((g) => {
                 graph.startTransaction('loadgraph');
-                data["children"].map((m) => {
-                    // TODO layout
+                g["children"].map((m) => {
                     let metadata = {
                         label: m["id"],
-                        x: Math.round(Math.random() * 800),
-                        y: Math.round(Math.random() * 600)
+                        x: m["x"] + 100,
+                        y: m["y"] + 50
                     };
                     graph.addNode(m["id"], 'basic', metadata);
                 });
-                data["edges"].map((e) => {
+                this.state.view["edges"].map((e) => {
                     graph.addEdge(e["source"], 'out', e["target"], 'in', undefined);
                 });
                 graph.endTransaction('loadgraph');
@@ -239,10 +260,10 @@ class ViewController extends React.Component {
                         that.openForm();
                     });
                 });
-                that.setState({viewLoaded: true});
+                that.setState({viewLayedOut: true});
             },
-            () => {
-                console.log("Shit");
+            (err) => {
+                console.log(err);
             });
     }
 }
