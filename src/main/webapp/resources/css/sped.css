@@ -538,6 +538,7 @@ button.reset-filters {
 
 #left-panel {
     overflow: scroll !important;
+    min-width: max-content;
     max-width: 20vw !important;
 }
 
