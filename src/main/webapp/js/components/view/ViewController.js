@@ -86,7 +86,7 @@ class ViewController extends React.Component {
                         <Mask text={I18Store.i18n('view.laying-out-view')}/>
                     </div>
                 </div>
-                <canvas id="thumb" width="200" height="150"/>
+                <canvas id="thumb" width="200" height="180"/>
                 <ButtonGroup vertical id="right-panel">
                     <OverlayTrigger placement="left"
                                     overlay={<Tooltip block
@@ -230,6 +230,17 @@ class ViewController extends React.Component {
             editor.width = props.width;
             editor.height = props.height;
             var element = React.createElement(TheGraph.App, props);
+
+            // Render the numbnail
+            var thumb = document.getElementById('thumb');
+            var properties = TheGraph.thumb.styleFromTheme('light');
+            properties.width = thumb.width;
+            properties.height = thumb.height;
+            properties.nodeSize = 60;
+            properties.lineWidth = 1;
+            var context = thumb.getContext("2d");
+            TheGraph.thumb.render(context, graph, properties);
+
             ReactDOM.render(element, editor);
         }
 
@@ -261,16 +272,6 @@ class ViewController extends React.Component {
                         that.openForm();
                     });
                 });
-
-                // Render the numbnail
-                var thumb = document.getElementById('thumb');
-                var properties = TheGraph.thumb.styleFromTheme('light');
-                properties.width = thumb.width;
-                properties.height = thumb.height;
-                properties.nodeSize = 60;
-                properties.lineWidth = 1;
-                var context = thumb.getContext("2d");
-                TheGraph.thumb.render(context, graph, properties);
 
                 that.setState({viewLaidOut: true});
             },
