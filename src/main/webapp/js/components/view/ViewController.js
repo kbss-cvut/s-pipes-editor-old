@@ -35,7 +35,7 @@ class ViewController extends React.Component {
             view: null,
             loading: true,
             viewLoaded: false,
-            viewLayedOut: false,
+            viewLaidOut: false,
             modalVisible: false,
             formVisible: false,
             record: EntityFactory.initNewPatientRecord(),
@@ -84,7 +84,7 @@ class ViewController extends React.Component {
                             </div>
                             <div className='spinner-message'>{I18Store.i18n('view.loading-view')}</div>
                         </div>
-                        <div className='spinner-container' hidden={!this.state.viewLoaded || this.state.viewLayedOut}>
+                        <div className='spinner-container' hidden={!this.state.viewLoaded || this.state.viewLaidOut}>
                             <div style={{width: 32, height: 32, margin: 'auto'}}>
                                 <ClipLoader color='#337ab7' size='32px'/>
                             </div>
@@ -191,9 +191,11 @@ class ViewController extends React.Component {
         this.setState({modalVisible: true});
     }
 
-    // TODO Different layouts
+    // TODO Find some actually usable layouts
     _renderView(algorithm) {
-        this.setState({viewLayedOut: false});
+
+        this.setState({viewLaidOut: false});
+        this.state.view.properties = {'algorithm': algorithm};
 
         var fbpGraph = window.TheGraph.fbpGraph;
 
@@ -228,7 +230,6 @@ class ViewController extends React.Component {
                 graph: graph,
                 library: library,
             };
-            //console.log('render', props);
             var editor = document.getElementById('editor');
             editor.width = props.width;
             editor.height = props.height;
@@ -239,18 +240,19 @@ class ViewController extends React.Component {
         graph.on('endTransaction', renderEditor); // graph changed
         window.addEventListener("resize", renderEditor);
 
-        let elk = new ELK({algorithm: algorithm});
+        let elk = new ELK();
         elk.layout(this.state.view).then((g) => {
                 graph.startTransaction('loadgraph');
                 g["children"].map((m) => {
+
                     let metadata = {
                         label: m["id"],
-                        x: m["x"] + 100,
-                        y: m["y"] + 50
+                        x: m["x"],
+                        y: m["y"]
                     };
                     graph.addNode(m["id"], 'basic', metadata);
                 });
-                this.state.view["edges"].map((e) => {
+                g["edges"].map((e) => {
                     graph.addEdge(e["source"], 'out', e["target"], 'in', undefined);
                 });
                 graph.endTransaction('loadgraph');
@@ -260,7 +262,7 @@ class ViewController extends React.Component {
                         that.openForm();
                     });
                 });
-                that.setState({viewLayedOut: true});
+                that.setState({viewLaidOut: true});
             },
             (err) => {
                 console.log(err);
