@@ -86,6 +86,7 @@ class ViewController extends React.Component {
                         <Mask text={I18Store.i18n('view.laying-out-view')}/>
                     </div>
                 </div>
+                <canvas id="thumb" width="200" height="150"/>
                 <ButtonGroup vertical id="right-panel">
                     <OverlayTrigger placement="left"
                                     overlay={<Tooltip block
@@ -236,7 +237,10 @@ class ViewController extends React.Component {
         window.addEventListener("resize", renderEditor);
 
         let elk = new ELK();
-        elk.layout(this.state.view).then((g) => {
+        let options = {
+            'org.eclipse.elk.layered.crossingMinimization.strategy': 'INTERACTIVE',
+        };
+        elk.layout(this.state.view, options).then((g) => {
                 graph.startTransaction('loadgraph');
                 g["children"].map((m) => {
 
@@ -257,6 +261,17 @@ class ViewController extends React.Component {
                         that.openForm();
                     });
                 });
+
+                // Render the numbnail
+                var thumb = document.getElementById('thumb');
+                var properties = TheGraph.thumb.styleFromTheme('light');
+                properties.width = thumb.width;
+                properties.height = thumb.height;
+                properties.nodeSize = 60;
+                properties.lineWidth = 1;
+                var context = thumb.getContext("2d");
+                TheGraph.thumb.render(context, graph, properties);
+
                 that.setState({viewLaidOut: true});
             },
             (err) => {

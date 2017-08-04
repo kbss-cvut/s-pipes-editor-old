@@ -1199,6 +1199,12 @@
     left: unset;
 }
 
+#thumb {
+    position: absolute;
+    bottom: 40px;
+    right: 84px;
+}
+
 svg {
     position: relative;
 }
