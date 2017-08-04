@@ -8,7 +8,7 @@ var Authentication = require('../utils/Authentication');
 var Utils = require('../utils/Utils');
 
 //todo Rewrite to "extends" form
-var ModuleTypeStore = Reflux.createStore({
+var ViewStore = Reflux.createStore({
     listenables: [Actions],
 
     onLoadView: function () {
@@ -22,4 +22,4 @@ var ModuleTypeStore = Reflux.createStore({
     }
 });
 
-module.exports = ModuleTypeStore;
+module.exports = ViewStore;
