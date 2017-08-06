@@ -43,6 +43,7 @@ class ViewController extends React.Component {
             socket: new WebSocket("ws://localhost:8080/websocket")
         };
         this.state.socket.onmessage = () => this.onMessageReceived();
+        this.state.socket.onopen = () => this.state.socket.send("fss-form.jsonld");
     }
 
     render() {
