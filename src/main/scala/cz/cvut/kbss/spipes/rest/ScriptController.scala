@@ -33,14 +33,16 @@ class ScriptController {
 
   @GetMapping(produces = Array(JsonLd.MEDIA_TYPE))
   def getScripts: ResponseEntity[Any] = service.getScripts(environment.getProperty(spipesLocation) + "/scripts") match {
+    case Success(Seq()) => new ResponseEntity("Nothing found", HttpStatus.NOT_FOUND)
     case Success(contexts) => new ResponseEntity(contexts.toSet.asJava, HttpStatus.OK)
-    case Failure(e) => new ResponseEntity(e.getLocalizedMessage(), HttpStatus.NOT_FOUND)
+    case Failure(e) => new ResponseEntity(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
   }
 
   @GetMapping(path = Array("/{id}"), produces = Array(JsonLd.MEDIA_TYPE))
   def getScript(@PathVariable id: String): ResponseEntity[AnyRef] =
     service.getScript(environment.getProperty(spipesLocation) + "/contexts", id) match {
-      case Success(context) => new ResponseEntity(context.get, HttpStatus.OK)
+      case Success(None) => new ResponseEntity("Nothing found", HttpStatus.NOT_FOUND)
+      case Success(Some(context)) => new ResponseEntity(context, HttpStatus.OK)
       case _ => new ResponseEntity("Script with ID " + id + " is not found", HttpStatus.NOT_FOUND)
     }
 

@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository
 import org.springframework.web.client.RestTemplate
 
 import scala.collection.JavaConverters._
-import scala.util.Try
+import scala.util.{Success, Try}
 
 /**
   * Created by Miroslav Blasko on 2.1.17.
@@ -128,6 +128,11 @@ class SpipesDao {
       val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[Context])
         .setParameter("type", URI.create(Vocabulary.s_c_context))
       query.getResultList().asScala
+    }
+    match {
+      case Success(null) =>
+        Success(Seq())
+      case t => t
     }
   }
 }
