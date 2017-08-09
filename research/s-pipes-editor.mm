@@ -1,9 +1,9 @@
-<map version="freeplane 1.5.9">
+<map version="freeplane 1.6.0">
 <!--To view this file, download free mind mapping software Freeplane from http://freeplane.sourceforge.net -->
 <node TEXT="main" FOLDED="false" ID="ID_448131109" CREATED="1312805290594" MODIFIED="1489514323432">
 <font NAME="SansSerif"/>
 <hook NAME="MapStyle" zoom="1.21">
-    <properties fit_to_viewport="false;" show_icon_for_attributes="true" show_note_icons="true" show_notes_in_map="false"/>
+    <properties show_icon_for_attributes="true" fit_to_viewport="false;" show_note_icons="true" show_notes_in_map="false"/>
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node" STYLE="oval" UNIFORM_SHAPE="true" VGAP_QUANTITY="24.0 pt">
@@ -238,7 +238,21 @@
 <node TEXT="licence ?" ID="ID_1733808794" CREATED="1489509898014" MODIFIED="1489509908272"/>
 </node>
 </node>
-<node TEXT="&lt;html&gt;&#xa;  &lt;head&gt;&#xa;    &#xa;  &lt;/head&gt;&#xa;  &lt;body&gt;&#xa;    &lt;p&gt;&#xa;      The Graph Editor (NoFlo)&#xa;    &lt;/p&gt;&#xa;  &lt;/body&gt;&#xa;&lt;/html&gt;" ID="ID_890311724" CREATED="1501676623881" MODIFIED="1501676629115" LINK="#ID_413301645"/>
+<node ID="ID_890311724" CREATED="1501676623881" MODIFIED="1501676629115" LINK="#ID_413301645"><richcontent TYPE="NODE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      The Graph Editor (NoFlo)
+    </p>
+  </body>
+</html>
+
+</richcontent>
+</node>
 </node>
 <node TEXT="diagramming libraries" ID="ID_1833433777" CREATED="1495040183321" MODIFIED="1496664913894">
 <node TEXT="JointJS" FOLDED="true" ID="ID_1648387758" CREATED="1495039069957" MODIFIED="1495039070751">
@@ -932,7 +946,6 @@
     <span style="color: #000000; background-color: #ffffff"><font color="#000000" face="monospace">&lt;http://onto.fel.cvut.cz/ontologies/lib/module&gt;</font></span><span style="font-family: monospace"><font face="monospace"><br/></font></span>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -1066,7 +1079,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -1158,7 +1170,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 <node ID="ID_1604922199" CREATED="1481793144467" MODIFIED="1481793575494"><richcontent TYPE="NODE">
@@ -1173,7 +1184,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -1673,10 +1683,10 @@
 </node>
 </node>
 </node>
-<node TEXT=" 2017-07-19" ID="ID_324238756" CREATED="1500466921049" MODIFIED="1500466928903">
-<node TEXT="task" STYLE_REF="onto-prop" FOLDED="true" ID="ID_1387136330" CREATED="1500478615220" MODIFIED="1500478619188">
-<node TEXT="yan" STYLE_REF="categorization" ID="ID_1509015255" CREATED="1500478775681" MODIFIED="1500478777180">
-<node TEXT="create &quot;Edit script&quot; page" ID="ID_705705002" CREATED="1497016866477" MODIFIED="1497016970082">
+<node TEXT=" 2017-07-19" FOLDED="true" ID="ID_324238756" CREATED="1500466921049" MODIFIED="1500466928903">
+<node TEXT="task" STYLE_REF="onto-prop" ID="ID_1387136330" CREATED="1500478615220" MODIFIED="1500478619188">
+<node TEXT="yan" STYLE_REF="categorization" FOLDED="true" ID="ID_1509015255" CREATED="1500478775681" MODIFIED="1500478777180">
+<node TEXT="create &quot;Edit script&quot; page" FOLDED="true" ID="ID_705705002" CREATED="1497016866477" MODIFIED="1497016970082">
 <node TEXT="pop-up if file in fs changes and reload view" ID="ID_1420737933" CREATED="1491315273537" MODIFIED="1500545993079">
 <icon BUILTIN="button_ok"/>
 <node ID="ID_1767843242" CREATED="1500480012339" MODIFIED="1500480012339"><richcontent TYPE="NODE">
@@ -1691,7 +1701,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -1744,11 +1753,16 @@
 <node TEXT="yan" STYLE_REF="categorization" ID="ID_612647580" CREATED="1501676076190" MODIFIED="1501676078111">
 <node TEXT="create graphs with the-graph library" ID="ID_1169434498" CREATED="1501675982114" MODIFIED="1501685639302">
 <node TEXT="drag &amp; drop module types" ID="ID_1452510177" CREATED="1501685645106" MODIFIED="1501685667892"/>
-<node TEXT="on-click show form" ID="ID_959734059" CREATED="1501685681824" MODIFIED="1501685688447"/>
-<node TEXT="layout" ID="ID_911511241" CREATED="1501685688693" MODIFIED="1501685697586">
+<node TEXT="on-click show form" ID="ID_922469117" CREATED="1491315273537" MODIFIED="1502291996401">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="layout" ID="ID_526949081" CREATED="1491315273537" MODIFIED="1502291971397">
+<icon BUILTIN="button_ok"/>
 <node TEXT="here autolayout works" ID="ID_583035103" CREATED="1501687561303" MODIFIED="1501687568892" LINK="http://app.flowhub.io/"/>
 </node>
-<node TEXT="each module should have 1-in port, 1-out port" ID="ID_382727819" CREATED="1501685698055" MODIFIED="1501685785751"/>
+<node TEXT="each module should have 1-in port, 1-out port" ID="ID_856058498" CREATED="1491315273537" MODIFIED="1502292010639">
+<icon BUILTIN="button_ok"/>
+</node>
 <node TEXT="visualization of parameters ?" ID="ID_1032813087" CREATED="1501686241879" MODIFIED="1501686248473"/>
 </node>
 </node>
