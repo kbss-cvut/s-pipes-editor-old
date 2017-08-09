@@ -33,6 +33,7 @@ class ViewController extends React.Component {
         this.i18n = this.props.i18n;
         this.state = {
             moduleTypes: null,
+            viewData: null,
             view: null,
             loading: true,
             viewLoaded: false,
@@ -72,7 +73,8 @@ class ViewController extends React.Component {
                             key={m["@id"]}
                             overlay={popover}>
                             <Button block
-                                    key={m["@id"]}>
+                                    key={m["@id"]}
+                                    onClick={() => this.addModule(m["@id"].toString().split("/").reverse()[0])}>
                                 {m["@id"].toString().split("/").reverse()[0]}
                             </Button>
                         </OverlayTrigger>
@@ -139,19 +141,19 @@ class ViewController extends React.Component {
     componentDidMount() {
         that = this;
         this.unsubscribeModuleTypes = ModuleTypeStore.listen(this._moduleTypesLoaded);
-        this.unsubscribeView = ViewStore.listen(this._viewLoaded);
+        this.unsubscribeView = ViewStore.listen(this._viewDataLoaded);
     }
 
     _moduleTypesLoaded = (data) => {
         if (data.action === Actions.loadAllModuleTypes) {
             this.setState({moduleTypes: data.data, loading: false});
-            Actions.loadView();
+            Actions.loadViewData();
         }
     };
 
-    _viewLoaded = (data) => {
-        if (data.action === Actions.loadView) {
-            this.setState({view: data.data, viewLoaded: true});
+    _viewDataLoaded = (data) => {
+        if (data.action === Actions.loadViewData) {
+            this.setState({viewData: data.data, viewLoaded: true});
             this._renderView(defaultLayout);
         }
     };
@@ -175,6 +177,12 @@ class ViewController extends React.Component {
         this.unsubscribeView();
     }
 
+    addModule(id) {
+        this.state.view.startTransaction('loadgraph');
+        this.state.view.addNode(id, 'basic', undefined);
+        this.state.view.endTransaction('loadGraph');
+    }
+
     openForm() {
         this.setState({formVisible: true})
     }
@@ -192,7 +200,7 @@ class ViewController extends React.Component {
 
         this.setState({viewLaidOut: false});
 
-        this.state.view.properties = {'elk.algorithm': algorithm, 'elk.direction': direction};
+        this.state.viewData.properties = {'elk.algorithm': algorithm, 'elk.direction': direction};
 
         var fbpGraph = window.TheGraph.fbpGraph;
 
@@ -218,8 +226,10 @@ class ViewController extends React.Component {
 
         // Load empty graph
         var graph = new fbpGraph.Graph();
+        this.setState({view: graph});
 
         function renderEditor() {
+
             var props = {
                 readonly: false,
                 height: document.getElementById('editor').offsetHeight,
@@ -243,6 +253,27 @@ class ViewController extends React.Component {
             TheGraph.thumb.render(context, graph, properties);
 
             ReactDOM.render(element, editor);
+
+            if (that.state !== undefined && that.state.viewData !== undefined) {
+                delete that.state.viewData["children"];
+                that.state.viewData["children"] = graph.nodes.map((n) => {
+                    return {
+                        id: n.id,
+                        width: 100,
+                        height: 100
+                    }
+                });
+                delete that.state.viewData["edges"];
+                that.state.viewData["edges"] = graph.edges.filter((e) => e !== undefined).map((e) => {
+                    if (e !== undefined)
+                        return {
+                            id: e.from.node + e.to.node,
+                            source: e.from.node,
+                            target: e.to.node
+                        };
+                    return undefined;
+                });
+            }
         }
 
         graph.on('endTransaction', renderEditor); // graph changed
@@ -252,7 +283,7 @@ class ViewController extends React.Component {
         let options = {
             'org.eclipse.elk.layered.crossingMinimization.strategy': 'INTERACTIVE',
         };
-        elk.layout(this.state.view, options).then((g) => {
+        elk.layout(this.state.viewData, options).then((g) => {
                 graph.startTransaction('loadgraph');
                 g["children"].map((m) => {
 

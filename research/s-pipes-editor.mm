@@ -1,9 +1,9 @@
 <map version="freeplane 1.6.0">
 <!--To view this file, download free mind mapping software Freeplane from http://freeplane.sourceforge.net -->
-<node TEXT="main" FOLDED="false" ID="ID_448131109" CREATED="1312805290594" MODIFIED="1489514323432">
+<node TEXT="main" FOLDED="false" ID="ID_448131109" CREATED="1312805290594" MODIFIED="1502306364395">
 <font NAME="SansSerif"/>
 <hook NAME="MapStyle" zoom="1.21">
-    <properties show_icon_for_attributes="true" fit_to_viewport="false;" show_note_icons="true" show_notes_in_map="false"/>
+    <properties fit_to_viewport="false;" show_icon_for_attributes="true" show_note_icons="true" show_notes_in_map="false"/>
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node" STYLE="oval" UNIFORM_SHAPE="true" VGAP_QUANTITY="24.0 pt">
@@ -68,7 +68,7 @@
 <node TEXT="diagramming library" ID="ID_364575232" CREATED="1496666721280" MODIFIED="1496666737532"/>
 <node TEXT="graph layout library" ID="ID_498493377" CREATED="1496666728678" MODIFIED="1496666734012"/>
 </node>
-<node TEXT="js tools/libraries" STYLE_REF="categorization" FOLDED="true" ID="ID_215157754" CREATED="1492776052027" MODIFIED="1496666838913">
+<node TEXT="js tools/libraries" STYLE_REF="categorization" ID="ID_215157754" CREATED="1492776052027" MODIFIED="1496666838913">
 <node TEXT="graph editor tools" FOLDED="true" ID="ID_761011584" CREATED="1489507196783" MODIFIED="1496666560998">
 <node TEXT="OntoDia" FOLDED="true" ID="ID_1372315863" CREATED="1489507929823" MODIFIED="1496666495644">
 <icon BUILTIN="button_cancel"/>
@@ -250,11 +250,10 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
-<node TEXT="diagramming libraries" ID="ID_1833433777" CREATED="1495040183321" MODIFIED="1496664913894">
+<node TEXT="diagramming libraries" FOLDED="true" ID="ID_1833433777" CREATED="1495040183321" MODIFIED="1496664913894">
 <node TEXT="JointJS" FOLDED="true" ID="ID_1648387758" CREATED="1495039069957" MODIFIED="1495039070751">
 <node TEXT="link" STYLE_REF="onto-prop" FOLDED="true" ID="ID_178840537" CREATED="1495039087762" MODIFIED="1495039089407">
 <node TEXT="https://www.jointjs.com/" ID="ID_473576958" CREATED="1495039090119" MODIFIED="1495039090119" LINK="https://www.jointjs.com/"/>
@@ -547,7 +546,7 @@
 </node>
 </node>
 </node>
-<node TEXT="graph layout backend libraries" ID="ID_1379496651" CREATED="1492773453737" MODIFIED="1496666182514">
+<node TEXT="graph layout backend libraries" FOLDED="true" ID="ID_1379496651" CREATED="1492773453737" MODIFIED="1496666182514">
 <node TEXT="KlayJs" ID="ID_806651049" CREATED="1492773459977" MODIFIED="1492776010008"/>
 <node TEXT="dagre" ID="ID_573652865" CREATED="1495041053894" MODIFIED="1495041054335"/>
 </node>
@@ -1752,7 +1751,10 @@
 <node TEXT="task" STYLE_REF="onto-prop" ID="ID_1585321430" CREATED="1501676068168" MODIFIED="1501676071038">
 <node TEXT="yan" STYLE_REF="categorization" ID="ID_612647580" CREATED="1501676076190" MODIFIED="1501676078111">
 <node TEXT="create graphs with the-graph library" ID="ID_1169434498" CREATED="1501675982114" MODIFIED="1501685639302">
-<node TEXT="drag &amp; drop module types" ID="ID_1452510177" CREATED="1501685645106" MODIFIED="1501685667892"/>
+<node TEXT="drag &amp; drop module types" ID="ID_1452510177" CREATED="1501685645106" MODIFIED="1502306402255">
+<icon BUILTIN="button_ok"/>
+<icon BUILTIN="help"/>
+</node>
 <node TEXT="on-click show form" ID="ID_922469117" CREATED="1491315273537" MODIFIED="1502291996401">
 <icon BUILTIN="button_ok"/>
 </node>
@@ -1763,7 +1765,7 @@
 <node TEXT="each module should have 1-in port, 1-out port" ID="ID_856058498" CREATED="1491315273537" MODIFIED="1502292010639">
 <icon BUILTIN="button_ok"/>
 </node>
-<node TEXT="visualization of parameters ?" ID="ID_1032813087" CREATED="1501686241879" MODIFIED="1501686248473"/>
+<node TEXT="visualization of parameters ?" ID="ID_1032813087" CREATED="1501686241879" MODIFIED="1502306398102"/>
 </node>
 </node>
 <node TEXT="miro" STYLE_REF="categorization" FOLDED="true" ID="ID_534263166" CREATED="1501676095819" MODIFIED="1501676332459">

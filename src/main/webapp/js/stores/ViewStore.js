@@ -11,13 +11,13 @@ var Utils = require('../utils/Utils');
 var ViewStore = Reflux.createStore({
     listenables: [Actions],
 
-    onLoadView: function () {
+    onLoadViewData: function () {
         Ajax.get('rest/json/new').end(
             (data) => {
-                this.trigger({action: Actions.loadView, data: data});
+                this.trigger({action: Actions.loadViewData, data: data});
             },
             () => {
-                this.trigger({action: Actions.loadView, data: data});
+                this.trigger({action: Actions.loadViewData, data: data});
             });
     }
 });
