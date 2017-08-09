@@ -4,6 +4,7 @@ import java.nio.file._
 import javax.websocket._
 import javax.websocket.server.ServerEndpoint
 
+import cz.cvut.kbss.spipes.util.ConfigParam.SCRIPTS_LOCATION
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Autowired
@@ -28,16 +29,10 @@ class WebsocketController extends InitializingBean {
 
   private final val log = LoggerFactory.getLogger(classOf[WebsocketController])
 
-  // TODO Read from properties
-  private val scriptsLocation = "/home/yan/git/kbss/2017-bachelor-thesis-dorosyan/scripts/"
+  private val scriptsLocation = SCRIPTS_LOCATION.value
 
   @Autowired
   private var env: Environment = _
-
-  @OnOpen
-  def onOpen(s: Session) = {
-    log.error(String.valueOf(env))
-  }
 
   @OnError
   def onError(t: Throwable): Unit = {
@@ -61,7 +56,7 @@ class WebsocketController extends InitializingBean {
   def register(script: String, session: Session): Unit = {
     Try {
       log.info("Session " + session + " registered on " + script)
-      val fileName = scriptsLocation + script
+      val fileName = env.getProperty(scriptsLocation) + "/" + script
       if (WebsocketController.subscribers.keySet.contains(fileName))
         WebsocketController.subscribers(fileName) = WebsocketController.subscribers(fileName) + session
       else
@@ -76,7 +71,7 @@ class WebsocketController extends InitializingBean {
 
 
   override def afterPropertiesSet(): Unit = {
-    val path = Paths.get(scriptsLocation)
+    val path = Paths.get(env.getProperty(scriptsLocation))
     val service = path.getFileSystem().newWatchService()
     path.register(service, StandardWatchEventKinds.ENTRY_MODIFY)
 
