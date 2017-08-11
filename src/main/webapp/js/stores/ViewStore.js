@@ -11,8 +11,8 @@ var Utils = require('../utils/Utils');
 var ViewStore = Reflux.createStore({
     listenables: [Actions],
 
-    onLoadViewData: function () {
-        Ajax.get('rest/json/new').end(
+    onLoadViewData: function (script) {
+        Ajax.get('rest/views/' + script + "/json").end(
             (data) => {
                 this.trigger({action: Actions.loadViewData, data: data});
             },

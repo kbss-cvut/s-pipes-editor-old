@@ -16,8 +16,8 @@ class SpipesService {
   @Autowired
   private var spipesDao: SpipesDao = _
 
-  def getModuleTypes(url: String): Try[Traversable[ModuleType]] =
-    spipesDao.getModuleTypes(url + "/data")
+  def getModuleTypes(fileName: String): Try[Traversable[ModuleType]] =
+    spipesDao.getModuleTypes(fileName)
 
   def getModules(url: String): Try[Traversable[Module]] =
     spipesDao.getModules(url)

@@ -110,4 +110,13 @@ class ViewController {
       case _ => new ResponseEntity("Not found", HttpStatus.NOT_FOUND)
     }
   }
+
+  @GetMapping(path = Array("/{script}/json"), produces = Array("application/json"))
+  def loadView(@PathVariable script: String): ResponseEntity[Any] = {
+    val kg = viewService.createJsonFromSpipes(script)
+    kg match {
+      case Success(g) => new ResponseEntity(g, HttpStatus.OK)
+      case _ => new ResponseEntity[Any]("KGraph can not be generated", HttpStatus.BAD_REQUEST)
+    }
+  }
 }

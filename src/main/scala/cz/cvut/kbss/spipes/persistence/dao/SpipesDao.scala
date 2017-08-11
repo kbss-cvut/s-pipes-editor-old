@@ -11,14 +11,17 @@ import cz.cvut.kbss.ontodriver.config.OntoDriverProperties
 import cz.cvut.kbss.ontodriver.sesame.config.SesameOntoDriverProperties
 import cz.cvut.kbss.spipes.model.Vocabulary
 import cz.cvut.kbss.spipes.model.spipes.{Context, Module, ModuleType}
+import cz.cvut.kbss.spipes.util.ConfigParam.SCRIPTS_LOCATION
 import cz.cvut.kbss.spipes.util.{Constants, JopaPersistenceUtils}
 import org.openrdf.rio.RDFFormat
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.core.env.Environment
 import org.springframework.http.{HttpEntity, HttpHeaders, HttpMethod}
 import org.springframework.stereotype.Repository
 import org.springframework.web.client.RestTemplate
 
 import scala.collection.JavaConverters._
+import scala.io.Source
 import scala.util.{Success, Try}
 
 /**
@@ -27,10 +30,15 @@ import scala.util.{Success, Try}
 @Repository
 class SpipesDao {
 
-  var emf: EntityManagerFactory = _
-
   @Autowired
   private var restTemplate: RestTemplate = _
+
+  @Autowired
+  private var env: Environment = _
+
+  var emf: EntityManagerFactory = _
+
+  private val scriptsLocation = SCRIPTS_LOCATION.value
 
   @PostConstruct
   def init: Unit = {
@@ -52,23 +60,14 @@ class SpipesDao {
     emf = Persistence.createEntityManagerFactory("testPersistenceUnit", props.asJava)
   }
 
-  def getModuleTypes(url: String): Try[Traversable[ModuleType]] = {
+  def getModuleTypes(fileName: String): Try[Traversable[ModuleType]] = {
     Try {
-      // retrieve data from url
-      val uri = URI.create(url)
-      val headers = new HttpHeaders()
-      headers.set(HttpHeaders.ACCEPT, "text/turtle")
-      val entity = new HttpEntity[String](null, headers)
-      val is = new ByteArrayInputStream(restTemplate.exchange(uri,
-        HttpMethod.GET,
-        entity,
-        classOf[String]).getBody().getBytes())
-
+      val filePath = env.getProperty(scriptsLocation) + "/" + fileName
       val em = emf.createEntityManager()
 
       //TODO load data into NEW TEMPORARY JOPA context
       val repo = JopaPersistenceUtils.getRepository(em)
-      repo.getConnection().add(is, "http://temporary", RDFFormat.TURTLE)
+      repo.getConnection().add(Source.fromFile(filePath).reader(), "http://temporary", RDFFormat.TURTLE)
 
       // retrieve JOPA objects by callback function
 
@@ -78,24 +77,14 @@ class SpipesDao {
     }
   }
 
-  def getModules(url: String): Try[Traversable[Module]] = {
+  def getModules(fileName: String): Try[Traversable[Module]] = {
     Try {
-      // retrieve data from url
-      val uri = URI.create(url)
-      val headers = new HttpHeaders()
-      headers.set(HttpHeaders.ACCEPT, "text/turtle")
-      val entity = new HttpEntity[String](null, headers)
-      val is = new ByteArrayInputStream(restTemplate.exchange(uri,
-        HttpMethod.GET,
-        entity,
-        classOf[String])
-        .getBody().getBytes())
-
+      val filePath = env.getProperty(scriptsLocation) + "/" + fileName
       val em = emf.createEntityManager()
 
       //TODO load data into NEW TEMPORARY JOPA context
       val repo = JopaPersistenceUtils.getRepository(em)
-      repo.getConnection().add(is, "http://temporary", RDFFormat.TURTLE)
+      repo.getConnection().add(Source.fromFile(filePath).reader(), "http://temporary", RDFFormat.TURTLE)
 
       // retrieve JOPA objects by callback function
 

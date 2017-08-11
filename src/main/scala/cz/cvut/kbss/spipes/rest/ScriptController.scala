@@ -48,7 +48,7 @@ class ScriptController {
 
   @GetMapping(path = Array("/{id}/moduleTypes"), produces = Array(JsonLd.MEDIA_TYPE))
   def getModuleTypes(@PathVariable id: String): ResponseEntity[Any] = {
-    service.getModuleTypes(environment.getProperty(spipesLocation) + "/contexts/" + id) match {
+    service.getModuleTypes(id) match {
       case Success(types) if types.nonEmpty =>
         new ResponseEntity(types.toSet.asJava, HttpStatus.OK)
       case _ =>

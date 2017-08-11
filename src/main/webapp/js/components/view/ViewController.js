@@ -28,6 +28,10 @@ var that;
 
 class ViewController extends React.Component {
 
+    _getScript() {
+        return "sample-script.ttl";
+    }
+
     constructor(props) {
         super(props);
         this.i18n = this.props.i18n;
@@ -44,7 +48,7 @@ class ViewController extends React.Component {
             socket: new WebSocket("ws://localhost:8080/websocket")
         };
         this.state.socket.onmessage = () => this.onMessageReceived();
-        this.state.socket.onopen = () => this.state.socket.send("fss-form.jsonld");
+        this.state.socket.onopen = () => this.state.socket.send(this._getScript());
     }
 
     render() {
@@ -135,7 +139,7 @@ class ViewController extends React.Component {
     }
 
     componentWillMount() {
-        Actions.loadAllModuleTypes();
+        Actions.loadAllModuleTypes(this._getScript());
     }
 
     componentDidMount() {
@@ -147,7 +151,7 @@ class ViewController extends React.Component {
     _moduleTypesLoaded = (data) => {
         if (data.action === Actions.loadAllModuleTypes) {
             this.setState({moduleTypes: data.data, loading: false});
-            Actions.loadViewData();
+            Actions.loadViewData(this._getScript());
         }
     };
 

@@ -30,7 +30,7 @@ class QAService {
   @Autowired
   private var environment: Environment = _
 
-  private val scriptsLocation = SCRIPTS_LOCATION.value
+  private val formsLocation = FORMS_LOCATION.value
 
   def getNodeById(id: String): Try[Option[Node]] =
     dao.get(URI.create(Vocabulary.s_c_node + "/" + id))
@@ -39,7 +39,7 @@ class QAService {
     Try(
       RawJson(
         Source.fromFile(
-          environment.getProperty(scriptsLocation) + "/fss-form.jsonld")
+          environment.getProperty(formsLocation) + "/fss-form.jsonld")
           .mkString)
     )
 }

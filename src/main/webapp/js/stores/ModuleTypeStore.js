@@ -11,8 +11,8 @@ var Utils = require('../utils/Utils');
 var ModuleTypeStore = Reflux.createStore({
     listenables: [Actions],
 
-    onLoadAllModuleTypes: function () {
-        Ajax.get('rest/scripts/12/moduleTypes').end(
+    onLoadAllModuleTypes: function (script) {
+        Ajax.get('rest/scripts/' + script + "/moduleTypes").end(
             (data) => {
                 this.trigger({action: Actions.loadAllModuleTypes, data: data});
             },
