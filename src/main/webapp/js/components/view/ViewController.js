@@ -64,13 +64,20 @@ class ViewController extends React.Component {
                     }
                 },
                 node: {
+                    n4: {
+                        icon: "cogs",
+                        iconLabel: "configure",
+                        action: function (graph, itemKey, item) {
+                            that.openForm();
+                        }
+                    },
                     s4: {
                         icon: "trash-o",
                         iconLabel: "delete",
                         action: function (graph, itemKey, item) {
                             graph.removeNode(itemKey);
                         }
-                    },
+                    }
                 },
                 group: {
                     icon: "th",
@@ -79,7 +86,7 @@ class ViewController extends React.Component {
                         iconLabel: "ungroup",
                         action: function (graph, itemKey, item) {
                             graph.removeGroup(itemKey);
-                        },
+                        }
                     }
                 }
             }
@@ -340,12 +347,6 @@ class ViewController extends React.Component {
                     graph.addEdge(e["source"], 'out', e["target"], 'in', undefined);
                 });
                 graph.endTransaction('loadgraph');
-                graph.nodes.map((n) => {
-                    document.querySelectorAll('[title="' + n.id + '"]')[0].addEventListener('dblclick', function (e) {
-                        e.stopPropagation();
-                        that.openForm();
-                    });
-                });
 
                 that.setState({viewLaidOut: true});
             },
