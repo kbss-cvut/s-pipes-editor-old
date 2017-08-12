@@ -255,7 +255,7 @@ class ViewController extends React.Component {
         // The graph editor
         var editor = document.getElementById('editor');
 
-        editor.className = "the-graph-dark";
+        editor.className = "the-graph-light";
 
         // Component library
         var library = {
