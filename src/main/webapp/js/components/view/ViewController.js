@@ -30,7 +30,7 @@ class ViewController extends React.Component {
 
     _getScript() {
         return "sample-script.ttl";
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -45,11 +45,48 @@ class ViewController extends React.Component {
             modalVisible: false,
             formVisible: false,
             record: EntityFactory.initNewPatientRecord(),
-            socket: new WebSocket("ws://localhost:8080/websocket")
+            socket: new WebSocket("ws://localhost:8080/websocket"),
+            contextMenus: {
+                main: null,
+                selection: null,
+                nodeInport: null,
+                nodeOutport: null,
+                graphInport: null,
+                graphOutport: null,
+                edge: {
+                    icon: "long-arrow-right",
+                    s4: {
+                        icon: "trash-o",
+                        iconLabel: "delete",
+                        action: function (graph, itemKey, item) {
+                            graph.removeEdge(item.from.node, item.from.port, item.to.node, item.to.port);
+                        }
+                    }
+                },
+                node: {
+                    s4: {
+                        icon: "trash-o",
+                        iconLabel: "delete",
+                        action: function (graph, itemKey, item) {
+                            graph.removeNode(itemKey);
+                        }
+                    },
+                },
+                group: {
+                    icon: "th",
+                    s4: {
+                        icon: "trash-o",
+                        iconLabel: "ungroup",
+                        action: function (graph, itemKey, item) {
+                            graph.removeGroup(itemKey);
+                        },
+                    }
+                }
+            }
         };
         this.state.socket.onmessage = () => this.onMessageReceived();
         this.state.socket.onopen = () => this.state.socket.send(this._getScript());
-    }
+    };
 
     render() {
         if (this.state.loading)
@@ -136,17 +173,17 @@ class ViewController extends React.Component {
                     </Modal.Body>
                 </Modal>
             </div>);
-    }
+    };
 
     componentWillMount() {
         Actions.loadAllModuleTypes(this._getScript());
-    }
+    };
 
     componentDidMount() {
         that = this;
         this.unsubscribeModuleTypes = ModuleTypeStore.listen(this._moduleTypesLoaded);
         this.unsubscribeView = ViewStore.listen(this._viewDataLoaded);
-    }
+    };
 
     _moduleTypesLoaded = (data) => {
         if (data.action === Actions.loadAllModuleTypes) {
@@ -179,25 +216,25 @@ class ViewController extends React.Component {
     componentWillUnmount() {
         this.unsubscribeModuleTypes();
         this.unsubscribeView();
-    }
+    };
 
     addModule(id) {
         this.state.view.startTransaction('loadgraph');
         this.state.view.addNode(id, 'basic', undefined);
         this.state.view.endTransaction('loadGraph');
-    }
+    };
 
     openForm() {
         this.setState({formVisible: true})
-    }
+    };
 
     closeModal() {
         this.setState({modalVisible: false});
-    }
+    };
 
     onMessageReceived() {
         this.setState({modalVisible: true});
-    }
+    };
 
     // TODO Find some actually usable layouts
     _renderView(algorithm) {
@@ -240,6 +277,7 @@ class ViewController extends React.Component {
                 width: document.getElementById('editor').offsetWidth,
                 graph: graph,
                 library: library,
+                menus: that.state.contextMenus
             };
             var editor = document.getElementById('editor');
             editor.width = props.width;
@@ -314,7 +352,7 @@ class ViewController extends React.Component {
             (err) => {
                 console.log(err);
             });
-    }
+    };
 }
 
 export default injectIntl(I18nWrapper(Messager(ViewController)));
