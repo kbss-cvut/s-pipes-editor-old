@@ -37,7 +37,7 @@ class WebsocketController extends InitializingBean {
   @OnError
   def onError(t: Throwable): Unit = {
     log.warn(t.getLocalizedMessage())
-    log.warn(t.getStackTrace().mkString("\n"))
+    log.warn(t.getStackTrace().mkString("\n\t"))
   }
 
   @OnClose
