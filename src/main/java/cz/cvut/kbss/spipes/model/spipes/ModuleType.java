@@ -5,9 +5,6 @@ import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
 import cz.cvut.kbss.spipes.model.AbstractEntity;
 import cz.cvut.kbss.spipes.model.Vocabulary;
 
-import java.net.URI;
-import java.util.UUID;
-
 /**
  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 22.12.16.
  */
@@ -18,22 +15,10 @@ public class ModuleType extends AbstractEntity {
     private String label;
     @OWLDataProperty(iri = Vocabulary.s_p_comment)
     private String comment;
+    @OWLDataProperty(iri = Vocabulary.s_p_icon)
+    private String icon;
 
     public ModuleType() {
-    }
-
-    public ModuleType(String label, String comment) {
-        this.id = UUID.randomUUID().toString();
-        this.uri = URI.create(Vocabulary.s_c_Module + "/" + id);
-        this.label = label;
-        this.comment = comment;
-    }
-
-    public ModuleType(URI uri, String id, String label, String comment) {
-        this.uri = uri;
-        this.id = id;
-        this.label = label;
-        this.comment = comment;
     }
 
     public String getLabel() {
@@ -52,13 +37,11 @@ public class ModuleType extends AbstractEntity {
         this.comment = comment;
     }
 
-    @Override
-    public String toString() {
-        return "ModuleType{" +
-                "uri=" + uri +
-                ", id='" + id + '\'' +
-                ", label='" + label + '\'' +
-                ", comment='" + comment + '\'' +
-                '}';
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }

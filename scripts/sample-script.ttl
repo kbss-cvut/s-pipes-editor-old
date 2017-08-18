@@ -6995,6 +6995,7 @@ spr:hasCell  a           spin:Function ;
         spin:returnType  xsd:boolean .
 
 sml:BindWithConstant  a  sm:Module ;
+	    sm:icon	         "bath" ;
         rdfs:comment     "Binds a variable with a given RDF node." ;
         rdfs:label       "Bind with constant" ;
         rdfs:subClassOf  sml:ControlFlowModules ;
@@ -7009,6 +7010,7 @@ sml:BindWithConstant  a  sm:Module ;
                          ] .
 
 sml:ExportToTextFile  a  sm:Module ;
+        sm:icon	         "free-code-camp" ;
         rdfs:comment     "Saves text to a file. The text must be the value of the specified input variable." ;
         rdfs:label       "Export to text file" ;
         rdfs:subClassOf  sml:ExportToLocalModules ;
@@ -7148,6 +7150,7 @@ sp:Ask  a                rdfs:Class ;
         rdfs:subClassOf  sp:Query .
 
 sml:ApplyTopSPIN  a      sm:Module ;
+        sm:icon	         "birthday-cake" ;
         rdfs:comment     "Applies the TopSPIN rules inference engine on the input graph. This assumes that the input graph contains one or more SPIN rules (stored using the property specified under sml:predicate, which defaults to spin:rule)." ;
         rdfs:label       "Apply TopSPIN" ;
         rdfs:subClassOf  sml:RDFProcessingModules ;
@@ -7213,6 +7216,7 @@ sml:serialization  a  rdf:Property ;
 
 sml:XMLProcessingModules
         a                sm:Module ;
+        sm:icon	         "hard-of-hearing" ;
         rdfs:label       "XML Processing" ;
         rdfs:subClassOf  sml:ProcessingModules ;
         spin:abstract    true .
@@ -7237,6 +7241,7 @@ sp:Minus  a              rdfs:Class ;
         rdfs:subClassOf  sp:ElementGroup .
 
 sml:ExportToXMLFile  a   sm:Module ;
+        sm:icon	         "free-code-camp" ;
         rdfs:comment     "Creates an XML file from the value of the input variable." ;
         rdfs:label       "Export to XML file" ;
         rdfs:subClassOf  sml:ExportToLocalModules ;

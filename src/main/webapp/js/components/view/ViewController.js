@@ -89,6 +89,19 @@ class ViewController extends React.Component {
                         }
                     }
                 }
+            },
+            library: {
+                basic: {
+                    name: 'basic',
+                    description: 'basic demo component',
+                    icon: 'gear',
+                    inports: [
+                        {'name': 'in', 'type': 'all'},
+                    ],
+                    outports: [
+                        {'name': 'out', 'type': 'all'}
+                    ]
+                },
             }
         };
         this.state.socket.onmessage = () => this.onMessageReceived();
@@ -122,7 +135,7 @@ class ViewController extends React.Component {
                             overlay={popover}>
                             <Button block
                                     key={m["@id"]}
-                                    onClick={() => this.addModule(m["@id"].toString().split("/").reverse()[0])}>
+                                    onClick={() => this.addModule(m["@id"].toString().split("/").reverse()[0], m["@id"].toString())}>
                                 {m["@id"].toString().split("/").reverse()[0]}
                             </Button>
                         </OverlayTrigger>
@@ -194,7 +207,21 @@ class ViewController extends React.Component {
 
     _moduleTypesLoaded = (data) => {
         if (data.action === Actions.loadAllModuleTypes) {
-            this.setState({moduleTypes: data.data, loading: false});
+            this.setState({moduleTypes: data.data});
+            this.state.moduleTypes.map((m) => {
+                this.state.library[m["@id"]] = {
+                    name: m["@id"].toString().split("/").reverse()[0],
+                    description: m["http://www.w3.org/2000/01/rdf-schema#comment"],
+                    icon: m["http://topbraid.org/sparqlmotion#icon"] === undefined ? "gear" : m["http://topbraid.org/sparqlmotion#icon"],
+                    inports: [
+                        {'name': 'in', 'type': 'all'},
+                    ],
+                    outports: [
+                        {'name': 'out', 'type': 'all'}
+                    ]
+                };
+            });
+            this.setState({loading: false});
             Actions.loadViewData(this._getScript());
         }
     };
@@ -225,9 +252,9 @@ class ViewController extends React.Component {
         this.unsubscribeView();
     };
 
-    addModule(id) {
+    addModule(id, type) {
         this.state.view.startTransaction('loadgraph');
-        this.state.view.addNode(id, 'basic', undefined);
+        this.state.view.addNode(id, this.state.library[type] !== undefined ? type : 'basic', undefined);
         this.state.view.endTransaction('loadGraph');
     };
 
@@ -257,21 +284,6 @@ class ViewController extends React.Component {
 
         editor.className = "the-graph-light";
 
-        // Component library
-        var library = {
-            basic: {
-                name: 'basic',
-                description: 'basic demo component',
-                icon: 'gear',
-                inports: [
-                    {'name': 'in', 'type': 'all'},
-                ],
-                outports: [
-                    {'name': 'out', 'type': 'all'}
-                ]
-            },
-        };
-
         // Load empty graph
         var graph = new fbpGraph.Graph();
         this.setState({view: graph});
@@ -283,7 +295,7 @@ class ViewController extends React.Component {
                 height: document.getElementById('editor').offsetHeight,
                 width: document.getElementById('editor').offsetWidth,
                 graph: graph,
-                library: library,
+                library: that.state.library,
                 menus: that.state.contextMenus
             };
             var editor = document.getElementById('editor');
