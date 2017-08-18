@@ -50,7 +50,7 @@ class ScriptController {
   def getModuleTypes(@PathVariable id: String): ResponseEntity[Any] = {
     service.getModuleTypes(id) match {
       case Success(types) if types.nonEmpty =>
-        new ResponseEntity(types.toSet.asJava, HttpStatus.OK)
+        new ResponseEntity(types.toList.sortBy(_.getLabel()).asJava, HttpStatus.OK)
       case _ =>
         new ResponseEntity("No module types found for the script " + id, HttpStatus.NOT_FOUND)
     }
