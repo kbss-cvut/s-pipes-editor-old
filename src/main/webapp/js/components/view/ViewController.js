@@ -353,7 +353,7 @@ class ViewController extends React.Component {
                         x: m["x"],
                         y: m["y"]
                     };
-                    graph.addNode(m["id"], 'basic', metadata);
+                    graph.addNode(m["id"], m["type"] ? m["type"] : 'basic', metadata);
                 });
                 g["edges"].map((e) => {
                     graph.addEdge(e["source"], 'out', e["target"], 'in', undefined);

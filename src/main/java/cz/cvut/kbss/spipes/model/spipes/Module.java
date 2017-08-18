@@ -1,9 +1,6 @@
 package cz.cvut.kbss.spipes.model.spipes;
 
-import cz.cvut.kbss.jopa.model.annotations.FetchType;
-import cz.cvut.kbss.jopa.model.annotations.OWLClass;
-import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
-import cz.cvut.kbss.jopa.model.annotations.OWLObjectProperty;
+import cz.cvut.kbss.jopa.model.annotations.*;
 import cz.cvut.kbss.spipes.model.AbstractEntity;
 import cz.cvut.kbss.spipes.model.Vocabulary;
 
@@ -21,6 +18,8 @@ public class Module extends AbstractEntity {
     private String label;
     @OWLObjectProperty(iri = Vocabulary.s_p_next, fetch = FetchType.EAGER)
     private Set<Module> next;
+    @Types
+    private Set<String> types;
 
     public Module() {
     }
@@ -53,6 +52,14 @@ public class Module extends AbstractEntity {
 
     public void setNext(Set<Module> next) {
         this.next = next;
+    }
+
+    public Set<String> getTypes() {
+        return types;
+    }
+
+    public void setTypes(Set<String> types) {
+        this.types = types;
     }
 
     @Override

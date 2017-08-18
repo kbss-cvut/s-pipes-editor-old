@@ -1,9 +1,9 @@
 package cz.cvut.kbss.spipes.rest
 
+import java.io.FileNotFoundException
 import java.util.{Set => JSet}
 
 import cz.cvut.kbss.jsonld.JsonLd
-import cz.cvut.kbss.spipes.model.spipes.Module
 import cz.cvut.kbss.spipes.service.SpipesService
 import cz.cvut.kbss.spipes.util.ConfigParam.SPIPES_LOCATION
 import org.springframework.beans.factory.annotation.Autowired
@@ -57,12 +57,16 @@ class ScriptController {
   }
 
   @GetMapping(path = Array("/{id}/modules"), produces = Array(JsonLd.MEDIA_TYPE))
-  def getModules(@PathVariable id: String): ResponseEntity[JSet[Module]] = {
-    service.getModules(environment.getProperty(spipesLocation) + "/contexts/" + id) match {
-      case Success(modules) if modules.nonEmpty =>
+  def getModules(@PathVariable id: String): ResponseEntity[Any] = {
+    service.getModules(id) match {
+      case Success(Seq()) =>
+        new ResponseEntity("Nothing found", HttpStatus.NOT_FOUND)
+      case Success(modules) =>
         new ResponseEntity(modules.toSet.asJava, HttpStatus.OK)
-      case _ =>
-        new ResponseEntity(Set[Module]().asJava, HttpStatus.NOT_FOUND)
+      case Failure(e: FileNotFoundException) =>
+        new ResponseEntity("Script " + id + " not found", HttpStatus.NOT_FOUND)
+      case Failure(e) =>
+        new ResponseEntity(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }
 }

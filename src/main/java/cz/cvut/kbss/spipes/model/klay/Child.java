@@ -7,11 +7,13 @@ public class Child {
     private String id;
     private int width;
     private int height;
+    private String type;
 
-    public Child(String id, int width, int height) {
+    public Child(String id, int width, int height, String type) {
         this.id = id;
         this.width = width;
         this.height = height;
+        this.type = type;
     }
 
     public String getId() {
@@ -36,5 +38,13 @@ public class Child {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

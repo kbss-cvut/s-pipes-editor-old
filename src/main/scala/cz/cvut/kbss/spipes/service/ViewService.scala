@@ -73,7 +73,7 @@ class ViewService {
         m.getLabel(),
         0d,
         0d,
-        new util.HashSet[String](),
+        m.getTypes(),
         new util.HashSet[String](),
         new util.HashSet[String]()))
       val edges = modules
@@ -92,24 +92,26 @@ class ViewService {
 
   def createJsonFromSpipes(id: String): Try[KGraph] =
     createViewFromSpipes(id).map(v => {
-        val g = new KGraph(v.getLabel(),
-          v.getNodes().asScala
-            .map(n => new Child(
-              if (n.getLabel() == null)
-                "null"
-              else n.getLabel(),
-              100, 100)).asJava,
-          v.getEdges().asScala
-            .map(e => new KEdge(UUID.randomUUID().toString,
-              if (e.getSourceNode().getLabel() == null)
-                "null"
-              else
-                e.getSourceNode().getLabel(),
-              if (e.getDestinationNode().getLabel() == null)
-                "null"
-              else
-                e.getDestinationNode().getLabel()))
-            .asJava)
-        g
+      val g = new KGraph(v.getLabel(),
+        v.getNodes().asScala
+          .map(n => new Child(
+            if (n.getLabel() == null)
+              "null"
+            else n.getLabel(),
+            100, 100,
+            n.getNodeTypes().asScala.toList.head
+          )).asJava,
+        v.getEdges().asScala
+          .map(e => new KEdge(UUID.randomUUID().toString,
+            if (e.getSourceNode().getLabel() == null)
+              "null"
+            else
+              e.getSourceNode().getLabel(),
+            if (e.getDestinationNode().getLabel() == null)
+              "null"
+            else
+              e.getDestinationNode().getLabel()))
+          .asJava)
+      g
     })
 }

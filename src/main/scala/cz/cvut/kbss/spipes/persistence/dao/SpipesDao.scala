@@ -90,7 +90,10 @@ class SpipesDao {
 
       val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[Module])
         .setParameter("type", URI.create(Vocabulary.s_c_Modules))
-      query.getResultList().asScala
+      query.getResultList() match {
+        case null => List()
+        case l => l.asScala
+      }
     }
   }
 

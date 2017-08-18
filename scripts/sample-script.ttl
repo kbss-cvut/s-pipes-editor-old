@@ -2014,6 +2014,7 @@ spr:resultFunction  a       rdf:Property ;
         rdfs:subPropertyOf  spr:systemProperty .
 
 sml:ApplyConstruct  a    sm:Module ;
+        sm:icon	         "gamepad" ;
         rdfs:comment     "Runs one or more SPARQL Construct queries on the input triples. The output RDF will consist of the constructed triples and (unless sml:replace is true) the input triples." ;
         rdfs:label       "Apply Construct" ;
         rdfs:subClassOf  sml:RDFProcessingModules ;
