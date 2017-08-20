@@ -2,10 +2,8 @@ package cz.cvut.kbss.spipes.service
 
 import java.net.URI
 import java.util
-import java.util.UUID
 
 import cz.cvut.kbss.spipes.model.Vocabulary
-import cz.cvut.kbss.spipes.model.klay.{Child, KGraph, Edge => KEdge}
 import cz.cvut.kbss.spipes.model.view.{Edge, Node, View}
 import cz.cvut.kbss.spipes.persistence.dao.{EdgeDao, NodeDao, ViewDao}
 import org.springframework.beans.factory.annotation.Autowired
@@ -65,8 +63,8 @@ class ViewService {
   def getNode(id: String): Try[Option[Node]] =
     nodeDao.get(URI.create(Vocabulary.s_c_node + "/" + id))
 
-  def createViewFromSpipes(id: String): Try[View] = {
-    spipesService.getModules(id).map(modules => {
+  def createViewFromSpipes(script: String): Try[View] = {
+    spipesService.getModules(script).map(modules => {
       val nodes = modules.map(m => new Node(
         m.getUri(),
         m.getId(),
@@ -89,29 +87,4 @@ class ViewService {
     }
     )
   }
-
-  def createJsonFromSpipes(id: String): Try[KGraph] =
-    createViewFromSpipes(id).map(v => {
-      val g = new KGraph(v.getLabel(),
-        v.getNodes().asScala
-          .map(n => new Child(
-            if (n.getLabel() == null)
-              "null"
-            else n.getLabel(),
-            100, 100,
-            n.getNodeTypes().asScala.toList.head
-          )).asJava,
-        v.getEdges().asScala
-          .map(e => new KEdge(UUID.randomUUID().toString,
-            if (e.getSourceNode().getLabel() == null)
-              "null"
-            else
-              e.getSourceNode().getLabel(),
-            if (e.getDestinationNode().getLabel() == null)
-              "null"
-            else
-              e.getDestinationNode().getLabel()))
-          .asJava)
-      g
-    })
 }

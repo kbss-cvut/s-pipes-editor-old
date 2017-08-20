@@ -37,7 +37,6 @@ class ViewController extends React.Component {
         this.i18n = this.props.i18n;
         this.state = {
             moduleTypes: null,
-            viewData: null,
             view: null,
             loading: true,
             viewLoaded: false,
@@ -135,7 +134,7 @@ class ViewController extends React.Component {
                             overlay={popover}>
                             <Button block
                                     key={m["@id"]}
-                                    onClick={() => this.addModule(m["@id"].toString().split("/").reverse()[0], m["@id"].toString())}>
+                                    onClick={() => this.addModule(m["@id"], m["@id"])}>
                                 {m["@id"].toString().split("/").reverse()[0]}
                             </Button>
                         </OverlayTrigger>
@@ -202,7 +201,7 @@ class ViewController extends React.Component {
     componentDidMount() {
         that = this;
         this.unsubscribeModuleTypes = ModuleTypeStore.listen(this._moduleTypesLoaded);
-        this.unsubscribeView = ViewStore.listen(this._viewDataLoaded);
+        this.unsubscribeView = ViewStore.listen(this._viewLoaded);
     };
 
     _moduleTypesLoaded = (data) => {
@@ -222,13 +221,53 @@ class ViewController extends React.Component {
                 };
             });
             this.setState({loading: false});
-            Actions.loadViewData(this._getScript());
+            Actions.loadView(this._getScript());
         }
     };
 
-    _viewDataLoaded = (data) => {
-        if (data.action === Actions.loadViewData) {
-            this.setState({viewData: data.data, viewLoaded: true});
+    _viewLoaded = (data) => {
+        if (data.action === Actions.loadView) {
+            let fbpGraph = window.TheGraph.fbpGraph;
+            this.setState({view: new fbpGraph.Graph()});
+            data.data["http://onto.fel.cvut.cz/ontologies/s-pipes-view/consists-of-node"].map(n => {
+                if (typeof n === "object")
+                    this.state.view.addNode(n["@id"], n["@type"][0], {
+                        label: n["@id"].toString().split("/").reverse()[0],
+                        types: n["@type"],
+                        x: n["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-x-coordinate"],
+                        y: n["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-y-coordinate"]
+                    })
+            });
+            data.data["http://onto.fel.cvut.cz/ontologies/s-pipes-view/consists-of-edge"].map(e => {
+                if (typeof e["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-source-node"] === "object") {
+                    let n = e["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-source-node"];
+                    this.state.view.addNode(n["@id"], n["@type"][0], {
+                        label: n["@id"].toString().split("/").reverse()[0],
+                        types: n["@type"],
+                        x: n["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-x-coordinate"],
+                        y: n["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-y-coordinate"]
+                    })
+                }
+                if (typeof e["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-destination-node"] === "object") {
+                    let n = e["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-destination-node"];
+                    this.state.view.addNode(n["@id"], n["@type"][0], {
+                        label: n["@id"].toString().split("/").reverse()[0],
+                        types: n["@type"],
+                        x: n["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-x-coordinate"],
+                        y: n["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-y-coordinate"]
+                    })
+                }
+            });
+            data.data["http://onto.fel.cvut.cz/ontologies/s-pipes-view/consists-of-edge"].map(e => {
+                let from = typeof e["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-source-node"] === "object" ?
+                    e["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-source-node"]["@id"] :
+                    e["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-source-node"];
+                let to = typeof e["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-destination-node"] === "object" ?
+                    e["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-destination-node"]["@id"] :
+                    e["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-destination-node"];
+                this.state.view.addEdge(from, 'out', to, 'in', {id: e["@id"]});
+            });
+            this.setState({viewLoaded: true});
             this._renderView(defaultLayout);
         }
     };
@@ -243,7 +282,7 @@ class ViewController extends React.Component {
     };
 
     _onChange = (change) => {
-        var update = assign({}, this.state.record, change);
+        let update = assign({}, this.state.record, change);
         this.setState({record: update});
     };
 
@@ -275,90 +314,79 @@ class ViewController extends React.Component {
 
         this.setState({viewLaidOut: false});
 
-        this.state.viewData.properties = {'elk.algorithm': algorithm, 'elk.direction': direction};
+        let elkGraph = {
+            id: that._getScript(),
+            children: [],
+            edges: [],
+            x: 0,
+            y: 0
+        };
 
-        var fbpGraph = window.TheGraph.fbpGraph;
+        this.state.view.nodes.map(n => {
+            elkGraph.children.push({
+                id: n.id,
+                height: 100,
+                width: 100
+            });
+        });
+
+        this.state.view.edges.map(e => {
+            elkGraph.edges.push({
+                source: e.from.node,
+                target: e.to.node,
+                id: e.metadata.id === undefined ? e.from.node + "->" + e.to.node : e.metadata.id
+            });
+        });
+
+        elkGraph.properties = {'elk.algorithm': algorithm, 'elk.direction': direction};
 
         // The graph editor
-        var editor = document.getElementById('editor');
+        let editor = document.getElementById('editor');
 
         editor.className = "the-graph-light";
 
-        // Load empty graph
-        var graph = new fbpGraph.Graph();
-        this.setState({view: graph});
-
         function renderEditor() {
 
-            var props = {
+            let props = {
                 readonly: false,
                 height: document.getElementById('editor').offsetHeight,
                 width: document.getElementById('editor').offsetWidth,
-                graph: graph,
+                graph: that.state.view,
                 library: that.state.library,
                 menus: that.state.contextMenus
             };
-            var editor = document.getElementById('editor');
+            let editor = document.getElementById('editor');
             editor.width = props.width;
             editor.height = props.height;
-            var element = React.createElement(TheGraph.App, props);
+            let element = React.createElement(TheGraph.App, props);
 
             // Render the numbnail
-            var thumb = document.getElementById('thumb');
-            var properties = TheGraph.thumb.styleFromTheme('light');
+            let thumb = document.getElementById('thumb');
+            let properties = TheGraph.thumb.styleFromTheme('light');
             properties.width = thumb.width;
             properties.height = thumb.height;
             properties.nodeSize = 60;
             properties.lineWidth = 1;
-            var context = thumb.getContext("2d");
-            TheGraph.thumb.render(context, graph, properties);
+            let context = thumb.getContext("2d");
+            TheGraph.thumb.render(context, that.state.view, properties);
 
             ReactDOM.render(element, editor);
-
-            if (that.state !== undefined && that.state.viewData !== undefined) {
-                delete that.state.viewData["children"];
-                that.state.viewData["children"] = graph.nodes.map((n) => {
-                    return {
-                        id: n.id,
-                        width: 100,
-                        height: 100
-                    }
-                });
-                delete that.state.viewData["edges"];
-                that.state.viewData["edges"] = graph.edges.filter((e) => e !== undefined).map((e) => {
-                    if (e !== undefined)
-                        return {
-                            id: e.from.node + e.to.node,
-                            source: e.from.node,
-                            target: e.to.node
-                        };
-                    return undefined;
-                });
-            }
         }
 
-        graph.on('endTransaction', renderEditor); // graph changed
+        that.state.view.on('endTransaction', renderEditor); // graph changed
         window.addEventListener("resize", renderEditor);
 
         let elk = new ELK();
         let options = {
             'org.eclipse.elk.layered.crossingMinimization.strategy': 'INTERACTIVE',
         };
-        elk.layout(this.state.viewData, options).then((g) => {
-                graph.startTransaction('loadgraph');
-                g["children"].map((m) => {
-
-                    let metadata = {
-                        label: m["id"],
-                        x: m["x"],
-                        y: m["y"]
-                    };
-                    graph.addNode(m["id"], m["type"] ? m["type"] : 'basic', metadata);
-                });
-                g["edges"].map((e) => {
-                    graph.addEdge(e["source"], 'out', e["target"], 'in', undefined);
-                });
-                graph.endTransaction('loadgraph');
+        elk.layout(elkGraph, options).then((g) => {
+                that.state.view.startTransaction('loadgraph');
+                for (var i = 0; i < g["children"].length; i++) {
+                    that.state.view.nodes[i].metadata.x = g["children"][i].x;
+                    that.state.view.nodes[i].metadata.y = g["children"][i].y;
+                }
+                that.state.view.endTransaction('loadgraph');
 
                 that.setState({viewLaidOut: true});
             },

@@ -1,23 +1,21 @@
 'use strict';
 
-var Reflux = require('reflux');
+let Reflux = require('reflux');
 
-var Actions = require('../actions/Actions');
-var Ajax = require('../utils/Ajax');
-var Authentication = require('../utils/Authentication');
-var Utils = require('../utils/Utils');
+let Actions = require('../actions/Actions');
+let Ajax = require('../utils/Ajax');
 
 //todo Rewrite to "extends" form
-var ViewStore = Reflux.createStore({
+let ViewStore = Reflux.createStore({
     listenables: [Actions],
 
-    onLoadViewData: function (script) {
-        Ajax.get('rest/views/' + script + "/json").end(
+    onLoadView: function (script) {
+        Ajax.get('rest/views/' + script + "/new").end(
             (data) => {
-                this.trigger({action: Actions.loadViewData, data: data});
+                this.trigger({action: Actions.loadView, data: data});
             },
             () => {
-                this.trigger({action: Actions.loadViewData, data: data});
+                this.trigger({action: Actions.loadView, data: data});
             });
     }
 });

@@ -3,7 +3,7 @@
 <node TEXT="main" FOLDED="false" ID="ID_448131109" CREATED="1312805290594" MODIFIED="1502306364395">
 <font NAME="SansSerif"/>
 <hook NAME="MapStyle" zoom="1.21">
-    <properties fit_to_viewport="false;" show_icon_for_attributes="true" show_note_icons="true" show_notes_in_map="false"/>
+    <properties show_icon_for_attributes="true" fit_to_viewport="false;" show_note_icons="true" show_notes_in_map="false"/>
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node" STYLE="oval" UNIFORM_SHAPE="true" VGAP_QUANTITY="24.0 pt">
@@ -250,7 +250,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -946,7 +945,6 @@
     <span style="color: #000000; background-color: #ffffff"><font color="#000000" face="monospace">&lt;http://onto.fel.cvut.cz/ontologies/lib/module&gt;</font></span><span style="font-family: monospace"><font face="monospace"><br/></font></span>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -1080,7 +1078,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -1172,7 +1169,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 <node ID="ID_1604922199" CREATED="1481793144467" MODIFIED="1481793575494"><richcontent TYPE="NODE">
@@ -1187,7 +1183,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -1705,7 +1700,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 </node>
@@ -1799,7 +1793,8 @@
 <node TEXT=" 2017-08-18" ID="ID_1028574199" CREATED="1503042333444" MODIFIED="1503042409027">
 <node TEXT="task" STYLE_REF="onto-prop" ID="ID_881514066" CREATED="1503042411794" MODIFIED="1503042412955">
 <node TEXT="yan" STYLE_REF="categorization" ID="ID_476750976" CREATED="1503042413646" MODIFIED="1503042433690">
-<node TEXT="make tranformation compliant with graph-schema.graphml" ID="ID_531863382" CREATED="1503045909314" MODIFIED="1503046039543" LINK="../doc/graph-schemas.pdf">
+<node TEXT="make tranformation compliant with graph-schema.graphml" ID="ID_531863382" CREATED="1503045909314" MODIFIED="1503224325837" LINK="../doc/graph-schemas.pdf">
+<icon BUILTIN="button_ok"/>
 <node TEXT="elk js &lt;--&gt; the graph json" ID="ID_1807523552" CREATED="1503045945021" MODIFIED="1503046543969"/>
 <node TEXT="S-Pipes JSON-LD &lt;--&gt; The Graph JSON" ID="ID_1571672765" CREATED="1503046524768" MODIFIED="1503046539199"/>
 </node>
