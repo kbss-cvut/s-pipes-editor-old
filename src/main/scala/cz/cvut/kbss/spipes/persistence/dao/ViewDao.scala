@@ -1,13 +1,13 @@
 package cz.cvut.kbss.spipes.persistence.dao
 
 import java.net.URI
+import java.util.{Set => JSet}
 
 import cz.cvut.kbss.spipes.model.view.{Edge, Node, View}
 import org.springframework.stereotype.Repository
 
-import scala.collection.JavaConverters._
 import scala.reflect.ClassTag
-import scala.util.{Failure, Success, Try}
+import scala.util.Try
 
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 03.11.16.
@@ -15,25 +15,25 @@ import scala.util.{Failure, Success, Try}
 @Repository
 class ViewDao extends AbstractDao[View] {
 
-  def getViewNodes(uri: URI): Try[Option[Traversable[Node]]] =
-    get(uri).map(_.map(_.getNodes.asScala))
+  def getViewNodes(uri: URI): Try[JSet[Node]] =
+    get(uri).map(_.getNodes())
 
-  def getViewEdges(uri: URI): Try[Option[Traversable[Edge]]] =
-    get(uri).map(_.map(_.getEdges.asScala))
+  def getViewEdges(uri: URI): Try[JSet[Edge]] =
+    get(uri).map(_.getEdges())
 
-  def updateView(uri: URI, other: View)(implicit tag: ClassTag[View]): Try[View] =
-    get(uri) match {
-      case Success(Some(v)) =>
-        val em = emf.createEntityManager()
-        em.getTransaction().begin()
-        v.setLabel(other.getLabel)
-        v.setNodes(other.getNodes)
-        v.setEdges(other.getEdges)
-        em.merge(v)
-        em.getTransaction().commit()
+  def updateView(uri: URI, other: View)(implicit tag: ClassTag[View]): Try[Unit] = {
+    val em = emf.createEntityManager()
+    get(uri).map { (v) =>
+      em.getTransaction().begin()
+      v.setLabel(other.getLabel)
+      v.setNodes(other.getNodes)
+      v.setEdges(other.getEdges)
+      em.merge(v)
+      em.getTransaction().commit()
+    } match {
+      case t: Try[Unit] =>
         em.close()
-        Success(v)
-      case Success(None) => Failure(new IllegalArgumentException("View with URI " + uri + "not found"))
-      case Failure(e) => Failure(e)
+        t
     }
+  }
 }

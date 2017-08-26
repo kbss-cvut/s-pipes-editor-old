@@ -23,7 +23,7 @@ class QAController {
   def generateForm(@PathVariable id: String): ResponseEntity[Any] =
     service.generateForm(id) match {
       case Success(form) => new ResponseEntity(form, HttpStatus.OK)
-      case Failure(e: FileNotFoundException) => new ResponseEntity(e.getLocalizedMessage(), HttpStatus.NOT_FOUND)
+      case Failure(e: FileNotFoundException) => new ResponseEntity(HttpStatus.NOT_FOUND)
       case Failure(e) => new ResponseEntity(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }

@@ -1,16 +1,10 @@
 package cz.cvut.kbss.spipes.service
 
-import java.net.URI
-
-import cz.cvut.kbss.spipes.model.Vocabulary
-import cz.cvut.kbss.spipes.model.view.Node
-import cz.cvut.kbss.spipes.persistence.dao.QADao
-import cz.cvut.kbss.spipes.rest.dto.RawJson
+import cz.cvut.kbss.spipes.dto.RawJson
 import cz.cvut.kbss.spipes.util.ConfigParam._
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Service
-import org.springframework.web.client.RestTemplate
 
 import scala.io.Source
 import scala.util.Try
@@ -22,18 +16,9 @@ import scala.util.Try
 class QAService {
 
   @Autowired
-  private var dao: QADao = _
-
-  @Autowired
-  private var restTemplate: RestTemplate = _
-
-  @Autowired
   private var environment: Environment = _
 
   private val formsLocation = FORMS_LOCATION.value
-
-  def getNodeById(id: String): Try[Option[Node]] =
-    dao.get(URI.create(Vocabulary.s_c_node + "/" + id))
 
   def generateForm(uri: String): Try[RawJson] =
     Try(

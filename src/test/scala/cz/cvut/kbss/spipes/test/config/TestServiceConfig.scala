@@ -17,15 +17,6 @@ class TestServiceConfig {
   def getViewDao: ViewDao = Mockito.mock(classOf[ViewDao])
 
   @Bean
-  def getNodeDao: NodeDao = Mockito.mock(classOf[NodeDao])
-
-  @Bean
-  def getEdgeDao: EdgeDao = Mockito.mock(classOf[EdgeDao])
-
-  @Bean
-  def getQADao: QADao = Mockito.mock(classOf[QADao])
-
-  @Bean
   def getspipesDao: SpipesDao = Mockito.mock(classOf[SpipesDao])
 
   @Bean
