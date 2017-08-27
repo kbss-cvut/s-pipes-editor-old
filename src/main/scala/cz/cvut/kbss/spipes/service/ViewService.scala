@@ -21,7 +21,7 @@ class ViewService {
   @Autowired
   private var spipesService: SpipesService = _
 
-  def createViewFromSpipes(script: String): Either[Throwable, Option[View]] = {
+  def newViewFromSpipes(script: String): Either[Throwable, Option[View]] = {
     spipesService.getModules(script) match {
       case Right(Some(modules)) =>
         val nodes = modules.map(m => new Node(
@@ -40,7 +40,7 @@ class ViewService {
             .map(n => new Edge(
               nodes.find(_.getUri == m.getUri).get,
               nodes.find(_.getUri == n.getUri()).get)))
-        val view = new View("Label", nodes.toSet.asJava, edges.toSet.asJava)
+        val view = new View(script, nodes.toSet.asJava, edges.toSet.asJava)
         viewDao.save(view)
         Right(Some(view))
       case Right(None) => Right(None)

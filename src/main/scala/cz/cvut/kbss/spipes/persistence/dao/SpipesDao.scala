@@ -16,7 +16,6 @@ import org.openrdf.rio.RDFFormat
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Repository
-import org.springframework.web.client.RestTemplate
 
 import scala.collection.JavaConverters._
 import scala.io.Source
@@ -27,9 +26,6 @@ import scala.util.Try
   */
 @Repository
 class SpipesDao {
-
-  @Autowired
-  private var restTemplate: RestTemplate = _
 
   @Autowired
   private var env: Environment = _

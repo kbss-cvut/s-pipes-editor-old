@@ -19,7 +19,7 @@ class ViewController {
 
   @GetMapping(path = Array("/{script}/new"), produces = Array(JsonLd.MEDIA_TYPE))
   def newFromSpipes(@PathVariable script: String): ResponseEntity[Any] = {
-    viewService.createViewFromSpipes(script) match {
+    viewService.newViewFromSpipes(script) match {
       case Left(e) => new ResponseEntity(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
       case Right(None) => new ResponseEntity(HttpStatus.NOT_FOUND)
       case Right(Some(v)) => new ResponseEntity(v, HttpStatus.OK)

@@ -27,8 +27,8 @@ class SpipesService {
     spipesDao.getModules(fileName) match {
       case Success(null) => Right(None)
       case Success(v: JList[Module]) if !v.isEmpty() => Right(Some(v.asScala))
-      case Success(v: JList[Module]) => Right(None)
-      case Failure(e: FileNotFoundException) => Right(None)
+      case Success(_: JList[Module]) => Right(None)
+      case Failure(_: FileNotFoundException) => Right(None)
       case Failure(e) =>
         log.error(e.getLocalizedMessage())
         log.error(e.getStackTrace().mkString("\n"))
