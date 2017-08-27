@@ -31,8 +31,7 @@
     "semforms": "https://kbss.felk.cvut.cz/dist/semforms-0.1.2.tgz",
     "stompjs": "~2.3.3",
     "superagent": "~1.8.3",
-    "the-graph": "^0.10.2",
-    "webworker-threads": "^0.7.13"
+    "the-graph": "^0.10.2"
   },
   "devDependencies": {
     "babel-core": "^6.7.5",

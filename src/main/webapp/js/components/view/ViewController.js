@@ -20,7 +20,7 @@ let Routes = require('../../utils/Routes');
 let Routing = require('../../utils/Routing');
 let ModuleTypeStore = require('../../stores/ModuleTypeStore');
 let ViewStore = require('../../stores/ViewStore');
-let ELK = require('elkjs');
+let ELK = require('elkjs/lib/elk-api');
 
 let direction = 'RIGHT';
 let defaultLayout = 'layered';
@@ -376,7 +376,9 @@ class ViewController extends React.Component {
         that.state.view.on('endTransaction', renderEditor); // graph changed
         window.addEventListener("resize", renderEditor);
 
-        let elk = new ELK();
+        let elk = new ELK({
+            workerUrl: '../../../node_modules/elkjs/lib/elk-worker.min.js'
+        });
         let options = {
             'org.eclipse.elk.layered.crossingMinimization.strategy': 'INTERACTIVE',
         };
