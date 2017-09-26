@@ -24,7 +24,7 @@ class QAService {
     Try(
       RawJson(
         Source.fromFile(
-          environment.getProperty(formsLocation) + "/fss-form.jsonld")
+          environment.getProperty(formsLocation) + "/new-form.jsonld")
           .mkString)
     )
 }

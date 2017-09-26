@@ -1,0 +1,135 @@
+{
+  "@context": {
+    "doc": "http://onto.fel.cvut.cz/ontologies/documentation/",
+    "x": "https://x.com/x/",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "has_data_value": {
+      "@id": "http://onto.fel.cvut.cz/ontologies/documentation/has_data_value"
+    },
+    "has_answer": {
+      "@id": "http://onto.fel.cvut.cz/ontologies/documentation/has_answer"
+    },
+    "has-answer-origin": {
+      "@id": "http://onto.fel.cvut.cz/ontologies/form/has-answer-origin"
+    },
+    "has-possible-values-query": {
+      "@id": "http://onto.fel.cvut.cz/ontologies/form/has-possible-values-query"
+    },
+    "has-layout-class": {
+      "@id": "http://onto.fel.cvut.cz/ontologies/form-layout/has-layout-class"
+    },
+    "has_related_question": {
+      "@id": "http://onto.fel.cvut.cz/ontologies/documentation/has_related_question",
+      "@type": "@id"
+    },
+    "label": {
+      "@id": "http://www.w3.org/2000/01/rdf-schema#label"
+    },
+    "has-question-origin": {
+      "@id": "http://onto.fel.cvut.cz/ontologies/form/has-question-origin",
+      "@type": "@id"
+    },
+    "is-relevant-if": {
+      "@id": "http://onto.fel.cvut.cz/ontologies/form/is-relevant-if",
+      "@type": "@id"
+    },
+    "has-tested-question": {
+      "@id": "http://onto.fel.cvut.cz/ontologies/form/has-tested-question",
+      "@type": "@id"
+    },
+    "accepts-answer-value": {
+      "@id": "http://onto.fel.cvut.cz/ontologies/form/accepts-answer-value",
+      "@type": "http://www.w3.org/2001/XMLSchema#boolean"
+    },
+    "minInclusive": {
+      "@id": "http://www.w3.org/2001/XMLSchema#minInclusive"
+    },
+    "maxInclusive": {
+      "@id": "http://www.w3.org/2001/XMLSchema#maxInclusive"
+    },
+    "has-datatype": {
+      "@id": "http://onto.fel.cvut.cz/ontologies/form/has-datatype",
+      "@type": "@id"
+    },
+    "has-preceding-question": {
+      "@id": "http://onto.fel.cvut.cz/ontologies/form/has-preceding-question",
+      "@type": "@id"
+    },
+    "comment": {
+      "@id": "http://www.w3.org/2000/01/rdf-schema#comment"
+    },
+    "has-unit": {
+      "@id": "http://onto.fel.cvut.cz/ontologies/form/has-unit"
+    },
+    "has-input-mask": {
+      "@id": "http://onto.fel.cvut.cz/ontologies/form/has-input-mask"
+    },
+    "description": {
+      "@id": "http://purl.org/dc/elements/1.1/description"
+    },
+    "is-relevant-if_removed": {
+      "@id": "http://onto.fel.cvut.cz/ontologies/form/is-relevant-if_removed",
+      "@type": "@id"
+    },
+    "requires-answer": {
+      "@id": "http://onto.fel.cvut.cz/ontologies/form/requires-answer",
+      "@type": "http://www.w3.org/2001/XMLSchema#boolean"
+    },
+    "accepts-validation-value": {
+      "@id": "http://onto.fel.cvut.cz/ontologies/form/accepts-validation-value"
+    },
+    "imports": {
+      "@id": "http://www.w3.org/2002/07/owl#imports",
+      "@type": "@id"
+    },
+    "requires-answer-if": {
+      "@id": "http://onto.fel.cvut.cz/ontologies/form/requires-answer-if",
+      "@type": "@id"
+    }
+  },
+  "@graph": [
+    {
+      "@id": "label:-a",
+      "@type": "doc:answer",
+      "has_data_value": "Some value",
+      "has-answer-origin": "rdfs:label"
+    },
+    {
+      "@id": "label:-q",
+      "@type": "doc:question",
+      "has_answer": {
+        "@id": "label:-a"
+      },
+      "has-question-origin": "rdfs:label",
+      "description": "Whatever description question mark",
+      "label": "label-q"
+    },
+    {
+      "@id": "rdfs:type-q",
+      "@type": "doc:question",
+      "has-preceding-question": "label:-q",
+      "has-question-origin": "rdfs:type",
+      "description": "<module type description>",
+      "label": "Label for rdfs:type"
+    },
+    {
+      "@id": "x:form-1-default-q",
+      "@type": "doc:question",
+      "has_related_question": [
+        "label:-q",
+        "rdfs:type-q"
+      ],
+      "has-layout-class": [
+        "section",
+        "wizard-step"
+      ],
+      "label": "Some wizard step"
+    },
+    {
+      "@id": "x:form-1-q",
+      "@type": "doc:question",
+      "has_related_question": "x:form-1-default-q",
+      "has-layout-class": "form"
+    }
+  ]
+}
