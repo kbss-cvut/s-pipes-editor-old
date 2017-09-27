@@ -103,6 +103,13 @@ class ViewController extends React.Component {
                 },
             }
         };
+        if (!(Object.keys(props.location.query).length === 0)) {
+            console.log("Query non-empty");
+            console.log("Got from local storage");
+            console.log("For key: " + props.location.query["q"]);
+            console.log(JSON.parse(localStorage.getItem(props.location.query["q"])));
+            this.state.view = JSON.parse(localStorage.getItem(props.location.query["q"]));
+        }
         this.state.socket.onmessage = () => this.onMessageReceived();
         this.state.socket.onopen = () => this.state.socket.send(this._getScript());
     };
@@ -156,7 +163,7 @@ class ViewController extends React.Component {
                                                       id="duplicate">
                                         {I18Store.i18n('view.duplicate-new-tab')}
                                     </Tooltip>}>
-                        <Button bsStyle="info" onClick={() => window.open(location.href, '_blank')}>
+                        <Button bsStyle="info" onClick={this.duplicateTab}>
                             {I18Store.i18n('view.duplicate')}
                         </Button>
                     </OverlayTrigger>
@@ -221,9 +228,23 @@ class ViewController extends React.Component {
                 };
             });
             this.setState({loading: false});
-            Actions.loadView(this._getScript());
+            if (this.state.view === null)
+                Actions.loadView(this._getScript());
+            else
+                this.loadViewFromData(this.state.view);
         }
     };
+
+    loadViewFromData(data) {
+        let fbpGraph = window.TheGraph.fbpGraph;
+        let view = new fbpGraph.Graph();
+        data.nodes.map((n) => view.addNode(n.id, n.component, n.metadata));
+        data.edges.map((e) => view.addEdge(e.from.node, e.from.port, e.to.node, e.to.port, e.metadata));
+
+        this.setState({view: view});
+        this.setState({viewLoaded: true});
+        this._renderView("none");
+    }
 
     _viewLoaded = (data) => {
         if (data.action === Actions.loadView) {
@@ -296,6 +317,20 @@ class ViewController extends React.Component {
         this.state.view.addNode(id, this.state.library[type] !== undefined ? type : 'basic', undefined);
         this.state.view.endTransaction('loadGraph');
     };
+
+    duplicateTab() {
+        if (Object.keys(that.props.location.query).length === 0) {
+            let localStorageId = Math.random().toString(36).slice(2);
+            that.state.view.toJSON = undefined;
+            console.log("Writing to local storage");
+            console.log("Key: " + localStorageId);
+            console.log("Value: " + JSON.stringify(that.state.view));
+            localStorage.setItem(localStorageId, JSON.stringify(that.state.view));
+            window.open(location.href + "?q=" + localStorageId, '_blank');
+        }
+        else
+            window.open(location.href, '_blank');
+    }
 
     openForm() {
         this.setState({formVisible: true})
@@ -376,25 +411,32 @@ class ViewController extends React.Component {
         that.state.view.on('endTransaction', renderEditor); // graph changed
         window.addEventListener("resize", renderEditor);
 
-        let elk = new ELK({
-            workerUrl: '../../../node_modules/elkjs/lib/elk-worker.min.js'
-        });
-        let options = {
-            'org.eclipse.elk.layered.crossingMinimization.strategy': 'INTERACTIVE',
-        };
-        elk.layout(elkGraph, options).then((g) => {
-                that.state.view.startTransaction('loadgraph');
-                for (var i = 0; i < g["children"].length; i++) {
-                    that.state.view.nodes[i].metadata.x = g["children"][i].x;
-                    that.state.view.nodes[i].metadata.y = g["children"][i].y;
-                }
-                that.state.view.endTransaction('loadgraph');
-
-                that.setState({viewLaidOut: true});
-            },
-            (err) => {
-                console.log(err);
+        if (algorithm === "none") {
+            that.state.view.startTransaction('loadgraph');
+            that.state.view.endTransaction('loadgraph');
+            that.setState({viewLaidOut: true});
+        }
+        else {
+            let elk = new ELK({
+                workerUrl: '../../../node_modules/elkjs/lib/elk-worker.min.js'
             });
+            let options = {
+                'org.eclipse.elk.layered.crossingMinimization.strategy': 'INTERACTIVE',
+            };
+            elk.layout(elkGraph, options).then((g) => {
+                    that.state.view.startTransaction('loadgraph');
+                    for (var i = 0; i < g["children"].length; i++) {
+                        that.state.view.nodes[i].metadata.x = g["children"][i].x;
+                        that.state.view.nodes[i].metadata.y = g["children"][i].y;
+                    }
+                    that.state.view.endTransaction('loadgraph');
+
+                    that.setState({viewLaidOut: true});
+                },
+                (err) => {
+                    console.log(err);
+                });
+        }
     };
 }
 
