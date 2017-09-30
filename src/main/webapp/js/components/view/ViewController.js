@@ -25,6 +25,7 @@ let ELK = require('elkjs/lib/elk-api');
 let direction = 'RIGHT';
 let defaultLayout = 'layered';
 var that;
+var record;
 
 class ViewController extends React.Component {
 
@@ -103,13 +104,8 @@ class ViewController extends React.Component {
                 },
             }
         };
-        if (!(Object.keys(props.location.query).length === 0)) {
-            console.log("Query non-empty");
-            console.log("Got from local storage");
-            console.log("For key: " + props.location.query["q"]);
-            console.log(JSON.parse(localStorage.getItem(props.location.query["q"])));
+        if (!(Object.keys(props.location.query).length === 0))
             this.state.view = JSON.parse(localStorage.getItem(props.location.query["q"]));
-        }
         this.state.socket.onmessage = () => this.onMessageReceived();
         this.state.socket.onopen = () => this.state.socket.send(this._getScript());
     };
@@ -123,6 +119,8 @@ class ViewController extends React.Component {
             onCancel: this._onCancel,
             onChange: this._onChange
         };
+        record = <Record ref={(c) => this.recordComponent = c} handlers={handlers} record={this.state.record}
+                         loading={this.state.loading}/>;
         return (
             <div id="main">
                 <ButtonGroup vertical id="left-panel">
@@ -194,8 +192,7 @@ class ViewController extends React.Component {
                 </Modal>
                 <Modal dialogClassName="form-modal" show={this.state.formVisible}>
                     <Modal.Body>
-                        <Record ref={(c) => this.recordComponent = c} handlers={handlers} record={this.state.record}
-                                loading={this.state.loading}/>
+                        {record}
                     </Modal.Body>
                 </Modal>
             </div>);
@@ -322,9 +319,6 @@ class ViewController extends React.Component {
         if (Object.keys(that.props.location.query).length === 0) {
             let localStorageId = Math.random().toString(36).slice(2);
             that.state.view.toJSON = undefined;
-            console.log("Writing to local storage");
-            console.log("Key: " + localStorageId);
-            console.log("Value: " + JSON.stringify(that.state.view));
             localStorage.setItem(localStorageId, JSON.stringify(that.state.view));
             window.open(location.href + "?q=" + localStorageId, '_blank');
         }
@@ -430,7 +424,6 @@ class ViewController extends React.Component {
                         that.state.view.nodes[i].metadata.y = g["children"][i].y;
                     }
                     that.state.view.endTransaction('loadgraph');
-
                     that.setState({viewLaidOut: true});
                 },
                 (err) => {

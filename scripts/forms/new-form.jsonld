@@ -22,9 +22,6 @@
       "@id": "http://onto.fel.cvut.cz/ontologies/documentation/has_related_question",
       "@type": "@id"
     },
-    "label": {
-      "@id": "http://www.w3.org/2000/01/rdf-schema#label"
-    },
     "has-question-origin": {
       "@id": "http://onto.fel.cvut.cz/ontologies/form/has-question-origin",
       "@type": "@id"
@@ -89,41 +86,31 @@
   },
   "@graph": [
     {
-      "@id": "label:-a",
-      "@type": "doc:answer",
-      "has_data_value": "Some value",
-      "has-answer-origin": "rdfs:label"
-    },
-    {
-      "@id": "label:-q",
+      "@id": "rdfs:label-q",
       "@type": "doc:question",
-      "has_answer": {
-        "@id": "label:-a"
-      },
+      "has-preceding-question": "rdfs:id-q",
       "has-question-origin": "rdfs:label",
-      "description": "Whatever description question mark",
-      "label": "label-q"
+      "description": "Label that will be displayed",
+      "rdfs:label": "Label"
     },
     {
-      "@id": "rdfs:type-q",
+      "@id": "rdfs:id-q",
       "@type": "doc:question",
-      "has-preceding-question": "label:-q",
       "has-question-origin": "rdfs:type",
-      "description": "<module type description>",
-      "label": "Label for rdfs:type"
+      "rdfs:label": "Module URI"
     },
     {
       "@id": "x:form-1-default-q",
       "@type": "doc:question",
       "has_related_question": [
-        "label:-q",
-        "rdfs:type-q"
+        "rdfs:label-q",
+        "rdfs:id-q"
       ],
       "has-layout-class": [
         "section",
         "wizard-step"
       ],
-      "label": "Some wizard step"
+      "rdfs:label": "Module configuration"
     },
     {
       "@id": "x:form-1-q",
