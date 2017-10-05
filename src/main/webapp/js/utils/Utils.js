@@ -17,6 +17,23 @@ var URL_CONTAINS_QUERY = /^.+\?.+=.+$/;
 var CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
 module.exports = {
+
+    /**
+     * Finds value in a JSON tree based on key.
+     * Returns undefined in case nothing is found.
+     * @param tree JSON tree
+     * @param uri URI to search for
+     */
+    findObjectInTree: function (tree, uri) {
+        for (let i in tree)
+            if (tree.hasOwnProperty(i))
+                if (tree[i] !== null && tree[i]["uri"] !== undefined && tree[i]["uri"] === uri)
+                    return tree[i];
+                else if (tree[i] !== null && typeof(tree[i]) === "object")
+                    return this.findObjectInTree(tree[i], uri);
+        return undefined;
+    },
+
     /**
      * Formats the specified date into DD-MM-YY HH:mm
      * @param date The date to format
