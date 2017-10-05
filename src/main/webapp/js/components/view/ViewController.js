@@ -307,7 +307,8 @@ class ViewController extends React.Component {
         let formData = this.recordComponent.refs.wrappedInstance.getWrappedComponent().getFormData();
         let uriQ = Utils.findObjectInTree(formData, "http://www.w3.org/2000/01/rdf-schema#id-q");
         let uri = uriQ["answers"][0]["textValue"];
-        let label = formData["subQuestions"][0]["subQuestions"][1]["answers"][0]["textValue"];
+        let labelQ = Utils.findObjectInTree(formData, "http://www.w3.org/2000/01/rdf-schema#label-q");
+        let label = labelQ["answers"][0]["textValue"];
         this.addNode(uri, label, this.state.type);
         this.setState({formVisible: false});
     };
