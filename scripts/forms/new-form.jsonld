@@ -96,7 +96,7 @@
     {
       "@id": "rdfs:id-q",
       "@type": "doc:question",
-      "has-question-origin": "rdfs:type",
+      "has-question-origin": "@id",
       "rdfs:label": "Module URI"
     },
     {
