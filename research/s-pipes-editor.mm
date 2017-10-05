@@ -2,8 +2,8 @@
 <!--To view this file, download free mind mapping software Freeplane from http://freeplane.sourceforge.net -->
 <node TEXT="main" FOLDED="false" ID="ID_448131109" CREATED="1312805290594" MODIFIED="1502306364395">
 <font NAME="SansSerif"/>
-<hook NAME="MapStyle" zoom="0.826">
-    <properties show_icon_for_attributes="true" fit_to_viewport="false;" show_note_icons="true" show_notes_in_map="false"/>
+<hook NAME="MapStyle">
+    <properties fit_to_viewport="false;" show_icon_for_attributes="true" show_note_icons="true" show_notes_in_map="false"/>
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node" STYLE="oval" UNIFORM_SHAPE="true" VGAP_QUANTITY="24.0 pt">
@@ -1829,7 +1829,8 @@
 </node>
 <node TEXT="miro" STYLE_REF="categorization" FOLDED="true" ID="ID_834050810" CREATED="1501676095819" MODIFIED="1501676332459">
 <node TEXT="add directory watcher service" ID="ID_819008708" CREATED="1501675762529" MODIFIED="1501676460022"/>
-<node TEXT="save and load of scripts" ID="ID_1749633881" CREATED="1501675817260" MODIFIED="1501676142819">
+<node TEXT="save and load of scripts" ID="ID_1749633881" CREATED="1501675817260" MODIFIED="1507228757258">
+<font SIZE="10"/>
 <node TEXT="next" STYLE_REF="onto-prop" ID="ID_367797265" CREATED="1501676151996" MODIFIED="1501676153503">
 <node TEXT="rest api stubs ?" ID="ID_1943163582" CREATED="1501676154864" MODIFIED="1501685523987">
 <node TEXT="/save" ID="ID_1970112360" CREATED="1501676271728" MODIFIED="1501676273567"/>
@@ -1847,7 +1848,8 @@
 <node TEXT=" 2017-10-05" ID="ID_1588228194" CREATED="1507203929935" MODIFIED="1507203941067">
 <node TEXT="task" ID="ID_1612017362" CREATED="1507203941944" MODIFIED="1507203942877">
 <node TEXT="yan" ID="ID_662222209" CREATED="1507203971319" MODIFIED="1507203974790">
-<node TEXT="node attributes should change" ID="ID_1395992747" CREATED="1507206975756" MODIFIED="1507207020671">
+<node TEXT="node attributes should change" ID="ID_1395992747" CREATED="1507206975756" MODIFIED="1507228779117">
+<icon BUILTIN="button_ok"/>
 <node ID="ID_1457017284" CREATED="1507207021290" MODIFIED="1507207021290"><richcontent TYPE="NODE">
 
 <html>
@@ -1863,7 +1865,8 @@
 </richcontent>
 </node>
 </node>
-<node TEXT="drag &amp; drop module types" ID="ID_428909290" CREATED="1501685645106" MODIFIED="1503042344470">
+<node TEXT="add modules" ID="ID_1481691831" CREATED="1507228811541" MODIFIED="1507228859135">
+<icon BUILTIN="button_ok"/>
 <node TEXT="s-forms dialog should show wtih" ID="ID_575530565" CREATED="1503046096368" MODIFIED="1503046769149">
 <node TEXT="on create" STYLE_REF="onto-prop" ID="ID_42426787" CREATED="1503046837755" MODIFIED="1503046850031">
 <node TEXT="title: create &lt;module-type-url&gt;" ID="ID_720081835" CREATED="1503046855036" MODIFIED="1503046881863">
@@ -1886,6 +1889,7 @@
 <node TEXT="icons within list of module types" ID="ID_163407032" CREATED="1507205009212" MODIFIED="1507207034160">
 <icon BUILTIN="button_ok"/>
 </node>
+<node TEXT="add modules by module types drag and drop" ID="ID_428909290" CREATED="1501685645106" MODIFIED="1507228854275"/>
 <node TEXT="use autocomplete component to search modules" ID="ID_1515339185" CREATED="1507204678325" MODIFIED="1507204696693">
 <node TEXT=" &quot;react-bootstrap-typeahead&quot;: &quot;https://kbss.felk.cvut.cz/dist/react-bootstrap-typeahead-0.0.XXXX.tgz&quot;," ID="ID_322087820" CREATED="1507206176611" MODIFIED="1507206248988"/>
 <node TEXT="watch out concrete version with current semforms library" ID="ID_1984781146" CREATED="1507206235761" MODIFIED="1507206264169"/>
