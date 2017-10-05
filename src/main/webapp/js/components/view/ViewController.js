@@ -15,6 +15,7 @@ import * as RouterStore from "../../stores/RouterStore";
 import * as EntityFactory from "../../utils/EntityFactory";
 import Mask from "../Mask";
 import * as I18Store from "../../stores/I18nStore";
+import * as Utils from "../../utils/Utils";
 
 let Routes = require('../../utils/Routes');
 let Routing = require('../../utils/Routing');
@@ -39,6 +40,7 @@ class ViewController extends React.Component {
         this.state = {
             moduleTypes: null,
             view: null,
+            type: null,
             loading: true,
             viewLoaded: false,
             viewLaidOut: false,
@@ -117,7 +119,8 @@ class ViewController extends React.Component {
             );
         let handlers = {
             onCancel: this._onCancel,
-            onChange: this._onChange
+            onChange: this._onChange,
+            onSave: this._onSave
         };
         record = <Record ref={(c) => this.recordComponent = c} handlers={handlers} record={this.state.record}
                          loading={this.state.loading}/>;
@@ -133,14 +136,18 @@ class ViewController extends React.Component {
                                 title={m["@id"]}>
                                 {m["http://www.w3.org/2000/01/rdf-schema#comment"]}
                             </Popover>);
+                        let className = "fa fa-" + (m["http://topbraid.org/sparqlmotion#icon"] === undefined ? "gear" : m["http://topbraid.org/sparqlmotion#icon"]);
                         return <OverlayTrigger
                             placement="right"
                             key={m["@id"]}
                             overlay={popover}>
                             <Button block
                                     key={m["@id"]}
-                                    onClick={() => this.addModule(m["@id"], m["@id"])}>
-                                {m["@id"].toString().split("/").reverse()[0]}
+                                    onClick={() => this.addModule(m["@id"].toString())}>
+                                <span className="pull-left">
+                                    <i className={className} aria-hidden="true"></i>
+                                    {" " + m["@id"].toString().split("/").reverse()[0]}
+                                </span>
                             </Button>
                         </OverlayTrigger>
                     })}
@@ -250,7 +257,9 @@ class ViewController extends React.Component {
             data.data["http://onto.fel.cvut.cz/ontologies/s-pipes-view/consists-of-node"].map(n => {
                 if (typeof n === "object")
                     this.state.view.addNode(n["@id"], n["@type"][0], {
-                        label: n["@id"].toString().split("/").reverse()[0],
+                        label: n["http://www.w3.org/2000/01/rdf-schema#label"] === undefined ?
+                            n["@id"].toString().split("/").reverse()[0] :
+                            n["http://www.w3.org/2000/01/rdf-schema#label"],
                         types: n["@type"],
                         x: n["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-x-coordinate"],
                         y: n["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-y-coordinate"]
@@ -260,7 +269,9 @@ class ViewController extends React.Component {
                 if (typeof e["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-source-node"] === "object") {
                     let n = e["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-source-node"];
                     this.state.view.addNode(n["@id"], n["@type"][0], {
-                        label: n["@id"].toString().split("/").reverse()[0],
+                        label: n["http://www.w3.org/2000/01/rdf-schema#label"] === undefined ?
+                            n["@id"].toString().split("/").reverse()[0] :
+                            n["http://www.w3.org/2000/01/rdf-schema#label"],
                         types: n["@type"],
                         x: n["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-x-coordinate"],
                         y: n["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-y-coordinate"]
@@ -269,7 +280,9 @@ class ViewController extends React.Component {
                 if (typeof e["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-destination-node"] === "object") {
                     let n = e["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-destination-node"];
                     this.state.view.addNode(n["@id"], n["@type"][0], {
-                        label: n["@id"].toString().split("/").reverse()[0],
+                        label: n["http://www.w3.org/2000/01/rdf-schema#label"] === undefined ?
+                            n["@id"].toString().split("/").reverse()[0] :
+                            n["http://www.w3.org/2000/01/rdf-schema#label"],
                         types: n["@type"],
                         x: n["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-x-coordinate"],
                         y: n["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-y-coordinate"]
@@ -288,6 +301,15 @@ class ViewController extends React.Component {
             this.setState({viewLoaded: true});
             this._renderView(defaultLayout);
         }
+    };
+
+    _onSave = () => {
+        let formData = this.recordComponent.refs.wrappedInstance.getWrappedComponent().getFormData();
+        let uriQ = Utils.findObjectInTree(formData, "http://www.w3.org/2000/01/rdf-schema#id-q");
+        let uri = uriQ["answers"][0]["textValue"];
+        let label = formData["subQuestions"][0]["subQuestions"][1]["answers"][0]["textValue"];
+        this.addNode(uri, label, this.state.type);
+        this.setState({formVisible: false});
     };
 
     _onCancel = () => {
@@ -309,9 +331,18 @@ class ViewController extends React.Component {
         this.unsubscribeView();
     };
 
-    addModule(id, type) {
+    addModule(type) {
+        this.setState({formVisible: true, type: type});
+    };
+
+    addNode(id, label, type) {
         this.state.view.startTransaction('loadgraph');
-        this.state.view.addNode(id, this.state.library[type] !== undefined ? type : 'basic', undefined);
+        this.state.view.addNode(id,
+            this.state.library[type] !== undefined ? type : 'basic',
+            {
+                label: label,
+                type: type
+            });
         this.state.view.endTransaction('loadGraph');
     };
 
