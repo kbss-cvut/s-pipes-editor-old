@@ -4,10 +4,10 @@
 
 'use strict';
 
-var I18nStore = require('./stores/I18nStore');
-var addLocaleData = require('react-intl').addLocaleData;
+const I18nStore = require('./stores/I18nStore');
+const addLocaleData = require('react-intl').addLocaleData;
 
-var intlData = null;
+let intlData = null;
 
 function selectLocalization() {
     // Load react-intl locales
@@ -16,7 +16,7 @@ function selectLocalization() {
             addLocaleData(ReactIntlLocaleData[lang]);
         });
     }
-    var lang = navigator.language;
+    const lang = navigator.language;
     // if (lang && lang === 'cs' || lang === 'cs-CZ' || lang === 'sk' || lang === 'sk-SK') {
     //     intlData = require('./i18n/cs');
     // } else {
@@ -28,36 +28,33 @@ function selectLocalization() {
 selectLocalization();
 I18nStore.setMessages(intlData.messages);
 
-//Test comment
-
 // Have the imports here, so that the I18nStore is initialized before any of the components which might need it
-var React = require('react');
-var ReactDOM = require('react-dom');
-var Router = require('react-router').Router;
-var Route = require('react-router').Route;
-var IndexRoute = require('react-router').IndexRoute;
-var IntlProvider = require('react-intl').IntlProvider;
+const React = require('react');
+const ReactDOM = require('react-dom');
+const Router = require('react-router').Router;
+const Route = require('react-router').Route;
+const IndexRoute = require('react-router').IndexRoute;
+const IntlProvider = require('react-intl').IntlProvider;
 
-var history = require('./utils/Routing').history;
-var Routes = require('./utils/Routes');
-var Actions = require('./actions/Actions');
+const history = require('./utils/Routing').history;
+const Routes = require('./utils/Routes');
 
-var Login = require('./components/login/Login');
-var MainView = require('./components/MainView');
-var DashboardController = require('./components/dashboard/DashboardController');
-var RecordController = require('./components/record/RecordController').default;
-var RecordsController = require('./components/record/RecordsController').default;
-var ViewController = require('./components/view/ViewController').default;
-var UsersController = require('./components/user/UsersController').default;
-var UserController = require('./components/user/UserController').default;
-var RoutingRules = require('./utils/RoutingRules');
+const Login = require('./components/login/Login');
+const MainView = require('./components/MainView');
+const DashboardController = require('./components/dashboard/DashboardController');
+const RecordController = require('./components/record/RecordController').default;
+const RecordsController = require('./components/record/RecordsController').default;
+const ViewController = require('./components/view/ViewController').default;
+const UsersController = require('./components/user/UsersController').default;
+const UserController = require('./components/user/UserController').default;
+const RoutingRules = require('./utils/RoutingRules');
 
 function onRouteEnter() {
     RoutingRules.execute(this.path);
 }
 
 // Wrapping router in a React component to allow Intl to initialize
-var App = React.createClass({
+const App = React.createClass({
     render: function () {
         return <IntlProvider {...intlData}>
             <Router history={history}>
