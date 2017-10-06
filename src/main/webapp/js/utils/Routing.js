@@ -1,12 +1,11 @@
 'use strict';
+import * as RouterStore from "../stores/RouterStore";
 
-var hashHistory = require('react-router').hashHistory;
+const hashHistory = require('react-router').hashHistory;
+const Constants = require('../constants/Constants');
+const RoutingRules = require('./RoutingRules');
 
-var Constants = require('../constants/Constants');
-var RouterStore = require('../stores/RouterStore');
-var RoutingRules = require('./RoutingRules');
-
-var Routing = {
+const Routing = {
     history: hashHistory,
 
     originalTarget: null,
@@ -17,7 +16,7 @@ var Routing = {
      * @param options Transition options, can specify path parameters, query parameters, payload and view handlers.
      */
     transitionTo: function (route, options) {
-        var path = route.path;
+        let path = route.path;
         if (!options) {
             options = {};
         }
@@ -34,7 +33,7 @@ var Routing = {
     },
 
     setPathParams: function (path, params) {
-        for (var paramName in params) {
+        for (let paramName in params) {
             if (params.hasOwnProperty(paramName)) {
                 path = path.replace(':' + paramName, params[paramName]);
             }

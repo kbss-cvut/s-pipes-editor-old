@@ -1,6 +1,6 @@
 'use strict';
 
-var Routes = {
+const Routes = {
     login: {name: 'login', path: 'login'},
     dashboard: {name: 'dashboard', path: 'dashboard'},
     users: {name: 'users', path: 'users'},

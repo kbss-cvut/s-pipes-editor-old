@@ -1,10 +1,10 @@
 'use strict';
 
-var React = require('react');
-var Alert = require('react-bootstrap').Alert;
+const React = require('react');
+const Alert = require('react-bootstrap').Alert;
 
 
-var MessageMixin = {
+const MessageMixin = {
     getInitialState: function () {
         return {
             message: null
