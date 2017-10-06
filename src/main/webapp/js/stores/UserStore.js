@@ -1,17 +1,17 @@
 'use strict';
 
-var Reflux = require('reflux');
+const Reflux = require('reflux');
 
-var Actions = require('../actions/Actions');
-var Ajax = require('../utils/Ajax');
-var Utils = require('../utils/Utils');
+const Actions = require('../actions/Actions');
+const Ajax = require('../utils/Ajax');
+const Utils = require('../utils/Utils');
 
-var currentUser = null;
-var loaded = false;
-var users = null;
+let currentUser = null;
+let loaded = false;
+let users = null;
 
 
-var UserStore = Reflux.createStore({
+const UserStore = Reflux.createStore({
     listenables: [Actions],
 
     onLoadCurrentUser: function () {
@@ -58,7 +58,7 @@ var UserStore = Reflux.createStore({
     onCreateUser: function (user, onSuccess, onError) {
         Ajax.post('rest/users').send(user).end((data, resp) => {
             if (onSuccess) {
-                var username = Utils.extractKeyFromLocationHeader(resp);
+                const username = Utils.extractKeyFromLocationHeader(resp);
                 onSuccess(username);
             }
             Actions.loadAllUsers();

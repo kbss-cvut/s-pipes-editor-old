@@ -18,20 +18,28 @@ const CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567
 
 module.exports = {
 
+    searchResult: undefined,
+
     /**
      * Finds value in a JSON tree based on key.
      * Returns undefined in case nothing is found.
      * @param tree JSON tree
      * @param uri URI to search for
      */
+    find: function (tree, uri) {
+        this.findObjectInTree(tree, uri);
+        return this.searchResult;
+    },
+
     findObjectInTree: function (tree, uri) {
-        for (const i in tree)
-            if (tree.hasOwnProperty(i))
-                if (tree[i] !== null && tree[i]["uri"] !== undefined && tree[i]["uri"] === uri)
-                    return tree[i];
-                else if (tree[i] !== null && typeof(tree[i]) === "object")
-                    return this.findObjectInTree(tree[i], uri);
-        return undefined;
+        if (typeof(tree) === "object" && tree !== null) {
+            if (uri === tree["uri"])
+                this.searchResult = tree;
+            else
+                for (let p in tree)
+                    if (tree.hasOwnProperty(p))
+                        this.findObjectInTree(tree[p], uri);
+        }
     },
 
     /**
@@ -183,8 +191,9 @@ module.exports = {
      * @return {number}
      */
     getStringHash: function (str) {
-        const strlen = str ? str.length : 0;
-        let hash = 0, c;
+        let hash = 0,
+            strlen = str ? str.length : 0,
+            c;
         if (strlen === 0) {
             return hash;
         }
