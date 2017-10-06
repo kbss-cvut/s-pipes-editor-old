@@ -1,6 +1,6 @@
 'use strict';
 
-var Reflux = require('reflux');
+const Reflux = require('reflux');
 
 /**
  * Manages passing payloads on routing transition.
@@ -8,7 +8,7 @@ var Reflux = require('reflux');
  * For example, when one wants to pass and object when transitioning to another route, this store will be used to store
  * the payload object and the target route handler can ask for it.
  */
-var RouterStore = Reflux.createStore({
+const RouterStore = Reflux.createStore({
 
     transitionPayload: {},
     viewHandlers: {},
