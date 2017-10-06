@@ -1,18 +1,18 @@
 'use strict';
 
-var React = require('react');
+let React = require('react');
 const Reflux = require('reflux');
-var classNames = require('classnames');
+let classNames = require('classnames');
 
-var WizardStep = require('./WizardStep');
-var WizardStore = require('../../stores/WizardStore');
+let WizardStep = require('./WizardStep');
+let WizardStore = require('../../stores/WizardStore');
 
-var HorizontalWizardNav = require('./HorizontalWizardNav').default;
-var VerticalWizardNav = require('./VerticalWizardNav').default;
+let HorizontalWizardNav = require('./HorizontalWizardNav').default;
+let VerticalWizardNav = require('./VerticalWizardNav').default;
 
 const IS_HORIZONTAL = true;
 
-var Wizard = React.createClass({
+let Wizard = React.createClass({
     mixins: [Reflux.listenTo(WizardStore, '_onWizardDataChange')],
 
     propTypes: {
@@ -46,7 +46,7 @@ var Wizard = React.createClass({
     },
 
     onAdvance: function () {
-        var change = {};
+        let change = {};
         if (this.state.currentStep !== this.props.steps.length - 1) {
             this.props.steps[this.state.currentStep + 1].visited = true;
             change.currentStep = this.state.currentStep + 1;
@@ -64,7 +64,7 @@ var Wizard = React.createClass({
     },
 
     onFinish: function (errCallback) {
-        var data = {
+        let data = {
             data: WizardStore.getData(),
             stepData: WizardStore.getStepData()
         };
@@ -91,8 +91,8 @@ var Wizard = React.createClass({
     },
 
     onRemoveStep: function (stepId) {
-        var stateUpdate = {};
-        for (var i = 0, len = this.props.steps.length; i < len; i++) {
+        let stateUpdate = {};
+        for (let i = 0, len = this.props.steps.length; i < len; i++) {
             if (this.props.steps[i].id === stepId) {
                 this.props.steps.splice(i, 1);
                 WizardStore.removeStep(i);
@@ -107,9 +107,9 @@ var Wizard = React.createClass({
 
 
     render: function () {
-        var component = this.initComponent();
+        let component = this.initComponent();
 
-        var navMenu,
+        let navMenu,
             componentClass = classNames('wizard-content', {'col-xs-10': !IS_HORIZONTAL});
 
         if (IS_HORIZONTAL) {
@@ -146,7 +146,7 @@ var Wizard = React.createClass({
         if (this.props.steps.length === 0) {
             return <div className='italics'>There are no steps in this wizard.</div>;
         }
-        var step = this.props.steps[this.state.currentStep];
+        let step = this.props.steps[this.state.currentStep];
 
         return React.createElement(WizardStep, {
             key: 'step' + this.state.currentStep,

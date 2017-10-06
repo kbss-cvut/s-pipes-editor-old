@@ -54,13 +54,13 @@ class User extends React.Component {
     }
 
     _onChange = (e) => {
-        var change = {};
+        let change = {};
         change[e.target.name] = e.target.value;
         this.props.onChange(change);
     };
 
     _onClinicSelected = (e) => {
-        var value = e.target.value,
+        let value = e.target.value,
             clinic = ClinicStore.getClinics().find((item) => item.uri === value),
             change = {
                 clinic: clinic
@@ -69,7 +69,7 @@ class User extends React.Component {
     };
 
     _onAdminStatusChange = (e) => {
-        var isAdmin = e.target.checked,
+        let isAdmin = e.target.checked,
             types = this.props.user.types.slice();
         if (isAdmin) {
             types.push(Vocabulary.ADMIN_TYPE);
@@ -83,7 +83,7 @@ class User extends React.Component {
         if (this.props.loading) {
             return <Mask text={this.i18n('please-wait')}/>;
         }
-        var user = this.props.user;
+        let user = this.props.user;
         return <Panel header={<h3>{this.i18n('user.panel-title')}</h3>} bsStyle='primary'>
             <form className='form-horizontal' style={{margin: '0.5em 0 0 0'}}>
                 <div className='row'>

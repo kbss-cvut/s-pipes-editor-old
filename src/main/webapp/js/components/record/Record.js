@@ -9,7 +9,6 @@ import Input from '../Input';
 import Mask from "../Mask";
 import RecordForm from "./RecordForm";
 import RecordProvenance from "./RecordProvenance";
-import RecordValidator from "../../validation/RecordValidator";
 import WizardStore from "../../stores/WizardStore";
 import {FormUtils} from "semforms";
 
@@ -26,7 +25,7 @@ class Record extends React.Component {
     }
 
     _onChange = (e) => {
-        var change = {};
+        let change = {};
         change[e.target.name] = e.target.value;
         this.props.handlers.onChange(change);
     };
@@ -39,7 +38,7 @@ class Record extends React.Component {
         if (this.props.loading || !this.props.record) {
             return <Mask text={this.i18n('please-wait')}/>;
         }
-        var record = this.props.record,
+        let record = this.props.record,
             complete = true;
         return <Panel header={this._renderHeader()} bsStyle='primary'>
             <form className='form-horizontal'>
@@ -52,14 +51,14 @@ class Record extends React.Component {
     }
 
     _renderHeader() {
-        var name = this.props.record.localName ? this.props.record.localName : '';
+        let name = this.props.record.localName ? this.props.record.localName : '';
         return <h3>
             <FormattedMessage id='record.panel-title' values={{identifier: name}}/>
         </h3>;
     }
 
     _renderClinic() {
-        var record = this.props.record;
+        let record = this.props.record;
         if (!record.clinic) {
             return null;
         }

@@ -4,21 +4,21 @@
 
 'use strict';
 
-var React = require('react');
-var Jumbotron = require('react-bootstrap').Jumbotron;
-var Grid = require('react-bootstrap').Grid;
-var Col = require('react-bootstrap').Col;
-var Row = require('react-bootstrap').Row;
+let React = require('react');
+let Jumbotron = require('react-bootstrap').Jumbotron;
+let Grid = require('react-bootstrap').Grid;
+let Col = require('react-bootstrap').Col;
+let Row = require('react-bootstrap').Row;
 
-var injectIntl = require('../../utils/injectIntl');
-var FormattedMessage = require('react-intl').FormattedMessage;
+let injectIntl = require('../../utils/injectIntl');
+let FormattedMessage = require('react-intl').FormattedMessage;
 
-var Authentication = require('../../utils/Authentication');
-var Constants = require('../../constants/Constants');
-var Tile = require('./DashboardTile').default;
-var I18nMixin = require('../../i18n/I18nMixin');
+let Authentication = require('../../utils/Authentication');
+let Constants = require('../../constants/Constants');
+let Tile = require('./DashboardTile').default;
+let I18nMixin = require('../../i18n/I18nMixin');
 
-var Dashboard = React.createClass({
+let Dashboard = React.createClass({
     mixins: [I18nMixin],
 
     propTypes: {

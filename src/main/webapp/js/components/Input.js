@@ -4,10 +4,10 @@
 
 'use strict';
 
-var React = require('react');
-var BootstrapInput = require('react-bootstrap').Input;
+let React = require('react');
+let BootstrapInput = require('react-bootstrap').Input;
 
-var Input = React.createClass({
+let Input = React.createClass({
 
     focus: function() {
         this.refs.input.getInputDOMNode().focus();

@@ -1,6 +1,6 @@
 'use strict';
 
-var I18nMixin = {
+const I18nMixin = {
 
     i18n: function (id) {
         return this.props.intl.messages[id];

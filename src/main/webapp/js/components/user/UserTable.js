@@ -50,7 +50,7 @@ class UserTable extends React.Component {
     }
 
     _getDeleteLabel() {
-        var user = this.state.selectedUser;
+        let user = this.state.selectedUser;
         return user ? user.firstName + ' ' + user.lastName : '';
     }
 
@@ -67,18 +67,18 @@ class UserTable extends React.Component {
     }
 
     _renderUsers() {
-        var users = this.props.users,
+        let users = this.props.users,
             rows = [],
             onEdit = this.props.handlers.onEdit;
-        for (var i = 0, len = users.length; i < len; i++) {
+        for (let i = 0, len = users.length; i < len; i++) {
             rows.push(<UserRow key={users[i].username} user={users[i]} onEdit={onEdit} onDelete={this._onDelete}/>);
         }
         return rows;
     }
 }
 
-var UserRow = (props) => {
-    var user = props.user;
+let UserRow = (props) => {
+    let user = props.user;
     return <tr>
         <td className='report-row'>
             <a href={'#/' + Routes.users.path + '/' + user.username}

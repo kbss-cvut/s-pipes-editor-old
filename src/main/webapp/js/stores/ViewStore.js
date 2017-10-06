@@ -1,12 +1,12 @@
 'use strict';
 
-let Reflux = require('reflux');
+const Reflux = require('reflux');
 
-let Actions = require('../actions/Actions');
-let Ajax = require('../utils/Ajax');
+const Actions = require('../actions/Actions');
+const Ajax = require('../utils/Ajax');
 
 //todo Rewrite to "extends" form
-let ViewStore = Reflux.createStore({
+const ViewStore = Reflux.createStore({
     listenables: [Actions],
 
     onLoadView: function (script) {

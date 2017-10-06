@@ -58,7 +58,7 @@ export default class RecordsController extends React.Component {
     };
 
     render() {
-        var handlers = {
+        let handlers = {
             onEdit: this._onEditRecord,
             onCreate: this._onAddRecord,
             onDelete: this._onDeleteRecord

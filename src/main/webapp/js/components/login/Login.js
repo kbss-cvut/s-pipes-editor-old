@@ -1,21 +1,21 @@
 'use strict';
 
-var React = require('react');
-var Panel = require('react-bootstrap').Panel;
-var Button = require('react-bootstrap').Button;
-var Alert = require('react-bootstrap').Alert;
+let React = require('react');
+let Panel = require('react-bootstrap').Panel;
+let Button = require('react-bootstrap').Button;
+let Alert = require('react-bootstrap').Alert;
 
-var injectIntl = require('../../utils/injectIntl');
+let injectIntl = require('../../utils/injectIntl');
 
-var Mask = require('../Mask').default;
-var Input = require('../Input');
-var Routing = require('../../utils/Routing');
-var Routes = require('../../utils/Routes');
-var Authentication = require('../../utils/Authentication');
-var I18nMixin = require('../../i18n/I18nMixin');
+let Mask = require('../Mask').default;
+let Input = require('../Input');
+let Routing = require('../../utils/Routing');
+let Routes = require('../../utils/Routes');
+let Authentication = require('../../utils/Authentication');
+let I18nMixin = require('../../i18n/I18nMixin');
 
 
-var Login = React.createClass({
+let Login = React.createClass({
     mixins: [I18nMixin],
 
     getInitialState: function () {
@@ -32,7 +32,7 @@ var Login = React.createClass({
     },
 
     onChange: function (e) {
-        var state = this.state;
+        let state = this.state;
         state[e.target.name] = e.target.value;
         state.alertVisible = false;
         this.setState(state);
@@ -59,7 +59,7 @@ var Login = React.createClass({
 
 
     render: function () {
-        var panelCls = this.state.alertVisible ? 'login-panel expanded' : 'login-panel',
+        let panelCls = this.state.alertVisible ? 'login-panel expanded' : 'login-panel',
             mask = this.state.mask ? (<Mask text={this.i18n('login.progress-mask')}/>) : null;
         return <Panel header={<h3>{this.i18n('login.title')}</h3>} bsStyle='info' className={panelCls}>
             {mask}

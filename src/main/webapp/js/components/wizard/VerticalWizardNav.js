@@ -5,7 +5,7 @@ import {ListGroup, ListGroupItem} from "react-bootstrap";
 
 const VerticalWizardNav = (props) => {
 
-    var navMenu = props.steps.map((step, index) => {
+    let navMenu = props.steps.map((step, index) => {
         return <ListGroupItem key={'nav' + index} onClick={() => props.onNavigate(index)} id={'wizard-nav-' + index}
                               active={index === props.currentStep ? 'active' : ''}>{step.name}</ListGroupItem>;
     });

@@ -1,10 +1,10 @@
 'use strict';
 
-var Reflux = require('reflux');
+const Reflux = require('reflux');
 
-var Actions = require('../actions/Actions');
+const Actions = require('../actions/Actions');
 
-var MessageStore = Reflux.createStore({
+const MessageStore = Reflux.createStore({
     init: function () {
         this.listenTo(Actions.publishMessage, this.onPublishMessage);
     },

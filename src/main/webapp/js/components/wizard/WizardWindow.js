@@ -1,10 +1,10 @@
 'use strict';
 
-var React = require('react');
-var Modal = require('react-bootstrap').Modal;
-var assign = require('object-assign');
+let React = require('react');
+let Modal = require('react-bootstrap').Modal;
+let assign = require('object-assign');
 
-var Wizard = require('./Wizard');
+let Wizard = require('./Wizard');
 
 const WizardWindow = React.createClass({
     propTypes: {
@@ -14,7 +14,7 @@ const WizardWindow = React.createClass({
     },
 
     render: function () {
-        var properties = assign({}, this.props, {onClose: this.props.onHide});
+        let properties = assign({}, this.props, {onClose: this.props.onHide});
         return (
             <Modal {...this.props} show={this.props.show} bsSize="large" title={this.props.title} animation={true}
                                    dialogClassName="large-modal">

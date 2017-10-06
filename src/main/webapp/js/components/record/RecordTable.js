@@ -73,10 +73,10 @@ class RecordTable extends React.Component {
     }
 
     _renderRows() {
-        var records = this.props.records,
+        let records = this.props.records,
             rows = [],
             onEdit = this.props.handlers.onEdit;
-        for (var i = 0, len = records.length; i < len; i++) {
+        for (let i = 0, len = records.length; i < len; i++) {
             rows.push(<RecordRow key={records[i].key} record={records[i]} onEdit={onEdit} onDelete={this._onDelete}
                                  disableDelete={this.props.disableDelete}/>);
         }
@@ -84,8 +84,8 @@ class RecordTable extends React.Component {
     }
 }
 
-var RecordRow = (props) => {
-    var record = props.record,
+let RecordRow = (props) => {
+    let record = props.record,
         isComplete = RecordValidator.isComplete(record),
         completionTooltip = props.i18n(isComplete ? 'records.completion-status-tooltip.complete' : 'records.completion-status-tooltip.incomplete'),
         deleteButton = props.disableDelete ? null :

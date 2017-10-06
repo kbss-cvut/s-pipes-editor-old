@@ -1,15 +1,15 @@
 'use strict';
 
-var Reflux = require('reflux');
-var jsonld = require('jsonld');
+const Reflux = require('reflux');
+const jsonld = require('jsonld');
 
-var Actions = require('../actions/Actions');
-var Ajax = require('../utils/Ajax');
-var Logger = require('../utils/Logger');
+const Actions = require('../actions/Actions');
+const Ajax = require('../utils/Ajax');
+const Logger = require('../utils/Logger');
 
-var options = {};
+const options = {};
 
-var FormGenStore = Reflux.createStore({
+const FormGenStore = Reflux.createStore({
     init: function () {
         this.listenTo(Actions.loadFormOptions, this.onLoadFormOptions);
     },

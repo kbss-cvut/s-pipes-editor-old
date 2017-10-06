@@ -59,7 +59,7 @@ export default class UsersController extends React.Component {
         if (!Authentication.isAdmin()) {
             return null;
         }
-        var handlers = {
+        let handlers = {
             onEdit: this._onEditUser,
             onCreate: this._onAddUser,
             onDelete: this._onDeleteUser

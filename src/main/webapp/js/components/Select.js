@@ -4,13 +4,13 @@
 
 'use strict';
 
-var React = require('react');
-var injectIntl = require('../utils/injectIntl');
+let React = require('react');
+let injectIntl = require('../utils/injectIntl');
 
-var Input = require('./Input');
-var I18nMixin = require('../i18n/I18nMixin');
+let Input = require('./Input');
+let I18nMixin = require('../i18n/I18nMixin');
 
-var Select = React.createClass({
+let Select = React.createClass({
     mixins: [I18nMixin],
 
     propTypes: {
@@ -27,10 +27,10 @@ var Select = React.createClass({
     },
 
     generateOptions: function () {
-        var options = [];
-        var len = this.props.options.length;
-        for (var i = 0; i < len; i++) {
-            var option = this.props.options[i];
+        let options = [];
+        let len = this.props.options.length;
+        for (let i = 0; i < len; i++) {
+            let option = this.props.options[i];
             options.push(<option key={'opt_' + option.value} value={option.value}
                                  title={option.title}>{option.label}</option>);
         }
@@ -42,7 +42,7 @@ var Select = React.createClass({
     },
 
     render: function () {
-        var options = this.generateOptions();
+        let options = this.generateOptions();
         if (this.props.addDefault) {
             options.unshift(<option key='opt_default' value='' disabled style={{display: 'none'}}>
                 {this.i18n('select.default')}

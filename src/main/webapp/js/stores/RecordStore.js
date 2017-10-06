@@ -1,21 +1,21 @@
 'use strict';
 
-var Reflux = require('reflux');
+const Reflux = require('reflux');
 
-var Actions = require('../actions/Actions');
-var Ajax = require('../utils/Ajax');
-var Authentication = require('../utils/Authentication');
-var UserStore = require('./UserStore');
-var Utils = require('../utils/Utils');
+const Actions = require('../actions/Actions');
+const Ajax = require('../utils/Ajax');
+const Authentication = require('../utils/Authentication');
+const UserStore = require('./UserStore');
+const Utils = require('../utils/Utils');
 
-var RecordStore = Reflux.createStore({
+const RecordStore = Reflux.createStore({
     listenables: [Actions],
 
     _patients: null,
 
     onLoadAllRecords: function () {
-        var user = UserStore.getCurrentUser(),
-            urlSuffix = '';
+        const user = UserStore.getCurrentUser();
+        let urlSuffix = '';
         if (!user) {
             return;
         }
@@ -50,7 +50,7 @@ var RecordStore = Reflux.createStore({
     onCreateRecord: function (record, onSuccess, onError) {
         Ajax.post('rest/records').send(record).end((data, resp) => {
             if (onSuccess) {
-                var key = Utils.extractKeyFromLocationHeader(resp);
+                const key = Utils.extractKeyFromLocationHeader(resp);
                 onSuccess(key);
             }
             Actions.loadAllRecords();

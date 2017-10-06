@@ -1,20 +1,20 @@
 'use strict';
 
-var request = require('superagent');
-var Cookies = require('js-cookie');
+const request = require('superagent');
+const Cookies = require('js-cookie');
 
-var Routes = require('./Routes');
-var Routing = require('./Routing');
-var Logger = require('./Logger');
-var Utils = require('./Utils');
+const Routes = require('./Routes');
+const Routing = require('./Routing');
+const Logger = require('./Logger');
+const Utils = require('./Utils');
 
-var csrfTokenHeader = 'X-CSRF-Token';
+const csrfTokenHeader = 'X-CSRF-Token';
 
-var Ajax = {
+const Ajax = {
     req: null,
 
     getCsrfToken: function () {
-        var cookie = Cookies.get('CSRF-TOKEN');
+        const cookie = Cookies.get('CSRF-TOKEN');
         return cookie ? cookie : '';
     },
 
@@ -68,7 +68,7 @@ var Ajax = {
         this.req.set(csrfTokenHeader, this.getCsrfToken()).end(function (err, resp) {
             if (err) {
                 if (err.status === 401) {
-                    var currentRoute = Utils.getPathFromLocation();
+                    const currentRoute = Utils.getPathFromLocation();
                     if (currentRoute !== Routes.login.path) {
                         Routing.saveOriginalTarget({path: currentRoute});
                         Routing.transitionTo(Routes.login);
@@ -95,7 +95,7 @@ var Ajax = {
 
     _handleError: function (err) {
         try {
-            var error = JSON.parse(err.response.text),
+            const error = JSON.parse(err.response.text),
                 method = err.response.req.method,
                 msg = method + ' ' + error.requestUri + ' - Status ' + err.status + ': ' + error.message;
             if (err.status === 404) {

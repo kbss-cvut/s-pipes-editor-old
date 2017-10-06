@@ -20,7 +20,7 @@ class Users extends React.Component {
     }
 
     render() {
-        var users = this.props.users;
+        let users = this.props.users;
         if (users === null) {
             return <Mask text={this.i18n('please-wait')}/>;
         }

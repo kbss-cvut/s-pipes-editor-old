@@ -35,7 +35,7 @@ class Register extends React.Component {
 
     // Far arrow function with auto-binding (ES7 experimental) is used to make sure 'this' is bound automatically
     onChange = (e) => {
-        var change = {};
+        let change = {};
         change[e.target.name] = e.target.value;
         this.setState(change);
     };
@@ -60,7 +60,7 @@ class Register extends React.Component {
     };
 
     isValid = () => {
-        var state = this.state;
+        let state = this.state;
         return (state.firstName !== '' && state.lastName !== '' && state.username !== '' && state.password !== '' && state.passwordMatch);
     };
 
@@ -68,7 +68,7 @@ class Register extends React.Component {
         if (!this.isValid()) {
             return;
         }
-        var userData = {
+        let userData = {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             username: this.state.username,
@@ -95,7 +95,7 @@ class Register extends React.Component {
     doSyntheticLogin = (username, password) => {
         Ajax.post('j_spring_security_check', null, 'form').send('username=' + username).send('password=' + password)
             .end(function (data, resp) {
-                var status = JSON.parse(resp.text);
+                let status = JSON.parse(resp.text);
                 if (!status.success || !status.loggedIn) {
                     this.setState({alertVisible: true});
                     return;
@@ -112,8 +112,8 @@ class Register extends React.Component {
     };
 
     render() {
-        var panelCls = this.state.alertVisible ? 'register-panel expanded' : 'register-panel';
-        var mask = this.state.mask ? (<Mask text={this.props.i18n('register.mask')}/>) : null;
+        let panelCls = this.state.alertVisible ? 'register-panel expanded' : 'register-panel';
+        let mask = this.state.mask ? (<Mask text={this.props.i18n('register.mask')}/>) : null;
         return (
             <Panel header={<h3>{this.props.i18n('register.title')}</h3>} bsStyle='info' className={panelCls}>
                 {mask}

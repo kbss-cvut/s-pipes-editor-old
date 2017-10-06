@@ -1,12 +1,12 @@
-var React = require('react');
-var Pagination = require('react-bootstrap').Pagination;
+const React = require('react');
+const Pagination = require('react-bootstrap').Pagination;
 
-var FormattedMessage = require('react-intl').FormattedMessage;
+const FormattedMessage = require('react-intl').FormattedMessage;
 
-var Actions = require('../../actions/Actions');
-var ComponentStateStore = require('../../stores/ComponentStateStore');
+const Actions = require('../../actions/Actions');
+const ComponentStateStore = require('../../stores/ComponentStateStore');
 
-var MAX_BUTTONS = 5;
+const MAX_BUTTONS = 5;
 
 /**
  * Mixin for data paging in tables.
@@ -17,7 +17,7 @@ var MAX_BUTTONS = 5;
  *     <li>Return portion of data corresponding to the currently active page</li>
  * </ul>
  */
-var PagingMixin = {
+const PagingMixin = {
 
     propTypes: {
         pageSize: React.PropTypes.number,
@@ -32,9 +32,9 @@ var PagingMixin = {
     },
 
     getInitialState: function () {
-        var page = 1;
+        let page = 1;
         if (this.getDisplayName) {
-            var state = ComponentStateStore.getComponentState(this.getDisplayName());
+            const state = ComponentStateStore.getComponentState(this.getDisplayName());
             if (state && state.activePage) {
                 page = state.activePage;
             }
@@ -43,7 +43,7 @@ var PagingMixin = {
     },
 
     _onPageSelect: function (e, selectedEvent) {
-        var page = selectedEvent.eventKey;
+        const page = selectedEvent.eventKey;
         this.setState({activePage: page});
         if (this.getDisplayName) {
             Actions.rememberComponentState(this.getDisplayName(), {activePage: page});
@@ -66,13 +66,13 @@ var PagingMixin = {
      * @param data array of data
      */
     getCurrentPage: function (data) {
-        var startIndex = this.props.pageSize * (this.state.activePage - 1),
+        const startIndex = this.props.pageSize * (this.state.activePage - 1),
             endIndex = startIndex + this.props.pageSize > data.length ? data.length : startIndex + this.props.pageSize;
         return data.slice(startIndex, endIndex);
     },
 
     _renderCountInfo: function (data) {
-        var currentItemCnt = this.getCurrentPage(data).length;
+        const currentItemCnt = this.getCurrentPage(data).length;
         return <div className='paging-item-count-info'>
             <FormattedMessage id='reports.paging.item-count' values={{showing: currentItemCnt, total: data.length}}/>
         </div>;
@@ -85,7 +85,7 @@ var PagingMixin = {
      * @param data The data that will be shown and need paging
      */
     renderPagination: function (data) {
-        var itemCount = Math.ceil(data.length / this.props.pageSize);
+        const itemCount = Math.ceil(data.length / this.props.pageSize);
         if (itemCount === 1) {
             return <div>
                 {this._renderCountInfo(data)}

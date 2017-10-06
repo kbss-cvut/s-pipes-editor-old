@@ -1,6 +1,6 @@
 'use strict';
 
-var Utils = require('./Utils');
+const Utils = require('./Utils');
 
 module.exports = {
 

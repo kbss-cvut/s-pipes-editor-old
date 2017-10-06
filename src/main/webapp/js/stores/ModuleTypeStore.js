@@ -1,14 +1,14 @@
 'use strict';
 
-var Reflux = require('reflux');
+const Reflux = require('reflux');
 
-var Actions = require('../actions/Actions');
-var Ajax = require('../utils/Ajax');
-var Authentication = require('../utils/Authentication');
-var Utils = require('../utils/Utils');
+const Actions = require('../actions/Actions');
+const Ajax = require('../utils/Ajax');
+const Authentication = require('../utils/Authentication');
+const Utils = require('../utils/Utils');
 
 //todo Rewrite to "extends" form
-var ModuleTypeStore = Reflux.createStore({
+const ModuleTypeStore = Reflux.createStore({
     listenables: [Actions],
 
     onLoadAllModuleTypes: function (script) {

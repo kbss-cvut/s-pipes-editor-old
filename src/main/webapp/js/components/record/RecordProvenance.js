@@ -6,11 +6,11 @@ import {FormattedMessage} from 'react-intl';
 import Utils from '../../utils/Utils';
 
 const RecordProvenance = (props) => {
-    var record = props.record;
+    let record = props.record;
     if (record.isNew) {
         return null;
     }
-    var author = record.author ? record.author.firstName + ' ' + record.author.lastName : '',
+    let author = record.author ? record.author.firstName + ' ' + record.author.lastName : '',
         created = Utils.formatDate(new Date(record.dateCreated)),
         lastEditor, lastModified;
     if (!record.lastModified) {

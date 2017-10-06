@@ -5,7 +5,7 @@ import {ClipLoader} from "halogen";
 import I18Store from "../stores/I18nStore";
 
 const Mask = (props) => {
-    var text = props.text ? props.text : I18Store.i18n('please-wait');
+    let text = props.text ? props.text : I18Store.i18n('please-wait');
     return (
         <div className={props.classes ? props.classes : 'mask'}>
             <div className='spinner-container'>

@@ -3,7 +3,7 @@
 export default class JsonLdUtils {
 
     static getLocalized(data, intl) {
-        var locale = intl.locale,
+        let locale = intl.locale,
             defaultLocale = intl.defaultLocale,
             defaultValue,
             i, len;

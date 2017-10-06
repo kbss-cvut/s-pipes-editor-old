@@ -25,8 +25,8 @@ let ELK = require('elkjs/lib/elk-api');
 
 let direction = 'RIGHT';
 let defaultLayout = 'layered';
-var that;
-var record;
+let that;
+let record;
 
 class ViewController extends React.Component {
 
@@ -305,9 +305,9 @@ class ViewController extends React.Component {
 
     _onSave = () => {
         let formData = this.recordComponent.refs.wrappedInstance.getWrappedComponent().getFormData();
-        let uriQ = Utils.findObjectInTree(formData, "http://www.w3.org/2000/01/rdf-schema#id-q");
+        let uriQ = Utils.find(formData, "http://www.w3.org/2000/01/rdf-schema#id-q");
         let uri = uriQ["answers"][0]["textValue"];
-        let labelQ = Utils.findObjectInTree(formData, "http://www.w3.org/2000/01/rdf-schema#label-q");
+        let labelQ = Utils.find(formData, "http://www.w3.org/2000/01/rdf-schema#label-q");
         let label = labelQ["answers"][0]["textValue"];
         this.addNode(uri, label, this.state.type);
         this.setState({formVisible: false});
@@ -451,7 +451,7 @@ class ViewController extends React.Component {
             };
             elk.layout(elkGraph, options).then((g) => {
                     that.state.view.startTransaction('loadgraph');
-                    for (var i = 0; i < g["children"].length; i++) {
+                    for (let i = 0; i < g["children"].length; i++) {
                         that.state.view.nodes[i].metadata.x = g["children"][i].x;
                         that.state.view.nodes[i].metadata.y = g["children"][i].y;
                     }
