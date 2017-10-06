@@ -1,14 +1,14 @@
 'use strict';
 
-var Actions = require('../actions/Actions');
-var Ajax = require('./Ajax');
-var Routes = require('./Routes');
-var Routing = require('./Routing');
-var Logger = require('./Logger');
-var UserStore = require('../stores/UserStore');
-var Vocabulary = require('../constants/Vocabulary');
+const Actions = require('../actions/Actions');
+const Ajax = require('./Ajax');
+const Routes = require('./Routes');
+const Routing = require('./Routing');
+const Logger = require('./Logger');
+const UserStore = require('../stores/UserStore');
+const Vocabulary = require('../constants/Vocabulary');
 
-var Authentication = {
+const Authentication = {
 
     login: function (username, password, errorCallback) {
         Ajax.post('j_spring_security_check', null, 'form')
@@ -18,7 +18,7 @@ var Authentication = {
                     errorCallback();
                     return;
                 }
-                var status = JSON.parse(resp.text);
+                const status = JSON.parse(resp.text);
                 if (!status.success || !status.loggedIn) {
                     errorCallback();
                     return;
@@ -47,7 +47,7 @@ var Authentication = {
      * @return {boolean}
      */
     isAdmin: function (user) {
-        var userToTest = user ? user : UserStore.getCurrentUser();
+        const userToTest = user ? user : UserStore.getCurrentUser();
         if (!userToTest) {
             return false;
         }
@@ -62,8 +62,8 @@ var Authentication = {
      * @return {*|boolean}
      */
     canLoadClinicsPatients(clinicKey) {
-        var currentUser = UserStore.getCurrentUser();
-        return currentUser != null && (this.isAdmin(currentUser) || (currentUser.clinic != null && currentUser.clinic.key === clinicKey));
+        const currentUser = UserStore.getCurrentUser();
+        return currentUser !== null && (this.isAdmin(currentUser) || (currentUser.clinic !== null && currentUser.clinic.key === clinicKey));
     }
 };
 

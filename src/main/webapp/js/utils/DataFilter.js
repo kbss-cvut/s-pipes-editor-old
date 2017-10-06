@@ -7,20 +7,20 @@
  * of attribute 'att' of each item.
  * Filter value 'all' means to skip the given filter.
  */
-var DataFilter = {
+const DataFilter = {
 
     filterData: function (data, filter) {
         if (this._canSkipFilter(filter)) {
             return data;
         }
         return data.filter(function (item) {
-            for (var key in filter) {
+            for (const key in filter) {
                 if (filter[key] === 'all') {
                     continue;
                 }
-                var path = key.split('.');
-                var value = item;
-                for (var i = 0, len = path.length; i < len; i++) {
+                const path = key.split('.');
+                let value = item;
+                for (let i = 0, len = path.length; i < len; i++) {
                     value = value[path[i]];
                 }
                 if ((Array.isArray(value) && value.indexOf(filter[key]) === -1) || (!Array.isArray(value) && value !== filter[key])) {
@@ -35,7 +35,7 @@ var DataFilter = {
         if (!filter) {
             return true;
         }
-        for (var key in filter) {
+        for (const key in filter) {
             if (filter[key] !== 'all') {
                 return false;
             }

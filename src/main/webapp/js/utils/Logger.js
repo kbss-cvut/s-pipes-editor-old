@@ -1,6 +1,6 @@
 'use strict';
 
-var Logger = {
+const Logger = {
 
     log: function (msg) {
         console.log(msg);
