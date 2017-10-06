@@ -2,7 +2,7 @@
  * Czech localization.
  */
 
-var Constants = require('../constants/Constants');
+const Constants = require('../constants/Constants');
 
 module.exports = {
     'locale': 'cs',

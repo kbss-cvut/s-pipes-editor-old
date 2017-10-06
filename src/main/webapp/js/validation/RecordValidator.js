@@ -1,6 +1,6 @@
 'use strict';
 
-var Constants = require('../constants/Constants');
+const Constants = require('../constants/Constants');
 
 module.exports = {
 
@@ -8,7 +8,7 @@ module.exports = {
         if (!record) {
             return false;
         }
-        for (var i = 0, len = Constants.RECORD_REQUIRED_FIELDS.length; i < len; i++) {
+        for (let i = 0, len = Constants.RECORD_REQUIRED_FIELDS.length; i < len; i++) {
             if (!record[Constants.RECORD_REQUIRED_FIELDS[i]]) {
                 return false;
             }
