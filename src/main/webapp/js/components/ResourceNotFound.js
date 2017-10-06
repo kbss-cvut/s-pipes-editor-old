@@ -1,20 +1,20 @@
 'use strict';
 
-var React = require('react');
-var Alert = require('react-bootstrap').Alert;
-var Button = require('react-bootstrap').Button;
-var injectIntl = require('../utils/injectIntl');
-var FormattedMessage = require('react-intl').FormattedMessage;
+let React = require('react');
+let Alert = require('react-bootstrap').Alert;
+let Button = require('react-bootstrap').Button;
+let injectIntl = require('../utils/injectIntl');
+let FormattedMessage = require('react-intl').FormattedMessage;
 
-var Routing = require('../utils/Routing');
-var I18nMixin = require('../i18n/I18nMixin');
+let Routing = require('../utils/Routing');
+let I18nMixin = require('../i18n/I18nMixin');
 
 /**
  * Shows alert with message informing that a resource could not be found.
  *
  * Closing the alert transitions the user to the application's home.
  */
-var ResourceNotFound = React.createClass({
+let ResourceNotFound = React.createClass({
     mixins: [I18nMixin],
 
     propTypes: {
@@ -27,7 +27,7 @@ var ResourceNotFound = React.createClass({
     },
 
     render: function () {
-        var text;
+        let text;
         if (this.props.identifier) {
             text = <FormattedMessage id='notfound.msg-with-id'
                                      values={{resource: this.props.resource, identifier: this.props.identifier}}/>;

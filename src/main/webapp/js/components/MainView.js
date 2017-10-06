@@ -1,27 +1,27 @@
 'use strict';
 
-var React = require('react');
-var Reflux = require('reflux');
+let React = require('react');
+let Reflux = require('reflux');
 
-var Nav = require('react-bootstrap').Nav;
-var Navbar = require('react-bootstrap').Navbar;
-var NavBrand = require('react-bootstrap').NavbarBrand;
-var NavItem = require('react-bootstrap').NavItem;
-var NavDropdown = require('react-bootstrap').NavDropdown;
-var MenuItem = require('react-bootstrap').MenuItem;
-var LinkContainer = require('react-router-bootstrap').LinkContainer;
-var injectIntl = require('../utils/injectIntl');
+let Nav = require('react-bootstrap').Nav;
+let Navbar = require('react-bootstrap').Navbar;
+let NavBrand = require('react-bootstrap').NavbarBrand;
+let NavItem = require('react-bootstrap').NavItem;
+let NavDropdown = require('react-bootstrap').NavDropdown;
+let MenuItem = require('react-bootstrap').MenuItem;
+let LinkContainer = require('react-router-bootstrap').LinkContainer;
+let injectIntl = require('../utils/injectIntl');
 
-var Actions = require('../actions/Actions');
-var Constants = require('../constants/Constants');
-var I18nMixin = require('../i18n/I18nMixin');
-var I18nStore = require('../stores/I18nStore');
+let Actions = require('../actions/Actions');
+let Constants = require('../constants/Constants');
+let I18nMixin = require('../i18n/I18nMixin');
+let I18nStore = require('../stores/I18nStore');
 
-var Authentication = require('../utils/Authentication');
-var Routes = require('../utils/Routes');
-var UserStore = require('../stores/UserStore');
+let Authentication = require('../utils/Authentication');
+let Routes = require('../utils/Routes');
+let UserStore = require('../stores/UserStore');
 
-var MainView = React.createClass({
+let MainView = React.createClass({
     mixins: [
         Reflux.listenTo(UserStore, 'onUserLoaded'),
         I18nMixin
@@ -47,8 +47,8 @@ var MainView = React.createClass({
         if (!this.state.loggedIn) {
             return (<div>{this.props.children}</div>);
         }
-        var user = UserStore.getCurrentUser();
-        var name = user.firstName.substr(0, 1) + '. ' + user.lastName;
+        let user = UserStore.getCurrentUser();
+        let name = user.firstName.substr(0, 1) + '. ' + user.lastName;
         return (
             <div>
                 <header>

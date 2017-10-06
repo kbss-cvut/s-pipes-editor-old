@@ -48,7 +48,7 @@ class UserController extends React.Component {
     }
 
     _onSave = () => {
-        var user = this.state.user;
+        let user = this.state.user;
         if (user.isNew) {
             delete user.isNew;
             Actions.createUser(user, this._onSaveSuccess, this._onSaveError);
@@ -67,7 +67,7 @@ class UserController extends React.Component {
     };
 
     _onCancel = () => {
-        var handlers = RouterStore.getViewHandlers(Routes.editUser.name);
+        let handlers = RouterStore.getViewHandlers(Routes.editUser.name);
         if (handlers) {
             Routing.transitionTo(handlers.onCancel);
         } else {
@@ -76,7 +76,7 @@ class UserController extends React.Component {
     };
 
     _onChange = (change) => {
-        var update = assign({}, this.state.user, change);
+        let update = assign({}, this.state.user, change);
         this.setState({user: update});
     };
 

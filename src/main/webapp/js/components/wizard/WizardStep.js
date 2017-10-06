@@ -1,19 +1,19 @@
 'use strict';
 
-var React = require('react');
-var Alert = require('react-bootstrap').Alert;
-var Button = require('react-bootstrap').Button;
-var ButtonToolbar = require('react-bootstrap').ButtonToolbar;
-var Panel = require('react-bootstrap').Panel;
-var Constants = require('semforms').Constants;
-var HelpIcon = require('semforms').HelpIcon;
-var JsonLdUtils = require('jsonld-utils').default;
+let React = require('react');
+let Alert = require('react-bootstrap').Alert;
+let Button = require('react-bootstrap').Button;
+let ButtonToolbar = require('react-bootstrap').ButtonToolbar;
+let Panel = require('react-bootstrap').Panel;
+let Constants = require('semforms').Constants;
+let HelpIcon = require('semforms').HelpIcon;
+let JsonLdUtils = require('jsonld-utils').default;
 
-var injectIntl = require('../../utils/injectIntl');
-var I18nMixin = require('../../i18n/I18nMixin');
-var WizardStore = require('../../stores/WizardStore');
+let injectIntl = require('../../utils/injectIntl');
+let I18nMixin = require('../../i18n/I18nMixin');
+let WizardStore = require('../../stores/WizardStore');
 
-var WizardStep = React.createClass({
+let WizardStep = React.createClass({
     mixins: [I18nMixin],
 
     propTypes: {
@@ -90,17 +90,17 @@ var WizardStep = React.createClass({
 
 
     render: function () {
-        var previousButton;
+        let previousButton;
         if (!this.props.isFirstStep) {
             previousButton = (<Button onClick={this.onPrevious} disabled={this.state.retreatDisabled} bsStyle='primary'
                                       bsSize='small'>{this.i18n('wizard.previous')}</Button>);
         }
-        var advanceButton = this.renderAdvanceButton();
-        var error = null;
+        let advanceButton = this.renderAdvanceButton();
+        let error = null;
         if (this.state.currentError) {
             error = (<Alert bsStyle='danger'><p>{this.state.currentError.message}</p></Alert>);
         }
-        var title = (<h4>{this.props.title}{this._renderHelpIcon()}</h4>);
+        let title = (<h4>{this.props.title}{this._renderHelpIcon()}</h4>);
         return (
             <div className='wizard-step'>
                 <Panel header={title} bsStyle='primary' className='wizard-step-content'>
@@ -123,8 +123,8 @@ var WizardStep = React.createClass({
     },
 
     renderAdvanceButton: function () {
-        var disabledTitle = this.state.advanceDisabled ? this.i18n('wizard.advance-disabled-tooltip') : null;
-        var button = null;
+        let disabledTitle = this.state.advanceDisabled ? this.i18n('wizard.advance-disabled-tooltip') : null;
+        let button = null;
         if (!this.props.isLastStep) {
             button =
                 <Button onClick={this.onNext} disabled={this.state.advanceDisabled} bsStyle='primary' bsSize='small'

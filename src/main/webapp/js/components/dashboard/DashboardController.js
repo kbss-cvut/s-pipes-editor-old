@@ -1,18 +1,18 @@
 'use strict';
 
-var React = require('react');
-var Reflux = require('reflux');
+let React = require('react');
+let Reflux = require('reflux');
 
-var injectIntl = require('../../utils/injectIntl');
+let injectIntl = require('../../utils/injectIntl');
 
-var Routing = require('../../utils/Routing');
-var Routes = require('../../utils/Routes');
-var UserStore = require('../../stores/UserStore');
-var RouterStore = require('../../stores/RouterStore');
-var Dashboard = require('./Dashboard');
-var I18nMixin = require('../../i18n/I18nMixin');
+let Routing = require('../../utils/Routing');
+let Routes = require('../../utils/Routes');
+let UserStore = require('../../stores/UserStore');
+let RouterStore = require('../../stores/RouterStore');
+let Dashboard = require('./Dashboard');
+let I18nMixin = require('../../i18n/I18nMixin');
 
-var DashboardController = React.createClass({
+let DashboardController = React.createClass({
     mixins: [
         Reflux.listenTo(UserStore, 'onUserLoaded'),
         I18nMixin
@@ -58,7 +58,7 @@ var DashboardController = React.createClass({
 
 
     render: function () {
-        var handlers = {
+        let handlers = {
             showUsers: this._showUsers,
             showRecords: this._showRecords,
             createRecord: this._createRecord,
@@ -70,7 +70,7 @@ var DashboardController = React.createClass({
     },
 
     _resolveDashboard: function () {
-        var payload = RouterStore.getTransitionPayload(Routes.dashboard.name);
+        let payload = RouterStore.getTransitionPayload(Routes.dashboard.name);
         RouterStore.setTransitionPayload(Routes.dashboard.name, null);
         return payload ? payload.dashboard : null;
     }

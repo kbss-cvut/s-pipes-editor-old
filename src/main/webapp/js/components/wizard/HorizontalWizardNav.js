@@ -6,7 +6,7 @@ import {FormUtils} from "semforms";
 
 
 const HorizontalWizardNav = (props) => {
-    var navMenu = props.steps.map((step, index) => {
+    let navMenu = props.steps.map((step, index) => {
         return <NavItem key={'nav' + index} eventKey={index}
                         id={'wizard-nav-' + index}
                         active={index === props.currentStep}

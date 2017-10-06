@@ -25,8 +25,8 @@ let ELK = require('elkjs/lib/elk-api');
 
 let direction = 'RIGHT';
 let defaultLayout = 'layered';
-var that;
-var record;
+let that;
+let record;
 
 class ViewController extends React.Component {
 
@@ -451,7 +451,7 @@ class ViewController extends React.Component {
             };
             elk.layout(elkGraph, options).then((g) => {
                     that.state.view.startTransaction('loadgraph');
-                    for (var i = 0; i < g["children"].length; i++) {
+                    for (let i = 0; i < g["children"].length; i++) {
                         that.state.view.nodes[i].metadata.x = g["children"][i].x;
                         that.state.view.nodes[i].metadata.y = g["children"][i].y;
                     }

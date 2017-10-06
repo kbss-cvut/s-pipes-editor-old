@@ -19,7 +19,7 @@ class Records extends React.Component {
     }
 
     render() {
-        var records = this.props.records;
+        let records = this.props.records;
         if (records === null) {
             return <Mask text={this.i18n('please-wait')}/>;
         }

@@ -46,7 +46,7 @@ class RecordController extends React.Component {
     }
 
     _onSave = () => {
-        var record = this.state.record;
+        let record = this.state.record;
         record.question = this.recordComponent.refs.wrappedInstance.getWrappedComponent().getFormData();
         if (record.isNew) {
             delete record.isNew;
@@ -66,7 +66,7 @@ class RecordController extends React.Component {
     };
 
     _onCancel = () => {
-        var handlers = RouterStore.getViewHandlers(Routes.editRecord.name);
+        let handlers = RouterStore.getViewHandlers(Routes.editRecord.name);
         if (handlers) {
             Routing.transitionTo(handlers.onCancel);
         } else {
@@ -75,12 +75,12 @@ class RecordController extends React.Component {
     };
 
     _onChange = (change) => {
-        var update = assign({}, this.state.record, change);
+        let update = assign({}, this.state.record, change);
         this.setState({record: update});
     };
 
     render() {
-        var handlers = {
+        let handlers = {
             onSave: this._onSave,
             onCancel: this._onCancel,
             onChange: this._onChange
