@@ -1,20 +1,20 @@
 'use strict';
 
-var Constants = require('../constants/Constants');
+const Constants = require('../constants/Constants');
 
 /**
  * Common propositions that should not be capitalized
  */
-var PREPOSITIONS = [
+const PREPOSITIONS = [
     'a', 'about', 'across', 'after', 'along', 'among', 'an', 'around', 'as', 'aside', 'at', 'before', 'behind', 'below',
     'beneath', 'beside', 'besides', 'between', 'beyond', 'but', 'by', 'for', 'given', 'in', 'inside', 'into', 'like', 'near',
     'of', 'off', 'on', 'onto', 'outside', 'over', 'since', 'than', 'through', 'to', 'until', 'up', 'via', 'with', 'within',
     'without', 'not'
 ];
 
-var URL_CONTAINS_QUERY = /^.+\?.+=.+$/;
+const URL_CONTAINS_QUERY = /^.+\?.+=.+$/;
 
-var CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+const CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
 module.exports = {
 
@@ -25,7 +25,7 @@ module.exports = {
      * @param uri URI to search for
      */
     findObjectInTree: function (tree, uri) {
-        for (let i in tree)
+        for (const i in tree)
             if (tree.hasOwnProperty(i))
                 if (tree[i] !== null && tree[i]["uri"] !== undefined && tree[i]["uri"] === uri)
                     return tree[i];
@@ -39,12 +39,12 @@ module.exports = {
      * @param date The date to format
      */
     formatDate: function (date) {
-        var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate().toString();
-        var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1).toString();
-        var year = (date.getFullYear() % 100).toString();
-        var h = date.getHours();
-        var hour = h < 10 ? '0' + h : h.toString();
-        var minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes().toString();
+        const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate().toString();
+        const month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1).toString();
+        const year = (date.getFullYear() % 100).toString();
+        const h = date.getHours();
+        const hour = h < 10 ? '0' + h : h.toString();
+        const minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes().toString();
         return (day + '-' + month + '-' + year + ' ' + hour + ':' + minute);
     },
 
@@ -57,9 +57,9 @@ module.exports = {
         if (!capitalize) {
             return constant.replace(/_/g, ' ');
         }
-        var words = constant.split('_');
-        for (var i = 0, len = words.length; i < len; i++) {
-            var word = words[i];
+        const words = constant.split('_');
+        for (let i = 0, len = words.length; i < len; i++) {
+            const word = words[i];
             if (i > 0 && PREPOSITIONS.indexOf(word.toLowerCase()) !== -1) {
                 words[i] = word.toLowerCase();
             } else {
@@ -114,7 +114,7 @@ module.exports = {
      * @return {string} Report key as string
      */
     extractKeyFromLocationHeader: function (response) {
-        var location = response.headers['location'];
+        const location = response.headers['location'];
         if (!location) {
             return '';
         }
@@ -128,8 +128,8 @@ module.exports = {
      * @return {String}
      */
     getPathFromLocation: function () {
-        var hash = window.location.hash;
-        var result = /#[/]?([a-z/0-9]+)\?/.exec(hash);
+        const hash = window.location.hash;
+        const result = /#[/]?([a-z/0-9]+)\?/.exec(hash);
         return result ? result[1] : '';
     },
 
@@ -140,7 +140,7 @@ module.exports = {
      * @return {number}
      */
     randomInt: function () {
-        var min = 0,
+        const min = 0,
             max = 1073741824;   // Max Java Integer / 2
         return Math.floor(Math.random() * (max - min)) + min;
     },
@@ -158,7 +158,7 @@ module.exports = {
         if (!items) {
             return id;
         }
-        for (var i = 0, len = items.length; i < len; i++) {
+        for (let i = 0, len = items.length; i < len; i++) {
             if (items[i].id === id) {
                 return items[i].name;
             }
@@ -183,14 +183,12 @@ module.exports = {
      * @return {number}
      */
     getStringHash: function (str) {
-        var hash = 0,
-            strlen = str ? str.length : 0,
-            i,
-            c;
+        const strlen = str ? str.length : 0;
+        let hash = 0, c;
         if (strlen === 0) {
             return hash;
         }
-        for (i = 0; i < strlen; i++) {
+        for (let i = 0; i < strlen; i++) {
             c = str.charCodeAt(i);
             hash = ((hash << 5) - hash) + c;
             hash = hash & hash; // Convert to 32bit integer
@@ -217,8 +215,8 @@ module.exports = {
     },
 
     generatePassword: function () {
-        var pass = '';
-        for (var i = 0; i < Constants.PASSWORD_LENGTH; i++) {
+        let pass = '';
+        for (let i = 0; i < Constants.PASSWORD_LENGTH; i++) {
             pass += CHARACTERS.charAt(Math.floor(Math.random() * CHARACTERS.length));
         }
         return pass;
