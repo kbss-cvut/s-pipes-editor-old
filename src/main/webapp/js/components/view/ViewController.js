@@ -145,7 +145,7 @@ class ViewController extends React.Component {
                                     key={m["@id"]}
                                     onClick={() => this.addModule(m["@id"].toString())}>
                                 <span className="pull-left">
-                                    <i className={className} aria-hidden="true"></i>
+                                    <i className={className} aria-hidden="true"/>
                                     {" " + m["@id"].toString().split("/").reverse()[0]}
                                 </span>
                             </Button>
