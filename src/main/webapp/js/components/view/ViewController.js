@@ -69,14 +69,14 @@ class ViewController extends React.Component {
                     n4: {
                         icon: "cogs",
                         iconLabel: "configure",
-                        action: function (graph, itemKey, item) {
+                        action: function () {
                             that.openForm();
                         }
                     },
                     s4: {
                         icon: "trash-o",
                         iconLabel: "delete",
-                        action: function (graph, itemKey, item) {
+                        action: function (graph, itemKey) {
                             graph.removeNode(itemKey);
                         }
                     }
@@ -86,7 +86,7 @@ class ViewController extends React.Component {
                     s4: {
                         icon: "trash-o",
                         iconLabel: "ungroup",
-                        action: function (graph, itemKey, item) {
+                        action: function (graph, itemKey) {
                             graph.removeGroup(itemKey);
                         }
                     }
