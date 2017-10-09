@@ -1,7 +1,7 @@
 package cz.cvut.kbss.spipes.util
 
 import cz.cvut.kbss.jopa.model.EntityManager
-import org.openrdf.repository.Repository
+import org.eclipse.rdf4j.repository.Repository
 
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 02.08.2017.
