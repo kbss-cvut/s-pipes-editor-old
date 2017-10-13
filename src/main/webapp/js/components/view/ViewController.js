@@ -9,13 +9,15 @@ import React from "react";
 import injectIntl from "../../utils/injectIntl";
 import I18nWrapper from "../../i18n/I18nWrapper";
 import Messager from "../wrapper/Messager";
-import {Button, ButtonGroup, Modal, OverlayTrigger, Popover, Tooltip} from "react-bootstrap";
+import {Button, ButtonGroup, Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
 import Record from "../record/Record";
 import * as RouterStore from "../../stores/RouterStore";
 import * as EntityFactory from "../../utils/EntityFactory";
 import Mask from "../Mask";
 import * as I18Store from "../../stores/I18nStore";
 import * as Utils from "../../utils/Utils";
+import Typeahead from "react-bootstrap-typeahead";
+import ModuleTypeList from "../typeahead/ModuleTypeList";
 
 let Routes = require('../../utils/Routes');
 let Routing = require('../../utils/Routing');
@@ -126,31 +128,16 @@ class ViewController extends React.Component {
                          loading={this.state.loading}/>;
         return (
             <div id="main">
-                <ButtonGroup vertical id="left-panel">
-                    {this.state.moduleTypes.map((m) => {
-                        let popover = (
-                            <Popover
-                                bsClass="module-type popover"
-                                id={m["@id"]}
-                                key={m["@id"]}
-                                title={m["@id"]}>
-                                {m["http://www.w3.org/2000/01/rdf-schema#comment"]}
-                            </Popover>);
-                        let className = "fa fa-" + (m["http://topbraid.org/sparqlmotion#icon"] === undefined ? "gear" : m["http://topbraid.org/sparqlmotion#icon"]);
-                        return <OverlayTrigger
-                            placement="right"
-                            key={m["@id"]}
-                            overlay={popover}>
-                            <Button block
-                                    key={m["@id"]}
-                                    onClick={() => this.addModule(m["@id"].toString())}>
-                                <span className="pull-left">
-                                    <i className={className} aria-hidden="true"/>
-                                    {" " + m["@id"].toString().split("/").reverse()[0]}
-                                </span>
-                            </Button>
-                        </OverlayTrigger>
-                    })}
+                <ButtonGroup vertical id="module-typeahead">
+                    <Typeahead
+                        options={this.state.moduleTypes}
+                        displayOption="http://www.w3.org/2000/01/rdf-schema#label"
+                        filterOption="http://www.w3.org/2000/01/rdf-schema#label"
+                        optionsButton={true}
+                        onOptionSelected={(o) => this.addModule(o["@id"])}
+                        placeholder={I18Store.i18n('view.module-type')}
+                        customListComponent={ModuleTypeList}
+                    />
                 </ButtonGroup>
                 <div id="view">
                     <div id="editor"/>

@@ -536,16 +536,21 @@ button.reset-filters {
     height: calc(99.5vh - 60px);
 }
 
-#left-panel {
-    overflow: scroll !important;
-    min-width: max-content;
-    max-width: 20vw !important;
+#module-typeahead {
+    position: absolute;
+    max-width: 20vw;
 }
 
 #right-panel {
+    position: absolute;
+    right: 0;
     width: max-content;
 }
 
 .popover {
-    max-width: 440px !important;
+    max-width: 440px;
+}
+
+.btn-link.item.module-type {
+    list-style-type: none !important;
 }
