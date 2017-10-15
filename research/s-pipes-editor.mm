@@ -2,8 +2,8 @@
 <!--To view this file, download free mind mapping software Freeplane from http://freeplane.sourceforge.net -->
 <node TEXT="main" FOLDED="false" ID="ID_448131109" CREATED="1312805290594" MODIFIED="1502306364395">
 <font NAME="SansSerif"/>
-<hook NAME="MapStyle">
-    <properties fit_to_viewport="false;" show_icon_for_attributes="true" show_note_icons="true" show_notes_in_map="false"/>
+<hook NAME="MapStyle" zoom="1.1">
+    <properties show_icon_for_attributes="true" fit_to_viewport="false;" show_note_icons="true" show_notes_in_map="false"/>
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node" STYLE="oval" UNIFORM_SHAPE="true" VGAP_QUANTITY="24.0 pt">
@@ -1845,10 +1845,13 @@
 </node>
 </node>
 </node>
-<node TEXT=" 2017-10-05" ID="ID_1588228194" CREATED="1507203929935" MODIFIED="1507203941067">
-<node TEXT="task" ID="ID_1612017362" CREATED="1507203941944" MODIFIED="1507203942877">
-<node TEXT="yan" ID="ID_662222209" CREATED="1507203971319" MODIFIED="1507203974790">
-<node TEXT="node attributes should change" ID="ID_1395992747" CREATED="1507206975756" MODIFIED="1507228779117">
+<node TEXT=" 2017-10-05" FOLDED="true" ID="ID_1588228194" CREATED="1507203929935" MODIFIED="1507811566121">
+<icon BUILTIN="button_ok"/>
+<icon BUILTIN="button_ok"/>
+<icon BUILTIN="button_ok"/>
+<node TEXT="task" STYLE_REF="onto-prop" ID="ID_1612017362" CREATED="1507203941944" MODIFIED="1507811463835">
+<node TEXT="yan" STYLE_REF="categorization" FOLDED="true" ID="ID_662222209" CREATED="1507203971319" MODIFIED="1507807565067">
+<node TEXT="node attributes should change" FOLDED="true" ID="ID_1395992747" CREATED="1507206975756" MODIFIED="1507228779117">
 <icon BUILTIN="button_ok"/>
 <node ID="ID_1457017284" CREATED="1507207021290" MODIFIED="1507207021290"><richcontent TYPE="NODE">
 
@@ -1865,7 +1868,7 @@
 </richcontent>
 </node>
 </node>
-<node TEXT="add modules" ID="ID_1481691831" CREATED="1507228811541" MODIFIED="1507228859135">
+<node TEXT="add modules" FOLDED="true" ID="ID_1481691831" CREATED="1507228811541" MODIFIED="1507228859135">
 <icon BUILTIN="button_ok"/>
 <node TEXT="s-forms dialog should show wtih" ID="ID_575530565" CREATED="1503046096368" MODIFIED="1503046769149">
 <node TEXT="on create" STYLE_REF="onto-prop" ID="ID_42426787" CREATED="1503046837755" MODIFIED="1503046850031">
@@ -1889,7 +1892,7 @@
 <node TEXT="icons within list of module types" ID="ID_163407032" CREATED="1507205009212" MODIFIED="1507207034160">
 <icon BUILTIN="button_ok"/>
 </node>
-<node TEXT="add modules by module types drag and drop" ID="ID_428909290" CREATED="1501685645106" MODIFIED="1507228854275"/>
+<node TEXT="add modules by module types drag and drop" ID="ID_428909290" CREATED="1501685645106" MODIFIED="1507807591397"/>
 <node TEXT="use autocomplete component to search modules" ID="ID_1515339185" CREATED="1507204678325" MODIFIED="1507204696693">
 <node TEXT=" &quot;react-bootstrap-typeahead&quot;: &quot;https://kbss.felk.cvut.cz/dist/react-bootstrap-typeahead-0.0.XXXX.tgz&quot;," ID="ID_322087820" CREATED="1507206176611" MODIFIED="1507206248988"/>
 <node TEXT="watch out concrete version with current semforms library" ID="ID_1984781146" CREATED="1507206235761" MODIFIED="1507206264169"/>
@@ -1914,7 +1917,7 @@
 <node TEXT="i.e. it should be possible to move with whole canvas with it" ID="ID_728381933" CREATED="1507207365320" MODIFIED="1507207383665"/>
 </node>
 </node>
-<node TEXT="miro" ID="ID_1031960422" CREATED="1507204639014" MODIFIED="1507204640343">
+<node TEXT="miro" STYLE_REF="categorization" FOLDED="true" ID="ID_1031960422" CREATED="1507204639014" MODIFIED="1507807566996">
 <node TEXT="plan upgrade of libs" ID="ID_766646051" CREATED="1507204641244" MODIFIED="1507204651598"/>
 <node TEXT="save and load of scripts" ID="ID_1804457906" CREATED="1501675817260" MODIFIED="1501676142819">
 <node TEXT="next" STYLE_REF="onto-prop" ID="ID_1418245171" CREATED="1501676151996" MODIFIED="1501676153503">
@@ -1930,6 +1933,54 @@
 </node>
 <node TEXT="add directory watcher service" ID="ID_914545423" CREATED="1501675762529" MODIFIED="1501676460022"/>
 <node TEXT="release s-pipes-editoru na github" ID="ID_1993219157" CREATED="1507208045889" MODIFIED="1507208059558"/>
+</node>
+</node>
+</node>
+<node TEXT=" 2017-10-12" ID="ID_1959511239" CREATED="1507811445957" MODIFIED="1507811451009">
+<node TEXT="task" STYLE_REF="onto-prop" ID="ID_1360959699" CREATED="1507203941944" MODIFIED="1507811463835">
+<node TEXT="yan" STYLE_REF="categorization" ID="ID_1868201767" CREATED="1507203971319" MODIFIED="1507807565067">
+<node TEXT="add modules by module types drag and drop" ID="ID_453284134" CREATED="1501685645106" MODIFIED="1507807591397"/>
+<node TEXT="use autocomplete component to search modules" ID="ID_1725401822" CREATED="1507204678325" MODIFIED="1507204696693">
+<node TEXT=" &quot;react-bootstrap-typeahead&quot;: &quot;https://kbss.felk.cvut.cz/dist/react-bootstrap-typeahead-0.0.XXXX.tgz&quot;," ID="ID_1222919293" CREATED="1507206176611" MODIFIED="1507206248988"/>
+<node TEXT="watch out concrete version with current semforms library" ID="ID_482417778" CREATED="1507206235761" MODIFIED="1507206264169"/>
+<node TEXT="see semforms and its tests for demonstration how to use it" ID="ID_1704444387" CREATED="1507206264810" MODIFIED="1507206279817"/>
+<node TEXT="possible values example" FOLDED="true" ID="ID_1544296602" CREATED="1507206708029" MODIFIED="1507206751376"><richcontent TYPE="NOTE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      - use JSON-LD playground to format it
+    </p>
+  </body>
+</html>
+</richcontent>
+<node TEXT="[{&quot;@id&quot;:&quot;http://onto.fel.cvut.cz/ontologies/eccairs/aviation-3.4.0.2/vl-a-13/v-1&quot;,&quot;http://www.w3.org/2000/01/rdf-schema#comment&quot;:[{&quot;@language&quot;:&quot;en&quot;,&quot;@value&quot;:&quot;An ATS airspace class A is one in which IFR flights only are permitted, all flights are provided with ATC service and are separated from each other. ICAO Annex 11.&quot;}],&quot;http://www.w3.org/2000/01/rdf-schema#label&quot;:[{&quot;@language&quot;:&quot;en&quot;,&quot;@value&quot;:&quot;1 - A&quot;}]},{&quot;@id&quot;:&quot;http://onto.fel.cvut.cz/ontologies/eccairs/aviation-3.4.0.2/vl-a-13/v-2&quot;,&quot;http://www.w3.org/2000/01/rdf-schema#comment&quot;:[{&quot;@language&quot;:&quot;en&quot;,&quot;@value&quot;:&quot;An ATS airspace class B is one in which IFR and VFR flights are permitted, all flights are provided with ATC service and are separated from each other. ICAO Annex 11.&quot;}],&quot;http://www.w3.org/2000/01/rdf-schema#label&quot;:[{&quot;@language&quot;:&quot;en&quot;,&quot;@value&quot;:&quot;2 - B&quot;}]},{&quot;@id&quot;:&quot;http://onto.fel.cvut.cz/ontologies/eccairs/aviation-3.4.0.2/vl-a-13/v-3&quot;,&quot;http://www.w3.org/2000/01/rdf-schema#comment&quot;:[{&quot;@language&quot;:&quot;en&quot;,&quot;@value&quot;:&quot;An ATS airspace class C is one in which IFR and VFR flights are permitted, all flights are provided with air traffic control service and IFR flights are separated from other IFR flights and from VFR flights. VFR flights are separated from IFR flights and receive traffic information in respect of other VFR flights. ICAO Annex 11.&quot;}],&quot;http://www.w3.org/2000/01/rdf-schema#label&quot;:[{&quot;@language&quot;:&quot;en&quot;,&quot;@value&quot;:&quot;3 - C&quot;}]},{&quot;@id&quot;:&quot;http://onto.fel.cvut.cz/ontologies/eccairs/aviation-3.4.0.2/vl-a-13/v-4&quot;,&quot;http://www.w3.org/2000/01/rdf-schema#comment&quot;:[{&quot;@language&quot;:&quot;en&quot;,&quot;@value&quot;:&quot;An ATS airspace class D is one in which IFR and VFR flights are permitted and all flights are provided with air traffic control service, IFR flights are separated from other IFR flights and receive traffic information in respect of VFR flights, VFR flights receive traffic information in respect of all other flights. ICAO Annex 11.&quot;}],&quot;http://www.w3.org/2000/01/rdf-schema#label&quot;:[{&quot;@language&quot;:&quot;en&quot;,&quot;@value&quot;:&quot;4 - D&quot;}]},{&quot;@id&quot;:&quot;http://onto.fel.cvut.cz/ontologies/eccairs/aviation-3.4.0.2/vl-a-13/v-5&quot;,&quot;http://www.w3.org/2000/01/rdf-schema#comment&quot;:[{&quot;@language&quot;:&quot;en&quot;,&quot;@value&quot;:&quot;An ATS airspace class E is one in which IFR and VFR flights are permitted, IFR flights are provided with air traffic control service and are separated from other IFR flights. All flights receive traffic information as far as is practical. Class E shall not be used for control zones. ICAO Annex 11.&quot;}],&quot;http://www.w3.org/2000/01/rdf-schema#label&quot;:[{&quot;@language&quot;:&quot;en&quot;,&quot;@value&quot;:&quot;5 - E&quot;}]},{&quot;@id&quot;:&quot;http://onto.fel.cvut.cz/ontologies/eccairs/aviation-3.4.0.2/vl-a-13/v-6&quot;,&quot;http://www.w3.org/2000/01/rdf-schema#comment&quot;:[{&quot;@language&quot;:&quot;en&quot;,&quot;@value&quot;:&quot;An ATS airspace class F is one in which IFR and VFR flights are permitted, all participating IFR flights receive an air traffic advisory service and all flights receive flight information service if requested. ICAO Annex 11.&quot;}],&quot;http://www.w3.org/2000/01/rdf-schema#label&quot;:[{&quot;@language&quot;:&quot;en&quot;,&quot;@value&quot;:&quot;6 - F&quot;}]},{&quot;@id&quot;:&quot;http://onto.fel.cvut.cz/ontologies/eccairs/aviation-3.4.0.2/vl-a-13/v-7&quot;,&quot;http://www.w3.org/2000/01/rdf-schema#comment&quot;:[{&quot;@language&quot;:&quot;en&quot;,&quot;@value&quot;:&quot;An ATS airspace class G is one in which IFR and VFR flights are permitted and receive flight information service if requested. ICAO Annex 11.&quot;}],&quot;http://www.w3.org/2000/01/rdf-schema#label&quot;:[{&quot;@language&quot;:&quot;en&quot;,&quot;@value&quot;:&quot;7 - G&quot;}]},{&quot;@id&quot;:&quot;http://onto.fel.cvut.cz/ontologies/eccairs/aviation-3.4.0.2/vl-a-13/v-98&quot;,&quot;http://www.w3.org/2000/01/rdf-schema#comment&quot;:[{&quot;@language&quot;:&quot;en&quot;,&quot;@value&quot;:&quot;There is no ICAO definition for this type of airspace,&quot;}],&quot;http://www.w3.org/2000/01/rdf-schema#label&quot;:[{&quot;@language&quot;:&quot;en&quot;,&quot;@value&quot;:&quot;98 - Other&quot;}]},{&quot;@id&quot;:&quot;http://onto.fel.cvut.cz/ontologies/eccairs/aviation-3.4.0.2/vl-a-13/v-99&quot;,&quot;http://www.w3.org/2000/01/rdf-schema#comment&quot;:[{&quot;@language&quot;:&quot;en&quot;,&quot;@value&quot;:&quot;&quot;}],&quot;http://www.w3.org/2000/01/rdf-schema#label&quot;:[{&quot;@language&quot;:&quot;en&quot;,&quot;@value&quot;:&quot;99 - Unknown&quot;}]}]" ID="ID_478509230" CREATED="1507206720421" MODIFIED="1507206722034"/>
+</node>
+<node TEXT="maybe add attribute to typeahead -- collapseOnFocusLost ?" ID="ID_1663838448" CREATED="1507811479247" MODIFIED="1507811540144"/>
+</node>
+<node TEXT="whole graph thumbnail should be interactive" ID="ID_189652367" CREATED="1507207329282" MODIFIED="1507207364695">
+<node TEXT="i.e. it should be possible to move with whole canvas with it" ID="ID_1460441819" CREATED="1507207365320" MODIFIED="1507207383665"/>
+</node>
+</node>
+<node TEXT="miro" STYLE_REF="categorization" FOLDED="true" ID="ID_1044693111" CREATED="1507204639014" MODIFIED="1507807566996">
+<node TEXT="plan upgrade of libs" ID="ID_297288996" CREATED="1507204641244" MODIFIED="1507204651598"/>
+<node TEXT="save and load of scripts" FOLDED="true" ID="ID_132279495" CREATED="1501675817260" MODIFIED="1501676142819">
+<node TEXT="next" STYLE_REF="onto-prop" ID="ID_1344362817" CREATED="1501676151996" MODIFIED="1501676153503">
+<node TEXT="rest api stubs ?" ID="ID_1981068868" CREATED="1501676154864" MODIFIED="1501685523987">
+<node TEXT="/save" ID="ID_1217155889" CREATED="1501676271728" MODIFIED="1501676273567"/>
+<node TEXT="/load" ID="ID_1154866557" CREATED="1501676274220" MODIFIED="1501676275752"/>
+</node>
+</node>
+<node TEXT="part" STYLE_REF="onto-prop" ID="ID_1340184270" CREATED="1501676143910" MODIFIED="1501676145233">
+<node TEXT="script structure" ID="ID_791903417" CREATED="1501675869998" MODIFIED="1501675878255"/>
+<node TEXT="module forms" ID="ID_532989530" CREATED="1501675872510" MODIFIED="1501675875500"/>
+</node>
+</node>
+<node TEXT="add directory watcher service" ID="ID_154474818" CREATED="1501675762529" MODIFIED="1501676460022"/>
+<node TEXT="release s-pipes-editoru na github" ID="ID_1227372028" CREATED="1507208045889" MODIFIED="1507208059558"/>
 </node>
 </node>
 </node>
