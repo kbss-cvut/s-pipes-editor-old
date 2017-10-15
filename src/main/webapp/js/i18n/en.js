@@ -89,6 +89,7 @@ module.exports = {
         'view.script-changed': 'Script has been changed. Reload view?',
         'view.reload': 'Reload',
         'view.ignore': 'Ignore',
+        'view.module-type': 'Module type',
 
         'records.panel-title': 'Patient records',
         'records.local-name': 'Patient identifier',

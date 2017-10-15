@@ -90,6 +90,7 @@ module.exports = {
         'view.script-changed': 'Skript se změnil. Obnovit zobrazení?',
         'view.reload': 'Obnovit',
         'view.ignore': 'Ignorovat',
+        'view.module-type': 'Typ modulů',
 
         'records.panel-title': 'Záznamy o pacientech',
         'records.local-name': 'Identifikátor pacienta',
