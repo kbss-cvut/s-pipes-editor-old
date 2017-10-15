@@ -3,7 +3,7 @@
 <node TEXT="main" FOLDED="false" ID="ID_448131109" CREATED="1312805290594" MODIFIED="1502306364395">
 <font NAME="SansSerif"/>
 <hook NAME="MapStyle" zoom="1.1">
-    <properties show_icon_for_attributes="true" fit_to_viewport="false;" show_note_icons="true" show_notes_in_map="false"/>
+    <properties fit_to_viewport="false;" show_icon_for_attributes="true" show_note_icons="true" show_notes_in_map="false"/>
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node" STYLE="oval" UNIFORM_SHAPE="true" VGAP_QUANTITY="24.0 pt">
@@ -1940,7 +1940,8 @@
 <node TEXT="task" STYLE_REF="onto-prop" ID="ID_1360959699" CREATED="1507203941944" MODIFIED="1507811463835">
 <node TEXT="yan" STYLE_REF="categorization" ID="ID_1868201767" CREATED="1507203971319" MODIFIED="1507807565067">
 <node TEXT="add modules by module types drag and drop" ID="ID_453284134" CREATED="1501685645106" MODIFIED="1507807591397"/>
-<node TEXT="use autocomplete component to search modules" ID="ID_1725401822" CREATED="1507204678325" MODIFIED="1507204696693">
+<node TEXT="use autocomplete component to search modules" ID="ID_1725401822" CREATED="1507204678325" MODIFIED="1508082425436">
+<icon BUILTIN="button_ok"/>
 <node TEXT=" &quot;react-bootstrap-typeahead&quot;: &quot;https://kbss.felk.cvut.cz/dist/react-bootstrap-typeahead-0.0.XXXX.tgz&quot;," ID="ID_1222919293" CREATED="1507206176611" MODIFIED="1507206248988"/>
 <node TEXT="watch out concrete version with current semforms library" ID="ID_482417778" CREATED="1507206235761" MODIFIED="1507206264169"/>
 <node TEXT="see semforms and its tests for demonstration how to use it" ID="ID_1704444387" CREATED="1507206264810" MODIFIED="1507206279817"/>
@@ -1965,7 +1966,7 @@
 <node TEXT="i.e. it should be possible to move with whole canvas with it" ID="ID_1460441819" CREATED="1507207365320" MODIFIED="1507207383665"/>
 </node>
 </node>
-<node TEXT="miro" STYLE_REF="categorization" FOLDED="true" ID="ID_1044693111" CREATED="1507204639014" MODIFIED="1507807566996">
+<node TEXT="miro" STYLE_REF="categorization" ID="ID_1044693111" CREATED="1507204639014" MODIFIED="1507807566996">
 <node TEXT="plan upgrade of libs" ID="ID_297288996" CREATED="1507204641244" MODIFIED="1507204651598"/>
 <node TEXT="save and load of scripts" FOLDED="true" ID="ID_132279495" CREATED="1501675817260" MODIFIED="1501676142819">
 <node TEXT="next" STYLE_REF="onto-prop" ID="ID_1344362817" CREATED="1501676151996" MODIFIED="1501676153503">
