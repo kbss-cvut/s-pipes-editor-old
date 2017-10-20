@@ -3,7 +3,7 @@
 <node TEXT="main" FOLDED="false" ID="ID_448131109" CREATED="1312805290594" MODIFIED="1502306364395">
 <font NAME="SansSerif"/>
 <hook NAME="MapStyle" zoom="1.1">
-    <properties fit_to_viewport="false;" show_icon_for_attributes="true" show_note_icons="true" show_notes_in_map="false"/>
+    <properties show_icon_for_attributes="true" fit_to_viewport="false;" show_note_icons="true" show_notes_in_map="false"/>
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node" STYLE="oval" UNIFORM_SHAPE="true" VGAP_QUANTITY="24.0 pt">
@@ -1214,6 +1214,10 @@
 </node>
 <node TEXT="validation" STYLE_REF="categorization" ID="ID_1843914250" CREATED="1481803508269" MODIFIED="1481803511933"/>
 </node>
+</node>
+<node TEXT="spin--qa-transformation" ID="ID_922128943" CREATED="1508508159114" MODIFIED="1508508237471">
+<node TEXT="transformation interface" ID="ID_1079590925" CREATED="1508508404463" MODIFIED="1508508670044" LINK="./design/spin--qa-transformation/transformation-interface.jpg"/>
+<node TEXT="question-origin representation" ID="ID_686375432" CREATED="1508508404463" MODIFIED="1508508666534" LINK="./design/spin--qa-transformation/question-origin-representation.jpg"/>
 </node>
 </node>
 <node TEXT="meeting notes" STYLE_REF="onto-prop" POSITION="right" ID="ID_1366068811" CREATED="1490021605551" MODIFIED="1490021610196">
