@@ -1,6 +1,7 @@
 'use strict';
 
 const React = require('react');
+import ModuleType from "../moduleType/ModuleType";
 
 const TypeaheadResultList = React.createClass({
 
@@ -13,8 +14,8 @@ const TypeaheadResultList = React.createClass({
         for (let i = 0, len = this.props.options.length; i < len; i++) {
             let option = this.props.options[i],
                 onClick = this.onClick.bind(this, option);
-            items.push(<li className='btn-link item' key={'typeahead-result-' + i} title={option.description}
-                           onClick={onClick}>{this.getOptionLabel(option)}</li>);
+            items.push(<ModuleType key={'typeahead-result-' + i} title={option.description}
+                                   onClick={onClick} value={this.getOptionLabel(option)}/>);
         }
         return <ul className={listCls}>
             {items}
