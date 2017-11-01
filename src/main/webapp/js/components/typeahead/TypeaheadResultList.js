@@ -14,7 +14,7 @@ const TypeaheadResultList = React.createClass({
         for (let i = 0, len = this.props.options.length; i < len; i++) {
             let option = this.props.options[i],
                 onClick = this.onClick.bind(this, option);
-            items.push(<ModuleType key={'typeahead-result-' + i} title={option.description}
+            items.push(<li key={'typeahead-result-' + i} title={option.description}
                                    onClick={onClick} value={this.getOptionLabel(option)}/>);
         }
         return <ul className={listCls}>
