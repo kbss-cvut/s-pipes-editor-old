@@ -1,9 +1,0 @@
-1. the-graph:
- * New edge's free end position
-   The position of the free end of a new edge seems to be completely random
- * Mouse events position (tooltips & stuff)
-   Mouse events have absolute coordinates and are shifted if the editor window does not start at (0; 0)
-   Examples:
-    - Port tooltips
-    - Context menu
-    - Free end of a new edge

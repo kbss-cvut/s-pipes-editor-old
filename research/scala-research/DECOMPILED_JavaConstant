@@ -1,5 +1,0 @@
-Compiled from "JavaConstant.java"
-public class JavaConstant {
-  public static final java.lang.String CONSTANT;
-  public JavaConstant();
-}

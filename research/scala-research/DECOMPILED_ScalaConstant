@@ -1,4 +1,0 @@
-Compiled from "ScalaConstant.scala"
-public final class ScalaConstant {
-  public static java.lang.String CONSTANT();
-}

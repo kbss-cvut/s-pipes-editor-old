@@ -1,7 +1,0 @@
-{  
-   "@id": "/nodes/12034",
-   "http://www.w3.org/1999/02/22-rdf-syntax-ns#label": "create name" ,
-   "@type": "http://onto.fel.cvut.cz/ontologies/sempipes/node",
-   "http://onto.fel.cvut.cz/ontologies/sempipes/has-input-parameter": [ "givenName", "familyName" ],
-   "http://onto.fel.cvut.cz/ontologies/sempipes/has-output-parameter": "name"
-}
