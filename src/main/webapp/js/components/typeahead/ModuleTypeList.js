@@ -1,5 +1,7 @@
 'use strict';
-import {OverlayTrigger, Popover} from "react-bootstrap";
+import {DragDropContext} from "react-dnd";
+import HTML5Backend from "react-dnd-html5-backend";
+import ModuleType from "../moduleType/ModuleType";
 
 const React = require('react');
 
@@ -14,28 +16,15 @@ const ModuleTypeList = React.createClass({
             let option = this.props.options[i],
                 onClick = this.onClick.bind(this, option);
             let className = "fa fa-" + (option["http://topbraid.org/sparqlmotion#icon"] === undefined ? "gear" : option["http://topbraid.org/sparqlmotion#icon"]);
-            let popover = (
-                <Popover
-                    bsClass="module-type popover"
-                    id={option["@id"]}
-                    key={option["@id"]}
-                    title={option["@id"]}>
-                    {option["http://www.w3.org/2000/01/rdf-schema#comment"]}
-                </Popover>);
-            items.push(<li className='btn-link module-type item'
-                           key={'typeahead-result-' + i}
-                           title={option.description}
-                           onClick={onClick}>
-                <OverlayTrigger
-                    placement="right"
-                    key={option["@id"]}
-                    overlay={popover}>
-                    <span>
-                        <i className={className} aria-hidden="true"/>
-                        {" " + this.getOptionLabel(option)}
-                    </span>
-                </OverlayTrigger>
-            </li>);
+
+            items.push(
+                <ModuleType
+                    key={'typeahead-result-' + i}
+                    onClick={onClick}
+                    option={option}
+                    className={className}
+                    value={this.getOptionLabel(option)}/>
+            );
         }
         return <ul className={listCls}>
             {items}
@@ -56,4 +45,4 @@ const ModuleTypeList = React.createClass({
     }
 });
 
-export default ModuleTypeList;
+export default DragDropContext(HTML5Backend)(ModuleTypeList);

@@ -29,6 +29,7 @@ let direction = 'RIGHT';
 let defaultLayout = 'layered';
 let that;
 let record;
+let moduleTypeAhead;
 
 class ViewController extends React.Component {
 
@@ -126,18 +127,19 @@ class ViewController extends React.Component {
         };
         record = <Record ref={(c) => this.recordComponent = c} handlers={handlers} record={this.state.record}
                          loading={this.state.loading}/>;
+        moduleTypeAhead = <Typeahead
+            options={this.state.moduleTypes}
+            displayOption="http://www.w3.org/2000/01/rdf-schema#label"
+            filterOption="http://www.w3.org/2000/01/rdf-schema#label"
+            optionsButton={true}
+            onOptionSelected={(o) => this.addModule(o["@id"])}
+            placeholder={I18Store.i18n('view.module-type')}
+            customListComponent={ModuleTypeList}
+        />;
         return (
             <div id="main">
                 <ButtonGroup vertical id="module-typeahead">
-                    <Typeahead
-                        options={this.state.moduleTypes}
-                        displayOption="http://www.w3.org/2000/01/rdf-schema#label"
-                        filterOption="http://www.w3.org/2000/01/rdf-schema#label"
-                        optionsButton={true}
-                        onOptionSelected={(o) => this.addModule(o["@id"])}
-                        placeholder={I18Store.i18n('view.module-type')}
-                        customListComponent={ModuleTypeList}
-                    />
+                    {moduleTypeAhead}
                 </ButtonGroup>
                 <div id="view">
                     <div id="editor"/>
