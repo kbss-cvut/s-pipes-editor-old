@@ -219,6 +219,12 @@
                         <version>${maven-war-plugin.version}</version>
                         <configuration>
                             <failOnMissingWebXml>false</failOnMissingWebXml>
+                            <warSourceExcludes>
+                                node_modules/,package.json,.babelrc,.eslintrc,tests/
+                            </warSourceExcludes>
+                            <packagingExcludes>
+                                node_modules/,package.json,.babelrc,.eslintrc,tests/
+                            </packagingExcludes>
                         </configuration>
                     </plugin>
                 </plugins>
