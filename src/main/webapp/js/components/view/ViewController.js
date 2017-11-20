@@ -21,13 +21,13 @@ import ModuleTypeList from "../typeahead/ModuleTypeList";
 import HTML5Backend from 'react-dnd-html5-backend';
 import {DragDropContext} from 'react-dnd';
 import ReactDOM from "react-dom";
+let ELK = require('elkjs');
+let Hammer = require('hammerjs');
 
 let Routes = require('../../utils/Routes');
 let Routing = require('../../utils/Routing');
 let ModuleTypeStore = require('../../stores/ModuleTypeStore');
 let ViewStore = require('../../stores/ViewStore');
-let ELK = require('elkjs/lib/elk-api');
-let Hammer = require('hammerjs');
 
 function fixTheGraphGlobalDependece() {
     window.React = React;
@@ -445,9 +445,7 @@ class ViewController extends React.Component {
             that.setState({viewLaidOut: true});
         }
         else {
-            let elk = new ELK({
-                workerUrl: '../../../node_modules/elkjs/lib/elk-worker.min.js'
-            });
+            let elk = new ELK();
             let options = {
                 'org.eclipse.elk.layered.crossingMinimization.strategy': 'INTERACTIVE',
             };
