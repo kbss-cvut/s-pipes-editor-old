@@ -20,12 +20,23 @@ import Typeahead from "react-bootstrap-typeahead";
 import ModuleTypeList from "../typeahead/ModuleTypeList";
 import HTML5Backend from 'react-dnd-html5-backend';
 import {DragDropContext} from 'react-dnd';
+import ReactDOM from "react-dom";
 
 let Routes = require('../../utils/Routes');
 let Routing = require('../../utils/Routing');
 let ModuleTypeStore = require('../../stores/ModuleTypeStore');
 let ViewStore = require('../../stores/ViewStore');
 let ELK = require('elkjs/lib/elk-api');
+let Hammer = require('hammerjs');
+
+function fixTheGraphGlobalDependece() {
+    window.React = React;
+    window.Hammer = Hammer;
+    window.ReactDOM = ReactDOM;
+}
+fixTheGraphGlobalDependece();
+
+let TheGraph = require("the-graph");
 
 let direction = 'RIGHT';
 let defaultLayout = 'layered';
@@ -231,7 +242,7 @@ class ViewController extends React.Component {
     };
 
     loadViewFromData(data) {
-        let fbpGraph = window.TheGraph.fbpGraph;
+        let fbpGraph = TheGraph.fbpGraph;
         let view = new fbpGraph.Graph();
         data.nodes.map((n) => view.addNode(n.id, n.component, n.metadata));
         data.edges.map((e) => view.addEdge(e.from.node, e.from.port, e.to.node, e.to.port, e.metadata));
@@ -243,7 +254,7 @@ class ViewController extends React.Component {
 
     _viewLoaded = (data) => {
         if (data.action === Actions.loadView) {
-            let fbpGraph = window.TheGraph.fbpGraph;
+            let fbpGraph = TheGraph.fbpGraph;
             this.setState({view: new fbpGraph.Graph()});
             data.data["http://onto.fel.cvut.cz/ontologies/s-pipes-view/consists-of-node"].map(n => {
                 if (typeof n === "object")
