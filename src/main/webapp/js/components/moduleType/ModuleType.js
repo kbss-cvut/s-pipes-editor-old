@@ -1,4 +1,23 @@
 import * as React from "react";
+import {OverlayTrigger, Popover} from "react-bootstrap";
+import {DragSource} from 'react-dnd';
+import PropTypes from 'prop-types';
+
+
+const moduleTypeSource = {
+    beginDrag(props) {
+        console.log("Begin drag");
+        return {id: this.props.option["@id"]};
+    }
+};
+
+function collect(connect, monitor) {
+    console.log("Collect");
+    return {
+        connectDragSource: connect.dragSource(),
+        isDragging: monitor.isDragging()
+    }
+}
 
 class ModuleType extends React.Component {
     constructor(props) {
@@ -6,9 +25,35 @@ class ModuleType extends React.Component {
     }
 
     render() {
-        return <li className='btn-link item' key={this.props.key} title={this.props.title}
-                   onClick={this.props.onClick}>{this.props.value}</li>
-    }
+        const option = this.props.option;
+        const popover = (
+            <Popover
+                bsClass="module-type popover"
+                id={option["@id"]}
+                key={option["@id"]}
+                title={option["@id"]}>
+                {option["http://www.w3.org/2000/01/rdf-schema#comment"]}
+            </Popover>);
+        return this.props.connectDragSource(<li
+            className='btn-link module-type item'
+            title={option.description}
+            onClick={this.props.onClick}>
+            <OverlayTrigger
+                placement="right"
+                key={option["@id"]}
+                overlay={popover}>
+            <span>
+                <i className={this.props.className} aria-hidden="true"/>
+                {" " + this.props.value}
+            </span>
+            </OverlayTrigger>
+        </li>)
+    };
 }
 
-export default ModuleType;
+ModuleType.propTypes = {
+    connectDragSource: PropTypes.func.isRequired,
+    isDragging: PropTypes.bool.isRequired
+};
+
+export default DragSource('moduleType', moduleTypeSource, collect)(ModuleType);
