@@ -6,11 +6,13 @@ import PropTypes from 'prop-types';
 
 const moduleTypeSource = {
     beginDrag(props) {
-        return {};
+        console.log("Begin drag");
+        return {id: this.props.option["@id"]};
     }
 };
 
 function collect(connect, monitor) {
+    console.log("Collect");
     return {
         connectDragSource: connect.dragSource(),
         isDragging: monitor.isDragging()
@@ -32,7 +34,7 @@ class ModuleType extends React.Component {
                 title={option["@id"]}>
                 {option["http://www.w3.org/2000/01/rdf-schema#comment"]}
             </Popover>);
-        return <li
+        return this.props.connectDragSource(<li
             className='btn-link module-type item'
             title={option.description}
             onClick={this.props.onClick}>
@@ -45,7 +47,7 @@ class ModuleType extends React.Component {
                 {" " + this.props.value}
             </span>
             </OverlayTrigger>
-        </li>
+        </li>)
     };
 }
 

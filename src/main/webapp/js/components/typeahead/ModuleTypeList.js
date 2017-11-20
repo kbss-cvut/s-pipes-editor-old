@@ -1,6 +1,4 @@
 'use strict';
-import {DragDropContext} from "react-dnd";
-import HTML5Backend from "react-dnd-html5-backend";
 import ModuleType from "../moduleType/ModuleType";
 
 const React = require('react');
@@ -45,4 +43,4 @@ const ModuleTypeList = React.createClass({
     }
 });
 
-export default DragDropContext(HTML5Backend)(ModuleTypeList);
+export default ModuleTypeList;

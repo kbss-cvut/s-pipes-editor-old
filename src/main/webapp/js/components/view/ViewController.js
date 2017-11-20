@@ -18,6 +18,8 @@ import * as I18Store from "../../stores/I18nStore";
 import * as Utils from "../../utils/Utils";
 import Typeahead from "react-bootstrap-typeahead";
 import ModuleTypeList from "../typeahead/ModuleTypeList";
+import HTML5Backend from 'react-dnd-html5-backend';
+import {DragDropContext} from 'react-dnd';
 
 let Routes = require('../../utils/Routes');
 let Routing = require('../../utils/Routing');
@@ -454,4 +456,4 @@ class ViewController extends React.Component {
     };
 }
 
-export default injectIntl(I18nWrapper(Messager(ViewController)));
+export default injectIntl(I18nWrapper(Messager(DragDropContext(HTML5Backend)(ViewController))));
