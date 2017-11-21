@@ -4,17 +4,17 @@
 
 'use strict';
 
-import React from "react";
-import {Alert, Button, Panel} from "react-bootstrap";
-import I18nWrapper from "../../i18n/I18nWrapper";
-import injectIntl from "../../utils/injectIntl";
-import Input from "../Input";
-import Logger from "../../utils/Logger";
-import Mask from "../Mask";
-import Routing from "../../utils/Routing";
-import Routes from "../../utils/Routes";
-import Ajax from "../../utils/Ajax";
-import Actions from "../../actions/Actions";
+import React from 'react';
+import {Alert, Button, Panel} from 'react-bootstrap';
+import I18nWrapper from '../../i18n/I18nWrapper';
+import injectIntl from '../../utils/injectIntl';
+import Input from '../Input';
+import Logger from '../../utils/Logger';
+import Mask from '../Mask';
+import Routing from '../../utils/Routing';
+import Routes from '../../utils/Routes';
+import Ajax from '../../utils/Ajax';
+import Actions from '../../actions/Actions';
 
 class Register extends React.Component {
     // Setup state in constructor (getInitialState originally)

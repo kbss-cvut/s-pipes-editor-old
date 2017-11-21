@@ -1,17 +1,13 @@
 'use strict';
 
-let React = require('react');
-let Alert = require('react-bootstrap').Alert;
-let Button = require('react-bootstrap').Button;
-let ButtonToolbar = require('react-bootstrap').ButtonToolbar;
-let Panel = require('react-bootstrap').Panel;
-let Constants = require('semforms').Constants;
-let HelpIcon = require('semforms').HelpIcon;
-let JsonLdUtils = require('jsonld-utils').default;
+import React from 'react';
+import {Alert, Button, ButtonToolbar, Panel} from 'react-bootstrap';
+import {Constants, HelpIcon} from 'semforms';
+import injectIntl from '../../utils/injectIntl';
+import I18nMixin from '../../i18n/I18nMixin';
+import WizardStore from '../../stores/WizardStore';
 
-let injectIntl = require('../../utils/injectIntl');
-let I18nMixin = require('../../i18n/I18nMixin');
-let WizardStore = require('../../stores/WizardStore');
+let JsonLdUtils = require('jsonld-utils').default;
 
 let WizardStep = React.createClass({
     mixins: [I18nMixin],

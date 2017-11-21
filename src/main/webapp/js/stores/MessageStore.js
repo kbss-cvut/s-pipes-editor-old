@@ -1,8 +1,8 @@
 'use strict';
 
-const Reflux = require('reflux');
+import Reflux from 'reflux';
 
-const Actions = require('../actions/Actions');
+import Actions from '../actions/Actions';
 
 const MessageStore = Reflux.createStore({
     init: function () {

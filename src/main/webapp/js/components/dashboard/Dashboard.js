@@ -4,19 +4,17 @@
 
 'use strict';
 
-let React = require('react');
-let Jumbotron = require('react-bootstrap').Jumbotron;
-let Grid = require('react-bootstrap').Grid;
-let Col = require('react-bootstrap').Col;
-let Row = require('react-bootstrap').Row;
+import React from 'react';
+import {Col, Grid, Jumbotron, Row} from 'react-bootstrap';
 
-let injectIntl = require('../../utils/injectIntl');
-let FormattedMessage = require('react-intl').FormattedMessage;
+import injectIntl from '../../utils/injectIntl';
+import Authentication from '../../utils/Authentication';
+import Constants from '../../constants/Constants';
+import I18nMixin from '../../i18n/I18nMixin';
 
-let Authentication = require('../../utils/Authentication');
-let Constants = require('../../constants/Constants');
+import {FormattedMessage} from 'react-intl';
+
 let Tile = require('./DashboardTile').default;
-let I18nMixin = require('../../i18n/I18nMixin');
 
 let Dashboard = React.createClass({
     mixins: [I18nMixin],

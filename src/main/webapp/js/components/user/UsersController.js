@@ -1,12 +1,12 @@
 'use strict';
 
-import React from "react";
-import Actions from "../../actions/Actions";
-import Authentication from "../../utils/Authentication";
-import Routes from "../../utils/Routes";
-import Routing from "../../utils/Routing";
-import Users from "./Users";
-import UserStore from "../../stores/UserStore";
+import React from 'react';
+import Actions from '../../actions/Actions';
+import Authentication from '../../utils/Authentication';
+import Routes from '../../utils/Routes';
+import Routing from '../../utils/Routing';
+import Users from './Users';
+import UserStore from '../../stores/UserStore';
 
 export default class UsersController extends React.Component {
 

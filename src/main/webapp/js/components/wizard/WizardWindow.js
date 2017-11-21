@@ -1,10 +1,11 @@
 'use strict';
 
-let React = require('react');
-let Modal = require('react-bootstrap').Modal;
-let assign = require('object-assign');
+import React from 'react';
+import assign from 'object-assign';
 
-let Wizard = require('./Wizard');
+import Wizard from './Wizard';
+
+let Modal = require('react-bootstrap').Modal;
 
 const WizardWindow = React.createClass({
     propTypes: {

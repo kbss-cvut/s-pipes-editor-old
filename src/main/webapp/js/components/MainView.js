@@ -1,25 +1,20 @@
 'use strict';
 
-let React = require('react');
-let Reflux = require('reflux');
+import React from 'react';
+import Reflux from 'reflux';
 
-let Nav = require('react-bootstrap').Nav;
-let Navbar = require('react-bootstrap').Navbar;
-let NavBrand = require('react-bootstrap').NavbarBrand;
-let NavItem = require('react-bootstrap').NavItem;
-let NavDropdown = require('react-bootstrap').NavDropdown;
-let MenuItem = require('react-bootstrap').MenuItem;
-let LinkContainer = require('react-router-bootstrap').LinkContainer;
-let injectIntl = require('../utils/injectIntl');
+import {MenuItem, Nav, Navbar, NavBrand, NavDropdown, NavItem} from 'react-bootstrap';
+import {LinkContainer} from 'react-router-bootstrap';
+import injectIntl from '../utils/injectIntl';
 
-let Actions = require('../actions/Actions');
-let Constants = require('../constants/Constants');
-let I18nMixin = require('../i18n/I18nMixin');
-let I18nStore = require('../stores/I18nStore');
+import Actions from '../actions/Actions';
+import Constants from '../constants/Constants';
+import I18nMixin from '../i18n/I18nMixin';
+import I18nStore from '../stores/I18nStore';
 
-let Authentication = require('../utils/Authentication');
-let Routes = require('../utils/Routes');
-let UserStore = require('../stores/UserStore');
+import Authentication from '../utils/Authentication';
+import Routes from '../utils/Routes';
+import UserStore from '../stores/UserStore';
 
 let MainView = React.createClass({
     mixins: [

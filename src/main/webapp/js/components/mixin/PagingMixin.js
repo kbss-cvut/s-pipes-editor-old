@@ -1,17 +1,17 @@
-const React = require('react');
-const Pagination = require('react-bootstrap').Pagination;
+import React from 'react';
+import {Pagination} from 'react-bootstrap';
 
-const FormattedMessage = require('react-intl').FormattedMessage;
+import {FormattedMessage} from 'react-intl';
 
-const Actions = require('../../actions/Actions');
-const ComponentStateStore = require('../../stores/ComponentStateStore');
+import Actions from '../../actions/Actions';
+import ComponentStateStore from '../../stores/ComponentStateStore';
 
 const MAX_BUTTONS = 5;
 
 /**
  * Mixin for data paging in tables.
  *
- * It is completely self-contained and provides methods which:
+ * It is compimport {} from ;ely self-contained and provides methods which:
  * <ul>
  *     <li>Render the pagination component when necessary (when data don't fit one page)</li>
  *     <li>Return portion of data corresponding to the currently active page</li>

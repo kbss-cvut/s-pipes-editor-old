@@ -1,7 +1,7 @@
 'use strict';
 
-const Reflux = require('reflux');
-const assign = require('object-assign');
+import Reflux from 'reflux';
+import assign from 'object-assign';
 
 const WizardStore = Reflux.createStore({
 

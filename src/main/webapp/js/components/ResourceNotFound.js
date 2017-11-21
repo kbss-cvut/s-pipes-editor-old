@@ -1,13 +1,12 @@
 'use strict';
 
-let React = require('react');
-let Alert = require('react-bootstrap').Alert;
-let Button = require('react-bootstrap').Button;
-let injectIntl = require('../utils/injectIntl');
-let FormattedMessage = require('react-intl').FormattedMessage;
+import React from 'react';
+import {Alert, Button} from 'react-bootstrap';
+import injectIntl from '../utils/injectIntl';
+import {FormattedMessage} from 'react-intl';
 
-let Routing = require('../utils/Routing');
-let I18nMixin = require('../i18n/I18nMixin');
+import Routing from '../utils/Routing';
+import I18nMixin from '../i18n/I18nMixin';
 
 /**
  * Shows alert with message informing that a resource could not be found.

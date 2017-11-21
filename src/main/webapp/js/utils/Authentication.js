@@ -1,12 +1,12 @@
 'use strict';
 
-const Actions = require('../actions/Actions');
-const Ajax = require('./Ajax');
-const Routes = require('./Routes');
-const Routing = require('./Routing');
-const Logger = require('./Logger');
-const UserStore = require('../stores/UserStore');
-const Vocabulary = require('../constants/Vocabulary');
+import Actions from '../actions/Actions';
+import Ajax from './Ajax';
+import Routes from './Routes';
+import Routing from './Routing';
+import Logger from './Logger';
+import UserStore from '../stores/UserStore';
+import Vocabulary from '../constants/Vocabulary';
 
 const Authentication = {
 

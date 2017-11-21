@@ -1,6 +1,6 @@
 'use strict';
 
-const Routes = require('../utils/Routes');
+import Routes from '../utils/Routes';
 
 module.exports = {
     APP_NAME: 'SPEd',

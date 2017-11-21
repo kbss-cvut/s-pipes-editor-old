@@ -1,12 +1,12 @@
 'use strict';
 
-const Reflux = require('reflux');
+import Reflux from 'reflux';
 
-const Actions = require('../actions/Actions');
-const Ajax = require('../utils/Ajax');
-const Authentication = require('../utils/Authentication');
-const UserStore = require('./UserStore');
-const Utils = require('../utils/Utils');
+import Actions from '../actions/Actions';
+import Ajax from '../utils/Ajax';
+import Authentication from '../utils/Authentication';
+import UserStore from './UserStore';
+import Utils from '../utils/Utils';
 
 const RecordStore = Reflux.createStore({
     listenables: [Actions],

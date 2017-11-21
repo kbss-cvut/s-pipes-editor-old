@@ -1,7 +1,7 @@
 'use strict';
 
-import React from "react";
-import {ListGroup, ListGroupItem} from "react-bootstrap";
+import React from 'react';
+import {ListGroup, ListGroupItem} from 'react-bootstrap';
 
 const VerticalWizardNav = (props) => {
 

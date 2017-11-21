@@ -1,11 +1,11 @@
 'use strict';
 
-let React = require('react');
-const Reflux = require('reflux');
-let classNames = require('classnames');
+import React from 'react';
+import Reflux from 'reflux';
+import classNames from 'classnames';
 
-let WizardStep = require('./WizardStep');
-let WizardStore = require('../../stores/WizardStore');
+import WizardStep from './WizardStep';
+import WizardStore from '../../stores/WizardStore';
 
 let HorizontalWizardNav = require('./HorizontalWizardNav').default;
 let VerticalWizardNav = require('./VerticalWizardNav').default;

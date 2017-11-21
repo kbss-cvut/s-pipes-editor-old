@@ -1,6 +1,6 @@
 'use strict';
 
-import React from "react";
+import React from 'react';
 
 const DashboardTile = (props) => {
     return <button className='dashboard-tile btn-primary btn'

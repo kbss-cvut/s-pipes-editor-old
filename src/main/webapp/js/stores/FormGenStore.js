@@ -1,11 +1,11 @@
 'use strict';
 
-const Reflux = require('reflux');
-const jsonld = require('jsonld');
+import Reflux from 'reflux';
+import jsonld from 'jsonld';
 
-const Actions = require('../actions/Actions');
-const Ajax = require('../utils/Ajax');
-const Logger = require('../utils/Logger');
+import Actions from '../actions/Actions';
+import Ajax from '../utils/Ajax';
+import Logger from '../utils/Logger';
 
 const options = {};
 

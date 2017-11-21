@@ -1,7 +1,7 @@
 'use strict';
-import ModuleType from "../moduleType/ModuleType";
+import ModuleType from '../moduleType/ModuleType';
 
-const React = require('react');
+import React from 'react';
 
 const ModuleTypeList = React.createClass({
 

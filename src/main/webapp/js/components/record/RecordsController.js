@@ -2,11 +2,11 @@
 
 import React from 'react';
 
-import Actions from "../../actions/Actions";
-import Records from "./Records";
-import RecordStore from "../../stores/RecordStore";
-import Routes from "../../utils/Routes";
-import Routing from "../../utils/Routing";
+import Actions from '../../actions/Actions';
+import Records from './Records';
+import RecordStore from '../../stores/RecordStore';
+import Routes from '../../utils/Routes';
+import Routing from '../../utils/Routing';
 
 export default class RecordsController extends React.Component {
     constructor(props) {

@@ -4,7 +4,23 @@
 
 'use strict';
 
-const I18nStore = require('./stores/I18nStore');
+import I18nStore from './stores/I18nStore';
+// Have the imports here, so that the I18nStore is initialized before any of the components which might need it
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {IndexRoute, Route, Router} from 'react-router';
+import {IntlProvider} from 'react-intl';
+
+import {history} from './utils/Routing';
+import Routes from './utils/Routes';
+
+import Login from './components/login/Login';
+import MainView from './components/MainView';
+import DashboardController from './components/dashboard/DashboardController';
+import {RecordController} from './components/record/RecordController';
+import {UserController} from './components/user/UserController';
+import RoutingRules from './utils/RoutingRules';
+
 const addLocaleData = require('react-intl').addLocaleData;
 
 let intlData = null;
@@ -28,26 +44,9 @@ function selectLocalization() {
 selectLocalization();
 I18nStore.setMessages(intlData.messages);
 
-// Have the imports here, so that the I18nStore is initialized before any of the components which might need it
-const React = require('react');
-const ReactDOM = require('react-dom');
-const Router = require('react-router').Router;
-const Route = require('react-router').Route;
-const IndexRoute = require('react-router').IndexRoute;
-const IntlProvider = require('react-intl').IntlProvider;
-
-const history = require('./utils/Routing').history;
-const Routes = require('./utils/Routes');
-
-const Login = require('./components/login/Login');
-const MainView = require('./components/MainView');
-const DashboardController = require('./components/dashboard/DashboardController');
-const RecordController = require('./components/record/RecordController').default;
 const RecordsController = require('./components/record/RecordsController').default;
 const ViewController = require('./components/view/ViewController').default;
 const UsersController = require('./components/user/UsersController').default;
-const UserController = require('./components/user/UserController').default;
-const RoutingRules = require('./utils/RoutingRules');
 
 function onRouteEnter() {
     RoutingRules.execute(this.path);

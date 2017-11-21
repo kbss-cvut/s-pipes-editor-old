@@ -1,6 +1,6 @@
 'use strict';
 
-const Utils = require('./Utils');
+import Utils from './Utils';
 
 module.exports = {
 

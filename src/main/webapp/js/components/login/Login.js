@@ -1,18 +1,16 @@
 'use strict';
 
-let React = require('react');
-let Panel = require('react-bootstrap').Panel;
-let Button = require('react-bootstrap').Button;
-let Alert = require('react-bootstrap').Alert;
+import React from 'react';
+import {Alert, Button, Panel} from 'react-bootstrap';
 
-let injectIntl = require('../../utils/injectIntl');
+import injectIntl from '../../utils/injectIntl';
+import Input from '../Input';
+import Routing from '../../utils/Routing';
+import Routes from '../../utils/Routes';
+import Authentication from '../../utils/Authentication';
+import I18nMixin from '../../i18n/I18nMixin';
 
 let Mask = require('../Mask').default;
-let Input = require('../Input');
-let Routing = require('../../utils/Routing');
-let Routes = require('../../utils/Routes');
-let Authentication = require('../../utils/Authentication');
-let I18nMixin = require('../../i18n/I18nMixin');
 
 
 let Login = React.createClass({

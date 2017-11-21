@@ -1,8 +1,8 @@
 'use strict';
 
-import React from "react";
-import {ClipLoader} from "halogen";
-import I18Store from "../stores/I18nStore";
+import React from 'react';
+import {ClipLoader} from 'halogen';
+import I18Store from '../stores/I18nStore';
 
 const Mask = (props) => {
     let text = props.text ? props.text : I18Store.i18n('please-wait');

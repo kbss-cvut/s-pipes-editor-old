@@ -1,9 +1,9 @@
 'use strict';
-import * as RouterStore from "../stores/RouterStore";
+import * as RouterStore from '../stores/RouterStore';
 
-const hashHistory = require('react-router').hashHistory;
-const Constants = require('../constants/Constants');
-const RoutingRules = require('./RoutingRules');
+import {hashHistory} from 'react-router';
+import Constants from '../constants/Constants';
+import RoutingRules from './RoutingRules';
 
 const Routing = {
     history: hashHistory,

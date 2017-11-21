@@ -1,5 +1,5 @@
-import * as React from "react";
-import {OverlayTrigger, Popover} from "react-bootstrap";
+import * as React from 'react';
+import {OverlayTrigger, Popover} from 'react-bootstrap';
 import {DragSource} from 'react-dnd';
 import PropTypes from 'prop-types';
 

@@ -1,16 +1,16 @@
 'use strict';
 
-import React from "react";
-import {Button, Panel} from "react-bootstrap";
-import {FormattedMessage} from "react-intl";
-import I18nWrapper from "../../i18n/I18nWrapper";
-import injectIntl from "../../utils/injectIntl";
+import React from 'react';
+import {Button, Panel} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
+import I18nWrapper from '../../i18n/I18nWrapper';
+import injectIntl from '../../utils/injectIntl';
 import Input from '../Input';
-import Mask from "../Mask";
-import RecordForm from "./RecordForm";
-import RecordProvenance from "./RecordProvenance";
-import WizardStore from "../../stores/WizardStore";
-import {FormUtils} from "semforms";
+import Mask from '../Mask';
+import RecordForm from './RecordForm';
+import RecordProvenance from './RecordProvenance';
+import WizardStore from '../../stores/WizardStore';
+import {FormUtils} from 'semforms';
 
 class Record extends React.Component {
     static propTypes = {

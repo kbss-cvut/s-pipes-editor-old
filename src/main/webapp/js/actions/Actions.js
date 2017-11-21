@@ -1,6 +1,6 @@
 'use strict';
 
-const Reflux = require('reflux');
+import Reflux from 'reflux';
 
 const Actions = Reflux.createActions([
     'loadAllUsers', 'loadCurrentUser', 'loadUser', 'createUser', 'updateUser', 'deleteUser',

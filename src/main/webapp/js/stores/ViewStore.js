@@ -1,9 +1,9 @@
 'use strict';
 
-const Reflux = require('reflux');
+import Reflux from 'reflux';
 
-const Actions = require('../actions/Actions');
-const Ajax = require('../utils/Ajax');
+import Actions from '../actions/Actions';
+import Ajax from '../utils/Ajax';
 
 //todo Rewrite to "extends" form
 const ViewStore = Reflux.createStore({

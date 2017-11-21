@@ -1,16 +1,16 @@
 'use strict';
 
-let React = require('react');
-let Reflux = require('reflux');
+import React from 'react';
+import Reflux from 'reflux';
 
-let injectIntl = require('../../utils/injectIntl');
+import injectIntl from '../../utils/injectIntl';
 
-let Routing = require('../../utils/Routing');
-let Routes = require('../../utils/Routes');
-let UserStore = require('../../stores/UserStore');
-let RouterStore = require('../../stores/RouterStore');
-let Dashboard = require('./Dashboard');
-let I18nMixin = require('../../i18n/I18nMixin');
+import Routing from '../../utils/Routing';
+import Routes from '../../utils/Routes';
+import UserStore from '../../stores/UserStore';
+import RouterStore from '../../stores/RouterStore';
+import Dashboard from './Dashboard';
+import I18nMixin from '../../i18n/I18nMixin';
 
 let DashboardController = React.createClass({
     mixins: [

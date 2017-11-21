@@ -1,10 +1,10 @@
 'use strict';
 
-const Reflux = require('reflux');
+import Reflux from 'reflux';
 
-const Actions = require('../actions/Actions');
-const Ajax = require('../utils/Ajax');
-const Utils = require('../utils/Utils');
+import Actions from '../actions/Actions';
+import Ajax from '../utils/Ajax';
+import Utils from '../utils/Utils';
 
 let currentUser = null;
 let loaded = false;

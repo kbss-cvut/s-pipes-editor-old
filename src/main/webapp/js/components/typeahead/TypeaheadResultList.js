@@ -1,7 +1,6 @@
 'use strict';
 
-const React = require('react');
-import ModuleType from "../moduleType/ModuleType";
+import React from 'react';
 
 const TypeaheadResultList = React.createClass({
 

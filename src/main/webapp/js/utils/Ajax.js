@@ -1,12 +1,12 @@
 'use strict';
 
-const request = require('superagent');
-const Cookies = require('js-cookie');
+import request from 'superagent';
+import Cookies from 'js-cookie';
 
-const Routes = require('./Routes');
-const Routing = require('./Routing');
-const Logger = require('./Logger');
-const Utils = require('./Utils');
+import Routes from './Routes';
+import Routing from './Routing';
+import Logger from './Logger';
+import Utils from './Utils';
 
 const csrfTokenHeader = 'X-CSRF-Token';
 

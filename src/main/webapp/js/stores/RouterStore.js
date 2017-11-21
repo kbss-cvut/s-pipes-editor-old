@@ -1,6 +1,6 @@
 'use strict';
 
-const Reflux = require('reflux');
+import Reflux from 'reflux';
 
 /**
  * Manages passing payloads on routing transition.

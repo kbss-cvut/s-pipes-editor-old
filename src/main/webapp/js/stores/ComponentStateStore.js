@@ -1,9 +1,9 @@
 'use strict';
 
-const Reflux = require('reflux');
-const assign = require('object-assign');
+import Reflux from 'reflux';
+import assign from 'object-assign';
 
-const Actions = require('../actions/Actions');
+import Actions from '../actions/Actions';
 
 /**
  * Stores state of components.

@@ -1,8 +1,8 @@
 'use strict';
 
-import React from "react";
-import {Nav, NavItem} from "react-bootstrap";
-import {FormUtils} from "semforms";
+import React from 'react';
+import {Nav, NavItem} from 'react-bootstrap';
+import {FormUtils} from 'semforms';
 
 
 const HorizontalWizardNav = (props) => {

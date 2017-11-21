@@ -1,7 +1,7 @@
 'use strict';
 
-const React = require('react');
-const Alert = require('react-bootstrap').Alert;
+import React from 'react';
+import {Alert} from 'react-bootstrap';
 
 
 const MessageMixin = {

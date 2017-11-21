@@ -4,23 +4,24 @@
 
 'use strict';
 
-import Actions from "../../actions/Actions";
-import React from "react";
-import injectIntl from "../../utils/injectIntl";
-import I18nWrapper from "../../i18n/I18nWrapper";
-import Messager from "../wrapper/Messager";
-import {Button, ButtonGroup, Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
-import Record from "../record/Record";
-import * as RouterStore from "../../stores/RouterStore";
-import * as EntityFactory from "../../utils/EntityFactory";
-import Mask from "../Mask";
-import * as I18Store from "../../stores/I18nStore";
-import * as Utils from "../../utils/Utils";
-import Typeahead from "react-bootstrap-typeahead";
-import ModuleTypeList from "../typeahead/ModuleTypeList";
+import Actions from '../../actions/Actions';
+import React from 'react';
+import injectIntl from '../../utils/injectIntl';
+import I18nWrapper from '../../i18n/I18nWrapper';
+import Messager from '../wrapper/Messager';
+import {Button, ButtonGroup, Modal, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import Record from '../record/Record';
+import * as RouterStore from '../../stores/RouterStore';
+import * as EntityFactory from '../../utils/EntityFactory';
+import Mask from '../Mask';
+import * as I18Store from '../../stores/I18nStore';
+import * as Utils from '../../utils/Utils';
+import Typeahead from 'react-bootstrap-typeahead';
+import ModuleTypeList from '../typeahead/ModuleTypeList';
 import HTML5Backend from 'react-dnd-html5-backend';
 import {DragDropContext} from 'react-dnd';
-import ReactDOM from "react-dom";
+import ReactDOM from 'react-dom';
+
 let ELK = require('elkjs');
 let Hammer = require('hammerjs');
 

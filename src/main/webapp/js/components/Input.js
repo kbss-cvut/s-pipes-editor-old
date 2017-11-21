@@ -4,7 +4,8 @@
 
 'use strict';
 
-let React = require('react');
+import React from 'react';
+
 let BootstrapInput = require('react-bootstrap').Input;
 
 let Input = React.createClass({

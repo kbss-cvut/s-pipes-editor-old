@@ -4,11 +4,11 @@
 
 'use strict';
 
-let React = require('react');
-let injectIntl = require('../utils/injectIntl');
+import React from 'react';
+import injectIntl from '../utils/injectIntl';
 
-let Input = require('./Input');
-let I18nMixin = require('../i18n/I18nMixin');
+import Input from './Input';
+import I18nMixin from '../i18n/I18nMixin';
 
 let Select = React.createClass({
     mixins: [I18nMixin],
