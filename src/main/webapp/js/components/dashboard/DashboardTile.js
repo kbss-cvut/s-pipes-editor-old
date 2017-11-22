@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const DashboardTile = (props) => {
     return <button className='dashboard-tile btn-primary btn'
@@ -8,8 +9,8 @@ const DashboardTile = (props) => {
 };
 
 DashboardTile.propTypes = {
-    onClick: React.PropTypes.func.isRequired,
-    disabled: React.PropTypes.bool
+    onClick: PropTypes.func.isRequired,
+    disabled: PropTypes.bool
 };
 
 export default DashboardTile;

@@ -8,14 +8,15 @@ import Constants from '../../constants/Constants';
 import I18nMixin from '../../i18n/I18nMixin';
 import {FormattedMessage} from 'react-intl';
 import {default as Tile} from './DashboardTile'
+import PropTypes from 'prop-types';
 
 let Dashboard = React.createClass({
     mixins: [I18nMixin],
 
     propTypes: {
-        userFirstName: React.PropTypes.string,
-        dashboard: React.PropTypes.string,
-        handlers: React.PropTypes.object.isRequired
+        userFirstName: PropTypes.string,
+        dashboard: PropTypes.string,
+        handlers: PropTypes.object.isRequired
     },
 
     getInitialState: function () {
