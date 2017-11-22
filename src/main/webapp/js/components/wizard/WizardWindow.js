@@ -2,9 +2,7 @@
 
 import React from 'react';
 import assign from 'object-assign';
-
 import Wizard from './Wizard';
-
 import {Modal as Modal} from 'react-bootstrap';
 
 const WizardWindow = React.createClass({

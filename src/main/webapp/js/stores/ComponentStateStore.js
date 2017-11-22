@@ -2,7 +2,6 @@
 
 import Reflux from 'reflux';
 import assign from 'object-assign';
-
 import Actions from '../actions/Actions';
 
 /**

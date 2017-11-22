@@ -6,7 +6,6 @@ import {Constants, HelpIcon} from 'semforms';
 import injectIntl from '../../utils/injectIntl';
 import I18nMixin from '../../i18n/I18nMixin';
 import WizardStore from '../../stores/WizardStore';
-
 import {default as JsonLdUtils} from 'jsonld-utils';
 
 let WizardStep = React.createClass({

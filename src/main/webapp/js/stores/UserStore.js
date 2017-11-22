@@ -1,7 +1,6 @@
 'use strict';
 
 import Reflux from 'reflux';
-
 import Actions from '../actions/Actions';
 import Ajax from '../utils/Ajax';
 import Utils from '../utils/Utils';

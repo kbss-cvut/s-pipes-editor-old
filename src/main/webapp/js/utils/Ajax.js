@@ -2,7 +2,6 @@
 
 import request from 'superagent';
 import Cookies from 'js-cookie';
-
 import Routes from './Routes';
 import Routing from './Routing';
 import Logger from './Logger';

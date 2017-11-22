@@ -2,7 +2,6 @@
 
 import Reflux from 'reflux';
 import jsonld from 'jsonld';
-
 import Actions from '../actions/Actions';
 import Ajax from '../utils/Ajax';
 import Logger from '../utils/Logger';

@@ -10,10 +10,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {IndexRoute, Route, Router} from 'react-router';
 import {addLocaleData as addLocaleData, IntlProvider} from 'react-intl';
-
 import {history} from './utils/Routing';
 import Routes from './utils/Routes';
-
 import Login from './components/login/Login';
 import MainView from './components/MainView';
 import DashboardController from './components/dashboard/DashboardController';

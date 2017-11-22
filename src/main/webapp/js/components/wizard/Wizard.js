@@ -3,10 +3,8 @@
 import React from 'react';
 import Reflux from 'reflux';
 import classNames from 'classnames';
-
 import WizardStep from './WizardStep';
 import WizardStore from '../../stores/WizardStore';
-
 import {default as HorizontalWizardNav} from './HorizontalWizardNav';
 import {default as VerticalWizardNav} from './VerticalWizardNav';
 

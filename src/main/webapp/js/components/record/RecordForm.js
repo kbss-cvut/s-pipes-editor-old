@@ -3,7 +3,6 @@
 import React from 'react';
 import {Panel} from 'react-bootstrap';
 import {QuestionAnswerProcessor} from 'semforms';
-
 import I18nWrapper from '../../i18n/I18nWrapper';
 import injectIntl from '../../utils/injectIntl';
 import Mask from '../Mask';

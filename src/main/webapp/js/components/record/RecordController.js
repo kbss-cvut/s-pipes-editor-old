@@ -2,7 +2,6 @@
 
 import React from 'react';
 import assign from 'object-assign';
-
 import Actions from '../../actions/Actions';
 import EntityFactory from '../../utils/EntityFactory';
 import injectIntl from '../../utils/injectIntl';

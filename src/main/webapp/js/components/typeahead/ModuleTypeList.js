@@ -1,6 +1,5 @@
 'use strict';
 import ModuleType from '../moduleType/ModuleType';
-
 import React from 'react';
 
 const ModuleTypeList = React.createClass({

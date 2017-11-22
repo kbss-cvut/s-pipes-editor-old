@@ -2,14 +2,12 @@
 
 import React from 'react';
 import {Alert, Button, Panel} from 'react-bootstrap';
-
 import injectIntl from '../../utils/injectIntl';
 import Input from '../Input';
 import Routing from '../../utils/Routing';
 import Routes from '../../utils/Routes';
 import Authentication from '../../utils/Authentication';
 import I18nMixin from '../../i18n/I18nMixin';
-
 import {default as Mask} from '../Mask';
 
 

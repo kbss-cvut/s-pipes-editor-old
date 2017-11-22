@@ -1,6 +1,5 @@
 'use strict';
 import * as RouterStore from '../stores/RouterStore';
-
 import {hashHistory} from 'react-router';
 import Constants from '../constants/Constants';
 import RoutingRules from './RoutingRules';

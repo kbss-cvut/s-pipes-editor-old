@@ -4,7 +4,6 @@ import React from 'react';
 import {Alert, Button} from 'react-bootstrap';
 import injectIntl from '../utils/injectIntl';
 import {FormattedMessage} from 'react-intl';
-
 import Routing from '../utils/Routing';
 import I18nMixin from '../i18n/I18nMixin';
 

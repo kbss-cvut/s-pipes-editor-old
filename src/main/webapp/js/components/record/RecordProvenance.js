@@ -2,7 +2,6 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-
 import Utils from '../../utils/Utils';
 
 const RecordProvenance = (props) => {

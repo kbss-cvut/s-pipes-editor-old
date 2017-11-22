@@ -1,12 +1,7 @@
-/**
- * @jsx
- */
-
 'use strict';
 
 import React from 'react';
 import injectIntl from '../utils/injectIntl';
-
 import Input from './Input';
 import I18nMixin from '../i18n/I18nMixin';
 

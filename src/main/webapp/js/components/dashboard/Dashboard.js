@@ -1,19 +1,12 @@
-/**
- * @jsx
- */
-
 'use strict';
 
 import React from 'react';
 import {Col, Grid, Jumbotron, Row} from 'react-bootstrap';
-
 import injectIntl from '../../utils/injectIntl';
 import Authentication from '../../utils/Authentication';
 import Constants from '../../constants/Constants';
 import I18nMixin from '../../i18n/I18nMixin';
-
 import {FormattedMessage} from 'react-intl';
-
 import {default as Tile} from './DashboardTile'
 
 let Dashboard = React.createClass({

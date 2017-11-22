@@ -4,7 +4,6 @@ import React from 'react';
 import {Nav, NavItem} from 'react-bootstrap';
 import {FormUtils} from 'semforms';
 
-
 const HorizontalWizardNav = (props) => {
     let navMenu = props.steps.map((step, index) => {
         return <NavItem key={'nav' + index} eventKey={index}
@@ -25,6 +24,5 @@ HorizontalWizardNav.propTypes = {
     steps: React.PropTypes.array.isRequired,
     onNavigate: React.PropTypes.func.isRequired
 };
-
 
 export default HorizontalWizardNav;

@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Reflux from 'reflux';
-
 import injectIntl from '../../utils/injectIntl';
 
 import Routing from '../../utils/Routing';

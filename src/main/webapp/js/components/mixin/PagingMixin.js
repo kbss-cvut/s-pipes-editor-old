@@ -1,6 +1,5 @@
 import React from 'react';
 import {Pagination} from 'react-bootstrap';
-
 import {FormattedMessage} from 'react-intl';
 
 import Actions from '../../actions/Actions';

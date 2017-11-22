@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-
 import Actions from '../../actions/Actions';
 import Records from './Records';
 import RecordStore from '../../stores/RecordStore';

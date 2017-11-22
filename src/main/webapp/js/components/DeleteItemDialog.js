@@ -3,7 +3,6 @@
 import React from 'react';
 import {Button, Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-
 import injectIntl from '../utils/injectIntl';
 import I18nWrapper from '../i18n/I18nWrapper';
 

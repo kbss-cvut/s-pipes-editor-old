@@ -2,16 +2,13 @@
 
 import React from 'react';
 import Reflux from 'reflux';
-
 import {MenuItem, Nav, Navbar, NavBrand, NavDropdown, NavItem} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 import injectIntl from '../utils/injectIntl';
-
 import Actions from '../actions/Actions';
 import Constants from '../constants/Constants';
 import I18nMixin from '../i18n/I18nMixin';
 import I18nStore from '../stores/I18nStore';
-
 import Authentication from '../utils/Authentication';
 import Routes from '../utils/Routes';
 import UserStore from '../stores/UserStore';
