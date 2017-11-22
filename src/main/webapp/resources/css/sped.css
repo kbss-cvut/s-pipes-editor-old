@@ -554,3 +554,7 @@ button.reset-filters {
 .btn-link.item.module-type {
     list-style-type: none !important;
 }
+
+div.module-type.popover {
+    max-width: min-content;
+}
