@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-let BootstrapInput = require('react-bootstrap').Input;
+import {Input as BootstrapInput} from 'react-bootstrap';
 
 let Input = React.createClass({
 

@@ -10,7 +10,7 @@ import Routes from '../../utils/Routes';
 import Authentication from '../../utils/Authentication';
 import I18nMixin from '../../i18n/I18nMixin';
 
-let Mask = require('../Mask').default;
+import {default as Mask} from '../Mask';
 
 
 let Login = React.createClass({

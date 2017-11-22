@@ -7,8 +7,8 @@ import classNames from 'classnames';
 import WizardStep from './WizardStep';
 import WizardStore from '../../stores/WizardStore';
 
-let HorizontalWizardNav = require('./HorizontalWizardNav').default;
-let VerticalWizardNav = require('./VerticalWizardNav').default;
+import {default as HorizontalWizardNav} from './HorizontalWizardNav';
+import {default as VerticalWizardNav} from './VerticalWizardNav';
 
 const IS_HORIZONTAL = true;
 

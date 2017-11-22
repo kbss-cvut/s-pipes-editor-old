@@ -14,7 +14,7 @@ import I18nMixin from '../../i18n/I18nMixin';
 
 import {FormattedMessage} from 'react-intl';
 
-let Tile = require('./DashboardTile').default;
+import {default as Tile} from './DashboardTile'
 
 let Dashboard = React.createClass({
     mixins: [I18nMixin],

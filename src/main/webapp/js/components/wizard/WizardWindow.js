@@ -5,7 +5,7 @@ import assign from 'object-assign';
 
 import Wizard from './Wizard';
 
-let Modal = require('react-bootstrap').Modal;
+import {Modal as Modal} from 'react-bootstrap';
 
 const WizardWindow = React.createClass({
     propTypes: {

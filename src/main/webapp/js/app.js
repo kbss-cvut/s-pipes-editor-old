@@ -9,7 +9,7 @@ import I18nStore from './stores/I18nStore';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {IndexRoute, Route, Router} from 'react-router';
-import {IntlProvider} from 'react-intl';
+import {addLocaleData as addLocaleData, IntlProvider} from 'react-intl';
 
 import {history} from './utils/Routing';
 import Routes from './utils/Routes';
@@ -20,8 +20,9 @@ import DashboardController from './components/dashboard/DashboardController';
 import {RecordController} from './components/record/RecordController';
 import {UserController} from './components/user/UserController';
 import RoutingRules from './utils/RoutingRules';
-
-const addLocaleData = require('react-intl').addLocaleData;
+import {default as RecordsController} from './components/record/RecordsController';
+import {default as ViewController} from './components/view/ViewController';
+import {default as UsersController} from './components/user/UsersController';
 
 let intlData = null;
 
@@ -43,10 +44,6 @@ function selectLocalization() {
 
 selectLocalization();
 I18nStore.setMessages(intlData.messages);
-
-const RecordsController = require('./components/record/RecordsController').default;
-const ViewController = require('./components/view/ViewController').default;
-const UsersController = require('./components/user/UsersController').default;
 
 function onRouteEnter() {
     RoutingRules.execute(this.path);

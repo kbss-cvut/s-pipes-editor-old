@@ -1,6 +1,6 @@
 'use strict';
 
-const injectIntl = require('react-intl').injectIntl;
+import {injectIntl as injectIntl} from 'react-intl';
 
 /**
  * Our version of react-intl's injectIntl.
