@@ -35,6 +35,7 @@ function fixTheGraphGlobalDependece() {
     window.Hammer = Hammer;
     window.ReactDOM = ReactDOM;
 }
+
 fixTheGraphGlobalDependece();
 
 let TheGraph = require("the-graph");
@@ -167,8 +168,7 @@ class ViewController extends React.Component {
                 <canvas id="thumb" width="200" height="180"/>
                 <ButtonGroup vertical id="right-panel">
                     <OverlayTrigger placement="left"
-                                    overlay={<Tooltip block
-                                                      id="duplicate">
+                                    overlay={<Tooltip id="duplicate">
                                         {I18Store.i18n('view.duplicate-new-tab')}
                                     </Tooltip>}>
                         <Button bsStyle="info" onClick={this.duplicateTab}>
