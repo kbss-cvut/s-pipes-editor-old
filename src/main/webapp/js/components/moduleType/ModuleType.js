@@ -6,13 +6,14 @@ import PropTypes from 'prop-types';
 
 const moduleTypeSource = {
     beginDrag(props) {
-        console.log("Begin drag");
-        return {id: this.props.option["@id"]};
+        return {};
+    },
+    endDrag(props) {
+        return props.onDrop(props.option, {x: window.event.clientX, y: window.event.clientY});
     }
 };
 
 function collect(connect, monitor) {
-    console.log("Collect");
     return {
         connectDragSource: connect.dragSource(),
         isDragging: monitor.isDragging()

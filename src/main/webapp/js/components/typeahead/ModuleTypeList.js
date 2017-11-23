@@ -16,6 +16,7 @@ const ModuleTypeList = React.createClass({
 
             items.push(
                 <ModuleType
+                    onDrop={this.props.onOptionSelected}
                     key={'typeahead-result-' + i}
                     onClick={onClick}
                     option={option}

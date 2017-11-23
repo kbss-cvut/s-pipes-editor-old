@@ -59,6 +59,7 @@ class ViewController extends React.Component {
             moduleTypes: null,
             view: null,
             type: null,
+            coordinates: null,
             loading: true,
             viewLoaded: false,
             viewLaidOut: false,
@@ -147,7 +148,7 @@ class ViewController extends React.Component {
             displayOption="http://www.w3.org/2000/01/rdf-schema#label"
             filterOption="http://www.w3.org/2000/01/rdf-schema#label"
             optionsButton={true}
-            onOptionSelected={(o) => this.addModule(o["@id"])}
+            onOptionSelected={(o, c) => this.addModule(o, c)}
             placeholder={I18Store.i18n('view.module-type')}
             customListComponent={ModuleTypeList}
         />;
@@ -335,8 +336,8 @@ class ViewController extends React.Component {
         this.unsubscribeView();
     };
 
-    addModule(type) {
-        this.setState({formVisible: true, type: type});
+    addModule(module, coordinates) {
+        this.setState({formVisible: true, type: module["@id"], coordinates: coordinates});
     };
 
     addNode(id, label, type) {
@@ -344,6 +345,8 @@ class ViewController extends React.Component {
         this.state.view.addNode(id,
             this.state.library[type] !== undefined ? type : 'basic',
             {
+                x: this.state.coordinates === undefined ? 0 : this.state.coordinates["x"],
+                y: this.state.coordinates === undefined ? 0 : this.state.coordinates["y"],
                 label: label,
                 type: type
             });
