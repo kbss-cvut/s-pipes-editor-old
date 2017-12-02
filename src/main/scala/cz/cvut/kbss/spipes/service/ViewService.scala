@@ -19,7 +19,7 @@ class ViewService {
   private var viewDao: ViewDao = _
 
   @Autowired
-  private var spipesService: SpipesService = _
+  private var spipesService: ScriptService = _
 
   def newViewFromSpipes(script: String): Either[Throwable, Option[View]] = {
     spipesService.getModules(script) match {

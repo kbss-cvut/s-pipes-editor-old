@@ -5,7 +5,7 @@ import java.util
 
 import cz.cvut.kbss.spipes.model.spipes.Module
 import cz.cvut.kbss.spipes.model.view.{Edge, Node, View}
-import cz.cvut.kbss.spipes.persistence.dao.{SpipesDao, ViewDao}
+import cz.cvut.kbss.spipes.persistence.dao.{ScriptDao, ViewDao}
 import cz.cvut.kbss.spipes.service.ViewService
 import org.junit.Assert._
 import org.junit.Test
@@ -24,7 +24,7 @@ class ViewServiceTest extends BaseServiceTestRunner {
   private var viewDao: ViewDao = _
 
   @Autowired
-  private var spipesDao: SpipesDao = _
+  private var spipesDao: ScriptDao = _
 
   @Autowired
   private var service: ViewService = _

@@ -21,10 +21,8 @@ import ModuleTypeList from '../typeahead/ModuleTypeList';
 import HTML5Backend from 'react-dnd-html5-backend';
 import {DragDropContext} from 'react-dnd';
 import ReactDOM from 'react-dom';
-
 import ELK from 'elkjs';
 import Hammer from 'hammerjs';
-
 import Routes from '../../utils/Routes';
 import Routing from '../../utils/Routing';
 import ModuleTypeStore from '../../stores/ModuleTypeStore';
@@ -49,7 +47,7 @@ let moduleTypeAhead;
 class ViewController extends React.Component {
 
     _getScript() {
-        return "sample-script.ttl";
+        return this.props.params.script;
     };
 
     constructor(props) {
@@ -210,7 +208,7 @@ class ViewController extends React.Component {
     };
 
     componentWillMount() {
-        Actions.loadAllModuleTypes(this._getScript());
+        Actions.loadAllModuleTypes(this.props.params.script);
     };
 
     componentDidMount() {

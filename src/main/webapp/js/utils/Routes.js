@@ -9,7 +9,8 @@ const Routes = {
     records: {name: 'records', path: 'records'},
     createRecord: {name: 'createRecord', path: 'records/create'},
     editRecord: {name: 'editRecord', path: 'records/:key'},
-    views: {name: 'views', path: 'views/view'}
+    views: {name: 'views', path: 'views/:script'},
+    scripts: {name: 'scripts', path: 'scripts'}
 };
 
 module.exports = Routes;

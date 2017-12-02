@@ -1,5 +1,6 @@
 package cz.cvut.kbss.spipes.persistence.dao
 
+import java.io.File
 import java.net.URI
 import java.util.{List => JList}
 import javax.annotation.PostConstruct
@@ -25,7 +26,7 @@ import scala.util.Try
   * Created by Miroslav Blasko on 2.1.17.
   */
 @Repository
-class SpipesDao {
+class ScriptDao {
 
   @Autowired
   private var env: Environment = _
@@ -78,13 +79,23 @@ class SpipesDao {
 
       //TODO load data into NEW TEMPORARY JOPA context
       val repo = JopaPersistenceUtils.getRepository(em)
-      repo.getConnection().add(Source.fromFile(filePath).reader(), "http://temporary", RDFFormat.TURTLE)
+      val connection = repo.getConnection()
+      connection.add(Source.fromFile(filePath).reader(), "http://temporary", RDFFormat.TURTLE)
 
       // retrieve JOPA objects by callback function
 
       val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[ModuleType])
         .setParameter("type", URI.create(Vocabulary.s_c_Module))
-      query.getResultList()
+      val res = query.getResultList()
+
+      connection.clear()
+      connection.close()
+
+      res
     }
   }
+
+  def getScripts: Option[Seq[File]] =
+    Option(new File(env.getProperty(scriptsLocation)).listFiles())
+      .map(_.filterNot(_.isDirectory()))
 }

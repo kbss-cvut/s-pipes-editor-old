@@ -16,7 +16,7 @@ class TestServiceConfig {
   def getViewDao: ViewDao = Mockito.mock(classOf[ViewDao])
 
   @Bean
-  def getspipesDao: SpipesDao = Mockito.mock(classOf[SpipesDao])
+  def getspipesDao: ScriptDao = Mockito.mock(classOf[ScriptDao])
 
   @Bean
   def mockBeanFactory = new MockBeanFactory

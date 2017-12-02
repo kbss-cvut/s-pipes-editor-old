@@ -79,7 +79,7 @@ const Ajax = {
                 }
                 try {
                     if (onError) {
-                        onError(JSON.parse(err.response.text), err);
+                        onError();
                     }
                     this._handleError(err);
                 } catch (ex) {

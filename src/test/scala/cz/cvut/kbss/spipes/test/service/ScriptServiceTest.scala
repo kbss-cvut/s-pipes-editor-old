@@ -4,8 +4,8 @@ import java.io.FileNotFoundException
 import java.util
 
 import cz.cvut.kbss.spipes.model.spipes.{Module, ModuleType}
-import cz.cvut.kbss.spipes.persistence.dao.SpipesDao
-import cz.cvut.kbss.spipes.service.SpipesService
+import cz.cvut.kbss.spipes.persistence.dao.ScriptDao
+import cz.cvut.kbss.spipes.service.ScriptService
 import org.junit.Assert._
 import org.junit.Test
 import org.mockito.Mockito.when
@@ -17,13 +17,13 @@ import scala.util.{Failure, Random, Success}
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 27.08.2017.
   */
-class SpipesServiceTest extends BaseServiceTestRunner {
+class ScriptServiceTest extends BaseServiceTestRunner {
 
   @Autowired
-  private var dao: SpipesDao = _
+  private var dao: ScriptDao = _
 
   @Autowired
-  private var service: SpipesService = _
+  private var service: ScriptService = _
 
   private val fileName = ""
 

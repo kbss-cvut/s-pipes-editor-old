@@ -1,9 +1,7 @@
 package cz.cvut.kbss.spipes.rest
 
-import java.util.{Set => JSet}
-
 import cz.cvut.kbss.jsonld.JsonLd
-import cz.cvut.kbss.spipes.service.SpipesService
+import cz.cvut.kbss.spipes.service.ScriptService
 import cz.cvut.kbss.spipes.util.ConfigParam.SPIPES_LOCATION
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.PropertySource
@@ -25,12 +23,12 @@ class ScriptController {
   private var environment: Environment = _
 
   @Autowired
-  private var service: SpipesService = _
+  private var service: ScriptService = _
 
   private val spipesLocation = SPIPES_LOCATION.value
 
   @GetMapping(path = Array("/{id}/moduleTypes"), produces = Array(JsonLd.MEDIA_TYPE))
-  def getModuleTypes(@PathVariable id: String): ResponseEntity[Any] = {
+  def getModuleTypes(@PathVariable id: String): ResponseEntity[Any] =
     service.getModuleTypes(id) match {
       case Left(e) =>
         new ResponseEntity(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
@@ -39,10 +37,10 @@ class ScriptController {
       case Right(Some(types)) =>
         new ResponseEntity(types.toList.sortBy(_.getLabel()).asJava, HttpStatus.OK)
     }
-  }
+
 
   @GetMapping(path = Array("/{id}/modules"), produces = Array(JsonLd.MEDIA_TYPE))
-  def getModules(@PathVariable id: String): ResponseEntity[Any] = {
+  def getModules(@PathVariable id: String): ResponseEntity[Any] =
     service.getModules(id) match {
       case Left(e) =>
         new ResponseEntity(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
@@ -51,5 +49,12 @@ class ScriptController {
       case Right(Some(modules)) =>
         new ResponseEntity(modules.toSet.asJava, HttpStatus.OK)
     }
-  }
+
+
+  @GetMapping(produces = Array(JsonLd.MEDIA_TYPE))
+  def getScripts: ResponseEntity[Any] =
+    service.getScriptNames match {
+      case Some(s) => new ResponseEntity(s.asJava, HttpStatus.OK)
+      case None => new ResponseEntity("No scripts found", HttpStatus.NOT_FOUND)
+    }
 }

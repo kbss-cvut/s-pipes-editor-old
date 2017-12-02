@@ -1,6 +1,6 @@
 package cz.cvut.kbss.spipes.test.config
 
-import cz.cvut.kbss.spipes.service.{QAService, SpipesService, ViewService}
+import cz.cvut.kbss.spipes.service.{QAService, ScriptService, ViewService}
 import org.mockito.Mockito
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessorAdapter
 import org.springframework.context.annotation.{Bean, ComponentScan, Configuration}
@@ -15,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc
 class TestRestConfig {
 
   @Bean
-  def getspipesService: SpipesService = Mockito.mock(classOf[SpipesService])
+  def getspipesService: ScriptService = Mockito.mock(classOf[ScriptService])
 
   @Bean
   def getViewService: ViewService = Mockito.mock(classOf[ViewService])

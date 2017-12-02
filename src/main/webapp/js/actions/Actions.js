@@ -7,7 +7,8 @@ const Actions = Reflux.createActions([
     'loadAllRecords', 'loadRecord', 'createRecord', 'updateRecord', 'deleteRecord',
     'loadFormOptions',
     'loadAllModuleTypes',
-    'loadView'
+    'loadView',
+    'listScripts'
 ]);
 
 module.exports = Actions;

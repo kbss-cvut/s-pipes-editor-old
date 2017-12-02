@@ -21,6 +21,7 @@ import RoutingRules from './utils/RoutingRules';
 import {default as RecordsController} from './components/record/RecordsController';
 import {default as ViewController} from './components/view/ViewController';
 import {default as UsersController} from './components/user/UsersController';
+import Scripts from "./components/scripts/Scripts";
 
 let intlData = null;
 
@@ -63,6 +64,7 @@ const App = React.createClass({
                     <Route path={Routes.createRecord.path} onEnter={onRouteEnter} component={RecordController}/>
                     <Route path={Routes.editRecord.path} onEnter={onRouteEnter} component={RecordController}/>
                     <Route path={Routes.views.path} onEnter={onRouteEnter} component={ViewController}/>
+                    <Route path={Routes.scripts.path} onEnter={onRouteEnter} component={Scripts}/>
                 </Route>
             </Router>
         </IntlProvider>;
