@@ -22,13 +22,13 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import {DragDropContext} from 'react-dnd';
 import ReactDOM from 'react-dom';
 
-let ELK = require('elkjs');
-let Hammer = require('hammerjs');
+import ELK from 'elkjs';
+import Hammer from 'hammerjs';
 
-let Routes = require('../../utils/Routes');
-let Routing = require('../../utils/Routing');
-let ModuleTypeStore = require('../../stores/ModuleTypeStore');
-let ViewStore = require('../../stores/ViewStore');
+import Routes from '../../utils/Routes';
+import Routing from '../../utils/Routing';
+import ModuleTypeStore from '../../stores/ModuleTypeStore';
+import ViewStore from '../../stores/ViewStore';
 
 function fixTheGraphGlobalDependece() {
     window.React = React;
