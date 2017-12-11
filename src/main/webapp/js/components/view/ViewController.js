@@ -454,8 +454,8 @@ class ViewController extends React.Component {
             elk.layout(elkGraph, options).then((g) => {
                     that.state.view.startTransaction('loadgraph');
                     for (let i = 0; i < g["children"].length; i++) {
-                        that.state.view.nodes[i].metadata.x = g["children"][i].x;
-                        that.state.view.nodes[i].metadata.y = g["children"][i].y;
+                        that.state.view.nodes[i].metadata.x = g["children"][i].x + 100;
+                        that.state.view.nodes[i].metadata.y = g["children"][i].y + 100;
                     }
                     that.state.view.endTransaction('loadgraph');
                     that.setState({viewLaidOut: true});
