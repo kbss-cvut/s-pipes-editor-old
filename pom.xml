@@ -9,8 +9,8 @@
     <version>0.1</version>
 
     <properties>
-        <maven.compiler.source>1.9</maven.compiler.source>
-        <maven.compiler.target>1.9</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -18,7 +18,7 @@
         <ch.qos.logback.logback-classic.version>1.2.3</ch.qos.logback.logback-classic.version>
         <com.fasterxml.json.version>2.9.1</com.fasterxml.json.version>
         <cz.cvut.kbss.jaxb-jsonld-jackson.version>0.0.9</cz.cvut.kbss.jaxb-jsonld-jackson.version>
-        <cz.cvut.kbss.jopa.version>0.9.10</cz.cvut.kbss.jopa.version>
+        <cz.cvut.kbss.jopa.version>0.9.12</cz.cvut.kbss.jopa.version>
         <javax.servlet.servlet-api.version>3.1.0</javax.servlet.servlet-api.version>
         <junit.junit.version>4.12</junit.junit.version>
         <maven-war-plugin.version>3.1.0</maven-war-plugin.version>
@@ -280,6 +280,52 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <version>1.7</version>
+                <configuration>
+                    <complianceLevel>1.8</complianceLevel>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <aspectLibraries>
+                        <aspectLibrary>
+                            <groupId>cz.cvut.kbss.jopa</groupId>
+                            <artifactId>jopa-impl</artifactId>
+                        </aspectLibrary>
+                    </aspectLibraries>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjtools</artifactId>
+                        <version>1.8.12</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjrt</artifactId>
+                        <version>1.8.12</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>main</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>compile</goal>
+                            <!-- use this goal to weave all your main classes -->
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>test</id>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>test-compile</goal>
+                            <!-- use this goal to weave all your test classes -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
