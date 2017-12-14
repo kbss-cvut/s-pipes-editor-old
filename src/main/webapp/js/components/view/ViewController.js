@@ -196,7 +196,11 @@ class ViewController extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <Button onClick={() => this.closeModal()}>{I18Store.i18n('view.ignore')}</Button>
-                        <Button onClick={() => location.reload()}>{I18Store.i18n('view.reload')}</Button>
+                        <Button onClick={() => {
+                            this.closeModal();
+                            this.setState({loading: true, view: null});
+                            Actions.loadAllModuleTypes(this._getScript());
+                        }}>{I18Store.i18n('view.reload')}</Button>
                     </Modal.Body>
                 </Modal>
                 <Modal dialogClassName="form-modal" show={this.state.formVisible}>
@@ -208,7 +212,7 @@ class ViewController extends React.Component {
     };
 
     componentWillMount() {
-        Actions.loadAllModuleTypes(this.props.params.script);
+        Actions.loadAllModuleTypes(this._getScript());
     };
 
     componentDidMount() {
