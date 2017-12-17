@@ -9,12 +9,15 @@ import Logger from '../../../utils/Logger';
 import TypeaheadResultList from '../../typeahead/TypeaheadResultList';
 import WizardStore from '../../../stores/WizardStore';
 
-const FORM_GEN_URL = 'rest/nodes/6/form';
+const FORM_GEN_URL = 'rest/scripts/';
 
 export default class WizardBuilder {
 
-    static generateWizard(record, renderCallback) {
-        Ajax.post(FORM_GEN_URL, record).end((data) => {
+    static generateWizard(script, module, moduleType, record, renderCallback) {
+        Ajax.post(FORM_GEN_URL + script + "/forms", JSON.stringify({
+            module: module,
+            moduleType: moduleType
+        })).end((data) => {
             Configuration.actions = Actions;
             Configuration.wizardStore = WizardStore;
             Configuration.optionsStore = FormGenStore;

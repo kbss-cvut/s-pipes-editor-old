@@ -2,28 +2,47 @@ package cz.cvut.kbss.spipes.rest
 
 import java.io.FileNotFoundException
 
+import cz.cvut.kbss.spipes.rest.QAController.FormRequestDTO
 import cz.cvut.kbss.spipes.service.QAService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
 import org.springframework.web.bind.annotation._
 
+import scala.beans.BeanProperty
 import scala.util.{Failure, Success}
 
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 24.01.17.
   */
 @RestController
-@RequestMapping(path = Array("/nodes"))
+@RequestMapping(path = Array("/scripts"))
 class QAController {
 
   @Autowired
   private var service: QAService = _
 
-  @PostMapping(path = Array("/{id}/form"), produces = Array("application/json"))
-  def generateForm(@PathVariable id: String): ResponseEntity[Any] =
-    service.generateForm(id) match {
+
+  @PostMapping(path = Array("/{script}/forms"), consumes = Array("application/json"), produces = Array("application/json"))
+  def generateForm(
+                    @PathVariable script: String,
+                    @RequestBody requestDTO: FormRequestDTO,
+                  ): ResponseEntity[Any] =
+    service.generateForm(script, requestDTO.module, requestDTO.moduleType) match {
       case Success(form) => new ResponseEntity(form, HttpStatus.OK)
-      case Failure(e: FileNotFoundException) => new ResponseEntity(HttpStatus.NOT_FOUND)
+      case Failure(_: FileNotFoundException) => new ResponseEntity(HttpStatus.NOT_FOUND)
       case Failure(e) => new ResponseEntity(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
     }
+}
+
+object QAController {
+
+  case class FormRequestDTO(
+                             @BeanProperty module: String,
+                             @BeanProperty moduleType: String
+                           ) {
+    def this() {
+      this(null, null)
+    }
+  }
+
 }

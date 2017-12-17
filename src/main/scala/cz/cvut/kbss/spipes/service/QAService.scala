@@ -20,7 +20,7 @@ class QAService {
 
   private val formsLocation = FORMS_LOCATION.value
 
-  def generateForm(uri: String): Try[RawJson] =
+  def generateForm(script: String, moduleUri: String, moduleTypeUri: String): Try[RawJson] =
     Try(
       RawJson(
         Source.fromFile(

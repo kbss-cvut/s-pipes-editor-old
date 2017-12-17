@@ -56,6 +56,7 @@ class ViewController extends React.Component {
         this.state = {
             moduleTypes: null,
             view: null,
+            moduleId: null,
             type: null,
             coordinates: null,
             loading: true,
@@ -86,8 +87,8 @@ class ViewController extends React.Component {
                     n4: {
                         icon: "cogs",
                         iconLabel: "configure",
-                        action: function () {
-                            that.openForm();
+                        action: function (graph, itemKey, item) {
+                            that.openModuleDetails(itemKey, item.metadata.types[0]);
                         }
                     },
                     s4: {
@@ -139,14 +140,20 @@ class ViewController extends React.Component {
             onChange: this._onChange,
             onSave: this._onSave
         };
-        record = <Record ref={(c) => this.recordComponent = c} handlers={handlers} record={this.state.record}
-                         loading={this.state.loading}/>;
+        record = <Record
+            ref={(c) => this.recordComponent = c}
+            handlers={handlers}
+            record={this.state.record}
+            script={this._getScript()}
+            moduleType={this.state.type}
+            module={this.state.moduleId}
+            loading={this.state.loading}/>;
         moduleTypeAhead = <Typeahead
             options={this.state.moduleTypes}
             displayOption="http://www.w3.org/2000/01/rdf-schema#label"
             filterOption="http://www.w3.org/2000/01/rdf-schema#label"
             optionsButton={true}
-            onOptionSelected={(o, c) => this.addModule(o, c)}
+            onOptionSelected={(o, c) => this.openModuleDetails(null, o["@id"], c)}
             placeholder={I18Store.i18n('view.module-type')}
             customListComponent={ModuleTypeList}
         />;
@@ -356,8 +363,14 @@ class ViewController extends React.Component {
         this.unsubscribeView();
     };
 
-    addModule(module, coordinates) {
-        this.setState({formVisible: true, type: module["@id"], coordinates: coordinates});
+
+    openModuleDetails(moduleId, moduleType, coordinates) {
+        this.setState({
+            moduleId: moduleId,
+            type: moduleType,
+            coordinates: coordinates,
+            formVisible: true
+        });
     };
 
     addNode(id, label, type) {
@@ -368,7 +381,7 @@ class ViewController extends React.Component {
                 x: this.state.coordinates === undefined ? 0 : this.state.coordinates["x"],
                 y: this.state.coordinates === undefined ? 0 : this.state.coordinates["y"],
                 label: label,
-                type: type
+                types: [type]
             });
         this.state.view.endTransaction('loadGraph');
     };
@@ -383,10 +396,6 @@ class ViewController extends React.Component {
         else
             window.open(location.href, '_blank');
     }
-
-    openForm() {
-        this.setState({formVisible: true})
-    };
 
     closeModal() {
         this.setState({modalVisible: false});

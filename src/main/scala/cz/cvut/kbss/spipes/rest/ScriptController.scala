@@ -9,8 +9,7 @@ import org.springframework.core.env.Environment
 import org.springframework.http.{HttpStatus, ResponseEntity}
 import org.springframework.web.bind.annotation.{GetMapping, PathVariable, RequestMapping, RestController}
 
-import scala.collection.JavaConverters._
-
+import scala.collection.JavaConverters.{seqAsJavaListConverter, setAsJavaSetConverter}
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 05.01.17.
   */

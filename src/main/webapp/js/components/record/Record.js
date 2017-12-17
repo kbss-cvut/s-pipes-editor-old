@@ -71,7 +71,12 @@ class Record extends React.Component {
     }
 
     _renderForm(completed) {
-        return completed ? <RecordForm ref={(c) => this.form = c} record={this.props.record}/> : null;
+        return completed ? <RecordForm
+            script={this.props.script}
+            moduleType={this.props.moduleType}
+            module={this.props.module}
+            ref={(c) => this.form = c}
+            record={this.props.record}/> : null;
     }
 
     _renderButtons() {
