@@ -558,3 +558,7 @@ button.reset-filters {
 div.module-type.popover {
     max-width: min-content;
 }
+
+.form-modal.modal-dialog {
+    margin: 1% auto auto auto;
+}
