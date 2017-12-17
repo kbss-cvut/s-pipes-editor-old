@@ -315,8 +315,26 @@ class ViewController extends React.Component {
         let uri = uriQ["answers"][0]["textValue"];
         let labelQ = Utils.find(formData, "http://www.w3.org/2000/01/rdf-schema#label-q");
         let label = labelQ["answers"][0]["textValue"];
-        this.addNode(uri, label, this.state.type);
-        this.setState({formVisible: false});
+        if (this.state.moduleId == null)
+            this.addNode(uri, label, this.state.type);
+        else {
+            this.state.view.startTransaction('loadgraph');
+            const node = this.state.view.nodes.find((n) => {
+                return n.id === this.state.moduleId;
+            });
+            node.id = uri;
+            node.metadata.label = label;
+            this.state.view.edges
+                .filter((e) => e.from.node === this.state.moduleId || e.to.node === this.state.moduleId)
+                .forEach((e) => {
+                    if (e.from.node === this.state.moduleId)
+                        e.from.node = uri;
+                    else
+                        e.to.node = uri;
+                });
+            this.state.view.endTransaction('loadgraph');
+        }
+        this.setState({formVisible: false, type: null, moduleId: null, coordinates: null});
     };
 
     _onCancel = () => {
