@@ -216,10 +216,6 @@
             <groupId>cz.cvut.kbss</groupId>
             <artifactId>semantic-pipes-forms</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>
-                /home/yan/git/kbss/semantic-pipes/semantic-pipes-forms/target/semantic-pipes-forms-1.0-SNAPSHOT.jar
-            </systemPath>
         </dependency>
     </dependencies>
 
