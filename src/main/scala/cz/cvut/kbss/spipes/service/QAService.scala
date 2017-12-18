@@ -2,6 +2,7 @@ package cz.cvut.kbss.spipes.service
 
 import cz.cvut.kbss.spipes.dto.RawJson
 import cz.cvut.kbss.spipes.util.ConfigParam._
+import cz.cvut.sempipes.transform.TransformerImpl
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Service
@@ -19,6 +20,8 @@ class QAService {
   private var environment: Environment = _
 
   private val formsLocation = FORMS_LOCATION.value
+
+  private val a = new TransformerImpl
 
   def generateForm(script: String, moduleUri: String, moduleTypeUri: String): Try[RawJson] =
     Try(
