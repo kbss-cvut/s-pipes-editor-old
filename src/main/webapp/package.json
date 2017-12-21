@@ -64,9 +64,9 @@
   },
   "scripts": {
     "start": "watchify -o ../../../target/sped-0.1/js/bundle.js -v -d js/app.js",
-    "browserify": "browserify . -t [envify --NODE_ENV production] -o js/bundle.js",
-    "build-js": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > ../../../profiles/production/js/bundle.min.js",
-    "build-css": "cleancss --skip-rebase -d -o ../../../profiles/production/resources/css/study-manager.min.css resources/css/study-manager.css",
+    "browserify": "browserify . -g [envify --NODE_ENV production] -t -o js/bundle.js",
+    "build-js": "browserify . -g [envify --NODE_ENV production] -t | uglifyjs -cm > ../../../profiles/production/js/bundle.js",
+    "build-css": "cleancss --skip-rebase -d -o ../../../profiles/production/resources/css/sped.min.css resources/css/sped.css",
     "build": "npm run build-css & npm run build-js",
     "prebuild": "npm install",
     "test": "",

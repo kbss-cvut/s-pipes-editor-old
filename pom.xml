@@ -103,14 +103,6 @@
             <version>${org.scala-lang.version}</version>
         </dependency>
 
-        <!-- Jena -->
-        <dependency>
-            <groupId>org.apache.jena</groupId>
-            <artifactId>apache-jena-libs</artifactId>
-            <type>pom</type>
-            <version>3.5.0</version>
-        </dependency>
-
         <!-- JSON -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -244,27 +236,108 @@
                 </plugins>
             </build>
         </profile>
+
         <profile>
-            <id>
-                production
-            </id>
+            <id>production</id>
+            <properties>
+                <profile.name>production</profile.name>
+            </properties>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.4.0</version>
+                        <executions>
+                            <execution>
+                                <id>npm-module-cleanup</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>compile</phase>
+                                <configuration>
+                                    <workingDirectory>src/main/webapp/</workingDirectory>
+                                    <executable>rm</executable>
+                                    <arguments>
+                                        <argument>-Rf</argument>
+                                        <argument>node_modules</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>ui-build</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>compile</phase>
+                                <configuration>
+                                    <workingDirectory>src/main/webapp/</workingDirectory>
+                                    <executable>npm</executable>
+                                    <arguments>
+                                        <argument>run</argument>
+                                        <argument>build</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>ui-test</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>test</phase>
+                                <configuration>
+                                    <workingDirectory>src/main/webapp</workingDirectory>
+                                    <executable>npm</executable>
+                                    <arguments>
+                                        <argument>test</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.google.code.maven-replacer-plugin</groupId>
+                        <artifactId>replacer</artifactId>
+                        <version>1.5.3</version>
+                        <executions>
+                            <execution>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>replace</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <ignoreMissingFile>false</ignoreMissingFile>
+                            <file>${project.basedir}/profiles/production/index.html</file>
+                            <outputFile>${project.basedir}/profiles/production/index.html</outputFile>
+                            <regex>false</regex>
+                            <token>Version: Dev</token>
+                            <value>Version: ${project.version} Production</value>
+                        </configuration>
+                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-war-plugin</artifactId>
                         <version>${maven-war-plugin.version}</version>
                         <configuration>
+                            <warName>sped</warName>
                             <failOnMissingWebXml>false</failOnMissingWebXml>
                             <webResources>
                                 <resource>
                                     <directory>profiles/production</directory>
                                 </resource>
                             </webResources>
+                            <warSourceExcludes>
+                                node_modules/**
+                            </warSourceExcludes>
                             <packagingExcludes>
                                 **/js/actions/,**/js/components/,**/js/constants/,**/js/stores/,**/js/utils/,**/js/model/,
                                 **/js/validation/, **/js/i18n/,
-                                **/js/app.js,**/js/bundle.js,**/js/.bundle.js,tests/,node_modules/,
+                                **/js/app.js,**/js/.bundle.js,tests/,node_modules/,
                                 package.json,.babelrc,.eslintrc,**/mapping
                             </packagingExcludes>
                         </configuration>
