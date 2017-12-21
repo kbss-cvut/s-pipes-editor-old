@@ -1,13 +1,13 @@
 package cz.cvut.kbss.spipes.service
 
-import cz.cvut.kbss.spipes.dto.RawJson
 import cz.cvut.kbss.spipes.util.ConfigParam._
 import cz.cvut.sempipes.transform.TransformerImpl
+import cz.cvut.sforms.model.Question
+import org.apache.jena.rdf.model.ModelFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Service
 
-import scala.io.Source
 import scala.util.Try
 
 /**
@@ -20,14 +20,17 @@ class QAService {
   private var environment: Environment = _
 
   private val formsLocation = FORMS_LOCATION.value
+  private val scriptsLocation = SCRIPTS_LOCATION.value
 
-  private val a = new TransformerImpl
-
-  def generateForm(script: String, moduleUri: String, moduleTypeUri: String): Try[RawJson] =
-    Try(
-      RawJson(
-        Source.fromFile(
-          environment.getProperty(formsLocation) + "/new-form.jsonld")
-          .mkString)
-    )
+  def generateForm(script: String, moduleUri: String, moduleTypeUri: String): Try[Question] = {
+    Try {
+      val model = ModelFactory.createDefaultModel()
+      model.read(environment.getProperty(scriptsLocation) + "/" + script)
+      new TransformerImpl().script2Form(
+        model,
+        model.getResource(moduleUri),
+        model.getResource(moduleTypeUri)
+      )
+    }
+  }
 }

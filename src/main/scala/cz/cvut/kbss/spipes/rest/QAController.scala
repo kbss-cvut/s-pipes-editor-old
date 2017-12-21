@@ -2,6 +2,8 @@ package cz.cvut.kbss.spipes.rest
 
 import java.io.FileNotFoundException
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import cz.cvut.kbss.jsonld.JsonLd
 import cz.cvut.kbss.spipes.rest.QAController.FormRequestDTO
 import cz.cvut.kbss.spipes.service.QAService
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,8 +23,14 @@ class QAController {
   @Autowired
   private var service: QAService = _
 
+  @Autowired
+  private var om: ObjectMapper = _
 
-  @PostMapping(path = Array("/{script}/forms"), consumes = Array("application/json"), produces = Array("application/json"))
+
+  @PostMapping(
+    path = Array("/{script}/forms"),
+    consumes = Array("application/json"),
+    produces = Array(JsonLd.MEDIA_TYPE))
   def generateForm(
                     @PathVariable script: String,
                     @RequestBody requestDTO: FormRequestDTO,

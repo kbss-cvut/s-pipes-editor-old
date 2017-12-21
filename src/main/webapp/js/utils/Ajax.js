@@ -23,7 +23,7 @@ const Ajax = {
     },
 
     post: function (url, data, type) {
-        this.req = request.post(url).type(type ? type : 'json').accept('json');
+        this.req = request.post(url).type(type ? type : 'json').accept('application/ld+json, application/json');
         if (data) {
             this.req = this.req.send(data);
         }
