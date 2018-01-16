@@ -65,7 +65,7 @@ class ViewController extends React.Component {
             modalVisible: false,
             formVisible: false,
             record: EntityFactory.initNewPatientRecord(),
-            socket: new WebSocket("ws://" + window.location.host + window.location.pathname + "websocket"),
+            socket: new WebSocket("wss://" + window.location.host + window.location.pathname + "websocket"),
             contextMenus: {
                 main: null,
                 selection: null,
