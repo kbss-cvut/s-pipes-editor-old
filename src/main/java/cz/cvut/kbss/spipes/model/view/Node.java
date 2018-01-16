@@ -2,11 +2,11 @@ package cz.cvut.kbss.spipes.model.view;
 
 import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
-import cz.cvut.kbss.jopa.model.annotations.Types;
 import cz.cvut.kbss.spipes.model.AbstractEntity;
 import cz.cvut.kbss.spipes.model.Vocabulary;
 
 import java.net.URI;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -22,8 +22,12 @@ public class Node extends AbstractEntity {
     private Double x = 0.0;
     @OWLDataProperty(iri = Vocabulary.s_p_has_y_coordinate)
     private Double y = 0.0;
-    @Types
-    private Set<String> nodeTypes;
+
+    /**
+     * Types that correspond to the-graph library types and specify icon & stuff
+     */
+    @OWLDataProperty(iri = Vocabulary.s_p_has_module_type)
+    private Set<String> moduleTypes;
     @OWLDataProperty(iri = Vocabulary.s_p_has_input_parameter)
     private Set<String> inParameters;
     @OWLDataProperty(iri = Vocabulary.s_p_has_output_parameter)
@@ -32,24 +36,24 @@ public class Node extends AbstractEntity {
     public Node() {
     }
 
-    public Node(String label, double x, double y, Set<String> nodeTypes, Set<String> inParameters, Set<String> outParameters) {
+    public Node(String label, double x, double y, Set<String> moduleTypes, Set<String> inParameters, Set<String> outParameters) {
         this.id = UUID.randomUUID().toString();
         this.uri = URI.create(Vocabulary.s_c_node + "/" + id);
         this.label = label;
         this.x = x;
         this.y = y;
-        this.nodeTypes = nodeTypes;
+        this.moduleTypes = moduleTypes;
         this.inParameters = inParameters;
         this.outParameters = outParameters;
     }
 
-    public Node(URI uri, String id, String label, Double x, Double y, Set<String> nodeTypes, Set<String> inParameters, Set<String> outParameters) {
+    public Node(URI uri, String id, String label, Double x, Double y, Set<String> moduleTypes, Set<String> inParameters, Set<String> outParameters) {
         this.uri = uri;
         this.id = id;
         this.label = label;
         this.x = x;
         this.y = y;
-        this.nodeTypes = nodeTypes;
+        this.moduleTypes = moduleTypes;
         this.inParameters = inParameters;
         this.outParameters = outParameters;
     }
@@ -78,12 +82,12 @@ public class Node extends AbstractEntity {
         this.y = y;
     }
 
-    public Set<String> getNodeTypes() {
-        return nodeTypes;
+    public Set<String> getModuleTypes() {
+        return moduleTypes;
     }
 
-    public void setNodeTypes(Set<String> nodeTypes) {
-        this.nodeTypes = nodeTypes;
+    public void setModuleTypes(Set<String> moduleTypes) {
+        this.moduleTypes = moduleTypes;
     }
 
     public Set<String> getInParameters() {
@@ -103,46 +107,33 @@ public class Node extends AbstractEntity {
     }
 
     @Override
-    public String toString() {
-        return "Node{" +
-                "uri=" + uri +
-                ", id='" + id + '\'' +
-                ", label='" + label + '\'' +
-                ", x=" + x +
-                ", y=" + y +
-                ", nodeTypes=" + nodeTypes +
-                ", inParameters=" + inParameters +
-                ", outParameters=" + outParameters +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Node node = (Node) o;
-
-        if (uri != null ? !uri.equals(node.uri) : node.uri != null) return false;
-        if (id != null ? !id.equals(node.id) : node.id != null) return false;
-        if (label != null ? !label.equals(node.label) : node.label != null) return false;
-        if (x != null ? !x.equals(node.x) : node.x != null) return false;
-        if (y != null ? !y.equals(node.y) : node.y != null) return false;
-        if (nodeTypes != null ? !nodeTypes.equals(node.nodeTypes) : node.nodeTypes != null) return false;
-        if (inParameters != null ? !inParameters.equals(node.inParameters) : node.inParameters != null) return false;
-        return outParameters != null ? outParameters.equals(node.outParameters) : node.outParameters == null;
+        return Objects.equals(getLabel(), node.getLabel()) &&
+                Objects.equals(getX(), node.getX()) &&
+                Objects.equals(getY(), node.getY()) &&
+                Objects.equals(getModuleTypes(), node.getModuleTypes()) &&
+                Objects.equals(getInParameters(), node.getInParameters()) &&
+                Objects.equals(getOutParameters(), node.getOutParameters());
     }
 
     @Override
     public int hashCode() {
-        int result = uri != null ? uri.hashCode() : 0;
-        result = 31 * result + (id != null ? id.hashCode() : 0);
-        result = 31 * result + (label != null ? label.hashCode() : 0);
-        result = 31 * result + (x != null ? x.hashCode() : 0);
-        result = 31 * result + (y != null ? y.hashCode() : 0);
-        result = 31 * result + (nodeTypes != null ? nodeTypes.hashCode() : 0);
-        result = 31 * result + (inParameters != null ? inParameters.hashCode() : 0);
-        result = 31 * result + (outParameters != null ? outParameters.hashCode() : 0);
-        return result;
+
+        return Objects.hash(getLabel(), getX(), getY(), getModuleTypes(), getInParameters(), getOutParameters());
+    }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "label='" + label + '\'' +
+                ", x=" + x +
+                ", y=" + y +
+                ", moduleTypes=" + moduleTypes +
+                ", inParameters=" + inParameters +
+                ", outParameters=" + outParameters +
+                '}';
     }
 }
