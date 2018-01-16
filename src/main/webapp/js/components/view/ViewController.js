@@ -44,6 +44,17 @@ let that;
 let record;
 let moduleTypeAhead;
 
+const TYPE = "http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-module-type";
+const LABEL = "http://www.w3.org/2000/01/rdf-schema#label";
+const X = "http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-x-coordinate";
+const Y = "http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-y-coordinate";
+const EDGE = "http://onto.fel.cvut.cz/ontologies/s-pipes-view/consists-of-edge";
+const SOURCE_NODE = "http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-source-node";
+const DESTINATION_NODE = "http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-destination-node";
+const NODE = "http://onto.fel.cvut.cz/ontologies/s-pipes-view/consists-of-node";
+const ICON = "http://topbraid.org/sparqlmotion#icon";
+const COMMENT = "http://www.w3.org/2000/01/rdf-schema#comment";
+
 class ViewController extends React.Component {
 
     _getScript() {
@@ -150,8 +161,8 @@ class ViewController extends React.Component {
             loading={this.state.loading}/>;
         moduleTypeAhead = <Typeahead
             options={this.state.moduleTypes}
-            displayOption="http://www.w3.org/2000/01/rdf-schema#label"
-            filterOption="http://www.w3.org/2000/01/rdf-schema#label"
+            displayOption={LABEL}
+            filterOption={LABEL}
             optionsButton={true}
             onOptionSelected={(o, c) => this.openModuleDetails(null, o["@id"], c)}
             placeholder={I18Store.i18n('view.module-type')}
@@ -234,8 +245,8 @@ class ViewController extends React.Component {
             this.state.moduleTypes.map((m) => {
                 this.state.library[m["@id"]] = {
                     name: m["@id"].toString().split("/").reverse()[0],
-                    description: m["http://www.w3.org/2000/01/rdf-schema#comment"],
-                    icon: m["http://topbraid.org/sparqlmotion#icon"] === undefined ? "gear" : m["http://topbraid.org/sparqlmotion#icon"],
+                    description: m[COMMENT],
+                    icon: m[ICON] === undefined ? "gear" : m[ICON],
                     inports: [
                         {'name': 'in', 'type': 'all'},
                     ],
@@ -267,48 +278,48 @@ class ViewController extends React.Component {
         if (data.action === Actions.loadView) {
             let fbpGraph = TheGraph.fbpGraph;
             this.setState({view: new fbpGraph.Graph()});
-            data.data["http://onto.fel.cvut.cz/ontologies/s-pipes-view/consists-of-node"].map(n => {
+            data.data[NODE].map(n => {
                 if (typeof n === "object")
-                    this.state.view.addNode(n["@id"], n["@type"][0], {
-                        label: n["http://www.w3.org/2000/01/rdf-schema#label"] === undefined ?
+                    this.state.view.addNode(n["@id"], n[TYPE][0], {
+                        label: n[LABEL] === undefined ?
                             n["@id"].toString().split("/").reverse()[0] :
-                            n["http://www.w3.org/2000/01/rdf-schema#label"],
+                            n[LABEL],
                         types: n["@type"],
-                        x: n["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-x-coordinate"],
-                        y: n["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-y-coordinate"]
+                        x: n[X],
+                        y: n[Y]
                     })
             });
-            data.data["http://onto.fel.cvut.cz/ontologies/s-pipes-view/consists-of-edge"].map(e => {
-                if (typeof e["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-source-node"] === "object") {
-                    let n = e["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-source-node"];
-                    this.state.view.addNode(n["@id"], n["@type"][0], {
-                        label: n["http://www.w3.org/2000/01/rdf-schema#label"] === undefined ?
+            data.data[EDGE].map(e => {
+                if (typeof e[SOURCE_NODE] === "object") {
+                    let n = e[SOURCE_NODE];
+                    this.state.view.addNode(n["@id"], n[TYPE][0], {
+                        label: n[LABEL] === undefined ?
                             n["@id"].toString().split("/").reverse()[0] :
-                            n["http://www.w3.org/2000/01/rdf-schema#label"],
+                            n[LABEL],
                         types: n["@type"],
-                        x: n["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-x-coordinate"],
-                        y: n["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-y-coordinate"]
+                        x: n[X],
+                        y: n[Y]
                     })
                 }
-                if (typeof e["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-destination-node"] === "object") {
-                    let n = e["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-destination-node"];
-                    this.state.view.addNode(n["@id"], n["@type"][0], {
-                        label: n["http://www.w3.org/2000/01/rdf-schema#label"] === undefined ?
+                if (typeof e[DESTINATION_NODE] === "object") {
+                    let n = e[DESTINATION_NODE];
+                    this.state.view.addNode(n["@id"], n[TYPE][0], {
+                        label: n[LABEL] === undefined ?
                             n["@id"].toString().split("/").reverse()[0] :
-                            n["http://www.w3.org/2000/01/rdf-schema#label"],
+                            n[LABEL],
                         types: n["@type"],
-                        x: n["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-x-coordinate"],
-                        y: n["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-y-coordinate"]
+                        x: n[X],
+                        y: n[Y]
                     })
                 }
             });
-            data.data["http://onto.fel.cvut.cz/ontologies/s-pipes-view/consists-of-edge"].map(e => {
-                let from = typeof e["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-source-node"] === "object" ?
-                    e["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-source-node"]["@id"] :
-                    e["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-source-node"];
-                let to = typeof e["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-destination-node"] === "object" ?
-                    e["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-destination-node"]["@id"] :
-                    e["http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-destination-node"];
+            data.data[EDGE].map(e => {
+                let from = typeof e[SOURCE_NODE] === "object" ?
+                    e[SOURCE_NODE]["@id"] :
+                    e[SOURCE_NODE];
+                let to = typeof e[DESTINATION_NODE] === "object" ?
+                    e[DESTINATION_NODE]["@id"] :
+                    e[DESTINATION_NODE];
                 this.state.view.addEdge(from, 'out', to, 'in', {id: e["@id"]});
             });
             this.setState({viewLoaded: true});
