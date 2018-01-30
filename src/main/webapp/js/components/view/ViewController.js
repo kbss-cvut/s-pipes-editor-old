@@ -99,7 +99,7 @@ class ViewController extends React.Component {
                         icon: "cogs",
                         iconLabel: "configure",
                         action: function (graph, itemKey, item) {
-                            that.openModuleDetails(itemKey, item.metadata.types[0]);
+                            that.openModuleDetails(itemKey, item.metadata.TYPE[0]);
                         }
                     },
                     s4: {
@@ -284,7 +284,7 @@ class ViewController extends React.Component {
                         label: n[LABEL] === undefined ?
                             n["@id"].toString().split("/").reverse()[0] :
                             n[LABEL],
-                        types: n["@type"],
+                        TYPE: n[TYPE],
                         x: n[X],
                         y: n[Y]
                     })
@@ -296,7 +296,7 @@ class ViewController extends React.Component {
                         label: n[LABEL] === undefined ?
                             n["@id"].toString().split("/").reverse()[0] :
                             n[LABEL],
-                        types: n["@type"],
+                        TYPE: n[TYPE],
                         x: n[X],
                         y: n[Y]
                     })
@@ -307,7 +307,7 @@ class ViewController extends React.Component {
                         label: n[LABEL] === undefined ?
                             n["@id"].toString().split("/").reverse()[0] :
                             n[LABEL],
-                        types: n["@type"],
+                        TYPE: n[TYPE],
                         x: n[X],
                         y: n[Y]
                     })
