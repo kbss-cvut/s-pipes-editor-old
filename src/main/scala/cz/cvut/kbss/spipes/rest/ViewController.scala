@@ -1,8 +1,10 @@
 package cz.cvut.kbss.spipes.rest
 
-
 import cz.cvut.kbss.jsonld.JsonLd
+import cz.cvut.kbss.spipes.rest.ViewController._
 import cz.cvut.kbss.spipes.service.ViewService
+import cz.cvut.kbss.spipes.util.Implicits._
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
 import org.springframework.web.bind.annotation._
@@ -19,10 +21,22 @@ class ViewController {
 
   @GetMapping(path = Array("/{script}/new"), produces = Array(JsonLd.MEDIA_TYPE))
   def newFromSpipes(@PathVariable script: String): ResponseEntity[Any] = {
+    log.info("Creating a view for script " + script)
     viewService.newViewFromSpipes(script) match {
-      case Left(e) => new ResponseEntity(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
-      case Right(None) => new ResponseEntity(HttpStatus.NOT_FOUND)
-      case Right(Some(v)) => new ResponseEntity(v, HttpStatus.OK)
+      case Left(e) =>
+        log.error(e.getLocalizedMessage(), e)
+        new ResponseEntity(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
+      case Right(None) =>
+        log.info("View can not be created, no modules found for script " + script)
+        new ResponseEntity(HttpStatus.NOT_FOUND)
+      case Right(Some(v)) =>
+        log.info("View for script " + script + " created")
+        log.trace(v)
+        new ResponseEntity(v, HttpStatus.OK)
     }
   }
+}
+
+object ViewController {
+  private final val log = LoggerFactory.getLogger(classOf[ViewController])
 }
