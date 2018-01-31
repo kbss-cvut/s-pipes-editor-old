@@ -1,4 +1,4 @@
-java_vocabulary=$(find ~/Dropbox/studies/EAR/SPEd -path "*/model/Vocabulary.java")
+java_vocabulary=$(find ~/Dropbox/studies/EAR/SPipes Editor -path "*/model/Vocabulary.java")
 scala_vocabulary="$(echo $java_vocabulary | rev | cut -d'/' -f2- |rev)/Vocabulary.scala"
 echo > $scala_vocabulary
 grep package $java_vocabulary | cut -d';' -f1  >> $scala_vocabulary

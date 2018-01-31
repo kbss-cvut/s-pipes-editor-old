@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>war</packaging>
     <groupId>cz.cvut.kbss</groupId>
-    <artifactId>sped</artifactId>
+    <artifactId>s-pipes-editor</artifactId>
     <version>0.1</version>
 
     <properties>
@@ -324,7 +324,7 @@
                         <artifactId>maven-war-plugin</artifactId>
                         <version>${maven-war-plugin.version}</version>
                         <configuration>
-                            <warName>sped</warName>
+                            <warName>s-pipes-editor</warName>
                             <failOnMissingWebXml>false</failOnMissingWebXml>
                             <webResources>
                                 <resource>

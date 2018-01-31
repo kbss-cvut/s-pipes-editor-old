@@ -1,8 +1,8 @@
 {
-  "name": "sped",
+  "name": "s-pipes-editor",
   "version": "0.0.1",
   "license": "GPL-3.0",
-  "description": "SPEd",
+  "description": "SPipes Editor",
   "main": "js/app.js",
   "dependencies": {
     "body-parser": "~1.15.0",
@@ -63,10 +63,10 @@
     "webpack": "^1.12.15"
   },
   "scripts": {
-    "start": "watchify -o ../../../target/sped-0.1/js/bundle.js -v -d js/app.js",
+    "start": "watchify -o ../../../target/s-pipes-editor-0.1/js/bundle.js -v -d js/app.js",
     "browserify": "browserify . -g [envify --NODE_ENV production] -t -o js/bundle.js",
     "build-js": "browserify . -g [envify --NODE_ENV production] -t | uglifyjs -cm > ../../../profiles/production/js/bundle.js",
-    "build-css": "cleancss --skip-rebase -d -o ../../../profiles/production/resources/css/sped.min.css resources/css/sped.css",
+    "build-css": "cleancss --skip-rebase -d -o ../../../profiles/production/resources/css/s-pipes-editor.min.css resources/css/s-pipes-editor.css",
     "build": "npm run build-css & npm run build-js",
     "prebuild": "npm install",
     "test": "",

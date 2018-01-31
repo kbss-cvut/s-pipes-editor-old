@@ -3,7 +3,7 @@
 import Routes from '../utils/Routes';
 
 module.exports = {
-    APP_NAME: 'SPEd',
+    APP_NAME: 'SPipes Editor',
     HOME_ROUTE: Routes.dashboard,
 
     /**
