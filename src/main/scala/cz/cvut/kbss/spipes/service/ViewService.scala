@@ -50,7 +50,7 @@ class ViewService {
         val view = new View(script, nodes.toSet.asJava, edges.toSet.asJava)
         log.info("Created view for script " + script)
         log.trace(view)
-        //        viewDao.save(view)
+        viewDao.save(view)
         Right(Some(view))
       case Right(None) =>
         log.info("No modules found for script " + script)
