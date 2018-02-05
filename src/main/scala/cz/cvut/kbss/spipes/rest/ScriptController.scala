@@ -1,7 +1,6 @@
 package cz.cvut.kbss.spipes.rest
 
 import cz.cvut.kbss.jsonld.JsonLd
-import cz.cvut.kbss.spipes.rest.ScriptController._
 import cz.cvut.kbss.spipes.service.ScriptService
 import cz.cvut.kbss.spipes.util.ConfigParam.SPIPES_LOCATION
 import cz.cvut.kbss.spipes.util.Implicits._
@@ -21,6 +20,8 @@ import scala.collection.JavaConverters.{seqAsJavaListConverter, setAsJavaSetConv
 @RequestMapping(path = Array("/scripts"))
 @PropertySource(Array("classpath:config.properties"))
 class ScriptController {
+
+  private final val log = LoggerFactory.getLogger(classOf[ScriptController])
 
   @Autowired
   private var environment: Environment = _
@@ -78,8 +79,4 @@ class ScriptController {
         new ResponseEntity("No scripts found", HttpStatus.NOT_FOUND)
     }
   }
-}
-
-object ScriptController {
-  private final val log = LoggerFactory.getLogger(classOf[ScriptController])
 }

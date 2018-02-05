@@ -10,6 +10,16 @@ import scala.collection.JavaConverters._
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 31.01.2018.
   */
 object Implicits {
+
+  implicit def abstractEntity2String(e: AbstractEntity): String =
+    s"""
+       |AbstractEntity{
+       | uri: ${e.getUri()},
+       | id: ${e.getId()},
+       | class: ${e.getClass().getCanonicalName()}
+       |}
+     """.stripMargin
+
   implicit def question2String(q: Question): String =
     s"""
        |Question{

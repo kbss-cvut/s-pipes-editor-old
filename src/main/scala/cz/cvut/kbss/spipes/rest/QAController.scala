@@ -4,7 +4,7 @@ import java.io.FileNotFoundException
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import cz.cvut.kbss.jsonld.JsonLd
-import cz.cvut.kbss.spipes.rest.QAController.{FormRequestDTO, _}
+import cz.cvut.kbss.spipes.rest.QAController.FormRequestDTO
 import cz.cvut.kbss.spipes.service.QAService
 import cz.cvut.kbss.spipes.util.Implicits._
 import org.slf4j.LoggerFactory
@@ -21,6 +21,8 @@ import scala.util.{Failure, Success}
 @RestController
 @RequestMapping(path = Array("/scripts"))
 class QAController {
+
+  private final val log = LoggerFactory.getLogger(classOf[QAController])
 
   @Autowired
   private var service: QAService = _
@@ -55,8 +57,6 @@ class QAController {
 
 object QAController {
 
-  private final val log = LoggerFactory.getLogger(classOf[QAController])
-
   case class FormRequestDTO(
                              @BeanProperty module: String,
                              @BeanProperty moduleType: String
@@ -65,5 +65,4 @@ object QAController {
       this(null, null)
     }
   }
-
 }

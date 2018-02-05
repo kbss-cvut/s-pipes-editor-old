@@ -1,7 +1,6 @@
 package cz.cvut.kbss.spipes.rest
 
 import cz.cvut.kbss.jsonld.JsonLd
-import cz.cvut.kbss.spipes.rest.ViewController._
 import cz.cvut.kbss.spipes.service.ViewService
 import cz.cvut.kbss.spipes.util.Implicits._
 import org.slf4j.LoggerFactory
@@ -15,6 +14,8 @@ import org.springframework.web.bind.annotation._
 @RestController
 @RequestMapping(path = Array("/views"))
 class ViewController {
+
+  private final val log = LoggerFactory.getLogger(classOf[ViewController])
 
   @Autowired
   private var viewService: ViewService = _
@@ -35,8 +36,4 @@ class ViewController {
         new ResponseEntity(v, HttpStatus.OK)
     }
   }
-}
-
-object ViewController {
-  private final val log = LoggerFactory.getLogger(classOf[ViewController])
 }

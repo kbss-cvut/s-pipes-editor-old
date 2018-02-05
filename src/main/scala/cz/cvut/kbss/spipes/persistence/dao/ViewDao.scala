@@ -22,6 +22,7 @@ class ViewDao extends AbstractDao[View] {
     get(uri).map(_.getEdges())
 
   def updateView(uri: URI, other: View)(implicit tag: ClassTag[View]): Try[Unit] = {
+    log.info("Updating view with URI " + uri + " to " + (other + ""))
     val em = emf.createEntityManager()
     get(uri).map { (v) =>
       em.getTransaction().begin()

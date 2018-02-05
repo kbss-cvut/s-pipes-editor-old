@@ -14,6 +14,7 @@ import cz.cvut.kbss.spipes.model.spipes.{Module, ModuleType}
 import cz.cvut.kbss.spipes.util.ConfigParam.SCRIPTS_LOCATION
 import cz.cvut.kbss.spipes.util.{Constants, JopaPersistenceUtils}
 import org.eclipse.rdf4j.rio.RDFFormat
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Repository
@@ -28,12 +29,14 @@ import scala.util.Try
 @Repository
 class ScriptDao {
 
+  private final val log = LoggerFactory.getLogger(classOf[ScriptDao])
+
+  private val scriptsLocation = SCRIPTS_LOCATION.value
+
   @Autowired
   private var env: Environment = _
 
   var emf: EntityManagerFactory = _
-
-  private val scriptsLocation = SCRIPTS_LOCATION.value
 
   @PostConstruct
   def init: Unit = {
@@ -56,6 +59,7 @@ class ScriptDao {
   }
 
   def getModules(fileName: String): Try[JList[Module]] = {
+    log.info("Fetching modules from file " + fileName)
     val filePath = env.getProperty(scriptsLocation) + "/" + fileName
     val em = emf.createEntityManager()
     Try {
@@ -73,6 +77,7 @@ class ScriptDao {
   }
 
   def getModuleTypes(fileName: String): Try[JList[ModuleType]] = {
+    log.info("Fetching moduleTypes from file " + fileName)
     val filePath = env.getProperty(scriptsLocation) + "/" + fileName
     val em = emf.createEntityManager()
     Try {
@@ -95,7 +100,10 @@ class ScriptDao {
     }
   }
 
-  def getScripts: Option[Seq[File]] =
-    Option(new File(env.getProperty(scriptsLocation)).listFiles())
+  def getScripts: Option[Seq[File]] = {
+    val scriptsPath = env.getProperty(scriptsLocation)
+    log.info("Looking for any scripts in " + scriptsPath)
+    Option(new File(scriptsPath).listFiles())
       .map(_.filterNot(_.isDirectory()))
+  }
 }

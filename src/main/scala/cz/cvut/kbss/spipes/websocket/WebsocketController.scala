@@ -36,8 +36,7 @@ class WebsocketController extends InitializingBean {
 
   @OnError
   def onError(t: Throwable): Unit = {
-    log.warn(t.getLocalizedMessage())
-    log.warn(t.getStackTrace().mkString("\n\t"))
+    log.warn(t.getLocalizedMessage(), t.getStackTrace().mkString("\n\t"))
   }
 
   @OnClose
@@ -63,8 +62,7 @@ class WebsocketController extends InitializingBean {
         WebsocketController.subscribers(fileName) = Set(session)
     } match {
       case Failure(e) =>
-        log.warn(e.getLocalizedMessage())
-        log.warn(e.getStackTrace().mkString("\n"))
+        log.warn(e.getLocalizedMessage(), e.getStackTrace().mkString("\n"))
       case _ => ()
     }
   }

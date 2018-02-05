@@ -4,6 +4,8 @@ import java.util
 
 import cz.cvut.kbss.spipes.model.view.{Edge, Node, View}
 import cz.cvut.kbss.spipes.persistence.dao.ViewDao
+import cz.cvut.kbss.spipes.util.Implicits._
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -15,6 +17,8 @@ import scala.collection.JavaConverters._
 @Service
 class ViewService {
 
+  private final val log = LoggerFactory.getLogger(classOf[ViewService])
+
   @Autowired
   private var viewDao: ViewDao = _
 
@@ -22,8 +26,11 @@ class ViewService {
   private var spipesService: ScriptService = _
 
   def newViewFromSpipes(script: String): Either[Throwable, Option[View]] = {
+    log.info("Creating a view for script " + script)
     spipesService.getModules(script) match {
       case Right(Some(modules)) =>
+        log.info("Modules for script " + script + "found")
+        log.trace(modules)
         val nodes = modules.map(m => new Node(
           m.getUri(),
           m.getId(),
@@ -41,10 +48,16 @@ class ViewService {
               nodes.find(_.getUri == m.getUri).get,
               nodes.find(_.getUri == n.getUri()).get)))
         val view = new View(script, nodes.toSet.asJava, edges.toSet.asJava)
-        viewDao.save(view)
+        log.info("Created view for script " + script)
+        log.trace(view)
+        //        viewDao.save(view)
         Right(Some(view))
-      case Right(None) => Right(None)
-      case Left(e) => Left(e)
+      case Right(None) =>
+        log.info("No modules found for script " + script)
+        Right(None)
+      case Left(e) =>
+        log.error(e.getLocalizedMessage(), e)
+        Left(e)
     }
   }
 }
