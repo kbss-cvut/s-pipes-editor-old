@@ -276,10 +276,9 @@ class ViewController extends React.Component {
 
     _viewLoaded = (data) => {
         if (data.action === Actions.loadView) {
-            let fbpGraph = TheGraph.fbpGraph;
-            this.setState({view: new fbpGraph.Graph()});
+            this.setState({view: new TheGraph.fbpGraph.Graph()});
             data.data[NODE].map(n => {
-                if (typeof n === "object")
+                if (n[TYPE] !== undefined)
                     this.state.view.addNode(n["@id"], n[TYPE][0], {
                         label: n[LABEL] === undefined ?
                             n["@id"].toString().split("/").reverse()[0] :
@@ -290,7 +289,7 @@ class ViewController extends React.Component {
                     })
             });
             data.data[EDGE].map(e => {
-                if (typeof e[SOURCE_NODE] === "object") {
+                if (e[SOURCE_NODE][TYPE] !== undefined) {
                     let n = e[SOURCE_NODE];
                     this.state.view.addNode(n["@id"], n[TYPE][0], {
                         label: n[LABEL] === undefined ?
@@ -301,7 +300,7 @@ class ViewController extends React.Component {
                         y: n[Y]
                     })
                 }
-                if (typeof e[DESTINATION_NODE] === "object") {
+                if (e[DESTINATION_NODE][TYPE] !== undefined) {
                     let n = e[DESTINATION_NODE];
                     this.state.view.addNode(n["@id"], n[TYPE][0], {
                         label: n[LABEL] === undefined ?
