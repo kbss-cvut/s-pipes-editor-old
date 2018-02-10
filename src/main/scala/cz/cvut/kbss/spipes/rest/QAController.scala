@@ -4,9 +4,10 @@ import java.io.FileNotFoundException
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import cz.cvut.kbss.jsonld.JsonLd
-import cz.cvut.kbss.spipes.rest.QAController.FormRequestDTO
+import cz.cvut.kbss.spipes.rest.QAController.FormDTO
 import cz.cvut.kbss.spipes.service.QAService
 import cz.cvut.kbss.spipes.util.Implicits._
+import cz.cvut.sforms.model.Question
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
@@ -37,7 +38,7 @@ class QAController {
     produces = Array(JsonLd.MEDIA_TYPE))
   def generateForm(
                     @PathVariable script: String,
-                    @RequestBody requestDTO: FormRequestDTO,
+                    @RequestBody requestDTO: FormDTO,
                   ): ResponseEntity[Any] = {
     log.info("Generating form for script " + script + ", module " + requestDTO.module + " of type " + requestDTO.moduleType)
     service.generateForm(script, requestDTO.module, requestDTO.moduleType) match {
@@ -53,16 +54,37 @@ class QAController {
         new ResponseEntity(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }
+
+  @PostMapping(
+    path = Array("/{script}/forms/answers"),
+    consumes = Array("application/json"))
+  def mergeForm(
+                 @PathVariable script: String,
+                 @RequestBody answerDto: FormDTO,
+               ): ResponseEntity[Any] = {
+    answerDto.rootQuestion match {
+      case Some(q) =>
+        log.info("Received answers for script " + script + ", module " + answerDto.module + ", module type " + answerDto.moduleType)
+        log.trace("Root question:" + (q + ""))
+        service.mergeForm(script, q)
+        new ResponseEntity[Any](HttpStatus.NOT_IMPLEMENTED)
+      case None =>
+        log.warn("No answers received for script " + script + ", module " + answerDto.module + ", module type " + answerDto.moduleType)
+        new ResponseEntity("Root question must not be empty", HttpStatus.BAD_REQUEST)
+
+    }
+  }
 }
 
 object QAController {
 
-  case class FormRequestDTO(
-                             @BeanProperty module: String,
-                             @BeanProperty moduleType: String
+  case class FormDTO(
+                      @BeanProperty module: String,
+                      @BeanProperty moduleType: String,
+                      @BeanProperty rootQuestion: Option[Question]
                            ) {
     def this() {
-      this(null, null)
+      this(null, null, null)
     }
   }
 }

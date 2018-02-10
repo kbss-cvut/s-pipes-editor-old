@@ -1,9 +1,11 @@
 package cz.cvut.kbss.spipes.service
 
+import java.io.FileOutputStream
+
 import cz.cvut.kbss.spipes.util.ConfigParam._
-import cz.cvut.sempipes.transform.TransformerImpl
+import cz.cvut.sempipes.transform.Transformer
 import cz.cvut.sforms.model.Question
-import org.apache.jena.rdf.model.ModelFactory
+import org.apache.jena.rdf.model.{Model, ModelFactory}
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.env.Environment
@@ -22,6 +24,9 @@ class QAService {
   @Autowired
   private var environment: Environment = _
 
+  @Autowired
+  private var transformer: Transformer = _
+
   private val formsLocation = FORMS_LOCATION.value
   private val scriptsLocation = SCRIPTS_LOCATION.value
 
@@ -30,11 +35,24 @@ class QAService {
     Try {
       val model = ModelFactory.createDefaultModel()
       model.read(environment.getProperty(scriptsLocation) + "/" + script)
-      new TransformerImpl().script2Form(
+      transformer.script2Form(
         model,
         model.getResource(moduleUri),
         model.getResource(moduleTypeUri)
       )
+    }
+  }
+
+  def mergeForm(script: String, rootQuestion: Question): Try[Model] = {
+    log.info("Merging form for script " + script)
+    Try {
+      val fileName = environment.getProperty(scriptsLocation) + "/" + script
+      val model = ModelFactory.createDefaultModel()
+      model.read(fileName)
+      val os = new FileOutputStream(fileName)
+      val res = transformer.form2Script(model, rootQuestion).write(os, "TTL")
+      os.close()
+      res
     }
   }
 }

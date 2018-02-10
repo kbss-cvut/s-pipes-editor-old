@@ -15,18 +15,29 @@ module.exports = {
      * @param uri URI to search for
      */
     find: function (tree, uri) {
-        this.findObjectInTree(tree, uri);
+        this.findObjectInTree(tree, "uri", uri);
         return this.searchResult;
     },
 
-    findObjectInTree: function (tree, uri) {
+    /**
+     * Finds value in a JSON tree based on key.
+     * Returns undefined in case nothing is found.
+     * @param tree JSON tree
+     * @param origin origin to search for
+     */
+    findByOrigin: function (tree, origin) {
+        this.findObjectInTree(tree, "http://onto.fel.cvut.cz/ontologies/form/has-question-origin", origin);
+        return this.searchResult;
+    },
+
+    findObjectInTree: function (tree, key, value) {
         if (typeof(tree) === "object" && tree !== null) {
-            if (uri === tree["uri"])
+            if (value === tree[key])
                 this.searchResult = tree;
             else
                 for (let p in tree)
-                    if (tree.hasOwnProperty(p))
-                        this.findObjectInTree(tree[p], uri);
+                    if (this.searchResult === undefined && tree.hasOwnProperty(p))
+                        this.findObjectInTree(tree[p], key, value);
         }
     },
 

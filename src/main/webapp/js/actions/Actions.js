@@ -8,7 +8,8 @@ const Actions = Reflux.createActions([
     'loadFormOptions',
     'loadAllModuleTypes',
     'loadView',
-    'listScripts'
+    'listScripts',
+    'saveForm'
 ]);
 
 module.exports = Actions;

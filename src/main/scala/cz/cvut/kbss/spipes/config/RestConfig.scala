@@ -2,6 +2,7 @@ package cz.cvut.kbss.spipes.config
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.{DeserializationFeature, ObjectMapper}
+import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import cz.cvut.kbss.jsonld.jackson.JsonLdModule
 import org.springframework.context.annotation.{Bean, ComponentScan, Configuration, Import}
 import org.springframework.web.client.RestTemplate
@@ -22,7 +23,7 @@ class RestConfig {
     objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
     // Here we register the JSON-LD serialization/deserialization module
-    objectMapper.registerModule(new JsonLdModule())
+    objectMapper.registerModule(new JsonLdModule()).registerModule(new DefaultScalaModule())
     objectMapper
   }
 

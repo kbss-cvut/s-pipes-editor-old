@@ -2,7 +2,6 @@
 
 import React from 'react';
 import {Panel} from 'react-bootstrap';
-import {QuestionAnswerProcessor} from 'semforms';
 import I18nWrapper from '../../i18n/I18nWrapper';
 import injectIntl from '../../utils/injectIntl';
 import Mask from '../Mask';
@@ -38,7 +37,10 @@ class RecordForm extends React.Component {
     };
 
     getFormData = () => {
-        return QuestionAnswerProcessor.buildQuestionAnswerModel(WizardStore.getData(), WizardStore.getStepData());
+        // return QuestionAnswerProcessor.buildQuestionAnswerModel(WizardStore.getData(), WizardStore.getStepData());
+        return JSON.parse(JSON.stringify(WizardStore.getData()["root"]).replace(
+            /"@id" ?: ?"_:b\d",/g, ""
+        ));
     };
 
     render() {

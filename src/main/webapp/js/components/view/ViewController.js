@@ -27,6 +27,7 @@ import Routes from '../../utils/Routes';
 import Routing from '../../utils/Routing';
 import ModuleTypeStore from '../../stores/ModuleTypeStore';
 import ViewStore from '../../stores/ViewStore';
+import QAStore from '../../stores/QAStore';
 
 function fixTheGraphGlobalDependece() {
     window.React = React;
@@ -54,6 +55,8 @@ const DESTINATION_NODE = "http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-de
 const NODE = "http://onto.fel.cvut.cz/ontologies/s-pipes-view/consists-of-node";
 const ICON = "http://topbraid.org/sparqlmotion#icon";
 const COMMENT = "http://www.w3.org/2000/01/rdf-schema#comment";
+const ANSWERS = "http://onto.fel.cvut.cz/ontologies/documentation/has_answer";
+const OBJECT_VALUE = "http://onto.fel.cvut.cz/ontologies/documentation/has_object_value";
 
 class ViewController extends React.Component {
 
@@ -237,6 +240,7 @@ class ViewController extends React.Component {
         that = this;
         this.unsubscribeModuleTypes = ModuleTypeStore.listen(this._moduleTypesLoaded);
         this.unsubscribeView = ViewStore.listen(this._viewLoaded);
+        this.unsubscribeQA = QAStore.listen(this._onCancel)
     };
 
     _moduleTypesLoaded = (data) => {
@@ -327,30 +331,10 @@ class ViewController extends React.Component {
     };
 
     _onSave = () => {
-        let formData = this.recordComponent.refs.wrappedInstance.getWrappedComponent().getFormData();
-        let uriQ = Utils.find(formData, "http://www.w3.org/2000/01/rdf-schema#id-q");
-        let uri = uriQ["answers"][0]["textValue"];
-        let labelQ = Utils.find(formData, "http://www.w3.org/2000/01/rdf-schema#label-q");
-        let label = labelQ["answers"][0]["textValue"];
-        if (this.state.moduleId == null)
-            this.addNode(uri, label, this.state.type);
-        else {
-            this.state.view.startTransaction('loadgraph');
-            const node = this.state.view.nodes.find((n) => {
-                return n.id === this.state.moduleId;
-            });
-            node.id = uri;
-            node.metadata.label = label;
-            this.state.view.edges
-                .filter((e) => e.from.node === this.state.moduleId || e.to.node === this.state.moduleId)
-                .forEach((e) => {
-                    if (e.from.node === this.state.moduleId)
-                        e.from.node = uri;
-                    else
-                        e.to.node = uri;
-                });
-            this.state.view.endTransaction('loadgraph');
-        }
+        const formData = this.recordComponent.refs.wrappedInstance.getWrappedComponent().getFormData();
+        const uriQ = Utils.findByOrigin(formData, "http://www.w3.org/2000/01/rdf-schema#Resource");
+        const uri = uriQ[ANSWERS][0][OBJECT_VALUE]["@id"];
+        Actions.saveForm(this._getScript(), uri, this.state.type, formData);
         this.setState({formVisible: false, type: null, moduleId: null, coordinates: null});
     };
 
