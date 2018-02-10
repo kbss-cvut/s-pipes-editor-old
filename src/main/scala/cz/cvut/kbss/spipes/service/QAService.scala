@@ -3,7 +3,7 @@ package cz.cvut.kbss.spipes.service
 import java.io.FileOutputStream
 
 import cz.cvut.kbss.spipes.util.ConfigParam._
-import cz.cvut.sempipes.transform.Transformer
+import cz.cvut.sempipes.transform.{Transformer, TransformerImpl}
 import cz.cvut.sforms.model.Question
 import org.apache.jena.rdf.model.{Model, ModelFactory}
 import org.slf4j.LoggerFactory
@@ -24,8 +24,7 @@ class QAService {
   @Autowired
   private var environment: Environment = _
 
-  @Autowired
-  private var transformer: Transformer = _
+  private val transformer: Transformer = new TransformerImpl()
 
   private val formsLocation = FORMS_LOCATION.value
   private val scriptsLocation = SCRIPTS_LOCATION.value
