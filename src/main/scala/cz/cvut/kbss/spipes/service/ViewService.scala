@@ -29,7 +29,7 @@ class ViewService {
     log.info("Creating a view for script " + script)
     spipesService.getModules(script) match {
       case Right(Some(modules)) =>
-        log.info("Modules for script " + script + "found")
+        log.info("Modules for script " + script + " found")
         log.trace(modules)
         val nodes = modules.map(m => new Node(
           m.getUri(),

@@ -112,14 +112,4 @@ public class View extends AbstractEntity {
         result = 31 * result + (getEdges() != null ? getEdges().hashCode() : 0);
         return result;
     }
-
-    @Override
-    public String toString() {
-        return "View{" +
-                "uri=" + uri +
-                ", label='" + label + '\'' +
-                ", nodes=" + (nodes == null ? "null" : nodes.toString()) +
-                ", edges=" + (edges == null ? "null" : edges.toString()) +
-                '}';
-    }
 }

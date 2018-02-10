@@ -46,15 +46,6 @@ public class Edge extends AbstractEntity {
     }
 
     @Override
-    public String toString() {
-        return "Edge{" +
-                "uri=" + uri +
-                ", sourceNode=" + sourceNode +
-                ", destinationNode=" + destinationNode +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

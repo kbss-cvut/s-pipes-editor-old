@@ -61,14 +61,4 @@ public class Module extends AbstractEntity {
     public void setTypes(Set<String> types) {
         this.types = types;
     }
-
-    @Override
-    public String toString() {
-        return "Module{" +
-                "uri=" + uri +
-                ", id='" + id + '\'' +
-                ", label='" + label + '\'' +
-                ", next=" + next +
-                '}';
-    }
 }

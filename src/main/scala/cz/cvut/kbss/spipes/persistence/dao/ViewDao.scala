@@ -6,7 +6,6 @@ import java.util.{Set => JSet}
 import cz.cvut.kbss.spipes.model.view.{Edge, Node, View}
 import org.springframework.stereotype.Repository
 
-import scala.reflect.ClassTag
 import scala.util.Try
 
 /**
@@ -21,8 +20,8 @@ class ViewDao extends AbstractDao[View] {
   def getViewEdges(uri: URI): Try[JSet[Edge]] =
     get(uri).map(_.getEdges())
 
-  def updateView(uri: URI, other: View)(implicit tag: ClassTag[View]): Try[Unit] = {
-    log.info("Updating view with URI " + uri + " to " + (other + ""))
+  def updateView(uri: URI, other: View): Try[Unit] = {
+    log.info("Updating view with URI " + uri + " to " + other)
     val em = emf.createEntityManager()
     get(uri).map { (v) =>
       em.getTransaction().begin()

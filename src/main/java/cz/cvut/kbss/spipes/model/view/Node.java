@@ -124,16 +124,4 @@ public class Node extends AbstractEntity {
 
         return Objects.hash(getLabel(), getX(), getY(), getModuleTypes(), getInParameters(), getOutParameters());
     }
-
-    @Override
-    public String toString() {
-        return "Node{" +
-                "label='" + label + '\'' +
-                ", x=" + x +
-                ", y=" + y +
-                ", moduleTypes=" + moduleTypes +
-                ", inParameters=" + inParameters +
-                ", outParameters=" + outParameters +
-                '}';
-    }
 }

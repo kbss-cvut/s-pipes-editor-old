@@ -1,7 +1,6 @@
 package cz.cvut.kbss.spipes.util
 
 import cz.cvut.kbss.spipes.model.AbstractEntity
-import cz.cvut.kbss.spipes.model.view.{Edge, Node, View}
 import cz.cvut.sforms.model.{Answer, Question}
 
 import scala.collection.JavaConverters._
@@ -11,18 +10,9 @@ import scala.collection.JavaConverters._
   */
 object Implicits {
 
-  implicit def abstractEntity2String(e: AbstractEntity): String =
-    s"""
-       |AbstractEntity{
-       | uri: ${e.getUri()},
-       | id: ${e.getId()},
-       | class: ${e.getClass().getCanonicalName()}
-       |}
-     """.stripMargin
-
   implicit def question2String(q: Question): String =
     s"""
-       |Question{
+       |Question {
        | id: ${q.getUri()},
        | types: ${q.getTypes()},
        | origin: ${q.getOrigin()}
@@ -36,7 +26,7 @@ object Implicits {
 
   implicit def answer2String(a: Answer): String =
     s"""
-       |Answer{
+       |Answer {
        | id: ${a.getUri()},
        | types: ${a.getTypes()},
        | origin: ${a.getOrigin()},
@@ -45,43 +35,16 @@ object Implicits {
        |}
       """.stripMargin
 
-  implicit def entities2String(es: java.util.Set[_ <: cz.cvut.sforms.model.AbstractEntity]): String =
-    es.asScala.mkString("[", ",\n", "]")
+  implicit def entities2String(es: java.util.Set[_ <: AbstractEntity]): String =
+    es.asScala.map(abstractEntity2String).mkString("[", ",\n", "]")
 
   implicit def entities2String(es: Traversable[_ <: AbstractEntity]): String =
-    es.mkString("[", ",\n", "]")
+    es.map(abstractEntity2String).mkString("[", ",\n", "]")
 
-  implicit def node2String(n: Node): String =
+  implicit def abstractEntity2String(e: AbstractEntity): String =
     s"""
-       |View{
-       | id: ${n.getUri()},
-       | label: ${n.getLabel()},
-       | moduleTypes: ${n.getModuleTypes},
-       | x: ${n.getX()},
-       | y: ${n.getY()},
-       | inParameters: ${n.getInParameters()},
-       | outParameters: ${n.getOutParameters()}
+       |${e.getClass().getSimpleName()} {
+       | ${e.getClass().getMethods().filter(_.getName().contains("get")).map((m) => m.getName() + ": " + m.invoke(e)).mkString(",\n ")}
        |}
-  """.stripMargin
-
-  implicit def edge2String(e: Edge): String =
-    s"""
-       |View{
-       | id: ${e.getUri()},
-       | sourceNode: ${e.getSourceNode()},
-       | destinationNode: ${e.getDestinationNode()},
-       |}
-  """.stripMargin
-
-  implicit def view2String(v: View): String =
-    s"""
-       |View{
-       | id: ${v.getUri()},
-       | label: ${v.getLabel()},
-       | author: ${v.getAuthor()},
-       | contentHash: ${v.getContentHash()},
-       | nodes: ${v.getNodes()},
-       | edges: ${v.getEdges()}
-       |}
-  """.stripMargin
+     """.stripMargin
 }
