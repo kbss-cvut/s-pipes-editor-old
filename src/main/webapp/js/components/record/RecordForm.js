@@ -37,10 +37,7 @@ class RecordForm extends React.Component {
     };
 
     getFormData = () => {
-        // return QuestionAnswerProcessor.buildQuestionAnswerModel(WizardStore.getData(), WizardStore.getStepData());
-        return JSON.parse(JSON.stringify(WizardStore.getData()["root"]).replace(
-            /"@id" ?: ?"_:b\d",/g, ""
-        ));
+        return WizardStore.getData()["root"];
     };
 
     render() {
