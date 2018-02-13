@@ -35,8 +35,9 @@ class WebsocketController extends InitializingBean {
   private var env: Environment = _
 
   @OnError
-  def onError(t: Throwable): Unit = {
-    log.warn(t.getLocalizedMessage(), t.getStackTrace().mkString("\n\t"))
+  def onError(t: Throwable): Unit = t match {
+    case e: java.io.IOException if e.getMessage() == "Broken pipe" => ()
+    case _ => log.warn(t.getLocalizedMessage(), t.getStackTrace().mkString("\n\t"))
   }
 
   @OnClose
