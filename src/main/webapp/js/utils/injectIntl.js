@@ -13,14 +13,13 @@ module.exports = function (component, props) {
         props = {};
     }
 
-    // FIXME Production profile
-    // Store this only for development purposes
-    //if (process.env.NODE_ENV !== 'production') {
-        props.withRef = true;
+    // Store this only for development purposes and specific components
+    if (process.env.NODE_ENV !== 'production' || props.withRef) {
         const comp = injectIntl(component, props);
+        props.withRef = true;
         comp.wrappedComponent = comp;
         return comp;
-    /*} else {
+    } else {
         return injectIntl(component, props);
-    }*/
+    }
 };
