@@ -12,13 +12,15 @@ module.exports = function (component, props) {
     if (!props) {
         props = {};
     }
+
+    // FIXME Production profile
     // Store this only for development purposes
-    if (process.env.NODE_ENV !== 'production') {
+    //if (process.env.NODE_ENV !== 'production') {
         props.withRef = true;
         const comp = injectIntl(component, props);
         comp.wrappedComponent = comp;
         return comp;
-    } else {
+    /*} else {
         return injectIntl(component, props);
-    }
+    }*/
 };
