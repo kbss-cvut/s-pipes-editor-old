@@ -1,15 +1,19 @@
 package cz.cvut.kbss.spipes.rest
 
 import java.io.FileNotFoundException
+import java.util.UUID
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import cz.cvut.kbss.jsonld.JsonLd
 import cz.cvut.kbss.spipes.rest.QAController.FormDTO
 import cz.cvut.kbss.spipes.service.QAService
+import cz.cvut.kbss.spipes.util.ConfigParam.DEFAULT_CONTEXT
 import cz.cvut.kbss.spipes.util.Implicits._
 import cz.cvut.sforms.model.Question
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.PropertySource
+import org.springframework.core.env.Environment
 import org.springframework.http.{HttpStatus, ResponseEntity}
 import org.springframework.web.bind.annotation._
 
@@ -21,6 +25,7 @@ import scala.util.{Failure, Success}
   */
 @RestController
 @RequestMapping(path = Array("/scripts"))
+@PropertySource(Array("classpath:config.properties"))
 class QAController {
 
   private final val log = LoggerFactory.getLogger(classOf[QAController])
@@ -31,6 +36,8 @@ class QAController {
   @Autowired
   private var om: ObjectMapper = _
 
+  @Autowired
+  private var environment: Environment = _
 
   @PostMapping(
     path = Array("/{script}/forms"),
@@ -41,7 +48,11 @@ class QAController {
                     @RequestBody requestDTO: FormDTO,
                   ): ResponseEntity[Any] = {
     log.info("Generating form for script " + script + ", module " + requestDTO.module + " of type " + requestDTO.moduleType)
-    service.generateForm(script, requestDTO.module, requestDTO.moduleType) match {
+    service.generateForm(
+      script,
+      Option(requestDTO.module).getOrElse(environment.getProperty(DEFAULT_CONTEXT.value) + UUID.randomUUID().toString()),
+      requestDTO.moduleType
+    ) match {
       case Success(form) =>
         log.info("Form generated successfully for script " + script + ", module " + requestDTO.module + " of type " + requestDTO.moduleType)
         log.trace(form)
