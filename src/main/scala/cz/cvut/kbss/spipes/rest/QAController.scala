@@ -66,8 +66,12 @@ class QAController {
       case Some(q) =>
         log.info("Received answers for script " + script + ", module " + answerDto.module + ", module type " + answerDto.moduleType)
         log.trace("Root question:" + (q + ""))
-        service.mergeForm(script, q)
-        new ResponseEntity[Any](HttpStatus.NOT_IMPLEMENTED)
+        service.mergeForm(script, q) match {
+          case Success(_) => new ResponseEntity(HttpStatus.OK)
+          case Failure(e) =>
+            log.error(e.getLocalizedMessage(), e)
+            new ResponseEntity(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
+        }
       case None =>
         log.warn("No answers received for script " + script + ", module " + answerDto.module + ", module type " + answerDto.moduleType)
         new ResponseEntity("Root question must not be empty", HttpStatus.BAD_REQUEST)
@@ -82,9 +86,10 @@ object QAController {
                       @BeanProperty module: String,
                       @BeanProperty moduleType: String,
                       @BeanProperty rootQuestion: Option[Question]
-                           ) {
+                    ) {
     def this() {
       this(null, null, null)
     }
   }
+
 }
