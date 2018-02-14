@@ -48,8 +48,9 @@ class QAService {
       val fileName = environment.getProperty(scriptsLocation) + "/" + script
       val model = ModelFactory.createDefaultModel()
       model.read(fileName)
+      val res = transformer.form2Script(model, rootQuestion)
       val os = new FileOutputStream(fileName)
-      val res = transformer.form2Script(model, rootQuestion).write(os, "TTL")
+      res.write(os, "TTL")
       os.close()
       res
     }
