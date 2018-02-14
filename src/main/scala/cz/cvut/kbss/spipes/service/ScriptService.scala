@@ -57,5 +57,10 @@ class ScriptService {
         Left(e)
     }
 
-  def getScriptNames: Option[Seq[String]] = scriptDao.getScripts.map(_.map(_.getName))
+  def getScriptNames: Option[Seq[String]] = scriptDao.getScripts.map(_.map(_.getName)) match {
+    case Some(s) if s.nonEmpty =>
+      Some(s)
+    case _ =>
+      None
+  }
 }
