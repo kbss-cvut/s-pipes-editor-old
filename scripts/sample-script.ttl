@@ -1,10 +1,10 @@
-@prefix ff:    <http://vfn.cz/ontologies/fss-form/> .
 @prefix :      <http://vfn.cz/ontologies/fss-form-generation-0.1/> .
-@prefix e-m-i: <http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#> .
+@prefix ff:    <http://vfn.cz/ontologies/fss-form/> .
 @prefix e-m:   <http://onto.fel.cvut.cz/ontologies/eccairs/model/> .
+@prefix e-m-i: <http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
-@prefix fn:    <http://www.w3.org/2005/xpath-functions#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix fn:    <http://www.w3.org/2005/xpath-functions#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix smf:   <http://topbraid.org/sparqlmotionfunctions#> .
 @prefix spif:  <http://spinrdf.org/spif#> .
@@ -21,8 +21,8 @@
 @prefix form-lt: <http://onto.fel.cvut.cz/ontologies/form-layout/> .
 @prefix form-fss-gen-0.1: <http://vfn.cz/ontologies/fss-form-generation-0.1/> .
 @prefix daml:  <http://www.daml.org/2001/03/daml+oil#> .
-@prefix form:  <http://onto.fel.cvut.cz/ontologies/form/> .
 @prefix spr:   <http://spinrdf.org/spr#> .
+@prefix form:  <http://onto.fel.cvut.cz/ontologies/form/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix km-sesame: <http://onto.fel.cvut.cz/ontologies/lib/module/sesame/> .
 @prefix spin:  <http://spinrdf.org/spin#> .
@@ -265,14 +265,8 @@ sp:replace  a            spin:Function ;
         rdfs:seeAlso     <http://www.w3.org/TR/sparql11-query/#func-replace> ;
         rdfs:subClassOf  spl:StringFunctions ;
         spin:constraint  [ a              spl:Argument ;
-                           rdfs:comment   "Additional flags for the replacement." ;
-                           spl:optional   true ;
-                           spl:predicate  sp:arg4 ;
-                           spl:valueType  xsd:string
-                         ] ;
-        spin:constraint  [ a              spl:Argument ;
-                           rdfs:comment   "The input string." ;
-                           spl:predicate  sp:arg1 ;
+                           rdfs:comment   "The replacement string." ;
+                           spl:predicate  sp:arg3 ;
                            spl:valueType  xsd:string
                          ] ;
         spin:constraint  [ a              spl:Argument ;
@@ -281,8 +275,14 @@ sp:replace  a            spin:Function ;
                            spl:valueType  xsd:string
                          ] ;
         spin:constraint  [ a              spl:Argument ;
-                           rdfs:comment   "The replacement string." ;
-                           spl:predicate  sp:arg3 ;
+                           rdfs:comment   "Additional flags for the replacement." ;
+                           spl:optional   true ;
+                           spl:predicate  sp:arg4 ;
+                           spl:valueType  xsd:string
+                         ] ;
+        spin:constraint  [ a              spl:Argument ;
+                           rdfs:comment   "The input string." ;
+                           spl:predicate  sp:arg1 ;
                            spl:valueType  xsd:string
                          ] ;
         spin:returnType  xsd:string ;
@@ -347,15 +347,15 @@ spr:cellFunction  a         rdf:Property ;
         rdfs:range          spin:Function ;
         rdfs:subPropertyOf  spr:systemProperty .
 
-<http://www.topbraid.org/2007/05/composite.owl>
-        a                owl:Ontology ;
-        rdfs:comment     "A simple ontology to help representing part-of (parent/child) relationships." ;
-        owl:versionInfo  "Created with TopBraid Composer by Holger Knublauch" .
-
 sp:Filter  a             rdfs:Class ;
         rdfs:comment     "A constraint element that evaluates a given expression to true or false." ;
         rdfs:label       "Filter" ;
         rdfs:subClassOf  sp:Element .
+
+<http://www.topbraid.org/2007/05/composite.owl>
+        a                owl:Ontology ;
+        rdfs:comment     "A simple ontology to help representing part-of (parent/child) relationships." ;
+        owl:versionInfo  "Created with TopBraid Composer by Holger Knublauch" .
 
 sml:xmlType  a      rdf:Property ;
         rdfs:label  "xmlType" ;
@@ -517,9 +517,16 @@ spl:Attribute  a            spin:ConstructTemplate ;
                                             )
                             ] ;
         spin:constraint     [ a              spl:Argument ;
-                              rdfs:comment   "the default value of the attribute" ;
+                              rdfs:comment   "the maximum number of values permitted for the property" ;
                               spl:optional   true ;
-                              spl:predicate  spl:defaultValue
+                              spl:predicate  spl:maxCount ;
+                              spl:valueType  xsd:integer
+                            ] ;
+        spin:constraint     [ a              spl:Argument ;
+                              rdfs:comment   "the minimum number of values permitted for the property" ;
+                              spl:optional   true ;
+                              spl:predicate  spl:minCount ;
+                              spl:valueType  xsd:integer
                             ] ;
         spin:constraint     [ a              spl:Argument ;
                               rdfs:comment   "a comment describing the meaning of this attribute" ;
@@ -528,10 +535,9 @@ spl:Attribute  a            spin:ConstructTemplate ;
                               spl:valueType  xsd:string
                             ] ;
         spin:constraint     [ a              spl:Argument ;
-                              rdfs:comment   "the maximum number of values permitted for the property" ;
+                              rdfs:comment   "the default value of the attribute" ;
                               spl:optional   true ;
-                              spl:predicate  spl:maxCount ;
-                              spl:valueType  xsd:integer
+                              spl:predicate  spl:defaultValue
                             ] ;
         spin:constraint     [ a              spl:Argument ;
                               rdfs:comment   "the RDF property holding the attribute value" ;
@@ -543,12 +549,6 @@ spl:Attribute  a            spin:ConstructTemplate ;
                               spl:optional   true ;
                               spl:predicate  spl:valueType ;
                               spl:valueType  rdfs:Class
-                            ] ;
-        spin:constraint     [ a              spl:Argument ;
-                              rdfs:comment   "the minimum number of values permitted for the property" ;
-                              spl:optional   true ;
-                              spl:predicate  spl:minCount ;
-                              spl:valueType  xsd:integer
                             ] ;
         spin:labelTemplate  "Attribute {?predicate} : {?valueType} [{?minCount},{?maxCount}]" .
 
@@ -1100,6 +1100,12 @@ spin:SelectTemplate  a   rdfs:Class ;
                            spl:valueType  sp:Select
                          ] .
 
+sm:Functions  a          sm:Function ;
+        rdfs:comment     "An abstract superclass grouping together SPARQLMotion Functions." ;
+        rdfs:label       "Functions" ;
+        rdfs:subClassOf  spin:Functions ;
+        spin:abstract    true .
+
 spl:Test-instanceOf-lingualString
         a                   spl:TestCase ;
         spl:testExpression  [ a        spl:instanceOf ;
@@ -1107,12 +1113,6 @@ spl:Test-instanceOf-lingualString
                               sp:arg2  xsd:string
                             ] ;
         spl:testResult      true .
-
-sm:Functions  a          sm:Function ;
-        rdfs:comment     "An abstract superclass grouping together SPARQLMotion Functions." ;
-        rdfs:label       "Functions" ;
-        rdfs:subClassOf  spin:Functions ;
-        spin:abstract    true .
 
 sp:resultVariables  a       rdf:Property ;
         rdfs:comment        "An rdf:List of variables that are returned by a Select query." ;
@@ -1325,15 +1325,15 @@ sp:substr  a             spin:Function ;
         rdfs:seeAlso     <http://www.w3.org/TR/sparql11-query/#func-substr> ;
         rdfs:subClassOf  spl:StringFunctions ;
         spin:constraint  [ a              spl:Argument ;
-                           rdfs:comment   "The input string." ;
-                           spl:predicate  sp:arg1 ;
-                           spl:valueType  xsd:string
-                         ] ;
-        spin:constraint  [ a              spl:Argument ;
                            rdfs:comment   "The end index." ;
                            spl:optional   true ;
                            spl:predicate  sp:arg3 ;
                            spl:valueType  xsd:integer
+                         ] ;
+        spin:constraint  [ a              spl:Argument ;
+                           rdfs:comment   "The input string." ;
+                           spl:predicate  sp:arg1 ;
+                           spl:valueType  xsd:string
                          ] ;
         spin:constraint  [ a              spl:Argument ;
                            rdfs:comment   "The start index." ;
@@ -2014,7 +2014,6 @@ spr:resultFunction  a       rdf:Property ;
         rdfs:subPropertyOf  spr:systemProperty .
 
 sml:ApplyConstruct  a    sm:Module ;
-        sm:icon	         "gamepad" ;
         rdfs:comment     "Runs one or more SPARQL Construct queries on the input triples. The output RDF will consist of the constructed triples and (unless sml:replace is true) the input triples." ;
         rdfs:label       "Apply Construct" ;
         rdfs:subClassOf  sml:RDFProcessingModules ;
@@ -2027,7 +2026,8 @@ sml:ApplyConstruct  a    sm:Module ;
                            rdfs:comment   "If set to true, the output triples will only contain the constructed triples. If no values or false are specified, the output will be the union of the input triples and the constructed triples." ;
                            spl:optional   true ;
                            spl:predicate  sml:replace
-                         ] .
+                         ] ;
+        sm:icon          "gamepad" .
 
 spin:UpdateTemplate  a   rdfs:Class ;
         rdfs:comment     "A SPIN template that has an UPDATE command as its body." ;
@@ -2091,14 +2091,14 @@ sp:graphNameNode  a         rdf:Property ;
         rdfs:range          rdfs:Resource ;
         rdfs:subPropertyOf  sp:systemProperty .
 
-spin:MagicProperty  a    rdfs:Class ;
-        rdfs:label       "Magic property" ;
-        rdfs:subClassOf  spin:Function , rdf:Property .
-
 sp:Path  a               rdfs:Class ;
         rdfs:comment     "The base class of SPARQL property path expressions. Paths are used by sp:TriplePath triple paths." ;
         rdfs:label       "Path" ;
         rdfs:subClassOf  sp:SystemClass .
+
+spin:MagicProperty  a    rdfs:Class ;
+        rdfs:label       "Magic property" ;
+        rdfs:subClassOf  spin:Function , rdf:Property .
 
 spr:visitRow  a          spin:Function ;
         rdfs:comment     "Visits a given row ?arg2 of Table ?arg1 with a given spr:AggregatorStepFunction (?arg5) and then calls itself recursively until the last value index (?arg4) has been reached. ?arg6 is the result of the previous step." ;
@@ -2156,14 +2156,9 @@ spr:visitRow  a          spin:Function ;
                                                )
                          ] ;
         spin:constraint  [ a              spl:Argument ;
-                           rdfs:comment   "The row to iterate over." ;
-                           spl:predicate  sp:arg2 ;
+                           rdfs:comment   "The current step index." ;
+                           spl:predicate  sp:arg3 ;
                            spl:valueType  xsd:integer
-                         ] ;
-        spin:constraint  [ a              spl:Argument ;
-                           rdfs:comment   "The step function." ;
-                           spl:predicate  sp:arg5 ;
-                           spl:valueType  spin:Function
                          ] ;
         spin:constraint  [ a              spl:Argument ;
                            rdfs:comment   "The current aggregate value." ;
@@ -2175,14 +2170,19 @@ spr:visitRow  a          spin:Function ;
                            spl:valueType  spr:Table
                          ] ;
         spin:constraint  [ a              spl:Argument ;
-                           rdfs:comment   "The current step index." ;
-                           spl:predicate  sp:arg3 ;
-                           spl:valueType  xsd:integer
-                         ] ;
-        spin:constraint  [ a              spl:Argument ;
                            rdfs:comment   "The max number of steps to make." ;
                            spl:predicate  sp:arg4 ;
                            spl:valueType  xsd:integer
+                         ] ;
+        spin:constraint  [ a              spl:Argument ;
+                           rdfs:comment   "The row to iterate over." ;
+                           spl:predicate  sp:arg2 ;
+                           spl:valueType  xsd:integer
+                         ] ;
+        spin:constraint  [ a              spl:Argument ;
+                           rdfs:comment   "The step function." ;
+                           spl:predicate  sp:arg5 ;
+                           spl:valueType  spin:Function
                          ] .
 
 sm:nodeX  a           rdf:Property ;
@@ -2566,6 +2566,17 @@ sm:returnModule  a    rdf:Property ;
         rdfs:label    "return module" ;
         rdfs:range    sm:Modules .
 
+spif:buildString  a      spin:Function ;
+        rdfs:comment     "Constructs a new string by inserting the existing variable bindings into a template. The template can mention variable names in curly braces, such as \"Hello {?index}\" would create \"Hello 42\" is ?index has the value 42. As an alternative to variable names, the function can take additional arguments after the template, the variables of which can be accessed using {?1}, {?2} etc. For example: smf:buildString(\"Hello-{?1}-{?2}\", ?day, ?month) would insert day and month at places {?1} and {?2}." ;
+        rdfs:label       "build string" ;
+        rdfs:subClassOf  spl:StringFunctions ;
+        spin:constraint  [ a              spl:Argument ;
+                           rdfs:comment   "the template string" ;
+                           spl:predicate  sp:arg1 ;
+                           spl:valueType  xsd:string
+                         ] ;
+        spin:returnType  xsd:string .
+
 sml:ReturnXML  a         sm:Module ;
         rdfs:comment     "Represents the exit point of a function that returns XML. The function can be referenced from the outside (e.g., as a web service) by its URI or local name." ;
         rdfs:label       "Return XML" ;
@@ -2580,17 +2591,6 @@ sml:ReturnXML  a         sm:Module ;
                            spl:optional      true ;
                            spl:predicate     sml:mimeType
                          ] .
-
-spif:buildString  a      spin:Function ;
-        rdfs:comment     "Constructs a new string by inserting the existing variable bindings into a template. The template can mention variable names in curly braces, such as \"Hello {?index}\" would create \"Hello 42\" is ?index has the value 42. As an alternative to variable names, the function can take additional arguments after the template, the variables of which can be accessed using {?1}, {?2} etc. For example: smf:buildString(\"Hello-{?1}-{?2}\", ?day, ?month) would insert day and month at places {?1} and {?2}." ;
-        rdfs:label       "build string" ;
-        rdfs:subClassOf  spl:StringFunctions ;
-        spin:constraint  [ a              spl:Argument ;
-                           rdfs:comment   "the template string" ;
-                           spl:predicate  sp:arg1 ;
-                           spl:valueType  xsd:string
-                         ] ;
-        spin:returnType  xsd:string .
 
 spif:camelCase  a        spin:Function ;
         rdfs:comment     "Converts an input string into camel case. \nFor example, \"semantic web\" becomes \"SemanticWeb\".\nAn optional matching expression can be given to only convert the matched characters." ;
@@ -2676,13 +2676,6 @@ kbss-module:has-output-graph-constraint
         rdfs:label          "has output graph constraint" ;
         rdfs:subPropertyOf  spin:query .
 
-spin:labelTemplate  a       rdf:Property ;
-        rdfs:comment        "A template string for displaying instantiations of a module in human-readable form. The template may contain the argument variable names in curly braces to support substitution. For example, \"The number of values of the {?arg1} property.\"" ;
-        rdfs:domain         spin:Template ;
-        rdfs:label          "label template" ;
-        rdfs:range          xsd:string ;
-        rdfs:subPropertyOf  spin:systemProperty .
-
 spin:_this  a         sp:Variable ;
         rdfs:comment  "A system variable representing the current context instance in a rule or constraint." ;
         rdfs:label    "_this" ;
@@ -2710,6 +2703,13 @@ spl:subject  a           spin:Function ;
                            rdfs:comment   "The object." ;
                            spl:predicate  sp:arg2
                          ] .
+
+spin:labelTemplate  a       rdf:Property ;
+        rdfs:comment        "A template string for displaying instantiations of a module in human-readable form. The template may contain the argument variable names in curly braces to support substitution. For example, \"The number of values of the {?arg1} property.\"" ;
+        rdfs:domain         spin:Template ;
+        rdfs:label          "label template" ;
+        rdfs:range          xsd:string ;
+        rdfs:subPropertyOf  spin:systemProperty .
 
 sp:md5  a                spin:Function ;
         rdfs:comment     "Returns the MD5 checksum, as a hex digit string, calculated on the UTF-8 representation of the simple literal or lexical form of the xsd:string. Hex digits SHOULD be in lower case." ;
@@ -3189,14 +3189,9 @@ spif:canInvoke  a        spin:Function ;
         rdfs:label       "can invoke" ;
         rdfs:subClassOf  spl:MiscFunctions ;
         spin:constraint  [ a              spl:Argument ;
-                           rdfs:comment   "The third argument of the function call." ;
+                           rdfs:comment   "The second argument of the function call." ;
                            spl:optional   true ;
-                           spl:predicate  sp:arg4
-                         ] ;
-        spin:constraint  [ a              spl:Argument ;
-                           rdfs:comment   "The forth argument of the function call." ;
-                           spl:optional   true ;
-                           spl:predicate  sp:arg5
+                           spl:predicate  sp:arg3
                          ] ;
         spin:constraint  [ a              spl:Argument ;
                            rdfs:comment   "The first argument of the function call." ;
@@ -3204,14 +3199,19 @@ spif:canInvoke  a        spin:Function ;
                            spl:predicate  sp:arg2
                          ] ;
         spin:constraint  [ a              spl:Argument ;
-                           rdfs:comment   "The second argument of the function call." ;
+                           rdfs:comment   "The forth argument of the function call." ;
                            spl:optional   true ;
-                           spl:predicate  sp:arg3
+                           spl:predicate  sp:arg5
                          ] ;
         spin:constraint  [ a              spl:Argument ;
                            rdfs:comment   "The function to check." ;
                            spl:predicate  sp:arg1 ;
                            spl:valueType  spin:Function
+                         ] ;
+        spin:constraint  [ a              spl:Argument ;
+                           rdfs:comment   "The third argument of the function call." ;
+                           spl:optional   true ;
+                           spl:predicate  sp:arg4
                          ] ;
         spin:returnType  xsd:boolean .
 
@@ -4227,13 +4227,6 @@ sml:oldFilePath  a  rdf:Property ;
         rdfs:label  "old file path" ;
         rdfs:range  xsd:string .
 
-spin:symbol  a              rdf:Property ;
-        rdfs:comment        "The symbol of a function, e.g. \"=\" for the eq function." ;
-        rdfs:domain         spin:Function ;
-        rdfs:label          "symbol" ;
-        rdfs:range          xsd:string ;
-        rdfs:subPropertyOf  spin:systemProperty .
-
 sp:sha512  a             spin:Function ;
         rdfs:comment     "Returns the SHA512 checksum, as a hex digit string, calculated on the UTF-8 representation of the simple literal or lexical form of the xsd:string. Hex digits SHOULD be in lower case." ;
         rdfs:label       "sha512" ;
@@ -4245,6 +4238,13 @@ sp:sha512  a             spin:Function ;
                          ] ;
         spin:returnType  xsd:string ;
         spin:symbol      "SHA512" .
+
+spin:symbol  a              rdf:Property ;
+        rdfs:comment        "The symbol of a function, e.g. \"=\" for the eq function." ;
+        rdfs:domain         spin:Function ;
+        rdfs:label          "symbol" ;
+        rdfs:range          xsd:string ;
+        rdfs:subPropertyOf  spin:systemProperty .
 
 sp:node  a                  rdf:Property ;
         rdfs:domain         sp:ReverseLinkPath ;
@@ -4810,24 +4810,6 @@ form-fss-gen-0.1:construct-possible-values
                             ] ;
         sml:replace         true .
 
-sp:strbefore  a          spin:Function ;
-        rdfs:comment     "Returns a literal of the same kind (simple literal, plain literal same language tag, xsd:string) as the first argument arg1. The lexical form of the result is the substring of the value of arg1 that precedes in arg1 the first occurrence of the lexical form of arg2; otherwise the lexical form of the result is the empty string. If the lexical form of arg2 is the empty string, the lexical form of the result is the emprty string." ;
-        rdfs:label       "strbefore" ;
-        rdfs:seeAlso     <http://www.w3.org/TR/sparql11-query/#func-strbefore> ;
-        rdfs:subClassOf  spl:StringFunctions ;
-        spin:constraint  [ a              spl:Argument ;
-                           rdfs:comment   "The input string." ;
-                           spl:predicate  sp:arg1 ;
-                           spl:valueType  xsd:string
-                         ] ;
-        spin:constraint  [ a              spl:Argument ;
-                           rdfs:comment   "The pattern to find within the input string." ;
-                           spl:predicate  sp:arg2 ;
-                           spl:valueType  xsd:string
-                         ] ;
-        spin:returnType  xsd:string ;
-        spin:symbol      "STRBEFORE" .
-
 sml:ImportRDFFromWorkspace
         a                sm:Module ;
         rdfs:comment     "Loads an RDF file from the workspace, based on its base URI (or a path to the file). If the file is already open, it will reuse the currently open model (including any changes that it has compared to the persistent version). The system will use which ever physical file has been registered for the given base URI.  This is the recommended module to load any file type supported by TopBraid, including file serializations (Turtle, RDF/XML and N-TRIPLE), data connectors, XML files (Semantic XML), Excel .xls or .xlsx files (Semantic Tables), etc.  If the file being opened is a file, the file is loaded into memory.  If it is a data connector (RDF or relational back-end), the data source is opened, but no data is loaded into memory. The output graph of this module is the loaded graph only, i.e. other input modules are not passed on." ;
@@ -4857,6 +4839,24 @@ spl:UnionTemplate  a     rdfs:Class ;
         rdfs:comment     "This type can be used for templates that serve as the union (or \"collector\") of other templates. Union templates differ from other templates in that all spl:Arguments are optional. This means that union templates can be declared as subclasses of multiple other templates, yet when instantiated, only some of the arguments defined by the superclasses need to be filled in." ;
         rdfs:label       "Union template" ;
         rdfs:subClassOf  spin:Template .
+
+sp:strbefore  a          spin:Function ;
+        rdfs:comment     "Returns a literal of the same kind (simple literal, plain literal same language tag, xsd:string) as the first argument arg1. The lexical form of the result is the substring of the value of arg1 that precedes in arg1 the first occurrence of the lexical form of arg2; otherwise the lexical form of the result is the empty string. If the lexical form of arg2 is the empty string, the lexical form of the result is the emprty string." ;
+        rdfs:label       "strbefore" ;
+        rdfs:seeAlso     <http://www.w3.org/TR/sparql11-query/#func-strbefore> ;
+        rdfs:subClassOf  spl:StringFunctions ;
+        spin:constraint  [ a              spl:Argument ;
+                           rdfs:comment   "The input string." ;
+                           spl:predicate  sp:arg1 ;
+                           spl:valueType  xsd:string
+                         ] ;
+        spin:constraint  [ a              spl:Argument ;
+                           rdfs:comment   "The pattern to find within the input string." ;
+                           spl:predicate  sp:arg2 ;
+                           spl:valueType  xsd:string
+                         ] ;
+        spin:returnType  xsd:string ;
+        spin:symbol      "STRBEFORE" .
 
 composite:child  a     owl:ObjectProperty ;
         rdfs:comment   "The object is the child of the subject." ;
@@ -5540,6 +5540,13 @@ sp:isIRI  a              spin:Function ;
         spin:returnType  xsd:boolean ;
         spin:symbol      "isIRI" .
 
+form-fss-gen-0.1:bind-sample-form-uri-zzzz
+        a                  sm:Modules , sml:BindWithConstant ;
+        rdfs:label         "zzzz" ;
+        sm:next            form-fss-gen-0.1:bind-fss-sample-service-url , <http://onto.fel.cvut.cz/ontologies/vfn-form-mod/deploy-sample-form> ;
+        sm:outputVariable  "studySampleFormUri" ;
+        sml:value          "http://vfn.cz/ontologies/fss-form-sample" .
+
 spin:Fatal  a         spin:ConstraintViolationLevel ;
         rdfs:comment  "Indicates that the associated constraint violation is a severe error that must be fixed. Constraint checking engines may decide to stop further evaluation once a fatal error has been detected." ;
         rdfs:label    "Fatal" .
@@ -5597,25 +5604,6 @@ spr:visitCol  a          spin:Function ;
                                                )
                          ] ;
         spin:constraint  [ a              spl:Argument ;
-                           rdfs:comment   "The step function." ;
-                           spl:predicate  sp:arg5 ;
-                           spl:valueType  spin:Function
-                         ] ;
-        spin:constraint  [ a              spl:Argument ;
-                           rdfs:comment   "The current aggregate value." ;
-                           spl:predicate  sp:arg6
-                         ] ;
-        spin:constraint  [ a              spl:Argument ;
-                           rdfs:comment   "The spr:Table to iterate over." ;
-                           spl:predicate  sp:arg1 ;
-                           spl:valueType  spr:Table
-                         ] ;
-        spin:constraint  [ a              spl:Argument ;
-                           rdfs:comment   "The row to iterate over." ;
-                           spl:predicate  sp:arg2 ;
-                           spl:valueType  xsd:integer
-                         ] ;
-        spin:constraint  [ a              spl:Argument ;
                            rdfs:comment   "The current step index." ;
                            spl:predicate  sp:arg3 ;
                            spl:valueType  xsd:integer
@@ -5624,6 +5612,25 @@ spr:visitCol  a          spin:Function ;
                            rdfs:comment   "The max number of steps to make." ;
                            spl:predicate  sp:arg4 ;
                            spl:valueType  xsd:integer
+                         ] ;
+        spin:constraint  [ a              spl:Argument ;
+                           rdfs:comment   "The current aggregate value." ;
+                           spl:predicate  sp:arg6
+                         ] ;
+        spin:constraint  [ a              spl:Argument ;
+                           rdfs:comment   "The row to iterate over." ;
+                           spl:predicate  sp:arg2 ;
+                           spl:valueType  xsd:integer
+                         ] ;
+        spin:constraint  [ a              spl:Argument ;
+                           rdfs:comment   "The step function." ;
+                           spl:predicate  sp:arg5 ;
+                           spl:valueType  spin:Function
+                         ] ;
+        spin:constraint  [ a              spl:Argument ;
+                           rdfs:comment   "The spr:Table to iterate over." ;
+                           spl:predicate  sp:arg1 ;
+                           spl:valueType  spr:Table
                          ] .
 
 spr:Avg  a                  spr:Aggregator ;
@@ -5842,25 +5849,25 @@ sm:Modules  a             rdfs:Class ;
         rdfs:subClassOf   spin:Modules ;
         spin:abstract     true ;
         spin:constraint   [ a              spl:Argument ;
-                            rdfs:comment   "Condition on output graph of this module." ;
-                            spl:optional   true ;
-                            spl:predicate  kbss-module:has-output-graph-constraint
-                          ] ;
-        spin:constraint   [ a              spl:Argument ;
-                            rdfs:comment   "Indicates whether this module should be executed as target module in debug environment." ;
-                            spl:optional   true ;
-                            spl:predicate  kbss-module:has-target-module-flag ;
-                            spl:valueType  xsd:boolean
-                          ] ;
-        spin:constraint   [ a              spl:Argument ;
                             rdfs:comment   "Condition on input graph of this module." ;
                             spl:optional   true ;
                             spl:predicate  kbss-module:has-input-graph-constraint
                           ] ;
         spin:constraint   [ a              spl:Argument ;
+                            rdfs:comment   "Condition on output graph of this module." ;
+                            spl:optional   true ;
+                            spl:predicate  kbss-module:has-output-graph-constraint
+                          ] ;
+        spin:constraint   [ a              spl:Argument ;
                             rdfs:comment   "Indicates whether this module should be in debug mode." ;
                             spl:optional   true ;
                             spl:predicate  kbss-module:has-debug-mode-flag ;
+                            spl:valueType  xsd:boolean
+                          ] ;
+        spin:constraint   [ a              spl:Argument ;
+                            rdfs:comment   "Indicates whether this module should be executed as target module in debug environment." ;
+                            spl:optional   true ;
+                            spl:predicate  kbss-module:has-target-module-flag ;
                             spl:valueType  xsd:boolean
                           ] ;
         spin:constructor  [ a  spl:ConstructDefaultValues ] .
@@ -5908,6 +5915,11 @@ spif:buildStringFromRDFList
                          ] ;
         spin:returnType  xsd:string .
 
+kbss-module:has-input-graph-constraint
+        a                   rdf:Property ;
+        rdfs:label          "has input graph constraint" ;
+        rdfs:subPropertyOf  spin:query .
+
 sp:isBlank  a            spin:Function ;
         rdfs:comment     "Checks whether a given node is a blank node." ;
         rdfs:label       "isBlank" ;
@@ -5918,11 +5930,6 @@ sp:isBlank  a            spin:Function ;
                          ] ;
         spin:returnType  xsd:boolean ;
         spin:symbol      "isBlank" .
-
-kbss-module:has-input-graph-constraint
-        a                   rdf:Property ;
-        rdfs:label          "has input graph constraint" ;
-        rdfs:subPropertyOf  spin:query .
 
 sml:uri  a          rdf:Property ;
         rdfs:label  "uri" ;
@@ -6318,13 +6325,6 @@ sp:ceil  a               spin:Function ;
                            spl:predicate  sp:arg1
                          ] ;
         spin:symbol      "ceil" .
-
-form-fss-gen-0.1:bind-sample-form-uri
-        a                  sm:Modules , sml:BindWithConstant ;
-        rdfs:label         "bind sample form uri" ;
-        sm:next            <http://onto.fel.cvut.cz/ontologies/vfn-form-mod/deploy-sample-form> , form-fss-gen-0.1:bind-fss-sample-service-url ;
-        sm:outputVariable  "studySampleFormUri" ;
-        sml:value          "http://vfn.cz/ontologies/fss-form-sample" .
 
 sm:body  a                  rdf:Property ;
         rdfs:comment        "Links an iterator modules with its body, i.e. the start of a module chain that is executed as part of the loop." ;
@@ -6996,7 +6996,6 @@ spr:hasCell  a           spin:Function ;
         spin:returnType  xsd:boolean .
 
 sml:BindWithConstant  a  sm:Module ;
-	    sm:icon	         "bath" ;
         rdfs:comment     "Binds a variable with a given RDF node." ;
         rdfs:label       "Bind with constant" ;
         rdfs:subClassOf  sml:ControlFlowModules ;
@@ -7008,10 +7007,10 @@ sml:BindWithConstant  a  sm:Module ;
                            rdfs:comment      "The name of the variable that will hold the constant. Default: text." ;
                            spl:defaultValue  "text" ;
                            spl:predicate     sm:outputVariable
-                         ] .
+                         ] ;
+        sm:icon          "bath" .
 
 sml:ExportToTextFile  a  sm:Module ;
-        sm:icon	         "free-code-camp" ;
         rdfs:comment     "Saves text to a file. The text must be the value of the specified input variable." ;
         rdfs:label       "Export to text file" ;
         rdfs:subClassOf  sml:ExportToLocalModules ;
@@ -7034,7 +7033,8 @@ sml:ExportToTextFile  a  sm:Module ;
                            spl:optional   true ;
                            spl:predicate  sml:encoding ;
                            spl:valueType  xsd:string
-                         ] .
+                         ] ;
+        sm:icon          "free-code-camp" .
 
 spr:rowCells  a             spin:MagicProperty ;
         rdfs:comment        "Iterates over all colums of a given table (left side, ?arg1) at row ?arg2 and binds the variable on the right with the cell values. The second variable on the right may be bound to the column index as well." ;
@@ -7151,7 +7151,6 @@ sp:Ask  a                rdfs:Class ;
         rdfs:subClassOf  sp:Query .
 
 sml:ApplyTopSPIN  a      sm:Module ;
-        sm:icon	         "birthday-cake" ;
         rdfs:comment     "Applies the TopSPIN rules inference engine on the input graph. This assumes that the input graph contains one or more SPIN rules (stored using the property specified under sml:predicate, which defaults to spin:rule)." ;
         rdfs:label       "Apply TopSPIN" ;
         rdfs:subClassOf  sml:RDFProcessingModules ;
@@ -7179,7 +7178,8 @@ sml:ApplyTopSPIN  a      sm:Module ;
                            spl:optional      true ;
                            spl:predicate     sml:predicate ;
                            spl:valueType     rdf:Property
-                         ] .
+                         ] ;
+        sm:icon          "birthday-cake" .
 
 spr:ColTypeFunctions  a  spin:Function ;
         rdfs:label       "Column type functions" ;
@@ -7217,10 +7217,10 @@ sml:serialization  a  rdf:Property ;
 
 sml:XMLProcessingModules
         a                sm:Module ;
-        sm:icon	         "hard-of-hearing" ;
         rdfs:label       "XML Processing" ;
         rdfs:subClassOf  sml:ProcessingModules ;
-        spin:abstract    true .
+        spin:abstract    true ;
+        sm:icon          "hard-of-hearing" .
 
 spin:thisUnbound  a         rdf:Property ;
         rdfs:comment        "Can be set to true for SPIN rules and constraints that do not require pre-binding the variable ?this with all members of the associated class. This flag should only be set to true if the WHERE clause is sufficiently strong to only bind instances of the associated class, or its subclasses. In those cases, the engine can greatly improve performance of query execution, because it does not need to add clauses to narrow down the WHERE clause." ;
@@ -7242,7 +7242,6 @@ sp:Minus  a              rdfs:Class ;
         rdfs:subClassOf  sp:ElementGroup .
 
 sml:ExportToXMLFile  a   sm:Module ;
-        sm:icon	         "free-code-camp" ;
         rdfs:comment     "Creates an XML file from the value of the input variable." ;
         rdfs:label       "Export to XML file" ;
         rdfs:subClassOf  sml:ExportToLocalModules ;
@@ -7253,7 +7252,8 @@ sml:ExportToXMLFile  a   sm:Module ;
         spin:constraint  [ a              spl:Argument ;
                            rdfs:comment   "The path to the output file. The path can be relative to the current script's folder (e.g., myFolder/test.xml) or absolute to the workspace root /myProject/myFolder/test.xml." ;
                            spl:predicate  sml:targetFilePath
-                         ] .
+                         ] ;
+        sm:icon          "free-code-camp" .
 
 spl:hasArgument  a       spin:Function ;
         rdfs:comment     "Checks if a given module class (?module) has at least one declared spl:Argument." ;
@@ -7498,12 +7498,6 @@ sml:singlePass  a   rdf:Property ;
         rdfs:label  "single pass" ;
         rdfs:range  xsd:boolean .
 
-spr:MagicProperties  a      spin:MagicProperty ;
-        rdfs:label          "Magic SPR properties" ;
-        rdfs:subClassOf     spin:MagicProperties ;
-        rdfs:subPropertyOf  spr:systemProperty ;
-        spin:abstract       true .
-
 sml:AppendText  a        sm:Module ;
         rdfs:comment     "Appends a given text (possibly containing template expressions, sml:template) to the value of a given variable (sml:variable) and binds the concatenation of the old value plus the new text to the same variable. This can be used to incrementally build up a string." ;
         rdfs:label       "Append text" ;
@@ -7523,6 +7517,12 @@ sml:AppendText  a        sm:Module ;
 spr:Aggregator  a     rdfs:Class ;
         rdfs:comment  "A pair of SPARQL functions that can be used to aggregate values of a SPR table. Instances of this class can be passed into the various aggregateXY functions." ;
         rdfs:label    "Aggregator" .
+
+spr:MagicProperties  a      spin:MagicProperty ;
+        rdfs:label          "Magic SPR properties" ;
+        rdfs:subClassOf     spin:MagicProperties ;
+        rdfs:subPropertyOf  spr:systemProperty ;
+        spin:abstract       true .
 
 spr:rowIndices  a           spin:MagicProperty ;
         rdfs:comment        "Iterates over all rows of a given table (left side, ?arg1) and binds the variable on the right with the index of the rows." ;
@@ -7719,10 +7719,21 @@ spl:Argument  a             spin:ConstructTemplate ;
                                             )
                             ] ;
         spin:constraint     [ a              spl:Argument ;
-                              rdfs:comment   "a comment describing the argument" ;
+                              rdfs:comment   "the property holding the values of each function call" ;
+                              spl:predicate  spl:predicate ;
+                              spl:valueType  rdf:Property
+                            ] ;
+        spin:constraint     [ a              spl:Argument ;
+                              rdfs:comment   "Indicates whether this is a \"hidden\" argument. Hidden arguments will not be presented to the user in input dialogs but instead always have their defaultValue." ;
                               spl:optional   true ;
-                              spl:predicate  rdfs:comment ;
-                              spl:valueType  xsd:string
+                              spl:predicate  sml:hidden ;
+                              spl:valueType  xsd:boolean
+                            ] ;
+        spin:constraint     [ a              spl:Argument ;
+                              rdfs:comment   "indicates whether the argument is optional" ;
+                              spl:optional   true ;
+                              spl:predicate  spl:optional ;
+                              spl:valueType  xsd:boolean
                             ] ;
         spin:constraint     [ a              spl:Argument ;
                               rdfs:comment   "the value type of the argument" ;
@@ -7736,21 +7747,10 @@ spl:Argument  a             spin:ConstructTemplate ;
                               spl:predicate  spl:defaultValue
                             ] ;
         spin:constraint     [ a              spl:Argument ;
-                              rdfs:comment   "the property holding the values of each function call" ;
-                              spl:predicate  spl:predicate ;
-                              spl:valueType  rdf:Property
-                            ] ;
-        spin:constraint     [ a              spl:Argument ;
-                              rdfs:comment   "indicates whether the argument is optional" ;
+                              rdfs:comment   "a comment describing the argument" ;
                               spl:optional   true ;
-                              spl:predicate  spl:optional ;
-                              spl:valueType  xsd:boolean
-                            ] ;
-        spin:constraint     [ a              spl:Argument ;
-                              rdfs:comment   "Indicates whether this is a \"hidden\" argument. Hidden arguments will not be presented to the user in input dialogs but instead always have their defaultValue." ;
-                              spl:optional   true ;
-                              spl:predicate  sml:hidden ;
-                              spl:valueType  xsd:boolean
+                              spl:predicate  rdfs:comment ;
+                              spl:valueType  xsd:string
                             ] ;
         spin:labelTemplate  "Argument {?predicate} : {?valueType}" .
 
