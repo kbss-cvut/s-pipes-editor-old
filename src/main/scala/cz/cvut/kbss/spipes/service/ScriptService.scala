@@ -3,10 +3,10 @@ package cz.cvut.kbss.spipes.service
 import java.io.FileNotFoundException
 import java.util.{List => JList}
 
+import cz.cvut.kbss.spipes.Logger
 import cz.cvut.kbss.spipes.model.spipes.{Module, ModuleType}
 import cz.cvut.kbss.spipes.persistence.dao.ScriptDao
 import cz.cvut.kbss.spipes.util.Implicits._
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -17,9 +17,7 @@ import scala.util.{Failure, Success}
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 22.12.16.
   */
 @Service
-class ScriptService {
-
-  private final val log = LoggerFactory.getLogger(classOf[ScriptService])
+class ScriptService extends Logger[ScriptService] {
 
   @Autowired
   private var scriptDao: ScriptDao = _

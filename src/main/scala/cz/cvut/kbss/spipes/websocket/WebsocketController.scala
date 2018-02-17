@@ -5,11 +5,9 @@ import javax.websocket._
 import javax.websocket.server.ServerEndpoint
 
 import cz.cvut.kbss.spipes.util.ConfigParam.SCRIPTS_LOCATION
-import org.slf4j.LoggerFactory
+import cz.cvut.kbss.spipes.util.Implicits.configParamValue
+import cz.cvut.kbss.spipes.{Logger, PropertySource}
 import org.springframework.beans.factory.InitializingBean
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.PropertySource
-import org.springframework.core.env.Environment
 import org.springframework.stereotype.Controller
 import org.springframework.web.socket.server.standard.SpringConfigurator
 
@@ -24,15 +22,7 @@ import scala.util.{Failure, Try}
   */
 @Controller
 @ServerEndpoint(value = "/websocket", configurator = classOf[SpringConfigurator])
-@PropertySource(Array("classpath:config.properties"))
-class WebsocketController extends InitializingBean {
-
-  private final val log = LoggerFactory.getLogger(classOf[WebsocketController])
-
-  private val scriptsLocation = SCRIPTS_LOCATION.value
-
-  @Autowired
-  private var env: Environment = _
+class WebsocketController extends InitializingBean with PropertySource with Logger[WebsocketController] {
 
   @OnError
   def onError(t: Throwable): Unit = t match {
@@ -56,7 +46,7 @@ class WebsocketController extends InitializingBean {
   def register(script: String, session: Session): Unit = {
     Try {
       log.info("Session " + session + " registered on " + script)
-      val fileName = env.getProperty(scriptsLocation) + "/" + script
+      val fileName = getProperty(SCRIPTS_LOCATION) + "/" + script
       if (WebsocketController.subscribers.keySet.contains(fileName))
         WebsocketController.subscribers(fileName) = WebsocketController.subscribers(fileName) + session
       else
@@ -70,7 +60,7 @@ class WebsocketController extends InitializingBean {
 
 
   override def afterPropertiesSet(): Unit = {
-    val path = Paths.get(env.getProperty(scriptsLocation))
+    val path = Paths.get(getProperty(SCRIPTS_LOCATION))
     val service = path.getFileSystem().newWatchService()
     path.register(service, StandardWatchEventKinds.ENTRY_MODIFY)
 

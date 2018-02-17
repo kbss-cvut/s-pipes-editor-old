@@ -11,12 +11,11 @@ import cz.cvut.kbss.ontodriver.config.OntoDriverProperties
 import cz.cvut.kbss.ontodriver.sesame.config.SesameOntoDriverProperties
 import cz.cvut.kbss.spipes.model.Vocabulary
 import cz.cvut.kbss.spipes.model.spipes.{Module, ModuleType}
-import cz.cvut.kbss.spipes.util.ConfigParam.SCRIPTS_LOCATION
+import cz.cvut.kbss.spipes.util.ConfigParam._
+import cz.cvut.kbss.spipes.util.Implicits.configParamValue
 import cz.cvut.kbss.spipes.util.{Constants, JopaPersistenceUtils}
+import cz.cvut.kbss.spipes.{Logger, PropertySource}
 import org.eclipse.rdf4j.rio.RDFFormat
-import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.core.env.Environment
 import org.springframework.stereotype.Repository
 
 import scala.collection.JavaConverters._
@@ -27,14 +26,7 @@ import scala.util.Try
   * Created by Miroslav Blasko on 2.1.17.
   */
 @Repository
-class ScriptDao {
-
-  private final val log = LoggerFactory.getLogger(classOf[ScriptDao])
-
-  private val scriptsLocation = SCRIPTS_LOCATION.value
-
-  @Autowired
-  private var env: Environment = _
+class ScriptDao extends PropertySource with Logger[ScriptDao] {
 
   var emf: EntityManagerFactory = _
 
@@ -60,7 +52,7 @@ class ScriptDao {
 
   def getModules(fileName: String): Try[JList[Module]] = {
     log.info("Fetching modules from file " + fileName)
-    val filePath = env.getProperty(scriptsLocation) + "/" + fileName
+    val filePath = getProperty(SCRIPTS_LOCATION) + "/" + fileName
     val em = emf.createEntityManager()
     Try {
 
@@ -78,7 +70,7 @@ class ScriptDao {
 
   def getModuleTypes(fileName: String): Try[JList[ModuleType]] = {
     log.info("Fetching moduleTypes from file " + fileName)
-    val filePath = env.getProperty(scriptsLocation) + "/" + fileName
+    val filePath = getProperty(SCRIPTS_LOCATION) + "/" + fileName
     val em = emf.createEntityManager()
     Try {
 
@@ -101,7 +93,7 @@ class ScriptDao {
   }
 
   def getScripts: Option[Seq[File]] = {
-    val scriptsPath = env.getProperty(scriptsLocation)
+    val scriptsPath = getProperty(SCRIPTS_LOCATION)
     log.info("Looking for any scripts in " + scriptsPath)
     Option(new File(scriptsPath).listFiles())
       .map(_.filterNot(_.isDirectory()))

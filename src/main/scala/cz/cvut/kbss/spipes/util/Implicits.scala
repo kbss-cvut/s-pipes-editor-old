@@ -1,6 +1,7 @@
 package cz.cvut.kbss.spipes.util
 
 import cz.cvut.kbss.spipes.model.AbstractEntity
+import cz.cvut.kbss.spipes.util.ConfigParam.ConfigValue
 import cz.cvut.sforms.model.{Answer, Question}
 
 import scala.collection.JavaConverters._
@@ -47,4 +48,6 @@ object Implicits {
        | ${e.getClass().getMethods().filter(_.getName().contains("get")).map((m) => m.getName() + ": " + m.invoke(e)).mkString(",\n ")}
        |}
      """.stripMargin
+
+  implicit def configParamValue(c: ConfigValue): String = c.value
 }

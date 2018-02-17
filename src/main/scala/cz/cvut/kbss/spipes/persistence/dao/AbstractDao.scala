@@ -5,9 +5,9 @@ import java.util.{List => JList}
 
 import cz.cvut.kbss.jopa.model.EntityManagerFactory
 import cz.cvut.kbss.jopa.model.annotations.OWLClass
+import cz.cvut.kbss.spipes.Logger
 import cz.cvut.kbss.spipes.model.AbstractEntity
 import cz.cvut.kbss.spipes.util.Implicits._
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 
 import scala.reflect.ClassTag
@@ -16,10 +16,7 @@ import scala.util.{Failure, Success, Try}
 /**
   * Created by yan on 2/10/17.
   */
-abstract class AbstractDao[T <: AbstractEntity] {
-
-  protected final val log = LoggerFactory.getLogger(classOf[AbstractDao[T]])
-
+abstract class AbstractDao[T <: AbstractEntity] extends Logger[AbstractDao[T]] {
   @Autowired
   protected var emf: EntityManagerFactory = _
 

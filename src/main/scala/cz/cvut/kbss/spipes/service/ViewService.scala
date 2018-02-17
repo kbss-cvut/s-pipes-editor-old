@@ -2,10 +2,10 @@ package cz.cvut.kbss.spipes.service
 
 import java.util
 
+import cz.cvut.kbss.spipes.Logger
 import cz.cvut.kbss.spipes.model.view.{Edge, Node, View}
 import cz.cvut.kbss.spipes.persistence.dao.ViewDao
 import cz.cvut.kbss.spipes.util.Implicits._
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -15,9 +15,7 @@ import scala.collection.JavaConverters._
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 22.12.16.
   */
 @Service
-class ViewService {
-
-  private final val log = LoggerFactory.getLogger(classOf[ViewService])
+class ViewService extends Logger[ViewService] {
 
   @Autowired
   private var viewDao: ViewDao = _

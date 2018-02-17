@@ -1,13 +1,10 @@
 package cz.cvut.kbss.spipes.rest
 
 import cz.cvut.kbss.jsonld.JsonLd
+import cz.cvut.kbss.spipes.Logger
 import cz.cvut.kbss.spipes.service.ScriptService
-import cz.cvut.kbss.spipes.util.ConfigParam.SPIPES_LOCATION
 import cz.cvut.kbss.spipes.util.Implicits._
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.PropertySource
-import org.springframework.core.env.Environment
 import org.springframework.http.{HttpStatus, ResponseEntity}
 import org.springframework.web.bind.annotation.{GetMapping, PathVariable, RequestMapping, RestController}
 
@@ -18,18 +15,10 @@ import scala.collection.JavaConverters.{seqAsJavaListConverter, setAsJavaSetConv
   */
 @RestController
 @RequestMapping(path = Array("/scripts"))
-@PropertySource(Array("classpath:config.properties"))
-class ScriptController {
-
-  private final val log = LoggerFactory.getLogger(classOf[ScriptController])
-
-  @Autowired
-  private var environment: Environment = _
+class ScriptController extends Logger[ScriptController] {
 
   @Autowired
   private var service: ScriptService = _
-
-  private val spipesLocation = SPIPES_LOCATION.value
 
   @GetMapping(path = Array("/{script}/moduleTypes"), produces = Array(JsonLd.MEDIA_TYPE))
   def getModuleTypes(@PathVariable script: String): ResponseEntity[Any] = {
