@@ -9,12 +9,12 @@ import cz.cvut.kbss.jopa.Persistence
 import cz.cvut.kbss.jopa.model._
 import cz.cvut.kbss.ontodriver.config.OntoDriverProperties
 import cz.cvut.kbss.ontodriver.sesame.config.SesameOntoDriverProperties
-import cz.cvut.kbss.spipes.model.Vocabulary
 import cz.cvut.kbss.spipes.model.spipes.{Module, ModuleType}
+import cz.cvut.kbss.spipes.model.{AbstractEntity, Vocabulary}
 import cz.cvut.kbss.spipes.util.ConfigParam._
 import cz.cvut.kbss.spipes.util.Implicits.configParamValue
 import cz.cvut.kbss.spipes.util.{Constants, JopaPersistenceUtils}
-import cz.cvut.kbss.spipes.{Logger, PropertySource}
+import cz.cvut.kbss.spipes.{Logger, PropertySource, ResourceManager}
 import org.eclipse.rdf4j.rio.RDFFormat
 import org.springframework.stereotype.Repository
 
@@ -26,7 +26,7 @@ import scala.util.Try
   * Created by Miroslav Blasko on 2.1.17.
   */
 @Repository
-class ScriptDao extends PropertySource with Logger[ScriptDao] {
+class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManager {
 
   var emf: EntityManagerFactory = _
 
@@ -50,47 +50,28 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] {
     emf = Persistence.createEntityManagerFactory("testPersistenceUnit", props.asJava)
   }
 
-  def getModules(fileName: String): Try[JList[Module]] = {
-    log.info("Fetching modules from file " + fileName)
+  def getModules(fileName: String): Try[JList[Module]] = get(fileName, Vocabulary.s_c_Modules)(classOf[Module])
+
+  def getModuleTypes(fileName: String): Try[JList[ModuleType]] = get(fileName, Vocabulary.s_c_Module)(classOf[ModuleType])
+
+
+  private def get[T <: AbstractEntity](fileName: String, owlClass: String)(resultClass: Class[T]) = {
+    log.info("Fetching " + resultClass.getSimpleName() + "s from file " + fileName)
     val filePath = getProperty(SCRIPTS_LOCATION) + "/" + fileName
     val em = emf.createEntityManager()
-    Try {
-
-      //TODO load data into NEW TEMPORARY JOPA context
-      val repo = JopaPersistenceUtils.getRepository(em)
-      repo.getConnection().add(Source.fromFile(filePath).reader(), "http://temporary", RDFFormat.TURTLE)
+    val repo = JopaPersistenceUtils.getRepository(em)
+    cleanly(repo.getConnection())(c => {
+      c.clear()
+      c.close()
+    })(connection => {
+      connection.add(Source.fromFile(filePath).reader(), "http://temporary", RDFFormat.TURTLE)
 
       // retrieve JOPA objects by callback function
-      emf.getCache().evict(classOf[Module]);
-      val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[Module])
-        .setParameter("type", URI.create(Vocabulary.s_c_Modules))
+      emf.getCache().evict(classOf[ModuleType])
+      val query = em.createNativeQuery("select ?s where { ?s a ?type }", resultClass)
+        .setParameter("type", URI.create(owlClass))
       query.getResultList()
-    }
-  }
-
-  def getModuleTypes(fileName: String): Try[JList[ModuleType]] = {
-    log.info("Fetching moduleTypes from file " + fileName)
-    val filePath = getProperty(SCRIPTS_LOCATION) + "/" + fileName
-    val em = emf.createEntityManager()
-    Try {
-
-      //TODO load data into NEW TEMPORARY JOPA context
-      val repo = JopaPersistenceUtils.getRepository(em)
-      val connection = repo.getConnection()
-      connection.add(Source.fromFile(filePath).reader(), "http://temporary", RDFFormat.TURTLE);
-
-      // retrieve JOPA objects by callback function
-      emf.getCache().evict(classOf[ModuleType]);
-      val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[ModuleType])
-        .setParameter("type", URI.create(Vocabulary.s_c_Module))
-      val res = query.getResultList()
-
-      //TODO ADD try with resource for connection variable !!!
-      connection.clear()
-      connection.close()
-
-      res
-    }
+    })
   }
 
   def getScripts: Option[Seq[File]] = {

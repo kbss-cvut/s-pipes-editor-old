@@ -14,6 +14,8 @@ import scala.util.Try
 @Repository
 class ViewDao extends AbstractDao[View] {
 
+  override implicit protected val resultClass: Class[View] = classOf[View]
+
   def getViewNodes(uri: URI): Try[JSet[Node]] =
     get(uri).map(_.getNodes())
 
