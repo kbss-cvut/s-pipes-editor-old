@@ -258,16 +258,18 @@
                         <version>1.4.0</version>
                         <executions>
                             <execution>
-                                <id>npm-version</id>
+                                <id>create-dirs</id>
                                 <goals>
                                     <goal>exec</goal>
                                 </goals>
                                 <phase>compile</phase>
                                 <configuration>
-                                    <workingDirectory>src/main/webapp/</workingDirectory>
-                                    <executable>npm</executable>
+                                    <workingDirectory>${project.basedir}</workingDirectory>
+                                    <executable>mkdir</executable>
                                     <arguments>
-                                        <argument>-v</argument>
+                                        <argument>-p</argument>
+                                        <argument>profiles/production/js</argument>
+                                        <argument>profiles/production/resources/css</argument>
                                     </arguments>
                                 </configuration>
                             </execution>
