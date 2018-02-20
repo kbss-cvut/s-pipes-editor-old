@@ -26,7 +26,7 @@ class WebsocketController extends InitializingBean with PropertySource with Logg
 
   @OnError
   def onError(t: Throwable): Unit = t match {
-    case e: java.io.IOException if e.getMessage() == "Broken pipe" => ()
+    case e: java.io.IOException if e.getMessage() == "java.io.IOException: Broken pipe" => ()
     case _ => log.warn(t.getLocalizedMessage(), t.getStackTrace().mkString("\n\t"))
   }
 
