@@ -61,7 +61,7 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] {
       repo.getConnection().add(Source.fromFile(filePath).reader(), "http://temporary", RDFFormat.TURTLE)
 
       // retrieve JOPA objects by callback function
-
+      emf.getCache().evict(classOf[Module]);
       val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[Module])
         .setParameter("type", URI.create(Vocabulary.s_c_Modules))
       query.getResultList()
@@ -77,14 +77,15 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] {
       //TODO load data into NEW TEMPORARY JOPA context
       val repo = JopaPersistenceUtils.getRepository(em)
       val connection = repo.getConnection()
-      connection.add(Source.fromFile(filePath).reader(), "http://temporary", RDFFormat.TURTLE)
+      connection.add(Source.fromFile(filePath).reader(), "http://temporary", RDFFormat.TURTLE);
 
       // retrieve JOPA objects by callback function
-
+      emf.getCache().evict(classOf[ModuleType]);
       val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[ModuleType])
         .setParameter("type", URI.create(Vocabulary.s_c_Module))
       val res = query.getResultList()
 
+      //TODO ADD try with resource for connection variable !!!
       connection.clear()
       connection.close()
 
