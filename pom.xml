@@ -109,11 +109,6 @@
             <artifactId>jackson-databind</artifactId>
             <version>${com.fasterxml.json.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.module</groupId>
-            <artifactId>jackson-module-scala_2.12</artifactId>
-            <version>${com.fasterxml.json.version}</version>
-        </dependency>
 
         <!-- JSON-LD -->
         <dependency>
@@ -209,6 +204,7 @@
             <version>${org.mockito.mockito-all.version}</version>
         </dependency>
 
+        <!-- Semantic Pipes Forms -->
         <dependency>
             <groupId>cz.cvut.kbss</groupId>
             <artifactId>semantic-pipes-forms</artifactId>

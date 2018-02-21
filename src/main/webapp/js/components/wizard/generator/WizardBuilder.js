@@ -10,14 +10,18 @@ import TypeaheadResultList from '../../typeahead/TypeaheadResultList';
 import WizardStore from '../../../stores/WizardStore';
 
 const FORM_GEN_URL = 'rest/scripts/';
+const QUESTION_DTO = "http://onto.fel.cvut.cz/ontologies/s-pipes-view/question-dto";
+const MODULE_URI = "http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-module-uri";
+const MODULE_TYPE_URI = "http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-module-type-uri";
 
 export default class WizardBuilder {
 
     static generateWizard(script, module, moduleType, record, renderCallback) {
-        Ajax.post(FORM_GEN_URL + script + "/forms", JSON.stringify({
-            module: module,
-            moduleType: moduleType
-        })).end((data) => {
+        const request = {};
+        request["@type"] = QUESTION_DTO;
+        request[MODULE_TYPE_URI] = moduleType;
+        request[MODULE_URI] = module;
+        Ajax.post(FORM_GEN_URL + script + "/forms", JSON.stringify(request)).end((data) => {
             Configuration.actions = Actions;
             Configuration.wizardStore = WizardStore;
             Configuration.optionsStore = FormGenStore;

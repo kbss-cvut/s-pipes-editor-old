@@ -5,17 +5,15 @@ import java.util.UUID
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import cz.cvut.kbss.jsonld.JsonLd
-import cz.cvut.kbss.spipes.rest.QAController.FormDTO
+import cz.cvut.kbss.spipes.model.spipes.QuestionDTO
 import cz.cvut.kbss.spipes.service.QAService
 import cz.cvut.kbss.spipes.util.ConfigParam.DEFAULT_CONTEXT
 import cz.cvut.kbss.spipes.util.Implicits._
 import cz.cvut.kbss.spipes.{Logger, PropertySource}
-import cz.cvut.sforms.model.Question
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
 import org.springframework.web.bind.annotation._
 
-import scala.beans.BeanProperty
 import scala.util.{Failure, Success}
 
 /**
@@ -37,16 +35,16 @@ class QAController extends PropertySource with Logger[QAController] {
     produces = Array(JsonLd.MEDIA_TYPE))
   def generateForm(
                     @PathVariable script: String,
-                    @RequestBody requestDTO: FormDTO,
+                    @RequestBody requestDTO: QuestionDTO,
                   ): ResponseEntity[Any] = {
-    log.info("Generating form for script " + script + ", module " + requestDTO.module + " of type " + requestDTO.moduleType)
+    log.info("Generating form for script " + script + ", module " + requestDTO.getModule() + " of type " + requestDTO.getModule())
     service.generateForm(
       script,
-      Option(requestDTO.module).getOrElse(getProperty(DEFAULT_CONTEXT) + UUID.randomUUID().toString()),
-      requestDTO.moduleType
+      Option(requestDTO.getModule()).getOrElse(getProperty(DEFAULT_CONTEXT) + UUID.randomUUID().toString()),
+      requestDTO.getModuleType()
     ) match {
       case Success(form) =>
-        log.info("Form generated successfully for script " + script + ", module " + requestDTO.module + " of type " + requestDTO.moduleType)
+        log.info("Form generated successfully for script " + script + ", module " + requestDTO.getModule() + " of type " + requestDTO.getModuleType())
         log.trace(form)
         new ResponseEntity(form, HttpStatus.OK)
       case Failure(_: FileNotFoundException) =>
@@ -63,36 +61,24 @@ class QAController extends PropertySource with Logger[QAController] {
     consumes = Array("application/json"))
   def mergeForm(
                  @PathVariable script: String,
-                 @RequestBody answerDto: FormDTO,
+                 @RequestBody answerDto: QuestionDTO,
                ): ResponseEntity[Any] = {
-    answerDto.rootQuestion match {
+    val module = answerDto.getModule()
+    val moduleType = answerDto.getModuleType()
+    val rootQuestion = answerDto.getRootQuestion()
+    Option(rootQuestion) match {
       case Some(q) =>
-        log.info("Received answers for script " + script + ", module " + answerDto.module + ", module type " + answerDto.moduleType)
+        log.info("Received answers for script " + script + ", module " + module + ", module type " + moduleType)
         log.trace("Root question:" + (q + ""))
-        service.mergeForm(script, q, answerDto.moduleType) match {
+        service.mergeForm(script, q, moduleType) match {
           case Success(_) => new ResponseEntity(HttpStatus.OK)
           case Failure(e) =>
             log.error(e.getLocalizedMessage(), e)
             new ResponseEntity(e.getClass().getSimpleName() + ": " + e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
         }
       case None =>
-        log.warn("No answers received for script " + script + ", module " + answerDto.module + ", module type " + answerDto.moduleType)
+        log.warn("No answers received for script " + script + ", module " + module + ", module type " + moduleType)
         new ResponseEntity("Root question must not be empty", HttpStatus.BAD_REQUEST)
-
     }
   }
-}
-
-object QAController {
-
-  case class FormDTO(
-                      @BeanProperty module: String,
-                      @BeanProperty moduleType: String,
-                      @BeanProperty rootQuestion: Option[Question]
-                    ) {
-    def this() {
-      this(null, null, null)
-    }
-  }
-
 }
