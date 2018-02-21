@@ -33,13 +33,13 @@ class QAService extends PropertySource with Logger[QAService] {
     }
   }
 
-  def mergeForm(script: String, rootQuestion: Question): Try[Model] = {
+  def mergeForm(script: String, rootQuestion: Question, moduleType: String): Try[Model] = {
     log.info("Merging form for script " + script)
     Try {
       val fileName = getProperty(SCRIPTS_LOCATION) + "/" + script
       val model = ModelFactory.createDefaultModel()
       model.read(fileName)
-      val res = transformer.form2Script(model, rootQuestion)
+      val res = transformer.form2Script(model, rootQuestion, moduleType)
       val os = new FileOutputStream(fileName)
       res.write(os, "TTL")
       os.close()

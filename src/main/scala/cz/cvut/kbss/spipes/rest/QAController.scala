@@ -69,7 +69,7 @@ class QAController extends PropertySource with Logger[QAController] {
       case Some(q) =>
         log.info("Received answers for script " + script + ", module " + answerDto.module + ", module type " + answerDto.moduleType)
         log.trace("Root question:" + (q + ""))
-        service.mergeForm(script, q) match {
+        service.mergeForm(script, q, answerDto.moduleType) match {
           case Success(_) => new ResponseEntity(HttpStatus.OK)
           case Failure(e) =>
             log.error(e.getLocalizedMessage(), e)
