@@ -67,7 +67,7 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManag
       connection.add(Source.fromFile(filePath).reader(), "http://temporary", RDFFormat.TURTLE)
 
       // retrieve JOPA objects by callback function
-      emf.getCache().evict(classOf[ModuleType])
+      emf.getCache().evict(resultClass)
       val query = em.createNativeQuery("select ?s where { ?s a ?type }", resultClass)
         .setParameter("type", URI.create(owlClass))
       query.getResultList()
