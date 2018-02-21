@@ -54,7 +54,7 @@ class QAController extends PropertySource with Logger[QAController] {
         new ResponseEntity(HttpStatus.NOT_FOUND)
       case Failure(e: Throwable) =>
         log.error(e.getLocalizedMessage(), e)
-        new ResponseEntity(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
+        new ResponseEntity(e.getClass().getSimpleName() + ": " + e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }
 
@@ -73,7 +73,7 @@ class QAController extends PropertySource with Logger[QAController] {
           case Success(_) => new ResponseEntity(HttpStatus.OK)
           case Failure(e) =>
             log.error(e.getLocalizedMessage(), e)
-            new ResponseEntity(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
+            new ResponseEntity(e.getClass().getSimpleName() + ": " + e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
         }
       case None =>
         log.warn("No answers received for script " + script + ", module " + answerDto.module + ", module type " + answerDto.moduleType)
