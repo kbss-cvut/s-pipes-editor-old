@@ -18,7 +18,7 @@
         <ch.qos.logback.logback-classic.version>1.2.3</ch.qos.logback.logback-classic.version>
         <com.fasterxml.json.version>2.9.4</com.fasterxml.json.version>
         <cz.cvut.kbss.jsonld.jb4jsonld-jackson.version>0.2.1</cz.cvut.kbss.jsonld.jb4jsonld-jackson.version>
-        <cz.cvut.kbss.jopa.version>0.9.12</cz.cvut.kbss.jopa.version>
+        <cz.cvut.kbss.jopa.version>0.9.15</cz.cvut.kbss.jopa.version>
         <javax.servlet.servlet-api.version>3.1.0</javax.servlet.servlet-api.version>
         <junit.junit.version>4.12</junit.junit.version>
         <maven-war-plugin.version>3.1.0</maven-war-plugin.version>
