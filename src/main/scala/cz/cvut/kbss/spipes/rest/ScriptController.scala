@@ -2,13 +2,15 @@ package cz.cvut.kbss.spipes.rest
 
 import cz.cvut.kbss.jsonld.JsonLd
 import cz.cvut.kbss.spipes.Logger
+import cz.cvut.kbss.spipes.model.spipes.QuestionDTO
 import cz.cvut.kbss.spipes.service.ScriptService
 import cz.cvut.kbss.spipes.util.Implicits._
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
-import org.springframework.web.bind.annotation.{GetMapping, PathVariable, RequestMapping, RestController}
+import org.springframework.web.bind.annotation._
 
 import scala.collection.JavaConverters.{seqAsJavaListConverter, setAsJavaSetConverter}
+import scala.util.{Failure, Success}
 
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 05.01.17.
@@ -66,6 +68,23 @@ class ScriptController extends Logger[ScriptController] {
       case None =>
         log.info("No scripts found")
         new ResponseEntity("No scripts found", HttpStatus.NOT_FOUND)
+    }
+  }
+
+  @PostMapping(path = Array("/{script}/modules/delete"))
+  def deleteModule(
+                    @PathVariable script: String,
+                    @RequestBody dto: QuestionDTO
+                  ): ResponseEntity[Any] = {
+    val module = dto.getModule()
+    log.info("Deleting module " + module + " from " + script)
+    service.deleteModule(script, module) match {
+      case Success(_) =>
+        log.info("Module " + module + " succesfully deleted from " + script)
+        new ResponseEntity[Any](HttpStatus.NO_CONTENT)
+      case Failure(e: Throwable) =>
+        log.error(e.getLocalizedMessage(), e)
+        new ResponseEntity[Any](e.getClass().getSimpleName() + ": " + e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }
 }

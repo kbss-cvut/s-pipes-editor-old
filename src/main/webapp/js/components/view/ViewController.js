@@ -26,6 +26,7 @@ import Hammer from 'hammerjs';
 import Routes from '../../utils/Routes';
 import Routing from '../../utils/Routing';
 import ModuleTypeStore from '../../stores/ModuleTypeStore';
+import ModuleStore from '../../stores/ModuleStore';
 import ViewStore from '../../stores/ViewStore';
 import QAStore from '../../stores/QAStore';
 
@@ -109,7 +110,7 @@ class ViewController extends React.Component {
                         icon: "trash-o",
                         iconLabel: "delete",
                         action: function (graph, itemKey) {
-                            graph.removeNode(itemKey);
+                            that.deleteModule(itemKey);
                         }
                     }
                 },
@@ -239,6 +240,7 @@ class ViewController extends React.Component {
     componentDidMount() {
         that = this;
         this.unsubscribeModuleTypes = ModuleTypeStore.listen(this._moduleTypesLoaded);
+        this.unsubscribeModules = ModuleStore.listen(this._moduleTypesLoaded);
         this.unsubscribeView = ViewStore.listen(this._viewLoaded);
         this.unsubscribeQA = QAStore.listen(this._onCancel)
     };
@@ -354,6 +356,7 @@ class ViewController extends React.Component {
 
     componentWillUnmount() {
         this.unsubscribeModuleTypes();
+        this.unsubscribeModules();
         this.unsubscribeView();
     };
 
@@ -366,6 +369,10 @@ class ViewController extends React.Component {
             formVisible: true
         });
     };
+
+    deleteModule(moduleId) {
+        Actions.deleteModule(this._getScript(), moduleId);
+    }
 
     addNode(id, label, type) {
         this.state.view.startTransaction('loadgraph');
