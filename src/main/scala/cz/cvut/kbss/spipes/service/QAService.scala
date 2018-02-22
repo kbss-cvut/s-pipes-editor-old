@@ -4,7 +4,7 @@ import java.io.FileOutputStream
 
 import cz.cvut.kbss.spipes.util.ConfigParam._
 import cz.cvut.kbss.spipes.util.Implicits.configParamValue
-import cz.cvut.kbss.spipes.{Logger, PropertySource}
+import cz.cvut.kbss.spipes.{Logger, PropertySource, ResourceManager}
 import cz.cvut.sempipes.transform.{Transformer, TransformerImpl}
 import cz.cvut.sforms.model.Question
 import org.apache.jena.rdf.model.{Model, ModelFactory}
@@ -16,7 +16,7 @@ import scala.util.Try
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 22.12.16.
   */
 @Service
-class QAService extends PropertySource with Logger[QAService] {
+class QAService extends PropertySource with Logger[QAService] with ResourceManager {
 
   private val transformer: Transformer = new TransformerImpl()
 
@@ -35,15 +35,13 @@ class QAService extends PropertySource with Logger[QAService] {
 
   def mergeForm(script: String, rootQuestion: Question, moduleType: String): Try[Model] = {
     log.info("Merging form for script " + script)
-    Try {
-      val fileName = getProperty(SCRIPTS_LOCATION) + "/" + script
-      val model = ModelFactory.createDefaultModel()
-      model.read(fileName)
+    val fileName = getProperty(SCRIPTS_LOCATION) + "/" + script
+    val model = ModelFactory.createDefaultModel()
+    model.read(fileName)
+    cleanly(new FileOutputStream(fileName))(_.close())(os => {
       val res = transformer.form2Script(model, rootQuestion, moduleType)
-      val os = new FileOutputStream(fileName)
       res.write(os, "TTL")
-      os.close()
       res
-    }
+    })
   }
 }
