@@ -1,6 +1,6 @@
 package cz.cvut.kbss.spipes.service
 
-import java.io.{FileNotFoundException, FileOutputStream}
+import java.io.{File, FileNotFoundException, FileOutputStream}
 import java.util.{List => JList}
 
 import cz.cvut.kbss.spipes.model.spipes.{Module, ModuleType}
@@ -12,7 +12,8 @@ import org.apache.jena.rdf.model.{Model, ModelFactory}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
-import scala.collection.JavaConverters.asScalaBufferConverter
+import scala.collection.JavaConverters._
+import scala.io.Source
 import scala.util.{Failure, Success, Try}
 
 /**
@@ -57,9 +58,9 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
         Left(e)
     }
 
-  def getScriptNames: Option[Seq[String]] = scriptDao.getScripts.map(_.map(_.getName)) match {
+  def getScriptNames: Option[Set[String]] = scriptDao.getScripts.map(_.diff(ignored)) match {
     case Some(s) if s.nonEmpty =>
-      Some(s)
+      Some(s.map(_.getName()))
     case _ =>
       None
   }
@@ -73,5 +74,47 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
       model.removeAll(model.getResource(module), null, null)
       model.write(os, "TTL")
     })
+  }
+
+  private lazy val ignored = {
+    val sc = getProperty(SCRIPTS_LOCATION)
+    val ignoreFileName = sc + "/.spipesignore"
+    if (new File(ignoreFileName).exists()) {
+
+      val ignored = collection.mutable.Set[File]()
+      val unignored = collection.mutable.Set[File]()
+
+      val lines = Source.fromFile(ignoreFileName).getLines().toSeq
+
+      def flatten(file: File)(acc: Set[File]): Set[File] =
+        if (file.isDirectory())
+          file.listFiles().map(f => flatten(f)(acc)).reduceLeft(_ ++ _)
+        else
+          acc + file
+
+      for (l <- lines.filter(_.nonEmpty)) {
+        if (l.startsWith("!")) {
+          if (l.endsWith("*"))
+            if (l.substring(0, l.length() - 1).endsWith("/"))
+              ignored --= flatten(new File(String.format("%s/%s", getProperty(SCRIPTS_LOCATION), l.tail.substring(0, l.length() - 2))))(Set())
+            else
+              ignored --= flatten(new File(String.format("%s/%s", getProperty(SCRIPTS_LOCATION), l.tail.substring(0, l.length() - 1))))(Set())
+          else
+            ignored --= flatten(new File(String.format("%s/%s", getProperty(SCRIPTS_LOCATION), l.tail)))(Set())
+        }
+        else {
+          if (l.endsWith("*"))
+            if (l.substring(0, l.length() - 1).endsWith("/"))
+              ignored ++= flatten(new File(String.format("%s/%s", getProperty(SCRIPTS_LOCATION), l.substring(0, l.length() - 2))))(Set())
+            else
+              ignored ++= flatten(new File(String.format("%s/%s", getProperty(SCRIPTS_LOCATION), l.substring(0, l.length() - 1))))(Set())
+          else
+            ignored ++= flatten(new File(String.format("%s/%s", getProperty(SCRIPTS_LOCATION), l)))(Set())
+        }
+      }
+      ignored
+    }
+    else
+      Set[File]()
   }
 }

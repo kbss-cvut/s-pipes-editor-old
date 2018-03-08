@@ -74,10 +74,20 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManag
     })
   }
 
-  def getScripts: Option[Seq[File]] = {
+  def getScripts: Option[Set[File]] = {
     val scriptsPath = getProperty(SCRIPTS_LOCATION)
     log.info("Looking for any scripts in " + scriptsPath)
-    Option(new File(scriptsPath).listFiles())
-      .map(_.filterNot(_.isDirectory()))
+    Option(find(new File(scriptsPath), Set()))
   }
+
+  private def find(root: File, acc: Set[File]): Set[File] =
+    if (root.isFile())
+      acc + root
+    else if (root.isDirectory())
+      root.listFiles() match {
+        case s if s.nonEmpty => s.map((f) => find(f, acc)).reduceLeft(_ ++ _)
+        case _ => acc
+      }
+    else
+      acc
 }
