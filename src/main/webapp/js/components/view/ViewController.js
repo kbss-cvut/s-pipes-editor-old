@@ -164,6 +164,7 @@ class ViewController extends React.Component {
             module={this.state.moduleId}
             loading={this.state.loading}/>;
         moduleTypeAhead = <Typeahead
+            allowReset={true}
             options={this.state.moduleTypes}
             displayOption={LABEL}
             filterOption={LABEL}
