@@ -58,7 +58,9 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
         Left(e)
     }
 
-  def getScriptNames: Option[Set[String]] = scriptDao.getScripts.map(_.diff(ignored)) match {
+  def getScriptNames: Option[Set[String]] = scriptDao.getScripts.map(
+    _.filter(f => f.getName().toLowerCase().endsWith(".ttl")).diff(ignored)
+  ) match {
     case Some(s) if s.nonEmpty =>
       Some(s.map(_.getName()))
     case _ =>
