@@ -58,7 +58,7 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
     }
 
   def getScriptNames: Option[Set[String]] = scriptDao.getScripts.map(
-    _.filter(f => f.getName().toLowerCase().endsWith(".ttl")).diff(ignored)
+    _.filter(f => f.getName().toLowerCase().endsWith(".ttl"))
   ) match {
     case Some(s) if s.nonEmpty =>
       Some(s.map(_.getName()))
@@ -77,45 +77,6 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
     })
   }
 
-  private lazy val ignored = {
-    val sc = getProperty(SCRIPTS_LOCATION)
-    val ignoreFileName = sc + "/.spipesignore"
-    if (new File(ignoreFileName).exists()) {
+  //  def getOntologyUri(f: File) =
 
-      val ignored = collection.mutable.Set[File]()
-      val unignored = collection.mutable.Set[File]()
-
-      val lines = Source.fromFile(ignoreFileName).getLines().toSeq
-
-      def flatten(file: File)(acc: Set[File]): Set[File] =
-        if (file.isDirectory())
-          file.listFiles().map(f => flatten(f)(acc)).reduceLeft(_ ++ _)
-        else
-          acc + file
-
-      for (l <- lines.filter(_.nonEmpty)) {
-        if (l.startsWith("!")) {
-          if (l.endsWith("*"))
-            if (l.substring(0, l.length() - 1).endsWith("/"))
-              ignored --= flatten(new File(String.format("%s/%s", getProperty(SCRIPTS_LOCATION), l.tail.substring(0, l.length() - 2))))(Set())
-            else
-              ignored --= flatten(new File(String.format("%s/%s", getProperty(SCRIPTS_LOCATION), l.tail.substring(0, l.length() - 1))))(Set())
-          else
-            ignored --= flatten(new File(String.format("%s/%s", getProperty(SCRIPTS_LOCATION), l.tail)))(Set())
-        }
-        else {
-          if (l.endsWith("*"))
-            if (l.substring(0, l.length() - 1).endsWith("/"))
-              ignored ++= flatten(new File(String.format("%s/%s", getProperty(SCRIPTS_LOCATION), l.substring(0, l.length() - 2))))(Set())
-            else
-              ignored ++= flatten(new File(String.format("%s/%s", getProperty(SCRIPTS_LOCATION), l.substring(0, l.length() - 1))))(Set())
-          else
-            ignored ++= flatten(new File(String.format("%s/%s", getProperty(SCRIPTS_LOCATION), l)))(Set())
-        }
-      }
-      ignored
-    }
-    else
-      Set[File]()
-  }
 }

@@ -76,7 +76,7 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManag
   def getScripts: Option[Set[File]] = {
     val scriptsPath = getProperty(SCRIPTS_LOCATION)
     log.info("Looking for any scripts in " + scriptsPath)
-    Option(find(new File(scriptsPath), Set()))
+    Option(find(new File(scriptsPath), Set()).diff(ignored))
   }
 
   private def find(root: File, acc: Set[File]): Set[File] =
@@ -89,4 +89,45 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManag
       }
     else
       acc
+
+  private def ignored = {
+    val sc = getProperty(SCRIPTS_LOCATION)
+    val ignoreFileName = sc + "/.spipesignore"
+    if (new File(ignoreFileName).exists()) {
+
+      val ignored = collection.mutable.Set[File]()
+
+      val lines = Source.fromFile(ignoreFileName).getLines().toSeq
+
+      def flatten(file: File)(acc: Set[File]): Set[File] =
+        if (file.isDirectory())
+          file.listFiles().map(f => flatten(f)(acc)).reduceLeft(_ ++ _)
+        else
+          acc + file
+
+      for (l <- lines.filter(_.nonEmpty)) {
+        if (l.startsWith("!")) {
+          if (l.endsWith("*"))
+            if (l.substring(0, l.length() - 1).endsWith("/"))
+              ignored --= flatten(new File(String.format("%s/%s", getProperty(SCRIPTS_LOCATION), l.tail.substring(0, l.length() - 2))))(Set())
+            else
+              ignored --= flatten(new File(String.format("%s/%s", getProperty(SCRIPTS_LOCATION), l.tail.substring(0, l.length() - 1))))(Set())
+          else
+            ignored --= flatten(new File(String.format("%s/%s", getProperty(SCRIPTS_LOCATION), l.tail)))(Set())
+        }
+        else {
+          if (l.endsWith("*"))
+            if (l.substring(0, l.length() - 1).endsWith("/"))
+              ignored ++= flatten(new File(String.format("%s/%s", getProperty(SCRIPTS_LOCATION), l.substring(0, l.length() - 2))))(Set())
+            else
+              ignored ++= flatten(new File(String.format("%s/%s", getProperty(SCRIPTS_LOCATION), l.substring(0, l.length() - 1))))(Set())
+          else
+            ignored ++= flatten(new File(String.format("%s/%s", getProperty(SCRIPTS_LOCATION), l)))(Set())
+        }
+      }
+      ignored
+    }
+    else
+      Set[File]()
+  }
 }
