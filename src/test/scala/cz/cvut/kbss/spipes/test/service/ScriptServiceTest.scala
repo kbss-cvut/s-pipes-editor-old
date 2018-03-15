@@ -94,7 +94,7 @@ class ScriptServiceTest extends BaseServiceTestRunner {
 
   @Test
   def modelLoadsOnlyOwnStatements: Unit = {
-    val script = getClass().getClassLoader().getResource("scripts/sample-script.ttl").toString()
+    val script = getClass().getClassLoader().getResource("scripts/sample-script.ttl").getFile()
     val model = ModelFactory.createDefaultModel().read(script)
     val statements = model.listStatements().toList()
     assertTrue(statements.size() == 9)
