@@ -1,6 +1,6 @@
 package cz.cvut.kbss.spipes.test.service
 
-import java.io.FileNotFoundException
+import java.io.{File, FileNotFoundException}
 import java.util
 
 import cz.cvut.kbss.spipes.model.spipes.{Module, ModuleType}
@@ -98,5 +98,11 @@ class ScriptServiceTest extends BaseServiceTestRunner {
     val model = ModelFactory.createDefaultModel().read(script)
     val statements = model.listStatements().toList()
     assertTrue(statements.size() == 9)
+  }
+
+  @Test
+  def getOntologyUriReturnsCorrectURI: Unit = {
+    val script = getClass().getClassLoader().getResource("scripts/sample-script.ttl").getFile()
+    assertEquals(Success(Some("http://www.semanticweb.org/sample-script")), service.getOntologyUri(new File(script)))
   }
 }
