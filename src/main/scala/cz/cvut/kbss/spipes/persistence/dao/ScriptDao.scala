@@ -80,7 +80,7 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManag
   }
 
   private def find(root: File, acc: Set[File]): Set[File] =
-    if (root.isFile())
+    if (root.isFile() && root.getName().contains(".ttl"))
       acc + root
     else if (root.isDirectory())
       root.listFiles() match {
