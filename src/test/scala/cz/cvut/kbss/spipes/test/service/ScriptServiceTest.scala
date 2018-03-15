@@ -6,6 +6,7 @@ import java.util
 import cz.cvut.kbss.spipes.model.spipes.{Module, ModuleType}
 import cz.cvut.kbss.spipes.persistence.dao.ScriptDao
 import cz.cvut.kbss.spipes.service.ScriptService
+import org.apache.jena.rdf.model.ModelFactory
 import org.junit.Assert._
 import org.junit.Test
 import org.mockito.Mockito.when
@@ -89,5 +90,13 @@ class ScriptServiceTest extends BaseServiceTestRunner {
       l.add(new Module()))
     when(dao.getModules(fileName)).thenReturn(Success(l))
     assertEquals(Right(Some(l.asScala)), service.getModules(fileName))
+  }
+
+  @Test
+  def modelLoadsOnlyOwnStatements: Unit = {
+    val script = getClass().getClassLoader().getResource("scripts/sample-script.ttl").toString()
+    val model = ModelFactory.createDefaultModel().read(script)
+    val statements = model.listStatements().toList()
+    assertTrue(statements.size() == 9)
   }
 }
