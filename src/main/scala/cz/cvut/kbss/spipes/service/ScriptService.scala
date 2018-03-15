@@ -1,19 +1,18 @@
 package cz.cvut.kbss.spipes.service
 
-import java.io.{File, FileNotFoundException, FileOutputStream}
+import java.io.{FileNotFoundException, FileOutputStream}
 import java.util.{List => JList}
 
 import cz.cvut.kbss.spipes.model.spipes.{Module, ModuleType}
 import cz.cvut.kbss.spipes.persistence.dao.ScriptDao
 import cz.cvut.kbss.spipes.util.ConfigParam.SCRIPTS_LOCATION
 import cz.cvut.kbss.spipes.util.Implicits._
-import cz.cvut.kbss.spipes.{Logger, PropertySource, ResourceManager}
+import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager}
 import org.apache.jena.rdf.model.{Model, ModelFactory}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 import scala.collection.JavaConverters._
-import scala.io.Source
 import scala.util.{Failure, Success, Try}
 
 /**

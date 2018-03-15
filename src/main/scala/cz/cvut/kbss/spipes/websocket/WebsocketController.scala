@@ -6,7 +6,7 @@ import javax.websocket.server.ServerEndpoint
 
 import cz.cvut.kbss.spipes.util.ConfigParam.SCRIPTS_LOCATION
 import cz.cvut.kbss.spipes.util.Implicits.configParamValue
-import cz.cvut.kbss.spipes.{Logger, PropertySource}
+import cz.cvut.kbss.spipes.util.{Logger, PropertySource}
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.stereotype.Controller
 import org.springframework.web.socket.server.standard.SpringConfigurator

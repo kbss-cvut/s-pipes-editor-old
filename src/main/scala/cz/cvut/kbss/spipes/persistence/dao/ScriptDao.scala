@@ -13,8 +13,7 @@ import cz.cvut.kbss.spipes.model.spipes.{Module, ModuleType}
 import cz.cvut.kbss.spipes.model.{AbstractEntity, Vocabulary}
 import cz.cvut.kbss.spipes.util.ConfigParam._
 import cz.cvut.kbss.spipes.util.Implicits.configParamValue
-import cz.cvut.kbss.spipes.util.{Constants, JopaPersistenceUtils}
-import cz.cvut.kbss.spipes.{Logger, PropertySource, ResourceManager}
+import cz.cvut.kbss.spipes.util._
 import org.eclipse.rdf4j.rio.RDFFormat
 import org.springframework.stereotype.Repository
 

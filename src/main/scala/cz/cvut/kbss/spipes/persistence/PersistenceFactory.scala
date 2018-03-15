@@ -8,9 +8,8 @@ import cz.cvut.kbss.jopa.model.PersistenceProperties.JPA_PERSISTENCE_PROVIDER
 import cz.cvut.kbss.jopa.model.{EntityManagerFactory, JOPAPersistenceProvider}
 import cz.cvut.kbss.ontodriver.config.OntoDriverProperties
 import cz.cvut.kbss.spipes.util.ConfigParam._
-import cz.cvut.kbss.spipes.util.Constants
+import cz.cvut.kbss.spipes.util.{Constants, Logger, PropertySource}
 import cz.cvut.kbss.spipes.util.Implicits.configParamValue
-import cz.cvut.kbss.spipes.{Logger, PropertySource}
 import org.springframework.context.annotation.{Bean, Configuration, Primary}
 
 import scala.collection.JavaConverters._

@@ -4,7 +4,7 @@ import java.io.FileOutputStream
 
 import cz.cvut.kbss.spipes.util.ConfigParam._
 import cz.cvut.kbss.spipes.util.Implicits.configParamValue
-import cz.cvut.kbss.spipes.{Logger, PropertySource, ResourceManager}
+import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager}
 import cz.cvut.sempipes.transform.{Transformer, TransformerImpl}
 import cz.cvut.sforms.model.Question
 import org.apache.jena.rdf.model.{Model, ModelFactory}

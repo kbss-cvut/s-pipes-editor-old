@@ -1,4 +1,4 @@
-package cz.cvut.kbss.spipes
+package cz.cvut.kbss.spipes.util
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.env.Environment

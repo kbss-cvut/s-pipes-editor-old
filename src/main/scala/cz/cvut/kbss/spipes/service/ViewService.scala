@@ -2,10 +2,10 @@ package cz.cvut.kbss.spipes.service
 
 import java.util
 
-import cz.cvut.kbss.spipes.Logger
 import cz.cvut.kbss.spipes.model.view.{Edge, Node, View}
 import cz.cvut.kbss.spipes.persistence.dao.ViewDao
 import cz.cvut.kbss.spipes.util.Implicits._
+import cz.cvut.kbss.spipes.util.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 

@@ -1,4 +1,4 @@
-package cz.cvut.kbss.spipes
+package cz.cvut.kbss.spipes.util
 
 import org.slf4j.LoggerFactory
 

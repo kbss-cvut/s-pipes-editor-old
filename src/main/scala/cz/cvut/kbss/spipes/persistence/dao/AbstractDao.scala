@@ -7,7 +7,7 @@ import cz.cvut.kbss.jopa.model.EntityManagerFactory
 import cz.cvut.kbss.jopa.model.annotations.OWLClass
 import cz.cvut.kbss.spipes.model.AbstractEntity
 import cz.cvut.kbss.spipes.util.Implicits._
-import cz.cvut.kbss.spipes.{Logger, ResourceManager}
+import cz.cvut.kbss.spipes.util.{Logger, ResourceManager}
 import org.springframework.beans.factory.annotation.Autowired
 
 import scala.reflect.ClassTag

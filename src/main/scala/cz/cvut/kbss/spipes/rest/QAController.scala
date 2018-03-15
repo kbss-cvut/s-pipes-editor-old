@@ -9,7 +9,7 @@ import cz.cvut.kbss.spipes.model.spipes.QuestionDTO
 import cz.cvut.kbss.spipes.service.QAService
 import cz.cvut.kbss.spipes.util.ConfigParam.DEFAULT_CONTEXT
 import cz.cvut.kbss.spipes.util.Implicits._
-import cz.cvut.kbss.spipes.{Logger, PropertySource}
+import cz.cvut.kbss.spipes.util.{Logger, PropertySource}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
 import org.springframework.web.bind.annotation._

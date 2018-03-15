@@ -1,4 +1,4 @@
-package cz.cvut.kbss.spipes
+package cz.cvut.kbss.spipes.util
 
 import scala.util.{Failure, Success, Try}
 
