@@ -9,7 +9,7 @@ import cz.cvut.kbss.spipes.util.ConfigParam.SCRIPTS_LOCATION
 import cz.cvut.kbss.spipes.util.Implicits._
 import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager}
 import org.apache.jena.rdf.model.{Model, ModelFactory}
-import org.apache.jena.vocabulary.{OWL, RDF, RDFS}
+import org.apache.jena.vocabulary.{OWL, RDF}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -78,12 +78,17 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
     })
   }
 
-  def getOntologyUri(f: File): Try[Option[String]] = {
+  def getOntologyUri(f: File): Option[String] = {
     log.info(s"""Looking for an ontology in file ${f.getName()}""")
     val model = ModelFactory.createDefaultModel()
     cleanly(new FileInputStream(f))(_.close())(is => {
       val st = model.read(is, null, "TTL").listStatements().toList().asScala
       st.find(st => st.getPredicate().equals(RDF.`type`) && st.getObject().equals(OWL.Ontology)).map(_.getSubject().getURI())
-    })
+    }) match {
+      case Success(v) => v
+      case Failure(e) =>
+        log.warn(e.getLocalizedMessage(), e)
+        None
+    }
   }
 }

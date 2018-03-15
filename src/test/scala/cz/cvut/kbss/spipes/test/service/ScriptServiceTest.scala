@@ -103,6 +103,6 @@ class ScriptServiceTest extends BaseServiceTestRunner {
   @Test
   def getOntologyUriReturnsCorrectURI: Unit = {
     val script = getClass().getClassLoader().getResource("scripts/sample-script.ttl").getFile()
-    assertEquals(Success(Some("http://www.semanticweb.org/sample-script")), service.getOntologyUri(new File(script)))
+    assertEquals(Some("http://www.semanticweb.org/sample-script"), service.getOntologyUri(new File(script)))
   }
 }
