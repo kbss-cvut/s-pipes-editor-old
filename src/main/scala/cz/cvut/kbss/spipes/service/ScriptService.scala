@@ -22,6 +22,8 @@ import scala.util.{Failure, Success, Try}
 @Service
 class ScriptService extends PropertySource with Logger[ScriptService] with ResourceManager {
 
+  var ontologyUriMap: Map[String, File] = _
+
   @Autowired
   private var scriptDao: ScriptDao = _
 
@@ -62,6 +64,7 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
     _.filter(f => f.getName().toLowerCase().endsWith(".ttl"))
   ) match {
     case Some(s) if s.nonEmpty =>
+      ontologyUriMap = collectOntologyUris(s)
       Some(s.map(_.getName()))
     case _ =>
       None
@@ -91,4 +94,7 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
         None
     }
   }
+
+  def collectOntologyUris(files: Set[File]): Map[String, File] =
+    files.map(f => getOntologyUri(f) -> f).filter(_._1.nonEmpty).map(p => p._1.get -> p._2).toMap
 }

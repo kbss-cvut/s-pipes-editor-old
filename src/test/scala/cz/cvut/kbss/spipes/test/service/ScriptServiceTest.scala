@@ -105,4 +105,17 @@ class ScriptServiceTest extends BaseServiceTestRunner {
     val script = getClass().getClassLoader().getResource("scripts/sample-script.ttl").getFile()
     assertEquals(Some("http://www.semanticweb.org/sample-script"), service.getOntologyUri(new File(script)))
   }
+
+  @Test
+  def collectOntologyUrisWorksAsIntended: Unit = {
+    val script = getClass().getClassLoader().getResource("scripts/sample-script.ttl").getFile()
+    val script1 = getClass().getClassLoader().getResource("scripts/sample-script1.ttl").getFile()
+    assertEquals(
+      Map(
+        "http://www.semanticweb.org/sample-script" -> "sample-script.ttl",
+        "http://www.semanticweb.org/sample-script1" -> "sample-script1.ttl"
+      ),
+      service.collectOntologyUris(Set(new File(script), new File(script1))).map(kv => kv._1 -> kv._2.getName())
+    )
+  }
 }
