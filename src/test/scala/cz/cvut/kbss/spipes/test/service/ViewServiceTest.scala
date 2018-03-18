@@ -8,7 +8,7 @@ import cz.cvut.kbss.spipes.model.view.{Edge, Node, View}
 import cz.cvut.kbss.spipes.persistence.dao.{ScriptDao, ViewDao}
 import cz.cvut.kbss.spipes.service.ViewService
 import org.junit.Assert._
-import org.junit.Test
+import org.junit.{Ignore, Test}
 import org.mockito.Mockito.when
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -18,6 +18,7 @@ import scala.util.{Failure, Random, Success}
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 27.08.2017.
   */
+@Ignore
 class ViewServiceTest extends BaseServiceTestRunner {
 
   @Autowired
