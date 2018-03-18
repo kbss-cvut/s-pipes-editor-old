@@ -127,10 +127,10 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
     log.info(s"""Looking for an ontology in file ${f.getName()}""")
     cleanly(new FileInputStream(f))(_.close())(is => {
       val model = ModelFactory.createDefaultModel()
-      val st = model.read(is, null, "TTL").listStatements().toList().asScala
-      st.find(st => st.getPredicate().eq(RDF.`type`) && st.getObject().eq(OWL.Ontology)).map(_.getSubject().getURI())
+      val st = model.read(is, null, "TTL").listStatements(null, RDF.`type`, OWL.Ontology).toList().asScala
+      st.map(_.getSubject().getURI())
     }) match {
-      case Success(v) => v
+      case Success(Seq(v)) => Some(v)
       case Failure(e) =>
         log.warn(e.getLocalizedMessage(), e)
         None
@@ -144,8 +144,8 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
     log.info(s"""Looking for imports in $fileName""")
     cleanly(new FileInputStream(rootPath + "/" + fileName))(_.close())(is => {
       val model = ModelFactory.createDefaultModel()
-      val st = model.read(is, null, "TTL").listStatements().toList().asScala
-      st.filter(st => st.getPredicate().eq(OWL.imports)).map(_.getObject().asResource().getURI())
+      val st = model.read(is, null, "TTL").listStatements(null, OWL.imports, null).toList().asScala
+      st.map(_.getObject().asResource().getURI())
     })
   }
 }
