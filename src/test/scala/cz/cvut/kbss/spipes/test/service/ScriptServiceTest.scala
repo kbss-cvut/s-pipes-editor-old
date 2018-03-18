@@ -30,26 +30,26 @@ class ScriptServiceTest extends BaseServiceTestRunner {
 
   @Test
   def moduleTypesGotFailureFileNotFound: Unit = {
-    when(dao.getModuleTypes(fileName)).thenReturn(Failure(new FileNotFoundException()))
+    when(dao.getModuleTypes(false)(fileName)).thenReturn(Failure(new FileNotFoundException()))
     assertEquals(Right(None), service.getModuleTypes(fileName))
   }
 
   @Test
   def moduleTypesGotFailureOther: Unit = {
     val e = new IllegalArgumentException()
-    when(dao.getModuleTypes(fileName)).thenReturn(Failure(e))
+    when(dao.getModuleTypes(false)(fileName)).thenReturn(Failure(e))
     assertEquals(Left(e), service.getModuleTypes(fileName))
   }
 
   @Test
   def moduleTypesGotNullSuccess: Unit = {
-    when(dao.getModuleTypes(fileName)).thenReturn(Success(null))
+    when(dao.getModuleTypes(false)(fileName)).thenReturn(Success(null))
     assertEquals(Right(None), service.getModuleTypes(fileName))
   }
 
   @Test
   def moduleTypesGotEmptySuccess: Unit = {
-    when(dao.getModuleTypes(fileName)).thenReturn(Success(new util.LinkedList[ModuleType]()))
+    when(dao.getModuleTypes(false)(fileName)).thenReturn(Success(new util.LinkedList[ModuleType]()))
     assertEquals(Right(None), service.getModuleTypes(fileName))
   }
 
@@ -59,26 +59,26 @@ class ScriptServiceTest extends BaseServiceTestRunner {
     val size = Random.nextInt(100) + 1
     Seq.fill(size)(0).foreach((_) =>
       l.add(new ModuleType()))
-    when(dao.getModuleTypes(fileName)).thenReturn(Success(l))
+    when(dao.getModuleTypes(false)(fileName)).thenReturn(Success(l))
     assertEquals(Right(Some(l.asScala)), service.getModuleTypes(fileName))
   }
 
   @Test
   def modulesGotFailureFileNotFound: Unit = {
-    when(dao.getModules(fileName)).thenReturn(Failure(new FileNotFoundException()))
+    when(dao.getModules(false)(fileName)).thenReturn(Failure(new FileNotFoundException()))
     assertEquals(Right(None), service.getModules(fileName))
   }
 
   @Test
   def modulesGotFailureOther: Unit = {
     val e = new IllegalArgumentException()
-    when(dao.getModules(fileName)).thenReturn(Failure(e))
+    when(dao.getModules(false)(fileName)).thenReturn(Failure(e))
     assertEquals(Left(e), service.getModules(fileName))
   }
 
   @Test
   def modulesGotEmptySuccess: Unit = {
-    when(dao.getModules(fileName)).thenReturn(Success(new util.LinkedList[Module]()))
+    when(dao.getModules(false)(fileName)).thenReturn(Success(new util.LinkedList[Module]()))
     assertEquals(Right(None), service.getModules(fileName))
   }
 
@@ -88,7 +88,7 @@ class ScriptServiceTest extends BaseServiceTestRunner {
     val size = Random.nextInt(100) + 1
     Seq.fill(size)(0).foreach((_) =>
       l.add(new Module()))
-    when(dao.getModules(fileName)).thenReturn(Success(l))
+    when(dao.getModules(false)(fileName)).thenReturn(Success(l))
     assertEquals(Right(Some(l.asScala)), service.getModules(fileName))
   }
 
@@ -117,5 +117,13 @@ class ScriptServiceTest extends BaseServiceTestRunner {
       ),
       service.collectOntologyUris(Set(new File(script), new File(script1))).map(kv => kv._1 -> kv._2.getName())
     )
+  }
+
+  @Test
+  def getImportsCollectsAllTheImports: Unit = {
+    val rootPath = getClass().getClassLoader().getResource("scripts").getFile() + "/"
+    val script = "sample-script1.ttl"
+    val imports = service.getImports(rootPath)(script)
+    assertTrue(Seq("http://spinrdf.org/spl") == imports)
   }
 }

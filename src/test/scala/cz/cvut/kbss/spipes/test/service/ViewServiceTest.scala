@@ -38,26 +38,30 @@ class ViewServiceTest extends BaseServiceTestRunner {
   @Test
   def spipesServiceGotFailureFileNotFound: Unit = {
     val e = new FileNotFoundException()
-    when(spipesDao.getModules(fileName)).thenReturn(Failure(e))
+    when(spipesDao.getModules(false)(fileName)).thenReturn(Failure(e))
     assertEquals(Right(None), service.newViewFromSpipes(fileName))
   }
 
   @Test
   def spipesServiceGotFailureOther: Unit = {
     val e = new IllegalArgumentException()
-    when(spipesDao.getModules(fileName)).thenReturn(Failure(e))
+    when(spipesDao.getModules(false)(fileName)).thenReturn(Failure(e))
     assertEquals(Left(e), service.newViewFromSpipes(fileName))
   }
 
   @Test
   def spipesServiceGotNullSuccess: Unit = {
-    when(spipesDao.getModules(fileName)).thenReturn(Success(null))
+    when(spipesDao.getModules(false)(fileName)).thenReturn(Success(null))
     assertEquals(Right(None), service.newViewFromSpipes(fileName))
   }
 
   @Test
   def spipesServiceGotEmptySuccess: Unit = {
-    when(spipesDao.getModules(fileName)).thenReturn(Success(new util.LinkedList[Module]()))
+    when(
+      spipesDao
+        .getModules(false)(fileName)
+    )
+      .thenReturn(Success(new util.LinkedList[Module]()))
     assertEquals(Right(None), service.newViewFromSpipes(fileName))
   }
 
@@ -73,7 +77,7 @@ class ViewServiceTest extends BaseServiceTestRunner {
       n.setOutParameters(new util.HashSet[String]())
       n
     }).toSet.asJava, new util.HashSet[Edge]())
-    when(spipesDao.getModules(fileName)).thenReturn(Success(l))
+    when(spipesDao.getModules(false)(fileName)).thenReturn(Success(l))
     assertEquals(Right(Some(v)), service.newViewFromSpipes(fileName))
   }
 }

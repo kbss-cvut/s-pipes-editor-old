@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 import scala.collection.JavaConverters._
+import scala.collection.mutable
 import scala.util.{Failure, Success, Try}
 
 /**
@@ -29,7 +30,7 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
 
   def getModules(fileName: String): Either[Throwable, Option[Traversable[Module]]] = {
     log.info("Looking for modules in file " + fileName)
-    scriptDao.getModules(fileName) match {
+    scriptDao.getModules(false)(fileName) match {
       case Success(null) =>
         log.info("No modules found in file " + fileName)
         Right(None)
@@ -50,10 +51,35 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
   }
 
   def getModuleTypes(fileName: String): Either[Throwable, Option[Traversable[ModuleType]]] =
-    scriptDao.getModuleTypes(fileName) match {
-      case Success(null) => Right(None)
-      case Success(v: JList[ModuleType]) if !v.isEmpty() => Right(Some(v.asScala))
-      case Success(_: JList[ModuleType]) => Right(None)
+    scriptDao.getModuleTypes(false)(fileName) match {
+      case Success(ms) =>
+        val types =
+          if (ms == null || ms.isEmpty)
+            None
+          else
+            Some(ms.asScala)
+        getImports(getProperty(SCRIPTS_LOCATION))(fileName) match {
+          case Success(is) =>
+            val importedTypes = is.flatMap(i => scriptDao.getModuleTypes(true)(i) match {
+              case Success(imported) =>
+                imported.asScala
+              case Failure(e) =>
+                log.warn(e.getLocalizedMessage(), e)
+                Seq()
+            })
+            types match {
+              case Some(ownTypes) =>
+                Right(Some(ownTypes ++ importedTypes))
+              case None =>
+                if (importedTypes.isEmpty)
+                  Right(None)
+                else
+                  Right(Some(importedTypes))
+            }
+          case Failure(e) =>
+            log.warn(s"""Failed to find imports for $fileName""", e)
+            Right(types)
+        }
       case Failure(_: FileNotFoundException) => Right(None)
       case Failure(e) =>
         log.error(e.getLocalizedMessage(), e.getStackTrace().mkString("\n"))
@@ -83,10 +109,10 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
 
   def getOntologyUri(f: File): Option[String] = {
     log.info(s"""Looking for an ontology in file ${f.getName()}""")
-    val model = ModelFactory.createDefaultModel()
     cleanly(new FileInputStream(f))(_.close())(is => {
+      val model = ModelFactory.createDefaultModel()
       val st = model.read(is, null, "TTL").listStatements().toList().asScala
-      st.find(st => st.getPredicate().equals(RDF.`type`) && st.getObject().equals(OWL.Ontology)).map(_.getSubject().getURI())
+      st.find(st => st.getPredicate().eq(RDF.`type`) && st.getObject().eq(OWL.Ontology)).map(_.getSubject().getURI())
     }) match {
       case Success(v) => v
       case Failure(e) =>
@@ -97,4 +123,13 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
 
   def collectOntologyUris(files: Set[File]): Map[String, File] =
     files.map(f => getOntologyUri(f) -> f).filter(_._1.nonEmpty).map(p => p._1.get -> p._2).toMap
+
+  def getImports(rootPath: String): String => Try[mutable.Buffer[String]] = (fileName: String) => {
+    log.info(s"""Looking for imports in $fileName""")
+    cleanly(new FileInputStream(rootPath + "/" + fileName))(_.close())(is => {
+      val model = ModelFactory.createDefaultModel()
+      val st = model.read(is, null, "TTL").listStatements().toList().asScala
+      st.filter(st => st.getPredicate().eq(OWL.imports)).map(_.getObject().asResource().getURI())
+    })
+  }
 }

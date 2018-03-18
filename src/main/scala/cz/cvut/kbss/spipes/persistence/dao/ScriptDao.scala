@@ -49,29 +49,36 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManag
     emf = Persistence.createEntityManagerFactory("testPersistenceUnit", props.asJava)
   }
 
-  def getModules(fileName: String): Try[JList[Module]] = get(fileName, Vocabulary.s_c_Modules)(classOf[Module])
+  def getModules(absolutePath: Boolean): String => Try[JList[Module]] =
+    (fileName: String) => get(absolutePath)(fileName)(Vocabulary.s_c_Modules)(classOf[Module])
 
-  def getModuleTypes(fileName: String): Try[JList[ModuleType]] = get(fileName, Vocabulary.s_c_Module)(classOf[ModuleType])
+  def getModuleTypes(absolutePath: Boolean): String => Try[JList[ModuleType]] =
+    (fileName: String) => get(absolutePath)(fileName)(Vocabulary.s_c_Module)(classOf[ModuleType])
 
 
-  private def get[T <: AbstractEntity](fileName: String, owlClass: String)(resultClass: Class[T]) = {
-    log.info("Fetching " + resultClass.getSimpleName() + "s from file " + fileName)
-    val filePath = getProperty(SCRIPTS_LOCATION) + "/" + fileName
-    val em = emf.createEntityManager()
-    val repo = JopaPersistenceUtils.getRepository(em)
-    cleanly(repo.getConnection())(c => {
-      c.clear()
-      c.close()
-    })(connection => {
-      connection.add(Source.fromFile(filePath).reader(), "http://temporary", RDFFormat.TURTLE)
+  private def get[T <: AbstractEntity](absolutePath: Boolean) =
+    (fileName: String) =>
+      (owlClass: String) =>
+        (resultClass: Class[T]) => {
+          log.info("Fetching " + resultClass.getSimpleName() + "s from file " + fileName)
+          val filePath =
+            if (absolutePath) fileName
+            else getProperty(SCRIPTS_LOCATION) + "/" + fileName
+          val em = emf.createEntityManager()
+          val repo = JopaPersistenceUtils.getRepository(em)
+          cleanly(repo.getConnection())(c => {
+            c.clear()
+            c.close()
+          })(connection => {
+            connection.add(Source.fromFile(filePath).reader(), "http://temporary", RDFFormat.TURTLE)
 
-      // retrieve JOPA objects by callback function
-      emf.getCache().evict(resultClass)
-      val query = em.createNativeQuery("select ?s where { ?s a ?type }", resultClass)
-        .setParameter("type", URI.create(owlClass))
-      query.getResultList()
-    })
-  }
+            // retrieve JOPA objects by callback function
+            emf.getCache().evict(resultClass)
+            val query = em.createNativeQuery("select ?s where { ?s a ?type }", resultClass)
+              .setParameter("type", URI.create(owlClass))
+            query.getResultList()
+          })
+        }
 
   def getScripts: Option[Set[File]] = {
     val scriptsPath = getProperty(SCRIPTS_LOCATION)
