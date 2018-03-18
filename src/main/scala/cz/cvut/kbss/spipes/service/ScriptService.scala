@@ -31,19 +31,35 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
   def getModules(fileName: String): Either[Throwable, Option[Traversable[Module]]] = {
     log.info("Looking for modules in file " + fileName)
     scriptDao.getModules(false)(fileName) match {
-      case Success(null) =>
-        log.info("No modules found in file " + fileName)
-        Right(None)
-      case Success(v: JList[Module]) if !v.isEmpty() =>
-        log.info("Found modules in file " + fileName)
-        log.trace(v.asScala)
-        Right(Some(v.asScala))
-      case Success(_: JList[Module]) =>
-        log.info("No modules found in file " + fileName)
-        Right(None)
-      case Failure(_: FileNotFoundException) =>
-        log.warn("File " + fileName + " not found")
-        Right(None)
+      case Success(ms) =>
+        val modules =
+          if (ms == null || ms.isEmpty)
+            None
+          else
+            Some(ms.asScala)
+        getImports(getProperty(SCRIPTS_LOCATION))(fileName) match {
+          case Success(is) =>
+            val importedModules = is.flatMap(i => scriptDao.getModules(true)(i) match {
+              case Success(imported) =>
+                imported.asScala
+              case Failure(e) =>
+                log.warn(e.getLocalizedMessage(), e)
+                Seq()
+            })
+            modules match {
+              case Some(ownModules) =>
+                Right(Some(ownModules ++ importedModules))
+              case None =>
+                if (importedModules.isEmpty)
+                  Right(None)
+                else
+                  Right(Some(importedModules))
+            }
+          case Failure(e) =>
+            log.warn(s"""Failed to find imports for $fileName""", e)
+            Right(modules)
+        }
+      case Failure(_: FileNotFoundException) => Right(None)
       case Failure(e) =>
         log.error(e.getLocalizedMessage(), e.getStackTrace().mkString("\n"))
         Left(e)
