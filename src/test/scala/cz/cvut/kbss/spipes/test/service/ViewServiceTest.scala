@@ -1,24 +1,19 @@
 package cz.cvut.kbss.spipes.test.service
 
-import java.io.FileNotFoundException
-import java.util
-
 import cz.cvut.kbss.spipes.model.spipes.Module
-import cz.cvut.kbss.spipes.model.view.{Edge, Node, View}
+import cz.cvut.kbss.spipes.model.view.{Edge, Node}
 import cz.cvut.kbss.spipes.persistence.dao.{ScriptDao, ViewDao}
-import cz.cvut.kbss.spipes.service.ViewService
-import org.junit.Assert._
-import org.junit.{Ignore, Test}
+import cz.cvut.kbss.spipes.service.{ScriptService, ViewService}
+import org.junit.Assert.{assertEquals, _}
+import org.junit.Test
 import org.mockito.Mockito.when
 import org.springframework.beans.factory.annotation.Autowired
 
-import scala.collection.JavaConverters.{asScalaBufferConverter, setAsJavaSetConverter}
-import scala.util.{Failure, Random, Success}
+import scala.collection.JavaConverters.setAsJavaSetConverter
 
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 27.08.2017.
   */
-@Ignore
 class ViewServiceTest extends BaseServiceTestRunner {
 
   @Autowired
@@ -30,55 +25,53 @@ class ViewServiceTest extends BaseServiceTestRunner {
   @Autowired
   private var service: ViewService = _
 
+  @Autowired
+  private var scriptService: ScriptService = _
+
   private val fileName = ""
 
-  // Fixme: The following tests depend on correct implementation of SpipesService
-  // Fixme: due to mysterious Spring processes
-  // Fixme: that don't allow for proper SpipesService mock autowiring
-
   @Test
-  def spipesServiceGotFailureFileNotFound: Unit = {
-    val e = new FileNotFoundException()
-    when(spipesDao.getModules(false)(fileName)).thenReturn(Failure(e))
+  def scriptServiceReturnsRightNone: Unit = {
+    when(scriptService.getModules(fileName)).thenReturn(Right(None))
     assertEquals(Right(None), service.newViewFromSpipes(fileName))
   }
 
   @Test
-  def spipesServiceGotFailureOther: Unit = {
+  def scriptServiceReturnsLeft: Unit = {
     val e = new IllegalArgumentException()
-    when(spipesDao.getModules(false)(fileName)).thenReturn(Failure(e))
+    when(scriptService.getModules(fileName)).thenReturn(Left(e))
     assertEquals(Left(e), service.newViewFromSpipes(fileName))
   }
 
   @Test
-  def spipesServiceGotNullSuccess: Unit = {
-    when(spipesDao.getModules(false)(fileName)).thenReturn(Success(null))
-    assertEquals(Right(None), service.newViewFromSpipes(fileName))
-  }
-
-  @Test
   def spipesServiceGotEmptySuccess: Unit = {
-    when(
-      spipesDao
-        .getModules(false)(fileName)
-    )
-      .thenReturn(Success(new util.LinkedList[Module]()))
-    assertEquals(Right(None), service.newViewFromSpipes(fileName))
+    when(scriptService.getModules(fileName))
+      .thenReturn(Right(Some(List[Module]())))
+    val res = service.newViewFromSpipes(fileName)
+    assertTrue(res.isRight)
+    assertTrue(res.getOrElse(None).nonEmpty)
+    val v = res.getOrElse(None).get
+    assertEquals(Set[Edge]().asJava, v.getEdges())
+    assertEquals(Set[Node]().asJava, v.getNodes())
+    assertEquals(fileName, v.getLabel())
   }
 
   @Test
   def spipesServiceGotNonEmptySuccess: Unit = {
-    val l = new util.LinkedList[Module]()
-    val size = Random.nextInt(100) + 1
-    Seq.fill(size)(0).foreach((_) =>
-      l.add(new Module()))
-    val v = new View(fileName, l.asScala.map((m) => {
-      val n = new Node()
-      n.setInParameters(new util.HashSet[String]())
-      n.setOutParameters(new util.HashSet[String]())
-      n
-    }).toSet.asJava, new util.HashSet[Edge]())
-    when(spipesDao.getModules(false)(fileName)).thenReturn(Success(l))
-    assertEquals(Right(Some(v)), service.newViewFromSpipes(fileName))
+    val m = new Module()
+    m.setLabel("Label")
+    m.setTypes(Set("Type").asJava)
+    when(scriptService.getModules(fileName))
+      .thenReturn(Right(Some(List[Module](m))))
+    val res = service.newViewFromSpipes(fileName)
+    assertTrue(res.isRight)
+    assertTrue(res.getOrElse(None).nonEmpty)
+    val v = res.getOrElse(None).get
+    assertEquals(1, v.getNodes().size())
+    v.getNodes().forEach((n) => {
+      assertEquals(m.getLabel(), n.getLabel())
+      assertEquals(m.getTypes(), n.getModuleTypes())
+    })
+    assertEquals(0, v.getEdges().size())
   }
 }
