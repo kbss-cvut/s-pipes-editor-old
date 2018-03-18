@@ -10,5 +10,5 @@ import org.springframework.context.annotation.{Bean, Primary}
 class ViewTestServiceConfig extends TestServiceConfig {
   @Bean
   @Primary
-  def getScriptService: ScriptService = Mockito.spy(classOf[ScriptService])
+  def getScriptService: ScriptService = Mockito.mock(classOf[ScriptService])
 }
