@@ -1,10 +1,10 @@
 package cz.cvut.kbss.spipes.test.config
 
 import cz.cvut.kbss.spipes.persistence.dao._
-import cz.cvut.kbss.spipes.service.{ScriptService, ViewService}
+import cz.cvut.kbss.spipes.service.ViewService
 import org.mockito.Mockito
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessorAdapter
-import org.springframework.context.annotation.{Bean, ComponentScan, Configuration, Primary}
+import org.springframework.context.annotation.{Bean, ComponentScan, Configuration}
 
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 19.01.17.
@@ -18,10 +18,6 @@ class TestServiceConfig {
 
   @Bean
   def getspipesDao: ScriptDao = Mockito.mock(classOf[ScriptDao])
-
-  @Bean
-  @Primary
-  def getScriptService: ScriptService = Mockito.mock(classOf[ScriptService])
 
   @Bean
   def mockBeanFactory = new MockBeanFactory

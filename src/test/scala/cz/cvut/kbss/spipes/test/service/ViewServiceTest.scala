@@ -4,17 +4,23 @@ import cz.cvut.kbss.spipes.model.spipes.Module
 import cz.cvut.kbss.spipes.model.view.{Edge, Node}
 import cz.cvut.kbss.spipes.persistence.dao.{ScriptDao, ViewDao}
 import cz.cvut.kbss.spipes.service.{ScriptService, ViewService}
+import cz.cvut.kbss.spipes.test.config.ViewTestServiceConfig
 import org.junit.Assert.{assertEquals, _}
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.Mockito.when
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 
 import scala.collection.JavaConverters.setAsJavaSetConverter
 
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 27.08.2017.
   */
-class ViewServiceTest extends BaseServiceTestRunner {
+@RunWith(classOf[SpringJUnit4ClassRunner])
+@ContextConfiguration(classes = Array(classOf[ViewTestServiceConfig]))
+class ViewServiceTest {
 
   @Autowired
   private var viewDao: ViewDao = _
