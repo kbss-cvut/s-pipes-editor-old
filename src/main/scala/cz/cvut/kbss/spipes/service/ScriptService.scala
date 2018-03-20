@@ -1,7 +1,6 @@
 package cz.cvut.kbss.spipes.service
 
-import java.io.{File, FileInputStream, FileNotFoundException, FileOutputStream}
-import java.util.{List => JList}
+import java.io.{FileNotFoundException, FileOutputStream}
 
 import cz.cvut.kbss.spipes.model.spipes.{Module, ModuleType}
 import cz.cvut.kbss.spipes.persistence.dao.ScriptDao
@@ -9,12 +8,10 @@ import cz.cvut.kbss.spipes.util.ConfigParam.SCRIPTS_LOCATION
 import cz.cvut.kbss.spipes.util.Implicits._
 import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager}
 import org.apache.jena.rdf.model.{Model, ModelFactory}
-import org.apache.jena.vocabulary.{OWL, RDF}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 import scala.collection.JavaConverters._
-import scala.collection.mutable
 import scala.util.{Failure, Success, Try}
 
 /**
@@ -23,7 +20,8 @@ import scala.util.{Failure, Success, Try}
 @Service
 class ScriptService extends PropertySource with Logger[ScriptService] with ResourceManager {
 
-  var ontologyUriMap: Map[String, File] = _
+  @Autowired
+  private var helper: OntologyHelper = _
 
   @Autowired
   private var scriptDao: ScriptDao = _
@@ -37,7 +35,7 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
             None
           else
             Some(ms.asScala)
-        getImports(getProperty(SCRIPTS_LOCATION))(fileName) match {
+        helper.getImports(getProperty(SCRIPTS_LOCATION))(fileName) match {
           case Success(is) =>
             val importedModules = is.flatMap(i => scriptDao.getModules(true)(i) match {
               case Success(imported) =>
@@ -74,7 +72,7 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
             None
           else
             Some(ms.asScala)
-        getImports(getProperty(SCRIPTS_LOCATION))(fileName) match {
+        helper.getImports(getProperty(SCRIPTS_LOCATION))(fileName) match {
           case Success(is) =>
             val importedTypes = is.flatMap(i => scriptDao.getModuleTypes(true)(i) match {
               case Success(imported) =>
@@ -106,7 +104,6 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
     _.filter(f => f.getName().toLowerCase().endsWith(".ttl"))
   ) match {
     case Some(s) if s.nonEmpty =>
-      ontologyUriMap = collectOntologyUris(s)
       Some(s.map(_.getName()))
     case _ =>
       None
@@ -120,32 +117,6 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
     cleanly(new FileOutputStream(fileName))(_.close())(os => {
       model.removeAll(model.getResource(module), null, null)
       model.write(os, "TTL")
-    })
-  }
-
-  def getOntologyUri(f: File): Option[String] = {
-    log.info(s"""Looking for an ontology in file ${f.getName()}""")
-    cleanly(new FileInputStream(f))(_.close())(is => {
-      val model = ModelFactory.createDefaultModel()
-      val st = model.read(is, null, "TTL").listStatements(null, RDF.`type`, OWL.Ontology).toList().asScala
-      st.map(_.getSubject().getURI())
-    }) match {
-      case Success(Seq(v)) => Some(v)
-      case Failure(e) =>
-        log.warn(e.getLocalizedMessage(), e)
-        None
-    }
-  }
-
-  def collectOntologyUris(files: Set[File]): Map[String, File] =
-    files.map(f => getOntologyUri(f) -> f).filter(_._1.nonEmpty).map(p => p._1.get -> p._2).toMap
-
-  def getImports(rootPath: String): String => Try[mutable.Buffer[String]] = (fileName: String) => {
-    log.info(s"""Looking for imports in $fileName""")
-    cleanly(new FileInputStream(rootPath + "/" + fileName))(_.close())(is => {
-      val model = ModelFactory.createDefaultModel()
-      val st = model.read(is, null, "TTL").listStatements(null, OWL.imports, null).toList().asScala
-      st.map(_.getObject().asResource().getURI())
     })
   }
 }
