@@ -2,9 +2,11 @@ package cz.cvut.kbss.spipes.service
 
 import java.io.{File, FileInputStream}
 
+import cz.cvut.kbss.spipes.persistence.dao.ScriptDao
 import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager}
 import org.apache.jena.rdf.model.ModelFactory
 import org.apache.jena.vocabulary.{OWL, RDF}
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 import scala.collection.JavaConverters._
@@ -17,7 +19,8 @@ import scala.util.{Failure, Success, Try}
 @Service
 class OntologyHelper extends PropertySource with Logger[ScriptService] with ResourceManager {
 
-  var ontologyUriMap: Map[String, File] = _
+  @Autowired
+  private var scriptDao: ScriptDao = _
 
   def getOntologyUri(f: File): Option[String] = {
     log.info(s"""Looking for an ontology in file ${f.getName()}""")
@@ -32,6 +35,8 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
         None
     }
   }
+
+  def getFile(ontologyUri: String): Option[File] = scriptDao.getScripts.map(collectOntologyUris).flatMap(_.get(ontologyUri))
 
   def collectOntologyUris(files: Set[File]): Map[String, File] =
     files.map(f => getOntologyUri(f) -> f).filter(_._1.nonEmpty).map(p => p._1.get -> p._2).toMap

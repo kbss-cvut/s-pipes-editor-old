@@ -2,11 +2,13 @@ package cz.cvut.kbss.spipes.test.service
 
 import java.io.File
 
+import cz.cvut.kbss.spipes.persistence.dao.ScriptDao
 import cz.cvut.kbss.spipes.service.OntologyHelper
 import cz.cvut.kbss.spipes.test.config.TestServiceConfig
-import org.junit.Assert.assertEquals
+import org.junit.Assert.{assertEquals, _}
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito._
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
@@ -19,6 +21,9 @@ import scala.util.Success
 @RunWith(classOf[SpringJUnit4ClassRunner])
 @ContextConfiguration(classes = Array(classOf[TestServiceConfig]))
 class OntologyHelperTest {
+
+  @Autowired
+  private var scriptDao: ScriptDao = _
 
   @Autowired
   private var helper: OntologyHelper = _
@@ -48,5 +53,34 @@ class OntologyHelperTest {
     val script = "sample-script1.ttl"
     val imports = helper.getImports(rootPath)(script)
     assertEquals(Success(Seq("http://spinrdf.org/spl")), imports)
+  }
+
+  @Test
+  def getFileWorksAsIntendedWithNone: Unit = {
+    when(scriptDao.getScripts).thenReturn(None)
+    assertTrue(helper.getFile("ontologyUri").isEmpty)
+  }
+
+  @Test
+  def getFileWorksAsIntendedWithNoScripts: Unit = {
+    when(scriptDao.getScripts).thenReturn(Some(Set[File]()))
+    assertTrue(helper.getFile("ontologyUri").isEmpty)
+  }
+
+  @Test
+  def getFileFindsCorrect: Unit = {
+    val script = getClass().getClassLoader().getResource("scripts/sample-script.ttl").getFile()
+    when(scriptDao.getScripts).thenReturn(Some(Set(new File(script))))
+    val res = helper.getFile("http://www.semanticweb.org/sample-script")
+    assertTrue(res.nonEmpty)
+    assertEquals(Some(new File(script)), res)
+  }
+
+  @Test
+  def getFileDoesNotFindIncorrect: Unit = {
+    val script = getClass().getClassLoader().getResource("scripts/sample-script.ttl").getFile()
+    when(scriptDao.getScripts).thenReturn(Some(Set(new File(script))))
+    val res = helper.getFile("http://not.there")
+    assertTrue(res.isEmpty)
   }
 }
