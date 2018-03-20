@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 import scala.collection.JavaConverters._
-import scala.collection.mutable
 import scala.util.{Failure, Success, Try}
 
 /**
@@ -41,7 +40,7 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
   def collectOntologyUris(files: Set[File]): Map[String, File] =
     files.map(f => getOntologyUri(f) -> f).filter(_._1.nonEmpty).map(p => p._1.get -> p._2).toMap
 
-  def getImports(rootPath: String): String => Try[mutable.Buffer[String]] = (fileName: String) => {
+  def getURIOfImportedOntologies(rootPath: String): String => Try[Seq[String]] = (fileName: String) => {
     log.info(s"""Looking for imports in $fileName""")
     cleanly(new FileInputStream(rootPath + "/" + fileName))(_.close())(is => {
       val model = ModelFactory.createDefaultModel()

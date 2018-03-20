@@ -51,7 +51,7 @@ class OntologyHelperTest {
   def getImportsCollectsAllTheImports: Unit = {
     val rootPath = getClass().getClassLoader().getResource("scripts").getFile() + "/"
     val script = "sample-script1.ttl"
-    val imports = helper.getImports(rootPath)(script)
+    val imports = helper.getURIOfImportedOntologies(rootPath)(script)
     assertEquals(Success(Seq("http://spinrdf.org/spl")), imports)
   }
 
