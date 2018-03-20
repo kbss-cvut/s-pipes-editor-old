@@ -1,0 +1,4 @@
+@prefix : <http://importing.ttl#> .
+
+<http://imported.ttl> a owl: Ontology ;
+owl:imports <http://imported.ttl> .

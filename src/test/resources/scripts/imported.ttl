@@ -1,0 +1,20 @@
+@prefix : <http://imported.ttl#> .
+@prefix sm:    <http://topbraid.org/sparqlmotion#> .
+@prefix sml:   <http://topbraid.org/sparqlmotionlib#> .
+
+<http://imported.ttl> a owl:Ontology .
+
+sml:BindWithConstant  a  sm:Module ;
+        rdfs:comment     "Binds a variable with a given RDF node." ;
+        rdfs:label       "Bind with constant" ;
+        rdfs:subClassOf  sml:ControlFlowModules ;
+        spin:constraint  [ a                 spl:Argument ;
+                           rdfs:comment      "The name of the variable that will hold the constant. Default: text." ;
+                           spl:defaultValue  "text" ;
+                           spl:predicate     sm:outputVariable
+                         ] ;
+        spin:constraint  [ a              spl:Argument ;
+                           rdfs:comment   "The constant value (either a resource or a literal)." ;
+                           spl:predicate  sml:value
+                         ] ;
+        sm:icon          "bath" .

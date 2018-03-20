@@ -35,14 +35,18 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
             None
           else
             Some(ms.asScala)
-        helper.getImports(getProperty(SCRIPTS_LOCATION))(fileName) match {
+        helper.getURIOfImportedOntologies(getProperty(SCRIPTS_LOCATION))(fileName) match {
           case Success(is) =>
-            val importedModules = is.flatMap(i => scriptDao.getModules(true)(i) match {
-              case Success(imported) =>
-                imported.asScala
-              case Failure(e) =>
-                log.warn(e.getLocalizedMessage(), e)
-                Seq()
+            val importedModules = is.flatMap(i => {
+              helper.getFile(i).map(f => {
+                scriptDao.getModules(true)(f.getAbsolutePath()) match {
+                  case Success(imported) =>
+                    imported.asScala
+                  case Failure(e) =>
+                    log.warn(e.getLocalizedMessage(), e)
+                    Seq()
+                }
+              }).getOrElse(Seq())
             })
             modules match {
               case Some(ownModules) =>
@@ -72,14 +76,20 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
             None
           else
             Some(ms.asScala)
-        helper.getImports(getProperty(SCRIPTS_LOCATION))(fileName) match {
+        helper.getURIOfImportedOntologies(getProperty(SCRIPTS_LOCATION))(fileName) match {
           case Success(is) =>
-            val importedTypes = is.flatMap(i => scriptDao.getModuleTypes(true)(i) match {
-              case Success(imported) =>
-                imported.asScala
-              case Failure(e) =>
-                log.warn(e.getLocalizedMessage(), e)
-                Seq()
+            val importedTypes = is.flatMap(i => {
+              val fi = helper.getFile(i)
+              fi.map(f => {
+                val tts = scriptDao.getModuleTypes(true)(f.getAbsolutePath())
+                tts match {
+                  case Success(imported) =>
+                    imported.asScala
+                  case Failure(e) =>
+                    log.warn(e.getLocalizedMessage(), e)
+                    Seq()
+                }
+              }).getOrElse(Seq())
             })
             types match {
               case Some(ownTypes) =>
