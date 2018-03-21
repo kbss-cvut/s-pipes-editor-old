@@ -22,19 +22,19 @@
         <cz.cvut.kbss.jopa.version>0.9.15</cz.cvut.kbss.jopa.version>
         <javax.servlet.servlet-api.version>3.1.0</javax.servlet.servlet-api.version>
         <junit.junit.version>4.12</junit.junit.version>
-        <maven-war-plugin.version>3.1.0</maven-war-plugin.version>
+        <maven-war-plugin.version>3.2.0</maven-war-plugin.version>
         <net.alchim31.maven.scala-maven-plugin.version>3.3.1</net.alchim31.maven.scala-maven-plugin.version>
         <org.aspectj.version>1.8.12</org.aspectj.version>
         <org.codehaus.mojo.aspectj-maven-plugin.version>1.11</org.codehaus.mojo.aspectj-maven-plugin.version>
         <org.codehaus.mojo.build-helper-maven-plugin.version>3.0.0</org.codehaus.mojo.build-helper-maven-plugin.version>
         <org.codehaus.mojo.exec-maven-plugin.version>1.6.0</org.codehaus.mojo.exec-maven-plugin.version>
         <org.mockito.mockito-all.version>1.10.19</org.mockito.mockito-all.version>
-        <org.eclipse.rdf4j.rdf4j-rio-rdfjson.version>2.2.2</org.eclipse.rdf4j.rdf4j-rio-rdfjson.version>
+        <org.eclipse.rdf4j.rdf4j-rio-rdfjson.version>2.2.4</org.eclipse.rdf4j.rdf4j-rio-rdfjson.version>
         <org.scala-lang.version>2.12.5</org.scala-lang.version>
         <org.slf4j.slf4j-api.version>1.7.25</org.slf4j.slf4j-api.version>
-        <org.springframework.security.version>4.2.3.RELEASE</org.springframework.security.version>
-        <org.springframework.version>4.3.11.RELEASE</org.springframework.version>
-        <commons.io.version>2.5</commons.io.version>
+        <org.springframework.security.version>4.2.4.RELEASE</org.springframework.security.version>
+        <org.springframework.version>4.3.14.RELEASE</org.springframework.version>
+        <commons.io.version>2.6</commons.io.version>
     </properties>
 
     <repositories>
