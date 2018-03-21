@@ -17,13 +17,17 @@
 
         <ch.qos.logback.logback-classic.version>1.2.3</ch.qos.logback.logback-classic.version>
         <com.fasterxml.json.version>2.9.4</com.fasterxml.json.version>
+        <com.google.code.maven-replacer-plugin.replacer.version>1.5.3</com.google.code.maven-replacer-plugin.replacer.version>
         <cz.cvut.kbss.jsonld.jb4jsonld-jackson.version>0.2.1</cz.cvut.kbss.jsonld.jb4jsonld-jackson.version>
         <cz.cvut.kbss.jopa.version>0.9.15</cz.cvut.kbss.jopa.version>
         <javax.servlet.servlet-api.version>3.1.0</javax.servlet.servlet-api.version>
         <junit.junit.version>4.12</junit.junit.version>
         <maven-war-plugin.version>3.1.0</maven-war-plugin.version>
         <net.alchim31.maven.scala-maven-plugin.version>3.3.1</net.alchim31.maven.scala-maven-plugin.version>
+        <org.aspectj.version>1.8.12</org.aspectj.version>
+        <org.codehaus.mojo.aspectj-maven-plugin.version>1.11</org.codehaus.mojo.aspectj-maven-plugin.version>
         <org.codehaus.mojo.build-helper-maven-plugin.version>3.0.0</org.codehaus.mojo.build-helper-maven-plugin.version>
+        <org.codehaus.mojo.exec-maven-plugin.version>1.6.0</org.codehaus.mojo.exec-maven-plugin.version>
         <org.mockito.mockito-all.version>1.10.19</org.mockito.mockito-all.version>
         <org.eclipse.rdf4j.rdf4j-rio-rdfjson.version>2.2.2</org.eclipse.rdf4j.rdf4j-rio-rdfjson.version>
         <org.scala-lang.version>2.12.5</org.scala-lang.version>
@@ -251,7 +255,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>exec-maven-plugin</artifactId>
-                        <version>1.4.0</version>
+                        <version>${org.codehaus.mojo.exec-maven-plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>create-dirs</id>
@@ -318,7 +322,7 @@
                     <plugin>
                         <groupId>com.google.code.maven-replacer-plugin</groupId>
                         <artifactId>replacer</artifactId>
-                        <version>1.5.3</version>
+                        <version>${com.google.code.maven-replacer-plugin.replacer.version}</version>
                         <executions>
                             <execution>
                                 <phase>prepare-package</phase>
@@ -369,11 +373,11 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
-                <version>1.7</version>
+                <version>${org.codehaus.mojo.aspectj-maven-plugin.version}</version>
                 <configuration>
-                    <complianceLevel>1.8</complianceLevel>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <complianceLevel>${maven.compiler.source}</complianceLevel>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                     <aspectLibraries>
                         <aspectLibrary>
                             <groupId>cz.cvut.kbss.jopa</groupId>
@@ -385,12 +389,12 @@
                     <dependency>
                         <groupId>org.aspectj</groupId>
                         <artifactId>aspectjtools</artifactId>
-                        <version>1.8.12</version>
+                        <version>${org.aspectj.version}</version>
                     </dependency>
                     <dependency>
                         <groupId>org.aspectj</groupId>
                         <artifactId>aspectjrt</artifactId>
-                        <version>1.8.12</version>
+                        <version>${org.aspectj.version}</version>
                     </dependency>
                 </dependencies>
                 <executions>
