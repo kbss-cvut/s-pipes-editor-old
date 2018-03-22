@@ -3,34 +3,35 @@ package cz.cvut.kbss.spipes.model.view;
 import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
 import cz.cvut.kbss.spipes.model.AbstractEntity;
-import cz.cvut.kbss.spipes.model.Vocabulary;
 
 import java.net.URI;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
+import static cz.cvut.kbss.spipes.model.Vocabulary.*;
+
 /**
  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 10.11.16.
  */
-@OWLClass(iri = Vocabulary.s_c_node)
+@OWLClass(iri = s_c_node)
 public class Node extends AbstractEntity {
 
-    @OWLDataProperty(iri = Vocabulary.s_p_label)
+    @OWLDataProperty(iri = s_p_label)
     private String label;
-    @OWLDataProperty(iri = Vocabulary.s_p_has_x_coordinate)
+    @OWLDataProperty(iri = s_p_has_x_coordinate)
     private Double x = 0.0;
-    @OWLDataProperty(iri = Vocabulary.s_p_has_y_coordinate)
+    @OWLDataProperty(iri = s_p_has_y_coordinate)
     private Double y = 0.0;
 
     /**
      * Types that correspond to the-graph library types and specify icon & stuff
      */
-    @OWLDataProperty(iri = Vocabulary.s_p_has_module_type)
+    @OWLDataProperty(iri = s_p_has_module_type)
     private Set<String> moduleTypes;
-    @OWLDataProperty(iri = Vocabulary.s_p_has_input_parameter)
+    @OWLDataProperty(iri = s_p_has_input_parameter)
     private Set<String> inParameters;
-    @OWLDataProperty(iri = Vocabulary.s_p_has_output_parameter)
+    @OWLDataProperty(iri = s_p_has_output_parameter)
     private Set<String> outParameters;
 
     public Node() {
@@ -38,7 +39,7 @@ public class Node extends AbstractEntity {
 
     public Node(String label, double x, double y, Set<String> moduleTypes, Set<String> inParameters, Set<String> outParameters) {
         this.id = UUID.randomUUID().toString();
-        this.uri = URI.create(Vocabulary.s_c_node + "/" + id);
+        this.uri = URI.create(s_c_node + "/" + id);
         this.label = label;
         this.x = x;
         this.y = y;

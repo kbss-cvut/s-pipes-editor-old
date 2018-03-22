@@ -3,19 +3,20 @@ package cz.cvut.kbss.spipes.model.spipes;
 import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
 import cz.cvut.kbss.spipes.model.AbstractEntity;
-import cz.cvut.kbss.spipes.model.Vocabulary;
+
+import static cz.cvut.kbss.spipes.model.Vocabulary.*;
 
 /**
  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 22.12.16.
  */
-@OWLClass(iri = Vocabulary.s_c_Module)
+@OWLClass(iri = s_c_Module)
 public class ModuleType extends AbstractEntity {
 
-    @OWLDataProperty(iri = Vocabulary.s_p_label)
+    @OWLDataProperty(iri = s_p_label)
     private String label;
-    @OWLDataProperty(iri = Vocabulary.s_p_comment)
+    @OWLDataProperty(iri = s_p_comment)
     private String comment;
-    @OWLDataProperty(iri = Vocabulary.s_p_icon)
+    @OWLDataProperty(iri = s_p_icon)
     private String icon;
 
     public ModuleType() {

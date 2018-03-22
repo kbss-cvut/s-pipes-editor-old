@@ -4,22 +4,23 @@ import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
 import cz.cvut.kbss.jopa.model.annotations.OWLObjectProperty;
 import cz.cvut.kbss.spipes.model.AbstractEntity;
-import cz.cvut.kbss.spipes.model.Vocabulary;
 import cz.cvut.sforms.model.Question;
+
+import static cz.cvut.kbss.spipes.model.Vocabulary.*;
 
 /**
  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 21.02.2018.
  */
-@OWLClass(iri = Vocabulary.s_c_question_dto)
+@OWLClass(iri = s_c_question_dto)
 public class QuestionDTO extends AbstractEntity {
 
-    @OWLDataProperty(iri = Vocabulary.s_p_has_module_uri)
+    @OWLDataProperty(iri = s_p_has_module_uri)
     private String module;
 
-    @OWLDataProperty(iri = Vocabulary.s_p_has_module_type_uri)
+    @OWLDataProperty(iri = s_p_has_module_type_uri)
     private String moduleType;
 
-    @OWLObjectProperty(iri = Vocabulary.s_p_has_root_question)
+    @OWLObjectProperty(iri = s_p_has_root_question)
     private Question rootQuestion;
 
     public String getModule() {

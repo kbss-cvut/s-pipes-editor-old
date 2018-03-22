@@ -3,22 +3,23 @@ package cz.cvut.kbss.spipes.model.spipes;
 import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
 import cz.cvut.kbss.spipes.model.AbstractEntity;
-import cz.cvut.kbss.spipes.model.Vocabulary;
 
 import java.net.URI;
 import java.util.UUID;
 
+import static cz.cvut.kbss.spipes.model.Vocabulary.*;
+
 /**
  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 18.01.17.
  */
-@OWLClass(iri = Vocabulary.s_c_context)
+@OWLClass(iri = s_c_context)
 public class Context extends AbstractEntity {
 
-    @OWLDataProperty(iri = Vocabulary.s_p_label)
+    @OWLDataProperty(iri = s_p_label)
     private String label;
-    @OWLDataProperty(iri = Vocabulary.s_p_comment)
+    @OWLDataProperty(iri = s_p_comment)
     private String comment;
-    @OWLDataProperty(iri = Vocabulary.s_p_has_content_hash)
+    @OWLDataProperty(iri = s_p_has_content_hash)
     private String contentHash;
 
     public Context() {
@@ -26,7 +27,7 @@ public class Context extends AbstractEntity {
 
     public Context(String label, String comment) {
         this.id = UUID.randomUUID().toString();
-        this.uri = URI.create(Vocabulary.s_c_context + "/" + id);
+        this.uri = URI.create(s_c_context + "/" + id);
         this.label = label;
         this.comment = comment;
     }

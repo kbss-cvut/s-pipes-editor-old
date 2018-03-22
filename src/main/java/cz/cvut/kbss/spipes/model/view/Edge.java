@@ -4,20 +4,21 @@ import cz.cvut.kbss.jopa.model.annotations.CascadeType;
 import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import cz.cvut.kbss.jopa.model.annotations.OWLObjectProperty;
 import cz.cvut.kbss.spipes.model.AbstractEntity;
-import cz.cvut.kbss.spipes.model.Vocabulary;
 
 import java.net.URI;
 import java.util.UUID;
 
+import static cz.cvut.kbss.spipes.model.Vocabulary.*;
+
 /**
  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 10.11.16.
  */
-@OWLClass(iri = Vocabulary.s_c_edge)
+@OWLClass(iri = s_c_edge)
 public class Edge extends AbstractEntity {
 
-    @OWLObjectProperty(iri = Vocabulary.s_p_has_source_node, cascade = CascadeType.ALL)
+    @OWLObjectProperty(iri = s_p_has_source_node, cascade = CascadeType.ALL)
     private Node sourceNode;
-    @OWLObjectProperty(iri = Vocabulary.s_p_has_destination_node, cascade = CascadeType.ALL)
+    @OWLObjectProperty(iri = s_p_has_destination_node, cascade = CascadeType.ALL)
     private Node destinationNode;
 
     public Edge() {
@@ -25,7 +26,7 @@ public class Edge extends AbstractEntity {
 
     public Edge(Node sourceNode, Node destinationNode) {
         this.id = UUID.randomUUID().toString();
-        this.uri = URI.create(Vocabulary.s_c_edge + "/" + id);
+        this.uri = URI.create(s_c_edge + "/" + id);
         this.sourceNode = sourceNode;
         this.destinationNode = destinationNode;
     }

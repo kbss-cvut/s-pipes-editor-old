@@ -3,17 +3,18 @@ package cz.cvut.kbss.spipes.persistence.dao
 import java.io.File
 import java.net.URI
 import java.util.{List => JList}
-import javax.annotation.PostConstruct
 
 import cz.cvut.kbss.jopa.Persistence
 import cz.cvut.kbss.jopa.model._
 import cz.cvut.kbss.ontodriver.config.OntoDriverProperties
 import cz.cvut.kbss.ontodriver.sesame.config.SesameOntoDriverProperties
+import cz.cvut.kbss.spipes.model.AbstractEntity
+import cz.cvut.kbss.spipes.model.Vocabulary._
 import cz.cvut.kbss.spipes.model.spipes.{Module, ModuleType}
-import cz.cvut.kbss.spipes.model.{AbstractEntity, Vocabulary}
 import cz.cvut.kbss.spipes.util.ConfigParam._
 import cz.cvut.kbss.spipes.util.Implicits.configParamValue
 import cz.cvut.kbss.spipes.util._
+import javax.annotation.PostConstruct
 import org.eclipse.rdf4j.rio.RDFFormat
 import org.springframework.stereotype.Repository
 
@@ -50,10 +51,10 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManag
   }
 
   def getModules(absolutePath: Boolean): String => Try[JList[Module]] =
-    (fileName: String) => get(absolutePath)(fileName)(Vocabulary.s_c_Modules)(classOf[Module])
+    (fileName: String) => get(absolutePath)(fileName)(s_c_Modules)(classOf[Module])
 
   def getModuleTypes(absolutePath: Boolean): String => Try[JList[ModuleType]] =
-    (fileName: String) => get(absolutePath)(fileName)(Vocabulary.s_c_Module)(classOf[ModuleType])
+    (fileName: String) => get(absolutePath)(fileName)(s_c_Module)(classOf[ModuleType])
 
 
   private def get[T <: AbstractEntity](absolutePath: Boolean) =

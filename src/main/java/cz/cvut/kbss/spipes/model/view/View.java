@@ -2,28 +2,28 @@ package cz.cvut.kbss.spipes.model.view;
 
 import cz.cvut.kbss.jopa.model.annotations.*;
 import cz.cvut.kbss.spipes.model.AbstractEntity;
-import cz.cvut.kbss.spipes.model.Vocabulary;
 
 import java.net.URI;
 import java.util.Set;
 import java.util.UUID;
 
+import static cz.cvut.kbss.spipes.model.Vocabulary.*;
+
 /**
  * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 01.12.16.
  */
-@OWLClass(iri = Vocabulary.s_c_view)
+@OWLClass(iri = s_c_view)
 public class View extends AbstractEntity {
 
-
-    @OWLDataProperty(iri = Vocabulary.s_p_label)
+    @OWLDataProperty(iri = s_p_label)
     private String label;
-    @OWLObjectProperty(iri = Vocabulary.s_p_consists_of_node, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OWLObjectProperty(iri = s_p_consists_of_node, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Node> nodes;
-    @OWLObjectProperty(iri = Vocabulary.s_p_consists_of_edge, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OWLObjectProperty(iri = s_p_consists_of_edge, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Edge> edges;
-    @OWLDataProperty(iri = Vocabulary.s_p_has_context_hash)
+    @OWLDataProperty(iri = s_p_has_context_hash)
     private String contentHash;
-    @OWLObjectProperty(iri = Vocabulary.s_p_has_author)
+    @OWLObjectProperty(iri = s_p_has_author)
     private Person author;
 
     public View() {
@@ -31,7 +31,7 @@ public class View extends AbstractEntity {
 
     public View(String label, Set<Node> nodes, Set<Edge> edges) {
         this.id = UUID.randomUUID().toString();
-        this.uri = URI.create(Vocabulary.s_c_view + "/" + id);
+        this.uri = URI.create(s_c_view + "/" + id);
         this.label = label;
         this.edges = edges;
         this.nodes = nodes;
