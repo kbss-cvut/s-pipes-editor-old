@@ -3,6 +3,7 @@ package cz.cvut.kbss.spipes.rest
 import cz.cvut.kbss.jsonld.JsonLd
 import cz.cvut.kbss.spipes.model.spipes.{NextDTO, QuestionDTO}
 import cz.cvut.kbss.spipes.service.ScriptService
+import cz.cvut.kbss.spipes.util.Implicits._
 import cz.cvut.kbss.spipes.util.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
