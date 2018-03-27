@@ -1,5 +1,8 @@
 package cz.cvut.kbss.spipes.service
 
+import java.io.{FileNotFoundException, FileOutputStream}
+
+import cz.cvut.kbss.spipes.model.Vocabulary
 import cz.cvut.kbss.spipes.model.spipes.{Module, ModuleType}
 import cz.cvut.kbss.spipes.persistence.dao.ScriptDao
 import cz.cvut.kbss.spipes.util.ConfigParam.SCRIPTS_LOCATION
@@ -10,6 +13,7 @@ import org.apache.jena.rdf.model.{Model, ModelFactory}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
+import scala.collection.JavaConverters._
 import scala.util.{Failure, Success, Try}
 
 /**
@@ -126,7 +130,7 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
     model.add(moduleFrom, new PropertyImpl(Vocabulary.s_p_next), moduleTo)
     cleanly(new FileOutputStream(fileName))(_.close())(os => model.write(os, "TTL"))
   }
-  
+
   def deleteModule(script: String, module: String): Try[Model] = {
     log.info("Deleting module " + module + " from script " + script)
     val fileName = getProperty(SCRIPTS_LOCATION) + "/" + script
