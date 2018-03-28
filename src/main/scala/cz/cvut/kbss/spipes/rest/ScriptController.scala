@@ -3,7 +3,6 @@ package cz.cvut.kbss.spipes.rest
 import cz.cvut.kbss.jsonld.JsonLd
 import cz.cvut.kbss.spipes.model.spipes.{NextDTO, QuestionDTO}
 import cz.cvut.kbss.spipes.service.ScriptService
-import cz.cvut.kbss.spipes.util.Implicits._
 import cz.cvut.kbss.spipes.util.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
@@ -79,6 +78,20 @@ class ScriptController extends Logger[ScriptController] {
     service.createDependency(script, dto.getSourceUri(), dto.getTargetUri()) match {
       case Success(_) =>
         new ResponseEntity[Any](HttpStatus.CREATED)
+      case Failure(e: Throwable) =>
+        log.error(e.getLocalizedMessage(), e)
+        new ResponseEntity[Any](e.getClass().getSimpleName() + ": " + e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  @PostMapping(path = Array("/{script}/modules/dependencies/delete"))
+  def deleteDependency(
+                        @PathVariable script: String,
+                        @RequestBody dto: NextDTO
+                      ): ResponseEntity[Any] = {
+    service.deleteDependency(script, dto.getSourceUri(), dto.getTargetUri()) match {
+      case Success(_) =>
+        new ResponseEntity[Any](HttpStatus.OK)
       case Failure(e: Throwable) =>
         log.error(e.getLocalizedMessage(), e)
         new ResponseEntity[Any](e.getClass().getSimpleName() + ": " + e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
