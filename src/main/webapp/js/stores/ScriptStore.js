@@ -28,6 +28,14 @@ const ScriptStore = Reflux.createStore({
         request[FROM] = from;
         request[TO] = to;
         Ajax.post('rest/scripts/' + script + "/modules/dependency", request).end();
+    },
+
+    onDeleteDependency: function (script, from, to) {
+        const request = {};
+        request["@type"] = NEXT_DTO;
+        request[FROM] = from;
+        request[TO] = to;
+        Ajax.post('rest/scripts/' + script + "/modules/dependencies/delete", request).end();
     }
 });
 
