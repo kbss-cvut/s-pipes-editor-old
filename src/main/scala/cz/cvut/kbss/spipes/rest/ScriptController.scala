@@ -7,6 +7,7 @@ import cz.cvut.kbss.spipes.util.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
 import org.springframework.web.bind.annotation._
+import cz.cvut.kbss.spipes.util.Implicits._
 
 import scala.collection.JavaConverters.{seqAsJavaListConverter, setAsJavaSetConverter}
 import scala.util.{Failure, Success}
