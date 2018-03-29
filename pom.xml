@@ -9,6 +9,8 @@
     <version>0.1</version>
 
     <properties>
+        <maven.build.timestamp.format>hh:mm, dd.mmm.yyyy</maven.build.timestamp.format>
+
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
@@ -17,7 +19,8 @@
 
         <ch.qos.logback.logback-classic.version>1.2.3</ch.qos.logback.logback-classic.version>
         <com.fasterxml.json.version>2.9.4</com.fasterxml.json.version>
-        <com.google.code.maven-replacer-plugin.replacer.version>1.5.3</com.google.code.maven-replacer-plugin.replacer.version>
+        <com.google.code.maven-replacer-plugin.replacer.version>1.5.3
+        </com.google.code.maven-replacer-plugin.replacer.version>
         <cz.cvut.kbss.jsonld.jb4jsonld-jackson.version>0.2.1</cz.cvut.kbss.jsonld.jb4jsonld-jackson.version>
         <cz.cvut.kbss.jopa.version>0.9.15</cz.cvut.kbss.jopa.version>
         <javax.servlet.servlet-api.version>3.1.0</javax.servlet.servlet-api.version>
@@ -274,6 +277,21 @@
                                 </configuration>
                             </execution>
                             <execution>
+                                <id>copy-index</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>compile</phase>
+                                <configuration>
+                                    <workingDirectory>${project.basedir}</workingDirectory>
+                                    <executable>cp</executable>
+                                    <arguments>
+                                        <argument>src/main/webapp/index.html</argument>
+                                        <argument>profiles/production/</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                            <execution>
                                 <id>npm-module-cleanup</id>
                                 <goals>
                                     <goal>exec</goal>
@@ -334,10 +352,16 @@
                         <configuration>
                             <ignoreMissingFile>false</ignoreMissingFile>
                             <file>${project.basedir}/profiles/production/index.html</file>
-                            <outputFile>${project.basedir}/profiles/production/index.html</outputFile>
-                            <regex>false</regex>
-                            <token>Version: Dev</token>
-                            <value>Version: ${project.version} Production</value>
+                            <replacements>
+                                <replacement>
+                                    <token>title=""</token>
+                                    <value>title="Built at ${maven.build.timestamp}"</value>
+                                </replacement>
+                                <replacement>
+                                    <token>Version: Dev</token>
+                                    <value>Version: ${project.version} Production</value>
+                                </replacement>
+                            </replacements>
                         </configuration>
                     </plugin>
                     <plugin>
