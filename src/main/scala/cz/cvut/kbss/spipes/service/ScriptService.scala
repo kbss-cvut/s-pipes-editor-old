@@ -52,7 +52,7 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
             })
             modules match {
               case Some(ownModules) =>
-                Right(Some(ownModules ++ importedModules))
+                Right(Some((ownModules ++ importedModules).toSet))
               case None =>
                 if (importedModules.isEmpty)
                   Right(None)
