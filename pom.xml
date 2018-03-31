@@ -9,7 +9,7 @@
     <version>0.1</version>
 
     <properties>
-        <maven.build.timestamp.format>hh:mm, dd.mmm.yyyy</maven.build.timestamp.format>
+        <maven.build.timestamp.format>HH:mm, dd.MM.yyyy</maven.build.timestamp.format>
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -260,6 +260,20 @@
                         <artifactId>exec-maven-plugin</artifactId>
                         <version>${org.codehaus.mojo.exec-maven-plugin.version}</version>
                         <executions>
+                            <execution>
+                                <id>webapp-cleanup</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>compile</phase>
+                                <configuration>
+                                    <executable>rm</executable>
+                                    <arguments>
+                                        <argument>-Rf</argument>
+                                        <argument>profiles</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
                             <execution>
                                 <id>create-dirs</id>
                                 <goals>
