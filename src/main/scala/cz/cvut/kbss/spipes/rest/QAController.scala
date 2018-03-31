@@ -4,8 +4,7 @@ import java.io.FileNotFoundException
 import java.util.UUID
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import cz.cvut.kbss.jsonld.JsonLd
-import cz.cvut.kbss.spipes.model.spipes.QuestionDTO
+import cz.cvut.kbss.spipes.model.dto.QuestionDTO
 import cz.cvut.kbss.spipes.service.QAService
 import cz.cvut.kbss.spipes.util.ConfigParam.DEFAULT_CONTEXT
 import cz.cvut.kbss.spipes.util.Implicits._
@@ -30,21 +29,17 @@ class QAController extends PropertySource with Logger[QAController] {
   private var om: ObjectMapper = _
 
   @PostMapping(
-    path = Array("/{script}/forms"),
-    consumes = Array("application/json"),
-    produces = Array(JsonLd.MEDIA_TYPE))
-  def generateForm(
-                    @PathVariable script: String,
-                    @RequestBody requestDTO: QuestionDTO,
-                  ): ResponseEntity[Any] = {
-    log.info("Generating form for script " + script + ", module " + requestDTO.getModule() + " of type " + requestDTO.getModule())
+    path = Array("/forms"))
+  def generateForm(@RequestBody requestDTO: QuestionDTO): ResponseEntity[Any] = {
+    val script = requestDTO.getScriptPath()
+    log.info("Generating form for scriptPath " + script + ", module " + requestDTO.getModuleUri() + " of type " + requestDTO.getModuleTypeUri())
     service.generateForm(
       script,
-      Option(requestDTO.getModule()).getOrElse(getProperty(DEFAULT_CONTEXT) + UUID.randomUUID().toString()),
-      requestDTO.getModuleType()
+      Option(requestDTO.getModuleUri()).getOrElse(getProperty(DEFAULT_CONTEXT) + UUID.randomUUID().toString()),
+      requestDTO.getModuleTypeUri()
     ) match {
       case Success(form) =>
-        log.info("Form generated successfully for script " + script + ", module " + requestDTO.getModule() + " of type " + requestDTO.getModuleType())
+        log.info("Form generated successfully for scriptPath " + script + ", module " + requestDTO.getModuleUri() + " of type " + requestDTO.getModuleTypeUri())
         log.trace(form)
         new ResponseEntity(form, HttpStatus.OK)
       case Failure(_: FileNotFoundException) =>
@@ -56,19 +51,15 @@ class QAController extends PropertySource with Logger[QAController] {
     }
   }
 
-  @PostMapping(
-    path = Array("/{script}/forms/answers"),
-    consumes = Array("application/json"))
-  def mergeForm(
-                 @PathVariable script: String,
-                 @RequestBody answerDto: QuestionDTO,
-               ): ResponseEntity[Any] = {
-    val module = answerDto.getModule()
-    val moduleType = answerDto.getModuleType()
+  @PostMapping(path = Array("/forms/answers"))
+  def mergeForm(@RequestBody answerDto: QuestionDTO): ResponseEntity[Any] = {
+    val script = answerDto.getScriptPath()
+    val module = answerDto.getModuleUri()
+    val moduleType = answerDto.getModuleTypeUri()
     val rootQuestion = answerDto.getRootQuestion()
     Option(rootQuestion) match {
       case Some(q) =>
-        log.info("Received answers for script " + script + ", module " + module + ", module type " + moduleType)
+        log.info("Received answers for scriptPath " + script + ", module " + module + ", module type " + moduleType)
         log.trace("Root question:" + (q + ""))
         service.mergeForm(script, q, moduleType) match {
           case Success(_) => new ResponseEntity(HttpStatus.OK)
@@ -77,7 +68,7 @@ class QAController extends PropertySource with Logger[QAController] {
             new ResponseEntity(e.getClass().getSimpleName() + ": " + e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
         }
       case None =>
-        log.warn("No answers received for script " + script + ", module " + module + ", module type " + moduleType)
+        log.warn("No answers received for scriptPath " + script + ", module " + module + ", module type " + moduleType)
         new ResponseEntity("Root question must not be empty", HttpStatus.BAD_REQUEST)
     }
   }

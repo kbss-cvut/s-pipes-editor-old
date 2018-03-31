@@ -48,7 +48,7 @@ class Scripts extends React.Component {
     }
 
     _showView() {
-        let options = {params: {script: this.children}};
+        let options = {state: {script: this.children}};
         Routing.transitionTo(Routes.views, options);
     }
 }

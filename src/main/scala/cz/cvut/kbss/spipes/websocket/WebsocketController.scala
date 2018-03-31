@@ -1,12 +1,12 @@
 package cz.cvut.kbss.spipes.websocket
 
 import java.nio.file._
-import javax.websocket._
-import javax.websocket.server.ServerEndpoint
 
 import cz.cvut.kbss.spipes.util.ConfigParam.SCRIPTS_LOCATION
 import cz.cvut.kbss.spipes.util.Implicits.configParamValue
 import cz.cvut.kbss.spipes.util.{Logger, PropertySource}
+import javax.websocket._
+import javax.websocket.server.ServerEndpoint
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.stereotype.Controller
 import org.springframework.web.socket.server.standard.SpringConfigurator
@@ -79,10 +79,7 @@ class WebsocketController extends InitializingBean with PropertySource with Logg
             .toAbsolutePath().toString()
           log.info("Registered FS event on " + fileName)
           if (WebsocketController.subscribers.keySet.contains(fileName))
-            WebsocketController.subscribers(fileName).foreach((s) => {
-              log.info("Sending FS event to " + s.toString())
-              s.getBasicRemote().sendText(e.toString())
-            })
+            WebsocketController.notify(fileName, e)
         })
       } match {
         case Failure(t) =>
@@ -97,6 +94,13 @@ class WebsocketController extends InitializingBean with PropertySource with Logg
   }
 }
 
-object WebsocketController {
+object WebsocketController extends Logger[WebsocketController] {
   private val subscribers = mutable.ParHashMap[String, Set[Session]]()
+
+  def notify(filePath: String, e: WatchEvent[_]*): Unit = {
+    WebsocketController.subscribers(filePath).foreach((s) => {
+      log.info("Sending FS event to " + s.toString())
+      s.getBasicRemote().sendText(e.toString())
+    })
+  }
 }

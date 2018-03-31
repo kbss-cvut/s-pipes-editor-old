@@ -27,7 +27,8 @@ const Routing = {
         RoutingRules.execute(route.name);
         this.history.push({
             pathname: path,
-            search: options.query
+            search: options.query,
+            state: options.state
         });
     },
 

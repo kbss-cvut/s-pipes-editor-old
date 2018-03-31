@@ -62,7 +62,7 @@ const OBJECT_VALUE = "http://onto.fel.cvut.cz/ontologies/documentation/has_objec
 class ViewController extends React.Component {
 
     _getScript() {
-        return this.props.params.script;
+        return this.props.location.state.script;
     };
 
     constructor(props) {

@@ -1,6 +1,6 @@
 package cz.cvut.kbss.spipes.persistence.dao
 
-import java.io.File
+import java.io.{ByteArrayInputStream, ByteArrayOutputStream, File}
 import java.net.URI
 import java.util.{List => JList}
 
@@ -15,6 +15,7 @@ import cz.cvut.kbss.spipes.util.ConfigParam._
 import cz.cvut.kbss.spipes.util.Implicits.configParamValue
 import cz.cvut.kbss.spipes.util._
 import javax.annotation.PostConstruct
+import org.apache.jena.rdf.model.Model
 import org.eclipse.rdf4j.rio.RDFFormat
 import org.springframework.stereotype.Repository
 
@@ -50,36 +51,32 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManag
     emf = Persistence.createEntityManagerFactory("testPersistenceUnit", props.asJava)
   }
 
-  def getModules(absolutePath: Boolean): String => Try[JList[Module]] =
-    (fileName: String) => get(absolutePath)(fileName)(s_c_Modules)(classOf[Module])
+  def getModules(m: Model): Try[JList[Module]] =
+    get(m)(s_c_Modules)(classOf[Module])
 
-  def getModuleTypes(absolutePath: Boolean): String => Try[JList[ModuleType]] =
-    (fileName: String) => get(absolutePath)(fileName)(s_c_Module)(classOf[ModuleType])
+  def getModuleTypes(m: Model): Try[JList[ModuleType]] =
+    get(m)(s_c_Module)(classOf[ModuleType])
 
 
-  private def get[T <: AbstractEntity](absolutePath: Boolean) =
-    (fileName: String) =>
-      (owlClass: String) =>
-        (resultClass: Class[T]) => {
-          log.info("Fetching " + resultClass.getSimpleName() + "s from file " + fileName)
-          val filePath =
-            if (absolutePath) fileName
-            else getProperty(SCRIPTS_LOCATION) + "/" + fileName
-          val em = emf.createEntityManager()
-          val repo = JopaPersistenceUtils.getRepository(em)
-          cleanly(repo.getConnection())(c => {
-            c.clear()
-            c.close()
-          })(connection => {
-            connection.add(Source.fromFile(filePath).reader(), "http://temporary", RDFFormat.TURTLE)
-
-            // retrieve JOPA objects by callback function
-            emf.getCache().evict(resultClass)
-            val query = em.createNativeQuery("select ?s where { ?s a ?type }", resultClass)
-              .setParameter("type", URI.create(owlClass))
-            query.getResultList()
-          })
-        }
+  private def get[T <: AbstractEntity](m: Model) =
+    (owlClass: String) =>
+      (resultClass: Class[T]) => {
+        val em = emf.createEntityManager()
+        val repo = JopaPersistenceUtils.getRepository(em)
+        cleanly(repo.getConnection())(c => {
+          c.clear()
+          c.close()
+        })(connection => {
+          val writer = new ByteArrayOutputStream()
+          m.write(writer, "TTL")
+          val reader = new ByteArrayInputStream(writer.toByteArray())
+          connection.add(reader, "", RDFFormat.TURTLE)
+          emf.getCache().evict(resultClass)
+          val query = em.createNativeQuery("select ?s where { ?s a ?type }", resultClass)
+            .setParameter("type", URI.create(owlClass))
+          query.getResultList()
+        })
+      }
 
   def getScripts: Option[Set[File]] = {
     val scriptsPath = getProperty(SCRIPTS_LOCATION)

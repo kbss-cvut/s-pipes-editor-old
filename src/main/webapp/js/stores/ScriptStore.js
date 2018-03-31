@@ -4,9 +4,10 @@ import Reflux from 'reflux';
 import Actions from '../actions/Actions';
 import Ajax from '../utils/Ajax';
 
-const NEXT_DTO = "http://onto.fel.cvut.cz/ontologies/s-pipes-view/next-dto";
-const FROM = "http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-source-uri";
-const TO = "http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-target-uri";
+const DEPENDENCY_DTO = "http://onto.fel.cvut.cz/ontologies/s-pipes/dependency-dto";
+const FROM = "http://onto.fel.cvut.cz/ontologies/s-pipes/has-module-uri";
+const TO = "http://onto.fel.cvut.cz/ontologies/s-pipes/has-target-module-uri";
+const SCRIPT_PATH = "http://onto.fel.cvut.cz/ontologies/s-pipes/has-script-path";
 
 //todo Rewrite to "extends" form
 const ScriptStore = Reflux.createStore({
@@ -24,18 +25,20 @@ const ScriptStore = Reflux.createStore({
 
     onCreateDependency: function (script, from, to) {
         const request = {};
-        request["@type"] = NEXT_DTO;
+        request["@type"] = DEPENDENCY_DTO;
+        request[SCRIPT_PATH] = script;
         request[FROM] = from;
         request[TO] = to;
-        Ajax.post('rest/scripts/' + script + "/modules/dependency", request).end();
+        Ajax.post("rest/scripts/modules/dependency", request).end();
     },
 
     onDeleteDependency: function (script, from, to) {
         const request = {};
-        request["@type"] = NEXT_DTO;
+        request["@type"] = DEPENDENCY_DTO;
+        request[SCRIPT_PATH] = script;
         request[FROM] = from;
         request[TO] = to;
-        Ajax.post('rest/scripts/' + script + "/modules/dependencies/delete", request).end();
+        Ajax.post("rest/scripts/modules/dependencies/delete", request).end();
     }
 });
 

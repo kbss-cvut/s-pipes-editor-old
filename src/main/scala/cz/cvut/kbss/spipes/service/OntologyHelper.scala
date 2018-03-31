@@ -1,11 +1,12 @@
 package cz.cvut.kbss.spipes.service
 
-import java.io.{File, FileInputStream}
+import java.io.{File, FileInputStream, FileNotFoundException}
 
 import cz.cvut.kbss.spipes.persistence.dao.ScriptDao
 import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager}
-import org.apache.jena.rdf.model.ModelFactory
+import org.apache.jena.rdf.model.{Model, ModelFactory}
 import org.apache.jena.vocabulary.{OWL, RDF}
+import org.eclipse.rdf4j.rio.RDFFormat
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -21,7 +22,7 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
   @Autowired
   private var scriptDao: ScriptDao = _
 
-  def getOntologyUri(f: File): Option[String] = {
+  private def getOntologyUri(f: File): Option[String] = {
     log.info(s"""Looking for an ontology in file ${f.getName()}""")
     cleanly(new FileInputStream(f))(_.close())(is => {
       val model = ModelFactory.createDefaultModel()
@@ -30,7 +31,7 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
     }) match {
       case Success(Seq(v)) => Some(v)
       case Success(v) if v.nonEmpty => // Fixme Delete this abomination once quality scripts are available
-        log.warn("The script contains more than one ontology. Taking only the first one")
+        log.warn("The scriptPath contains more than one ontology. Taking only the first one")
         v.headOption
       case Failure(e) =>
         log.warn(e.getLocalizedMessage(), e)
@@ -38,17 +39,29 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
     }
   }
 
-  def getFile(ontologyUri: String): Option[File] = scriptDao.getScripts.map(collectOntologyUris).flatMap(_.get(ontologyUri))
-
-  def collectOntologyUris(files: Set[File]): Map[String, File] =
+  private def collectOntologyUris(files: Set[File]): Map[String, File] =
     files.map(f => getOntologyUri(f) -> f).filter(_._1.nonEmpty).map(p => p._1.get -> p._2).toMap
 
-  def getURIOfImportedOntologies(rootPath: String): String => Try[Seq[String]] = (fileName: String) => {
-    log.info(s"""Looking for imports in $fileName""")
-    cleanly(new FileInputStream(rootPath + "/" + fileName))(_.close())(is => {
-      val model = ModelFactory.createDefaultModel()
-      val st = model.read(is, null, "TTL").listStatements(null, OWL.imports, null).toList().asScala
-      st.map(_.getObject().asResource().getURI())
-    })
-  }
+  def getFile(ontologyUri: String): Option[File] = scriptDao.getScripts.map(collectOntologyUris).flatMap(_.get(ontologyUri))
+
+  def createModel(file: File): Try[Model] =
+    if (file.exists())
+      cleanly(new FileInputStream(file))(_.close())(is =>
+        ModelFactory.createDefaultModel().read(is, null, RDFFormat.TURTLE.getDefaultFileExtension()))
+    else
+      Failure(new FileNotFoundException(file + " does not exist"))
+
+  def appendImports(model: Model): Model =
+    model.union(
+      model.listStatements(null, OWL.imports, null).toList().asScala
+        .map(st => getFile(st.getObject().asResource().getURI()))
+        .filter(_.nonEmpty)
+        .map(f => createModel(f.get))
+        .filter(_.isSuccess)
+        .map(_.get)
+        .foldLeft(model)(_.union(_))
+    )
+
+  def getUnionModel(file: File): Try[Model] =
+    createModel(file).map(m => appendImports(m))
 }

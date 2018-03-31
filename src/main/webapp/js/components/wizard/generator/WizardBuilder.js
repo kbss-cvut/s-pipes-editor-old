@@ -9,10 +9,10 @@ import Logger from '../../../utils/Logger';
 import TypeaheadResultList from '../../typeahead/TypeaheadResultList';
 import WizardStore from '../../../stores/WizardStore';
 
-const FORM_GEN_URL = 'rest/scripts/';
-const QUESTION_DTO = "http://onto.fel.cvut.cz/ontologies/s-pipes-view/question-dto";
-const MODULE_URI = "http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-module-uri";
-const MODULE_TYPE_URI = "http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-module-type-uri";
+const QUESTION_DTO = "http://onto.fel.cvut.cz/ontologies/s-pipes/question-dto";
+const MODULE_URI = "http://onto.fel.cvut.cz/ontologies/s-pipes/has-module-uri";
+const MODULE_TYPE_URI = "http://onto.fel.cvut.cz/ontologies/s-pipes/has-module-type-uri";
+const SCRIPT_PATH = "http://onto.fel.cvut.cz/ontologies/s-pipes/has-script-path";
 
 export default class WizardBuilder {
 
@@ -21,7 +21,8 @@ export default class WizardBuilder {
         request["@type"] = QUESTION_DTO;
         request[MODULE_TYPE_URI] = moduleType;
         request[MODULE_URI] = module;
-        Ajax.post(FORM_GEN_URL + script + "/forms", JSON.stringify(request)).end((data) => {
+        request[SCRIPT_PATH] = script;
+        Ajax.post("rest/scripts/forms", request).end((data) => {
             Configuration.actions = Actions;
             Configuration.wizardStore = WizardStore;
             Configuration.optionsStore = FormGenStore;

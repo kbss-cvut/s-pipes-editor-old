@@ -1,29 +1,12 @@
 package cz.cvut.kbss.spipes.test.service
 
-import java.io.FileNotFoundException
-import java.util
-
-import cz.cvut.kbss.spipes.model.spipes.{Module, ModuleType}
-import cz.cvut.kbss.spipes.test.config.ScriptTestServiceConfig
-import cz.cvut.kbss.spipes.util.ConfigParam.SCRIPTS_LOCATION
-import cz.cvut.kbss.spipes.util.Implicits._
-import org.junit.Assert.assertEquals
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mockito.when
-import org.springframework.test.context.ContextConfiguration
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
-
-import scala.collection.JavaConverters._
-import scala.util.{Failure, Random, Success}
-
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 20.03.2018.
   */
-@RunWith(classOf[SpringJUnit4ClassRunner])
+//@RunWith(classOf[SpringJUnit4ClassRunner])
 class ScriptServiceNoImportsTest extends ScriptServiceTest {
 
-  @Test
+  /*@Test
   def moduleTypesGotFailureFileNotFound: Unit = {
     when(dao.getModuleTypes(false)).thenReturn((_: String) => Failure(new FileNotFoundException()))
     assertEquals(Right(None), service.getModuleTypes(fileName))
@@ -92,6 +75,6 @@ class ScriptServiceNoImportsTest extends ScriptServiceTest {
     when(dao.getModules(false)).thenReturn((_: String) => Success(l))
     when(helper.getURIOfImportedOntologies(service.getProperty(SCRIPTS_LOCATION))).thenReturn((_: String) => Failure(new Exception()))
     assertEquals(Right(Some(l.asScala)), service.getModules(fileName))
-  }
+  }*/
 
 }
