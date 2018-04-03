@@ -60,15 +60,8 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
   }
 
   def createDependency(scriptPath: String, from: String, to: String): Try[_] = {
-    val defaultFilePath = f"""${getProperty(SCRIPTS_LOCATION)}/$scriptPath"""
-    val ontologyUri =
-      if (from.contains("#"))
-        from.split("#").head
-      else
-        from.reverse.dropWhile(_ != '/').reverse
-    val fileName = helper.getFile(ontologyUri).map(_.getAbsolutePath())
-      .getOrElse(defaultFilePath)
-    helper.getUnionModel(new File(defaultFilePath)).flatMap(model => {
+    val fileName = f"""${getProperty(SCRIPTS_LOCATION)}/$scriptPath"""
+    helper.getUnionModel(new File(fileName)).flatMap(model => {
       model.listSubjects().asScala.find(_.getURI() == from) ->
         model.listSubjects().asScala.find(_.getURI() == to) match {
         case (Some(moduleFrom), Some(moduleTo)) =>
@@ -77,7 +70,6 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
           cleanly(new FileOutputStream(fileName))(_.close())(os => {
             m.write(os, "TTL")
           })
-            .map(_ => WebsocketController.notify(defaultFilePath))
         case (None, _) =>
           Failure(new IllegalArgumentException("Source module not found"))
         case (_, None) =>

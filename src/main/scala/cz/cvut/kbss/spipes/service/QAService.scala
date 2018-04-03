@@ -5,7 +5,6 @@ import java.io.{File, FileOutputStream}
 import cz.cvut.kbss.spipes.util.ConfigParam._
 import cz.cvut.kbss.spipes.util.Implicits.configParamValue
 import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager}
-import cz.cvut.kbss.spipes.websocket.WebsocketController
 import cz.cvut.sempipes.transform.{Transformer, TransformerImpl}
 import cz.cvut.sforms.model.Question
 import org.apache.jena.rdf.model.{Model, ModelFactory}
@@ -38,19 +37,11 @@ class QAService extends PropertySource with Logger[QAService] with ResourceManag
 
   def mergeForm(scriptPath: String, rootQuestion: Question, moduleType: String): Try[Model] = {
     log.info("Merging form for script " + scriptPath)
-    val defaultFilePath = f"""${getProperty(SCRIPTS_LOCATION)}/$scriptPath"""
-    val ontologyUri =
-      if (moduleType.contains("#"))
-        moduleType.split("#").head
-      else
-        moduleType.reverse.dropWhile(_ != '/').reverse
-    val fileName = helper.getFile(ontologyUri).map(_.getAbsolutePath())
-      .getOrElse(defaultFilePath)
+    val fileName = f"""${getProperty(SCRIPTS_LOCATION)}/$scriptPath"""
     val model = ModelFactory.createDefaultModel().read(fileName)
     cleanly(new FileOutputStream(fileName))(_.close())(os => {
       val res = transformer.form2Script(model, rootQuestion, moduleType)
       res.write(os, "TTL")
-      WebsocketController.notify(defaultFilePath)
       res
     })
   }
