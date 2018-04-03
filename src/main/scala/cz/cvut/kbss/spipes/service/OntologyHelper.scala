@@ -42,7 +42,7 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
   private def collectOntologyUris(files: Set[File]): Map[String, File] =
     files.map(f => getOntologyUri(f) -> f).filter(_._1.nonEmpty).map(p => p._1.get -> p._2).toMap
 
-  def getFile(ontologyUri: String): Option[File] = scriptDao.getScripts.map(collectOntologyUris).flatMap(_.get(ontologyUri))
+  def getFile(ontologyUri: String): Option[File] = scriptDao.getScripts(false).map(collectOntologyUris).flatMap(_.get(ontologyUri))
 
   def createModel(file: File): Try[Model] =
     if (file.exists())

@@ -78,10 +78,13 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManag
         })
       }
 
-  def getScripts: Option[Set[File]] = {
+  def getScripts(ignore: Boolean): Option[Set[File]] = {
     val scriptsPath = getProperty(SCRIPTS_LOCATION)
     log.info("Looking for any scripts in " + scriptsPath)
-    Option(find(new File(scriptsPath), Set()).diff(ignored))
+    if (ignore)
+      Option(find(new File(scriptsPath), Set()).diff(ignored))
+    else
+      Option(find(new File(scriptsPath), Set()))
   }
 
   private def find(root: File, acc: Set[File]): Set[File] =
