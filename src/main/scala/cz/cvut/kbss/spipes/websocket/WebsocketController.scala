@@ -1,5 +1,6 @@
 package cz.cvut.kbss.spipes.websocket
 
+import java.io.File
 import java.nio.file._
 
 import cz.cvut.kbss.spipes.util.ConfigParam.SCRIPTS_LOCATION
@@ -60,11 +61,23 @@ class WebsocketController extends InitializingBean with PropertySource with Logg
 
 
   override def afterPropertiesSet(): Unit = {
-    val path = Paths.get(getProperty(SCRIPTS_LOCATION))
-    val service = path.getFileSystem().newWatchService()
-    path.register(service, StandardWatchEventKinds.ENTRY_MODIFY)
+    def find(root: File, acc: Set[File]): Set[File] =
+      if (root.isDirectory())
+        root.listFiles() match {
+          case s if s.nonEmpty && s.exists(_.isDirectory()) =>
+            s.filter(_.isDirectory()).map(f => find(f, acc)).foldLeft(Set(root))(_ ++ _)
+          case _ =>
+            acc + root
+        }
+      else
+        acc
 
-    Future(watchFS(service))
+    find(new File(getProperty(SCRIPTS_LOCATION)), Set()).foreach(f => {
+      val path = Paths.get(f.getAbsolutePath())
+      val service = path.getFileSystem().newWatchService()
+      path.register(service, StandardWatchEventKinds.ENTRY_MODIFY)
+      Future(watchFS(service))
+    })
   }
 
   @tailrec
