@@ -428,11 +428,19 @@ class ViewController extends React.Component {
             y: 0
         };
 
+        const labelLengths = this.state.view.nodes.map(n =>
+            n === undefined ? 0 :
+                n.metadata === undefined ? 0 :
+                    n.metadata.label === undefined ? 0 :
+                        n.metadata.label.length);
+        let maxLabelLength = 0;
+        for (let l in labelLengths)
+            maxLabelLength = (parseInt(labelLengths[l]) > maxLabelLength ? parseInt(labelLengths[l]) : maxLabelLength)
         this.state.view.nodes.map(n => {
             elkGraph.children.push({
                 id: n.id,
                 height: 100,
-                width: 100
+                width: maxLabelLength * 6.5
             });
         });
 
