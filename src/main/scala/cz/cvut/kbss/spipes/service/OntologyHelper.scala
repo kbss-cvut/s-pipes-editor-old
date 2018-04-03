@@ -44,14 +44,17 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
 
   def getFile(ontologyUri: String): Option[File] = scriptDao.getScripts(false).map(collectOntologyUris).flatMap(_.get(ontologyUri))
 
-  def createModel(file: File): Try[Model] =
+  def createModel(file: File): Try[Model] = {
+    log.info(f"""Creating model from $file""")
     if (file.exists())
       cleanly(new FileInputStream(file))(_.close())(is =>
         ModelFactory.createDefaultModel().read(is, null, RDFFormat.TURTLE.getDefaultFileExtension()))
     else
       Failure(new FileNotFoundException(file + " does not exist"))
+  }
 
-  def appendImports(model: Model): Model =
+  def appendImports(model: Model): Model = {
+    log.info(f"""Appending imports from $model""")
     model.union(
       model.listStatements(null, OWL.imports, null).toList().asScala
         .map(st => getFile(st.getObject().asResource().getURI()))
@@ -61,7 +64,10 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
         .map(_.get)
         .foldLeft(model)(_.union(_))
     )
+  }
 
-  def getUnionModel(file: File): Try[Model] =
+  def getUnionModel(file: File): Try[Model] = {
+    log.info(f"""Creating union model from $file""")
     createModel(file).map(m => appendImports(m))
+  }
 }

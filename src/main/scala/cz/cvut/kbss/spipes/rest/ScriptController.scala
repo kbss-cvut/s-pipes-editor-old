@@ -57,6 +57,7 @@ class ScriptController extends Logger[ScriptController] {
   @PostMapping(path = Array("/modules/dependency"))
   def createDependency(@RequestBody dto: DependencyDTO): ResponseEntity[Any] = {
     val script = dto.getScriptPath()
+    log.info(f"""Creating ${dto.getModuleUri()}'s dependency on ${dto.getTargetModuleUri()} in script ${dto.getScriptPath()}""")
     service.createDependency(script, dto.getModuleUri(), dto.getTargetModuleUri()) match {
       case Success(_) =>
         new ResponseEntity[Any](HttpStatus.CREATED)
@@ -69,6 +70,7 @@ class ScriptController extends Logger[ScriptController] {
   @PostMapping(path = Array("/modules/dependencies/delete"))
   def deleteDependency(@RequestBody dto: DependencyDTO): ResponseEntity[Any] = {
     val script = dto.getScriptPath()
+    log.info(f"""Deleting ${dto.getModuleUri()}'s dependency on ${dto.getTargetModuleUri()} in script ${dto.getScriptPath()}""")
     service.deleteDependency(script, dto.getModuleUri(), dto.getTargetModuleUri()) match {
       case Success(_) =>
         new ResponseEntity[Any](HttpStatus.OK)
