@@ -1,0 +1,1540 @@
+@prefix aviation-safety: <http://onto.fel.cvut.cz/ontologies/aviation-safety/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix doc: <http://onto.fel.cvut.cz/ontologies/documentation/> .
+@prefix ff: <http://vfn.cz/ontologies/fss-form/> .
+@prefix form: <http://onto.fel.cvut.cz/ontologies/form/> .
+@prefix form-lt: <http://onto.fel.cvut.cz/ontologies/form-layout/> .
+@prefix stm: <http://vfn.cz/ontologies/study-model/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ufo: <http://onto.fel.cvut.cz/ontologies/ufo/> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://vfn.cz/ontologies/fss-form-static>
+  rdf:type owl:Ontology ;
+  owl:imports <http://onto.fel.cvut.cz/ontologies/form> ;
+  owl:imports <http://onto.fel.cvut.cz/ontologies/form-layout> ;
+  owl:imports <http://onto.fel.cvut.cz/ontologies/form-lib> ;
+.
+ff:diagnosis-date-of-first-diagnosis-of-cervical-cancer-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "masked-input" ;
+  form:has-input-mask "MM/YYYY" ;
+  rdfs:label "Date of first diagnosis of cervical cancer (month/year)" ;
+.
+ff:diagnosis-diagnostic-procedure-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "type-ahead" ;
+  form:has-preceding-question ff:diagnosis-date-of-first-diagnosis-of-cervical-cancer-q ;
+  form:has-question-origin stm:diagnostic-procedure ;
+  rdfs:comment "Pick most important one"@en ;
+  rdfs:label "Diagnostic procedure" ;
+.
+ff:diagnosis-histology-grade-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "type-ahead" ;
+  form:has-preceding-question ff:diagnosis-histology-histological-type-q ;
+  form:has-question-origin stm:grade ;
+  rdfs:comment "  "@en ;
+  rdfs:label "Grade" ;
+.
+ff:diagnosis-histology-histological-type-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "type-ahead" ;
+  form:has-question-origin stm:histological-type ;
+  form:requires-answer "true"^^xsd:boolean ;
+  rdfs:comment "  "@en ;
+  rdfs:label "Histological type " ;
+.
+ff:diagnosis-histology-lvsi-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "type-ahead" ;
+  form:has-preceding-question ff:diagnosis-histology-grade-q ;
+  form:has-question-origin stm:lvsi ;
+  rdfs:comment "  "@en ;
+  rdfs:label "LVSI" ;
+.
+ff:diagnosis-histology-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:diagnosis-histology-grade-q ;
+  doc:has_related_question ff:diagnosis-histology-histological-type-q ;
+  doc:has_related_question ff:diagnosis-histology-lvsi-q ;
+  form-lt:has-layout-class "section" ;
+  form:has-preceding-question ff:diagnosis-diagnostic-procedure-q ;
+  rdfs:label "Histology" ;
+.
+ff:diagnosis-pre-treatment-stage-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "type-ahead" ;
+  form:has-preceding-question ff:diagnosis-pre-treatment-workup-q ;
+  form:has-question-origin stm:stage ;
+  rdfs:comment "  "@en ;
+  form:requires-answer "true"^^xsd:boolean ;
+  rdfs:label "Pre-treatment clinical and radiological stage (TNM classification)" ;
+.
+ff:diagnosis-pre-treatment-workup-colposcopy-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:comment "  "@en ;
+  rdfs:label "Colposcopy" ;
+.
+ff:diagnosis-pre-treatment-workup-ct-scan-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:comment "  "@en ;
+  rdfs:label "CT scan" ;
+.
+ff:diagnosis-pre-treatment-workup-cystoscopy-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:comment "  "@en ;
+  rdfs:label "Cystoscopy" ;
+.
+ff:diagnosis-pre-treatment-workup-dw-mri-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:comment "  "@en ;
+  rdfs:label "DW-MRI" ;
+.
+ff:diagnosis-pre-treatment-workup-mri-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:comment "  "@en ;
+  rdfs:label "MRI" ;
+.
+ff:diagnosis-pre-treatment-workup-pet-ct-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:comment "  "@en ;
+  rdfs:label "PET-CT" ;
+.
+ff:diagnosis-pre-treatment-workup-pet-mri-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:comment "  "@en ;
+  rdfs:label "PET-MRI" ;
+.
+ff:diagnosis-pre-treatment-workup-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:diagnosis-pre-treatment-workup-colposcopy-q ;
+  doc:has_related_question ff:diagnosis-pre-treatment-workup-ct-scan-q ;
+  doc:has_related_question ff:diagnosis-pre-treatment-workup-cystoscopy-q ;
+  doc:has_related_question ff:diagnosis-pre-treatment-workup-dw-mri-q ;
+  doc:has_related_question ff:diagnosis-pre-treatment-workup-mri-q ;
+  doc:has_related_question ff:diagnosis-pre-treatment-workup-pet-ct-q ;
+  doc:has_related_question ff:diagnosis-pre-treatment-workup-pet-mri-q ;
+  doc:has_related_question ff:diagnosis-pre-treatment-workup-rectoscopy-or-colonoscopy-q ;
+  doc:has_related_question ff:diagnosis-pre-treatment-workup-ultrasound-q ;
+  form-lt:has-layout-class "section" ;
+  form:has-preceding-question ff:diagnosis-histology-q ;
+  rdfs:comment "  "@en ;
+  rdfs:label "Pre-treatment work-up" ;
+.
+ff:diagnosis-pre-treatment-workup-rectoscopy-or-colonoscopy-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:comment "  "@en ;
+  rdfs:label "Rectoscopy or colonoscopy" ;
+.
+ff:diagnosis-pre-treatment-workup-ultrasound-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:comment "  "@en ;
+  rdfs:label "Ultrasound" ;
+.
+ff:diagnosis-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:diagnosis-date-of-first-diagnosis-of-cervical-cancer-q ;
+  doc:has_related_question ff:diagnosis-diagnostic-procedure-q ;
+  doc:has_related_question ff:diagnosis-histology-q ;
+  doc:has_related_question ff:diagnosis-pre-treatment-stage-q ;
+  doc:has_related_question ff:diagnosis-pre-treatment-workup-q ;
+  form-lt:has-layout-class "section" ;
+  form-lt:has-layout-class "wizard-step" ;
+  form:has-preceding-question ff:patient-data-q ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-validation-value "true" ;
+      form:has-tested-question ff:inclusion-criteria-q ;
+    ] ;
+  rdfs:label "Diagnosis and diagnostic work-up" ;
+.
+ff:fertility-saving-study-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:diagnosis-q ;
+  doc:has_related_question ff:follow-up-and-recurrence-q ;
+  doc:has_related_question ff:inclusion-criteria-q ;
+  doc:has_related_question ff:patient-data-q ;
+  doc:has_related_question ff:primary-treatment-q ;
+  form-lt:has-layout-class "form" ;
+  rdfs:comment "General information and classification of the occurrence."@en ;
+  rdfs:label "Fertility saving study"@en ;
+.
+ff:follow-up-and-recurrence--cause-of-death
+  rdf:type doc:question ;
+  form:has-preceding-question ff:follow-up-and-recurrence--date-of-death ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value stm:current-status-doc ;
+      form:has-tested-question ff:follow-up-and-recurrence--current-status ;
+    ] ;
+  rdfs:label "Cause of death" ;
+.
+ff:follow-up-and-recurrence--current-status
+  rdf:type doc:question ;
+  form-lt:has-layout-class "type-ahead" ;
+  form:has-preceding-question ff:follow-up-and-recurrence--recurrence ;
+  form:has-question-origin stm:current-status ;
+  rdfs:label "Current status" ;
+  form:requires-answer "true"^^xsd:boolean ;
+.
+ff:follow-up-and-recurrence--date-of-death
+  rdf:type doc:question ;
+  form-lt:has-layout-class "masked-input" ;
+  form:has-input-mask "MM/YYYY" ;
+  form:has-preceding-question ff:follow-up-and-recurrence--current-status ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value stm:current-status-doc ;
+      form:accepts-answer-value stm:current-status-dod ;
+      form:has-tested-question ff:follow-up-and-recurrence--current-status ;
+    ] ;
+  rdfs:label "Date of death (month/year)" ;
+.
+ff:follow-up-and-recurrence--date-of-last-follow-up
+  rdf:type doc:question ;
+  form-lt:has-layout-class "masked-input" ;
+  form:has-input-mask "MM/YYYY" ;
+  form:has-preceding-question ff:follow-up-and-recurrence--follow-up-procedure ;
+  rdfs:label "Date of last follow-up (month/year)" ;
+.
+ff:follow-up-and-recurrence--follow-up-procedure
+  rdf:type doc:question ;
+  doc:has_related_question ff:follow-up-and-recurrence--follow-up-procedure--biopsy ;
+  doc:has_related_question ff:follow-up-and-recurrence--follow-up-procedure--colposcopy ;
+  doc:has_related_question ff:follow-up-and-recurrence--follow-up-procedure--ct ;
+  doc:has_related_question ff:follow-up-and-recurrence--follow-up-procedure--hpv-test ;
+  doc:has_related_question ff:follow-up-and-recurrence--follow-up-procedure--mri ;
+  doc:has_related_question ff:follow-up-and-recurrence--follow-up-procedure--others ;
+  doc:has_related_question ff:follow-up-and-recurrence--follow-up-procedure--pap-smear ;
+  doc:has_related_question ff:follow-up-and-recurrence--follow-up-procedure--pet-ct ;
+  doc:has_related_question ff:follow-up-and-recurrence--follow-up-procedure--physical-examination ;
+  doc:has_related_question ff:follow-up-and-recurrence--follow-up-procedure--us ;
+  form-lt:has-layout-class "section" ;
+  form:has-preceding-question ff:follow-up-and-recurrence--oncological-treatment-during-the-follow-up-period-q ;
+  rdfs:label "Follow-up procedure" ;
+  dc:description "Procedures used for the patient's surveillance"
+.
+ff:follow-up-and-recurrence--follow-up-procedure--biopsy
+  rdf:type doc:question ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  rdfs:label "Biopsy" ;
+.
+ff:follow-up-and-recurrence--follow-up-procedure--colposcopy
+  rdf:type doc:question ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  rdfs:label "Colposcopy" ;
+.
+ff:follow-up-and-recurrence--follow-up-procedure--ct
+  rdf:type doc:question ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  rdfs:label "CT" ;
+.
+ff:follow-up-and-recurrence--follow-up-procedure--hpv-test
+  rdf:type doc:question ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  rdfs:label "HPV test" ;
+.
+ff:follow-up-and-recurrence--follow-up-procedure--mri
+  rdf:type doc:question ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  rdfs:label "MRI" ;
+.
+ff:follow-up-and-recurrence--follow-up-procedure--others
+  rdf:type doc:question ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  doc:has_related_question ff:follow-up-and-recurrence--follow-up-procedure--others-description ;
+#  form:requires-answer-description-if [
+#      rdf:type form:condition ;
+#      form:accepts-answer-value "true"^^xsd:boolean ;
+#      form:has-tested-question ff:follow-up-and-recurrence--follow-up-procedure--others ;
+#    ] ;
+  rdfs:label "Others" ;
+.
+ff:follow-up-and-recurrence--follow-up-procedure--others-description
+  rdf:type doc:question ;
+  rdfs:label "Procedures description" ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:follow-up-and-recurrence--follow-up-procedure--others ;
+    ] ;
+.
+
+
+
+ff:follow-up-and-recurrence--follow-up-procedure--pap-smear
+  rdf:type doc:question ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  rdfs:label "Pap smear" ;
+.
+ff:follow-up-and-recurrence--follow-up-procedure--pet-ct
+  rdf:type doc:question ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  rdfs:label "PET-CT" ;
+.
+ff:follow-up-and-recurrence--follow-up-procedure--physical-examination
+  rdf:type doc:question ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  rdfs:label "Physical examination" ;
+.
+ff:follow-up-and-recurrence--follow-up-procedure--us
+  rdf:type doc:question ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  rdfs:label "US" ;
+.
+ff:follow-up-and-recurrence--o-t-d-t-f-u-p--abnormal-pap-smear-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Abnormal Pap smear" ;
+.
+ff:follow-up-and-recurrence--o-t-d-t-f-u-p--cervical-cancer-recurrence-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Cervical cancer recurrence" ;
+.
+ff:follow-up-and-recurrence--o-t-d-t-f-u-p--cervical-stenosis-or-hematometra-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Cervical stenosis/hematometra" ;
+.
+ff:follow-up-and-recurrence--o-t-d-t-f-u-p--date-of-treatment-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "masked-input" ;
+  form:has-input-mask "MM/YYYY" ;
+  rdfs:comment " "@en ;
+  rdfs:label "Date of treatment (month/year)" ;
+.
+ff:follow-up-and-recurrence--o-t-d-t-f-u-p--doctors-decision-no-disease-suspected-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Doctor's decision (no disease suspected)" ;
+.
+ff:follow-up-and-recurrence--o-t-d-t-f-u-p--hpv-positivity-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "HPV positivity" ;
+.
+ff:follow-up-and-recurrence--o-t-d-t-f-u-p--other-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  form:has-preceding-question ff:follow-up-and-recurrence--o-t-d-t-f-u-p--second-cancer-q ;
+  rdfs:label "Other" ;
+.
+ff:follow-up-and-recurrence--o-t-d-t-f-u-p--patients-decision-no-disease-suspected-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Patient's decision (no disease suspected)" ;
+.
+ff:follow-up-and-recurrence--o-t-d-t-f-u-p--pre-cancer-recurrence-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Pre-cancer-recurrence (any proven LSIL, HSIL or AIS)" ;
+.
+ff:follow-up-and-recurrence--o-t-d-t-f-u-p--reason-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:follow-up-and-recurrence--o-t-d-t-f-u-p--abnormal-pap-smear-q ;
+  doc:has_related_question ff:follow-up-and-recurrence--o-t-d-t-f-u-p--cervical-cancer-recurrence-q ;
+  doc:has_related_question ff:follow-up-and-recurrence--o-t-d-t-f-u-p--cervical-stenosis-or-hematometra-q ;
+  doc:has_related_question ff:follow-up-and-recurrence--o-t-d-t-f-u-p--doctors-decision-no-disease-suspected-q ;
+  doc:has_related_question ff:follow-up-and-recurrence--o-t-d-t-f-u-p--hpv-positivity-q ;
+  doc:has_related_question ff:follow-up-and-recurrence--o-t-d-t-f-u-p--other-q ;
+  doc:has_related_question ff:follow-up-and-recurrence--o-t-d-t-f-u-p--patients-decision-no-disease-suspected-q ;
+  doc:has_related_question ff:follow-up-and-recurrence--o-t-d-t-f-u-p--pre-cancer-recurrence-q ;
+  doc:has_related_question ff:follow-up-and-recurrence--o-t-d-t-f-u-p--second-cancer-q ;
+  form-lt:has-layout-class "section" ;
+  form:has-preceding-question ff:follow-up-and-recurrence--o-t-d-t-f-u-p--date-of-treatment-q ;
+  rdfs:label "Reason" ;
+.
+ff:follow-up-and-recurrence--o-t-d-t-f-u-p--second-cancer-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Second cancer (endometrial, ovarian etc.)" ;
+.
+ff:follow-up-and-recurrence--o-t-d-t-f-u-p--type-of-treatment--chemotherapy-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Chemotherapy" ;
+.
+ff:follow-up-and-recurrence--o-t-d-t-f-u-p--type-of-treatment--hysterectomy-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Hysterectomy" ;
+.
+ff:follow-up-and-recurrence--o-t-d-t-f-u-p--type-of-treatment--radiotherapy-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Radiotherapy" ;
+.
+ff:follow-up-and-recurrence--o-t-d-t-f-u-p--type-of-treatment-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:follow-up-and-recurrence--o-t-d-t-f-u-p--type-of-treatment--chemotherapy-q ;
+  doc:has_related_question ff:follow-up-and-recurrence--o-t-d-t-f-u-p--type-of-treatment--hysterectomy-q ;
+  doc:has_related_question ff:follow-up-and-recurrence--o-t-d-t-f-u-p--type-of-treatment--radiotherapy-q ;
+  form-lt:has-layout-class "section" ;
+  form:has-preceding-question ff:follow-up-and-recurrence--o-t-d-t-f-u-p--reason-q ;
+  rdfs:label "Type of treatment" ;
+.
+ff:follow-up-and-recurrence--oncological-treatment-during-the-follow-up-period-was-given-q
+  rdf:type doc:question ;
+  rdfs:label "Oncological treatment (hysterectomy, radiotherapy, chemotherapy) during the follow-up period was given" ;
+  form-lt:has-layout-class "type-ahead" ;
+  form:has-question-origin  stm:answer-yes-no ;
+.
+
+ff:follow-up-and-recurrence--oncological-treatment-during-the-follow-up-period-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:follow-up-and-recurrence--o-t-d-t-f-u-p--date-of-treatment-q ;
+  doc:has_related_question ff:follow-up-and-recurrence--o-t-d-t-f-u-p--reason-q ;
+  doc:has_related_question ff:follow-up-and-recurrence--o-t-d-t-f-u-p--type-of-treatment-q ;
+  form-lt:has-layout-class "section" ;
+  rdfs:label "Oncological treatment (hysterectomy, radiotherapy, chemotherapy) during the follow-up period" ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value stm:answer-value-yes ;
+      form:has-tested-question ff:follow-up-and-recurrence--oncological-treatment-during-the-follow-up-period-was-given-q ;
+    ] ;
+  form:has-preceding-question ff:follow-up-and-recurrence--oncological-treatment-during-the-follow-up-period-was-given-q ;
+.
+ff:follow-up-and-recurrence--p-a-p-t--attempt-to-concieve--more-than-6-months
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--attempt-to-concieve ;
+    ] ;
+  rdfs:label "More than 6 months" ;
+.
+ff:follow-up-and-recurrence--p-a-p-t--profylactic-management-during-pregnancy--antibiotic-treatment
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--profylactic-management-during-pregnancy ;
+    ] ;
+  rdfs:label "Antibiotic treatment" ;
+.
+ff:follow-up-and-recurrence--p-a-p-t--profylactic-management-during-pregnancy--preventive-hospitalisation
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--profylactic-management-during-pregnancy ;
+    ] ;
+  rdfs:label "Preventive hospitalisation" ;
+.
+ff:follow-up-and-recurrence--p-a-p-t--profylactic-management-during-pregnancy--profylactic-cerclage-during-pregnancy
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--profylactic-management-during-pregnancy ;
+    ] ;
+  rdfs:label "Profylactic cerclage during pregnancy" ;
+.
+ff:follow-up-and-recurrence--p-a-p-t--profylactic-management-during-pregnancy--profylactic-tocolytic-therapy
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--profylactic-management-during-pregnancy ;
+    ] ;
+  rdfs:label "Profylactic tocolytic therapy" ;
+.
+ff:follow-up-and-recurrence--p-a-p-t--profylactic-management-during-pregnancy--progesterone-administration
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--profylactic-management-during-pregnancy ;
+    ] ;
+  rdfs:label "Progesterone administration" ;
+.
+ff:follow-up-and-recurrence--p-a-p-t--profylactic-management-during-pregnancy--regular-us-cervicometry
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--profylactic-management-during-pregnancy ;
+    ] ;
+  rdfs:label "Regular US cervicometry" ;
+.
+ff:follow-up-and-recurrence--p-a-p-t--profylactic-management-during-pregnancy--other
+  rdf:type doc:question ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  doc:has_related_question ff:follow-up-and-recurrence--p-a-p-t--profylactic-management-during-pregnancy--other-description ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--profylactic-management-during-pregnancy ;
+    ] ;
+  rdfs:label "Other" ;
+.
+ff:follow-up-and-recurrence--p-a-p-t--profylactic-management-during-pregnancy--other-description
+  rdf:type doc:question ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:follow-up-and-recurrence--p-a-p-t--profylactic-management-during-pregnancy--other ;
+    ] ;
+  rdfs:label "Description of the profylactic procedure" ;
+.
+ff:follow-up-and-recurrence--p-a-p-t--profylactic-management-during-pregnancy--none
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--profylactic-management-during-pregnancy ;
+    ] ;
+  rdfs:label "None" ;
+.
+ff:follow-up-and-recurrence--pregnancy-after-primary-treatment
+  rdf:type doc:question ;
+  doc:has_related_question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--attempt-to-concieve ;
+  doc:has_related_question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--deliveries ;
+  doc:has_related_question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--pregnancies-after-treatment ;
+  doc:has_related_question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--profylactic-management-during-pregnancy ;
+  form-lt:has-layout-class "section" ;
+  form:has-preceding-question ff:follow-up-and-recurrence--date-of-last-follow-up ;
+  rdfs:label "Pregnancy after primary treatment" ;
+.
+ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--attempt-to-concieve
+  rdf:type doc:question ;
+  doc:has_related_question ff:follow-up-and-recurrence--p-a-p-t--attempt-to-concieve--more-than-6-months ;
+  doc:has_related_question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--attempt-to-concieve--way-of-conception ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  rdfs:label "Attempt to concieve" ;
+.
+ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--attempt-to-concieve--way-of-conception
+  rdf:type doc:question ;
+  doc:has_related_question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--attempt-to-concieve--way-of-conception--ivf-program ;
+  doc:has_related_question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--attempt-to-concieve--way-of-conception--natural ;
+  form-lt:has-layout-class "section" ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--attempt-to-concieve ;
+    ] ;
+  rdfs:label "Way of conception"@en ;
+.
+ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--attempt-to-concieve--way-of-conception--ivf-program
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "IVF program" ;
+.
+ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--attempt-to-concieve--way-of-conception--natural
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Natural" ;
+.
+ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--deliveries
+  rdf:type doc:question ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  form:has-preceding-question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--profylactic-management-during-pregnancy ;
+  rdfs:label "Delivery (complete repeatedly for each delivery)" ;
+.
+ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--pregnancies--number-of-pregnancies
+  rdf:type doc:question ;
+  form-lt:has-layout-class "number" ;
+  form:has-datatype xsd:int ;
+  rdfs:label "Number of pregnancies" ;
+  xsd:maxInclusive "20" ;
+  xsd:minInclusive "0" ;
+.
+ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--pregnancies--number-of-abortions
+  rdf:type doc:question ;
+  form-lt:has-layout-class "number" ;
+  form:has-datatype xsd:int ;
+  rdfs:label "Number of abortions" ;
+  xsd:maxInclusive "30" ;
+  xsd:minInclusive "0" ;
+  form:has-preceding-question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--pregnancies--number-of-pregnancies ;
+.
+ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--pregnancies--number-of-deliveries
+  rdf:type doc:question ;
+  form-lt:has-layout-class "number" ;
+  form:has-datatype xsd:int ;
+  rdfs:label "Number of deliveries" ;
+  xsd:maxInclusive "15" ;
+  xsd:minInclusive "0" ;
+  form:has-preceding-question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--pregnancies--number-of-abortions ;
+.
+ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--pregnancies-after-treatment
+  rdf:type doc:question ;
+  doc:has_related_question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--pregnancies--number-of-abortions ;
+  doc:has_related_question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--pregnancies--number-of-deliveries ;
+  doc:has_related_question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--pregnancies--number-of-pregnancies ;
+  form-lt:has-layout-class "section" ;
+  form:has-preceding-question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--attempt-to-concieve ;
+  rdfs:label "Pregnancy after treatment" ;
+.
+ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--profylactic-management-during-pregnancy
+  rdf:type doc:question ;
+  doc:has_related_question ff:follow-up-and-recurrence--p-a-p-t--profylactic-management-during-pregnancy--antibiotic-treatment ;
+  doc:has_related_question ff:follow-up-and-recurrence--p-a-p-t--profylactic-management-during-pregnancy--preventive-hospitalisation ;
+  doc:has_related_question ff:follow-up-and-recurrence--p-a-p-t--profylactic-management-during-pregnancy--profylactic-cerclage-during-pregnancy ;
+  doc:has_related_question ff:follow-up-and-recurrence--p-a-p-t--profylactic-management-during-pregnancy--profylactic-tocolytic-therapy ;
+  doc:has_related_question ff:follow-up-and-recurrence--p-a-p-t--profylactic-management-during-pregnancy--progesterone-administration ;
+  doc:has_related_question ff:follow-up-and-recurrence--p-a-p-t--profylactic-management-during-pregnancy--regular-us-cervicometry ;
+  doc:has_related_question ff:follow-up-and-recurrence--p-a-p-t--profylactic-management-during-pregnancy--other ;
+  doc:has_related_question ff:follow-up-and-recurrence--p-a-p-t--profylactic-management-during-pregnancy--none ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  form:has-preceding-question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--pregnancies-after-treatment ;
+  rdfs:label "Profylactic management during pregnancy" ;
+.
+ff:follow-up-and-recurrence--r--c-r--symptoms-of-recurrence--description
+  rdf:type doc:question ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:follow-up-and-recurrence--recurrence--cancer-recurrence--symptoms-of-recurrence ;
+    ] ;
+  rdfs:label "Description" ;
+.
+ff:follow-up-and-recurrence--recurrence
+  rdf:type doc:question ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--cancer-recurrence ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--pre-cancer-recurrence-during-the-follow-up ;
+  form-lt:has-layout-class "section" ;
+  form:has-preceding-question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment ;
+  rdfs:label "Recurrence" ;
+.
+ff:follow-up-and-recurrence--recurrence--cancer-recurrence
+  rdf:type doc:question ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--cancer-recurrence--disease-free-interval ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--cancer-recurrence--symptoms-of-recurrence ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  form:has-preceding-question ff:follow-up-and-recurrence--recurrence--pre-cancer-recurrence-during-the-follow-up ;
+  rdfs:label "Cancer recurrence" ;
+.
+ff:follow-up-and-recurrence--recurrence--cancer-recurrence--disease-free-interval
+  rdf:type doc:question ;
+  form:has-datatype xsd:int ;
+  form:has-layout-class "number" ;
+  form:has-unit "month" ;
+  xsd:maxInclusive "400" ;
+  xsd:minInclusive "1" ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:follow-up-and-recurrence--recurrence--cancer-recurrence ;
+    ] ;
+  form:requires-answer-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value stm:current-status-awd ;
+      form:accepts-answer-value stm:current-status-dod ;
+      form:has-tested-question ff:follow-up-and-recurrence--current-status ;
+    ] ;
+  rdfs:label "Disease free interval (DFI)" ;
+.
+
+ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location
+  rdf:type doc:question ;
+  form-lt:has-layout-class "section" ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location--cervix ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location--vagina ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location--parametrium ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location--pelvic-lymph-nodes ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location--pelvis-others ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location--paraaortic-lymph-nodes ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location--distant-abdomen ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location--distant-thorax ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location--distant-others ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:follow-up-and-recurrence--recurrence--cancer-recurrence ;
+    ] ;
+  rdfs:label "Location" ;
+.
+
+ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location--cervix
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Cervix" ;
+.
+ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location--vagina
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Vagina" ;
+.
+ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location--parametrium
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Parametrium" ;
+.
+ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location--pelvic-lymph-nodes
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Pelvic lymph nodes" ;
+.
+ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location--pelvis-others
+  rdf:type doc:question ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  rdfs:label "Pelvis - others" ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location--pelvis-others-description ;
+.
+ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location--pelvis-others-description
+  rdf:type doc:question ;
+  rdfs:label "Description" ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location--pelvis-others ;
+    ] ;
+.
+ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location--paraaortic-lymph-nodes
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Paraaortic lymph nodes" ;
+.
+ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location--distant-abdomen
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Distant abdomen" ;
+.
+ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location--distant-thorax
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Distant thorax" ;
+.
+ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location--distant-others
+  rdf:type doc:question ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  rdfs:label "Distant - others" ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location--distant-others-description ;
+.
+ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location--distant-others-description
+  rdf:type doc:question ;
+  rdfs:label "Description" ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:follow-up-and-recurrence--recurrence--cancer-recurrence--location--distant-others ;
+    ] ;
+.
+
+ff:follow-up-and-recurrence--recurrence--cancer-recurrence--symptoms-of-recurrence
+  rdf:type doc:question ;
+  doc:has_related_question ff:follow-up-and-recurrence--r--c-r--symptoms-of-recurrence--description ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  rdfs:label "Symptoms of recurrence" ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:follow-up-and-recurrence--recurrence--cancer-recurrence ;
+    ] ;
+.
+ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection
+  rdf:type doc:question ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--biopsy ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--clinical-symptoms ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--colposcopy ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--ct ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--cytology ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--gynecological-examination ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--hpv-test ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--mri ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--others ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--pet-ct ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--physical-examination ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--us ;
+  form-lt:has-layout-class "section" ;
+  form:has-preceding-question ff:follow-up-and-recurrence--recurrence--cancer-recurrence ;
+  rdfs:label "Main (or first) method(s) of recurrence detection" ;
+.
+ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--biopsy
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Biopsy" ;
+.
+ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--clinical-symptoms
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Clinical symptoms" ;
+.
+ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--colposcopy
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Colposcopy" ;
+.
+ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--ct
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "CT" ;
+.
+ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--cytology
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Cytology" ;
+.
+ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--gynecological-examination
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Gynecological examination" ;
+.
+ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--hpv-test
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "HPV test" ;
+.
+ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--mri
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "MRI" ;
+.
+ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--others
+  rdf:type doc:question ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  rdfs:label "Others" ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--others-description ;
+.
+
+ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--others-description
+  rdf:type doc:question ;
+  rdfs:label "Description of procedures" ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--others ;
+    ] ;
+.
+
+ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--pet-ct
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "PET-CT" ;
+.
+ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--physical-examination
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Physical examination" ;
+.
+ff:follow-up-and-recurrence--recurrence--main-methods-of-recurrence-detection--us
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "US" ;
+.
+ff:follow-up-and-recurrence--recurrence--pre-cancer-recurrence-during-the-follow-up
+  rdf:type doc:question ;
+  doc:has_related_question <http://vfn.cz/ontologies/fss-form/follow-up-and-recurrence--recurrence--pre-cancer-recurrence-during-the-follow-up/pre-cancer-type> ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  rdfs:label "Pre-cancer recurrence during the follow-up" ;
+.
+<http://vfn.cz/ontologies/fss-form/follow-up-and-recurrence--recurrence--pre-cancer-recurrence-during-the-follow-up/pre-cancer-type>
+  rdf:type doc:question ;
+  form-lt:has-layout-class "type-ahead" ;
+  form:has-question-origin stm:pre-cancer-histotype ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:follow-up-and-recurrence--recurrence--pre-cancer-recurrence-during-the-follow-up ;
+    ] ;
+  rdfs:label "Pre-cancer histotype" ;
+.
+ff:follow-up-and-recurrence-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:follow-up-and-recurrence--oncological-treatment-during-the-follow-up-period-was-given-q ;
+  doc:has_related_question ff:follow-up-and-recurrence--oncological-treatment-during-the-follow-up-period-q ;
+  doc:has_related_question ff:follow-up-and-recurrence--cause-of-death ;
+  doc:has_related_question ff:follow-up-and-recurrence--current-status ;
+  doc:has_related_question ff:follow-up-and-recurrence--date-of-death ;
+  doc:has_related_question ff:follow-up-and-recurrence--date-of-last-follow-up ;
+  doc:has_related_question ff:follow-up-and-recurrence--follow-up-procedure ;
+  doc:has_related_question ff:follow-up-and-recurrence--pregnancy-after-primary-treatment ;
+  doc:has_related_question ff:follow-up-and-recurrence--recurrence ;
+  form-lt:has-layout-class "section" ;
+  form-lt:has-layout-class "wizard-step" ;
+  form:has-preceding-question ff:primary-treatment-q ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-validation-value "true" ;
+      form:has-tested-question ff:inclusion-criteria-q ;
+    ] ;
+  dc:description "Follow-up period starts once fertility sparing treatment is succesffully finished and uterus is preserved." ;
+  rdfs:label "Follow-up & recurrence" ;
+.
+ff:inclusion-criteria-cervical-cancer-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  form:requires-answer "true"^^xsd:boolean ;
+  rdfs:comment "Location of occurrence should be the name of the closest settled area or geographical feature."@en ;
+  rdfs:label "Cervical cancer (any histology, any stage from T1a1)"@en ;
+.
+ff:inclusion-criteria-fertility-sparing-treatment-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  form:has-preceding-question ff:inclusion-criteria-cervical-cancer-q ;
+  form:requires-answer "true"^^xsd:boolean ;
+  rdfs:comment "The local time of the occurrence time entered using the 24 hour clock e.g. 23:59."@en ;
+  rdfs:label "Fertility sparing treatment (FST) with the aim to preserve uterus (any procedure, at least attempt)"@en ;
+.
+ff:inclusion-criteria-information-of-the-outcome-available-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  form:has-preceding-question ff:inclusion-criteria-fertility-sparing-treatment-q ;
+  form:requires-answer "true"^^xsd:boolean ;
+  rdfs:comment "The UTC time of the occurrence entered using the 24 hour clock e.g. 23:59. UTC: Time scale based on the second (SI), as defined and recommended by the CCIR, and maintained by the Bureau International des Poids et Mesures (BIPM). For most practical purposes associated with the Radio Regulations, UTC is equivalent to mean solar time at the prime meridian (0° longitude), formerly expressed in GMT."@en ;
+  rdfs:label "Information of the outcome available (follow-up available)"@en ;
+.
+ff:inclusion-criteria-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:inclusion-criteria-cervical-cancer-q ;
+  doc:has_related_question ff:inclusion-criteria-fertility-sparing-treatment-q ;
+  doc:has_related_question ff:inclusion-criteria-information-of-the-outcome-available-q ;
+  form-lt:has-layout-class "section" ;
+  form-lt:has-layout-class "wizard-step" ;
+  rdfs:label "Inclusion critera" ;
+.
+ff:patient-data--g-s-b-d--date-of-surgery-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "number" ;
+  form:has-datatype xsd:int ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:patient-data-gynecological-surgery-before-diagnosis-q ;
+    ] ;
+  rdfs:label "Date of surgery (YYYY)"@en ;
+  xsd:maxInclusive "2017" ;
+  xsd:minInclusive "1980" ;
+.
+ff:patient-data--g-s-b-d--type-of-surgery-q
+  rdf:type doc:question ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:patient-data-gynecological-surgery-before-diagnosis-q ;
+    ] ;
+  rdfs:label "Type of surgery"@en ;
+.
+ff:patient-data-date-of-birth-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "masked-input" ;
+  form:has-input-mask "MM/YYYY" ;
+  form:requires-answer "true"^^xsd:boolean ;
+  rdfs:label "Date of birth (month/year)"@en ;
+.
+ff:patient-data-gynecological-surgery-before-diagnosis-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:patient-data--g-s-b-d--date-of-surgery-q ;
+  doc:has_related_question ff:patient-data--g-s-b-d--type-of-surgery-q ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  form:has-preceding-question ff:patient-data-parity-before-diagnosis-q ;
+  rdfs:label "Previous gynecological surgery before cervical cancer diagnosis"@en ;
+.
+ff:patient-data-parity-before-diagnosis-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "type-ahead" ;
+  form:has-preceding-question ff:patient-data-date-of-birth-q ;
+  form:has-question-origin stm:parity ;
+  rdfs:label "Parity before diagnosis"@en ;
+.
+ff:patient-data-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:patient-data-date-of-birth-q ;
+  doc:has_related_question ff:patient-data-gynecological-surgery-before-diagnosis-q ;
+  doc:has_related_question ff:patient-data-parity-before-diagnosis-q ;
+  form-lt:has-layout-class "section" ;
+  form-lt:has-layout-class "wizard-step" ;
+  form:has-preceding-question ff:inclusion-criteria-q ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-validation-value "true" ;
+      form:has-tested-question ff:inclusion-criteria-q ;
+    ] ;
+  dc:description "Patient's characteristics" ;
+  rdfs:label "Patient's data" ;
+.
+ff:primary-treatment--ac--no-of-cycles-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "number" ;
+  form:has-datatype xsd:int ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:primary-treatment--adjuvant-chemotherapy-q ;
+    ] ;
+  rdfs:label "No of cycles" ;
+  xsd:maxInclusive "6" ;
+  xsd:minInclusive "1" ;
+.
+ff:primary-treatment--adjuvant-chemotherapy-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:primary-treatment--ac--no-of-cycles-q ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  form:has-preceding-question ff:primary-treatment--surgical-treatment-q ;
+  rdfs:label "Adjuvant chemotherapy (after treatment procedure)" ;
+.
+ff:primary-treatment--d-h--lymph-nodes-histology--only-pelvic-or-papaaortic-nodes-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "type-ahead" ;
+  form:has-preceding-question ff:primary-treatment--d-h--lymph-nodes-histology--sentinel-nodes-and-other-pelvic-nodes-q ;
+  form:has-question-origin stm:metastasis-type--only-pelvic-or-papaaortic-nodes ;
+  form:is-relevant-if_removed [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:primary-treatment--definitive-histology--lymph-nodes-histology-q ;
+    ] ;
+  dc:description "Enter the largest type." ;
+  rdfs:label "Only pelvic (and paraaortic) nodes (if sentinel node biopsy was not performed)"@en ;
+.
+ff:primary-treatment--d-h--lymph-nodes-histology--only-sentinel-nodes-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "type-ahead" ;
+  form:has-question-origin stm:metastasis-type--only-sentinel-nodes ;
+  form:is-relevant-if_removed [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:primary-treatment--definitive-histology--lymph-nodes-histology-q ;
+    ] ;
+  dc:description "Enter the largest type." ;
+  rdfs:label "Only sentinel node(s)"@en ;
+.
+ff:primary-treatment--d-h--lymph-nodes-histology--sentinel-nodes-and-other-pelvic-nodes-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "type-ahead" ;
+  form:has-preceding-question ff:primary-treatment--d-h--lymph-nodes-histology--only-sentinel-nodes-q ;
+  form:has-question-origin stm:metastasis-type--sentinel-nodes-and-other-pelvic-nodes ;
+  form:is-relevant-if_removed [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:primary-treatment--definitive-histology--lymph-nodes-histology-q ;
+    ] ;
+  dc:description "Enter the largest type." ;
+  rdfs:label "Other pelvic (and paraaortic) nodes (if sentinel node biopsy was performed)"@en ;
+.
+ff:primary-treatment--d-h--size-of-the-tumor--horizontal-q
+  rdf:type doc:question ;
+  form:has-datatype xsd:int ;
+  form:has-layout-class "number" ;
+  form:has-unit "mm" ;
+  rdfs:label "horizontal spread / horizontal (AP)" ;
+  xsd:maxInclusive "200" ;
+  xsd:minInclusive "1" ;
+.
+ff:primary-treatment--d-h--size-of-the-tumor--latero-lateral-q
+  rdf:type doc:question ;
+  form:has-datatype xsd:int ;
+  form:has-layout-class "number" ;
+  form:has-preceding-question ff:primary-treatment--d-h--size-of-the-tumor--vertical-q ;
+  form:has-unit "mm" ;
+  rdfs:label "latero-lateral (LL)" ;
+  xsd:maxInclusive "200" ;
+  xsd:minInclusive "1" ;
+.
+ff:primary-treatment--d-h--size-of-the-tumor--vertical-q
+  rdf:type doc:question ;
+  form:has-datatype xsd:int ;
+  form:has-layout-class "number" ;
+  form:has-preceding-question ff:primary-treatment--d-h--size-of-the-tumor--horizontal-q ;
+  form:has-unit "mm" ;
+  rdfs:label "stomal invasion / vertical (CC)" ;
+  xsd:maxInclusive "200" ;
+  xsd:minInclusive "1" ;
+.
+ff:primary-treatment--definitive-histology--lymph-nodes-histology-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:primary-treatment--d-h--lymph-nodes-histology--only-pelvic-or-papaaortic-nodes-q ;
+  doc:has_related_question ff:primary-treatment--d-h--lymph-nodes-histology--only-sentinel-nodes-q ;
+  doc:has_related_question ff:primary-treatment--d-h--lymph-nodes-histology--sentinel-nodes-and-other-pelvic-nodes-q ;
+  form-lt:has-layout-class "section" ;
+  form:has-preceding-question ff:primary-treatment--definitive-histology--size-of-cone-or-trachelectomy-specimen-q ;
+  rdfs:label "Lymph nodes - histology" ;
+.
+ff:primary-treatment--definitive-histology--size-of-cone-or-trachelectomy-specimen-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:primary-treatment--dh--socots--lenght-q ;
+  doc:has_related_question ff:primary-treatment--dh--socots--not-available-q ;
+  doc:has_related_question ff:primary-treatment--dh--socots--thickness-q ;
+  form-lt:has-layout-class "section" ;
+  form:has-preceding-question ff:primary-treatment--definitive-histology--size-of-the-tumor-q ;
+  rdfs:label "Size of the cone or trachelectomy specimen" ;
+.
+ff:primary-treatment--definitive-histology--size-of-the-tumor-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:primary-treatment--d-h--size-of-the-tumor--horizontal-q ;
+  doc:has_related_question ff:primary-treatment--d-h--size-of-the-tumor--latero-lateral-q ;
+  doc:has_related_question ff:primary-treatment--d-h--size-of-the-tumor--vertical-q ;
+  form-lt:has-layout-class "section" ;
+  rdfs:label "Size of the tumor" ;
+.
+ff:primary-treatment--definitive-histology-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:primary-treatment--definitive-histology--lymph-nodes-histology-q ;
+  doc:has_related_question ff:primary-treatment--definitive-histology--size-of-cone-or-trachelectomy-specimen-q ;
+  doc:has_related_question ff:primary-treatment--definitive-histology--size-of-the-tumor-q ;
+  form-lt:has-layout-class "section" ;
+  form:has-preceding-question ff:primary-treatment--adjuvant-chemotherapy-q ;
+  dc:description "Real size counted as the sum of all procedures including diagnostic procedure." ;
+  rdfs:label "Definitive histology (after surgical treatment procedure)" ;
+.
+ff:primary-treatment--dh--socots--lenght-q
+  rdf:type doc:question ;
+  form:has-datatype xsd:int ;
+  form:has-layout-class "number" ;
+  form:has-preceding-question ff:primary-treatment--dh--socots--not-available-q ;
+  form:has-unit "mm" ;
+  form:is-relevant-if_removed [
+      rdf:type form:condition ;
+      form:accepts-answer-value "false"^^xsd:boolean ;
+      form:has-tested-question ff:primary-treatment--dh--socots--not-available-q ;
+    ] ;
+  rdfs:label "Lenght (the distance from the external margin to the proximal/internal margin)" ;
+  xsd:maxInclusive "200" ;
+  xsd:minInclusive "1" ;
+.
+ff:primary-treatment--dh--socots--not-available-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "N/A" ;
+.
+ff:primary-treatment--dh--socots--thickness-q
+  rdf:type doc:question ;
+  form:has-datatype xsd:int ;
+  form:has-layout-class "number" ;
+  form:has-preceding-question ff:primary-treatment--dh--socots--lenght-q ;
+  form:has-unit "mm" ;
+  form:is-relevant-if_removed [
+      rdf:type form:condition ;
+      form:accepts-answer-value "" ;
+      form:has-tested-question ff:primary-treatment--dh--socots--not-available-q ;
+    ] ;
+  rdfs:label "Thickness (the distance from the stromal margin to the surface of specimen)" ;
+  xsd:maxInclusive "200" ;
+  xsd:minInclusive "1" ;
+.
+ff:primary-treatment--nc--no-of-cycles-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "number" ;
+  form:has-datatype xsd:int ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:primary-treatment--neoadjuvant-chemotherapy-q ;
+    ] ;
+  rdfs:label "No of cycles" ;
+  xsd:maxInclusive "6" ;
+  xsd:minInclusive "1" ;
+.
+ff:primary-treatment--neoadjuvant-chemotherapy-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:primary-treatment--nc--no-of-cycles-q ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  rdfs:label "Neoadjuvant chemotherapy (before the FST procedure)" ;
+.
+ff:primary-treatment--s-t--cerclage-placement--date-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "masked-input" ;
+  form:has-input-mask "MM/YYYY" ;
+#  form:is-relevant-if [
+#      rdf:type form:condition ;
+#      form:accepts-answer-value "true"^^xsd:boolean ;
+#      form:has-tested-question ff:primary-treatment--surgical-treatment--cerclage-placement-q ;
+#    ] ;
+  rdfs:label "Date of cerclage (month/year)"@en ;
+.
+ff:primary-treatment--s-t--cerclage-placement--timing-of-placement-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "type-ahead" ;
+  form:has-preceding-question ff:primary-treatment--s-t--cerclage-placement--date-q ;
+  form:has-question-origin stm:placement-timing ;
+#  form:is-relevant-if [
+#      rdf:type form:condition ;
+#      form:accepts-answer-value "true"^^xsd:boolean ;
+#      form:has-tested-question ff:primary-treatment--surgical-treatment--cerclage-placement-q ;
+#    ] ;
+  rdfs:label "Timing of placement"@en ;
+.
+ff:primary-treatment--s-t--cerclage-placement--type-of-cerclage-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "type-ahead" ;
+  form:has-preceding-question ff:primary-treatment--s-t--cerclage-placement--timing-of-placement-q ;
+  form:has-question-origin stm:type-of-cerclage ;
+#  form:is-relevant-if [
+#      rdf:type form:condition ;
+#      form:accepts-answer-value "true"^^xsd:boolean ;
+#      form:has-tested-question ff:primary-treatment--surgical-treatment--cerclage-placement-q ;
+#    ] ;
+  rdfs:label "Type of cerclage"@en ;
+.
+#ff:primary-treatment--s-t--cervical-procedure--conisation-q
+#  rdf:type doc:question ;
+#  form-lt:has-layout-class "checkbox" ;
+#  rdfs:label "Conisation (any technique including LEEP)" ;
+#.
+ff:primary-treatment--s-t--cervical-procedure--date-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "masked-input" ;
+  form:has-input-mask "MM/YYYY" ;
+  rdfs:label "Date of procedure (month/year)"@en ;
+.
+#ff:primary-treatment--s-t--cervical-procedure--laparoscopic-radical-trachelectomy-q
+#  rdf:type doc:question ;
+#  form-lt:has-layout-class "checkbox" ;
+#  rdfs:label "Laparoscopic radical trachelectomy" ;
+#.
+#ff:primary-treatment--s-t--cervical-procedure--only-diagnostic-procedure-q
+#  rdf:type doc:question ;
+#  form-lt:has-layout-class "checkbox" ;
+#  rdfs:label "Only diagnostic procedure" ;
+#.
+#ff:primary-treatment--s-t--cervical-procedure--radical-abdominal-trachelectomy-q
+#  rdf:type doc:question ;
+#  form-lt:has-layout-class "checkbox" ;
+#  rdfs:label "Radical abdominal trachelectomy" ;
+#.
+#ff:primary-treatment--s-t--cervical-procedure--radical-vaginal-trachelectomy-q
+#  rdf:type doc:question ;
+#  form-lt:has-layout-class "checkbox" ;
+#  rdfs:label "Radical vaginal trachelectomy" ;
+#.
+#ff:primary-treatment--s-t--cervical-procedure--robotic-radical-trachelectomy-q
+#  rdf:type doc:question ;
+#  form-lt:has-layout-class "checkbox" ;
+#  rdfs:label "Robotic radical trachelectomy" ;
+#.
+#ff:primary-treatment--s-t--cervical-procedure--simple-vaginal-trachelectomy-q
+#  rdf:type doc:question ;
+#  form-lt:has-layout-class "checkbox" ;
+#  rdfs:label "Simple vaginal trachelectomy" ;
+#.
+ff:primary-treatment--s-t--cervical-procedure--type-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "type-ahead" ;
+  form:has-preceding-question ff:primary-treatment--s-t--cervical-procedure--date-q ;
+  form:has-question-origin stm:type-procedure ;
+  rdfs:label "Type of procedure"@en ;
+.
+ff:primary-treatment--s-t--l-n-p--paraaortic-lymphadenectomy--date-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "masked-input" ;
+  form:has-input-mask "MM/YYYY" ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:primary-treatment--s-t--lymph-node-procedure--paraaortic-lymphadenectomy-q ;
+    ] ;
+  rdfs:label "Date of procedure (month/year)"@en ;
+.
+ff:primary-treatment--s-t--l-n-p--paraaortic-lymphadenectomy--total-number-of-paraaortic-nodes-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "number" ;
+  form:has-datatype xsd:int ;
+  form:has-preceding-question ff:primary-treatment--s-t--l-n-p--paraaortic-lymphadenectomy--date-q ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:primary-treatment--s-t--lymph-node-procedure--paraaortic-lymphadenectomy-q ;
+    ] ;
+  rdfs:label "Total number of paraaortic nodes" ;
+  xsd:maxInclusive "200" ;
+  xsd:minInclusive "1" ;
+.
+ff:primary-treatment--s-t--l-n-p--pelvic-lymphadenectomy--date-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "masked-input" ;
+  form:has-input-mask "MM/YYYY" ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:primary-treatment--s-t--lymph-node-procedure--pelvic-lymphadenectomy-q ;
+    ] ;
+  rdfs:label "Date of procedure (month/year)"@en ;
+.
+ff:primary-treatment--s-t--l-n-p--pelvic-lymphadenectomy--total-number-of-pelvic-nodes-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "number" ;
+  form:has-datatype xsd:int ;
+  form:has-preceding-question ff:primary-treatment--s-t--l-n-p--pelvic-lymphadenectomy--date-q ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:primary-treatment--s-t--lymph-node-procedure--pelvic-lymphadenectomy-q ;
+    ] ;
+  rdfs:label "Total number of pelvic nodes (including sentinel nodes if done)" ;
+  xsd:maxInclusive "200" ;
+  xsd:minInclusive "1" ;
+.
+ff:primary-treatment--s-t--l-n-p--s-l-n-b--date-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "masked-input" ;
+  form:has-input-mask "MM/YYYY" ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:primary-treatment--s-t--lymph-node-procedure--sentinel-lymph-node-biopsy-q ;
+    ] ;
+  rdfs:label "Date of procedure (month/year)"@en ;
+.
+ff:primary-treatment--s-t--l-n-p--s-l-n-b--detection-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "type-ahead" ;
+  form:has-preceding-question ff:primary-treatment--s-t--l-n-p--s-l-n-b--total-number-of-sentinel-nodes-q ;
+  form:has-question-origin stm:detection ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:primary-treatment--s-t--lymph-node-procedure--sentinel-lymph-node-biopsy-q ;
+    ] ;
+  rdfs:label "Detection"@en ;
+.
+ff:primary-treatment--s-t--l-n-p--s-l-n-b--methods-of-mapping--blue-dye-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Blue dye" ;
+.
+ff:primary-treatment--s-t--l-n-p--s-l-n-b--methods-of-mapping--indocyanin-green-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Indocyanin green" ;
+.
+ff:primary-treatment--s-t--l-n-p--s-l-n-b--methods-of-mapping--technecium-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "checkbox" ;
+  rdfs:label "Technecium" ;
+.
+ff:primary-treatment--s-t--l-n-p--s-l-n-b--methods-of-mapping-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:primary-treatment--s-t--l-n-p--s-l-n-b--methods-of-mapping--blue-dye-q ;
+  doc:has_related_question ff:primary-treatment--s-t--l-n-p--s-l-n-b--methods-of-mapping--indocyanin-green-q ;
+  doc:has_related_question ff:primary-treatment--s-t--l-n-p--s-l-n-b--methods-of-mapping--technecium-q ;
+  form-lt:has-layout-class "section" ;
+  form:has-preceding-question ff:primary-treatment--s-t--l-n-p--s-l-n-b--detection-q ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:primary-treatment--s-t--lymph-node-procedure--sentinel-lymph-node-biopsy-q ;
+    ] ;
+  rdfs:label "Methods of mapping" ;
+.
+ff:primary-treatment--s-t--l-n-p--s-l-n-b--total-number-of-sentinel-nodes-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "number" ;
+  form:has-datatype xsd:int ;
+  form:has-preceding-question ff:primary-treatment--s-t--l-n-p--s-l-n-b--date-q ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:primary-treatment--s-t--lymph-node-procedure--sentinel-lymph-node-biopsy-q ;
+    ] ;
+  rdfs:label "Total number of sentinel nodes" ;
+  xsd:maxInclusive "30" ;
+  xsd:minInclusive "1" ;
+.
+ff:primary-treatment--s-t--lymph-node-procedure--paraaortic-lymphadenectomy-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:primary-treatment--s-t--l-n-p--paraaortic-lymphadenectomy--date-q ;
+  doc:has_related_question ff:primary-treatment--s-t--l-n-p--paraaortic-lymphadenectomy--total-number-of-paraaortic-nodes-q ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  form:has-preceding-question ff:primary-treatment--s-t--lymph-node-procedure--pelvic-lymphadenectomy-q ;
+  rdfs:label "Paraaortic lymphadenectomy" ;
+.
+ff:primary-treatment--s-t--lymph-node-procedure--pelvic-lymphadenectomy-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:primary-treatment--s-t--l-n-p--pelvic-lymphadenectomy--date-q ;
+  doc:has_related_question ff:primary-treatment--s-t--l-n-p--pelvic-lymphadenectomy--total-number-of-pelvic-nodes-q ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  form:has-preceding-question ff:primary-treatment--s-t--lymph-node-procedure--sentinel-lymph-node-biopsy-q ;
+  rdfs:label "Pelvic lymphadenectomy" ;
+.
+ff:primary-treatment--s-t--lymph-node-procedure--sentinel-lymph-node-biopsy-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:primary-treatment--s-t--l-n-p--s-l-n-b--date-q ;
+  doc:has_related_question ff:primary-treatment--s-t--l-n-p--s-l-n-b--detection-q ;
+  doc:has_related_question ff:primary-treatment--s-t--l-n-p--s-l-n-b--methods-of-mapping-q ;
+  doc:has_related_question ff:primary-treatment--s-t--l-n-p--s-l-n-b--total-number-of-sentinel-nodes-q ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  rdfs:label "Sentinel lymph node biopsy" ;
+.
+ff:primary-treatment--s-t--lymph-node-procedure-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:primary-treatment--s-t--lymph-node-procedure--paraaortic-lymphadenectomy-q ;
+  doc:has_related_question ff:primary-treatment--s-t--lymph-node-procedure--pelvic-lymphadenectomy-q ;
+  doc:has_related_question ff:primary-treatment--s-t--lymph-node-procedure--sentinel-lymph-node-biopsy-q ;
+  form-lt:has-layout-class "section" ;
+  form:has-preceding-question ff:primary-treatment--surgical-treatment--repeated-cervical-procedure-q ;
+  rdfs:label "Lymph node procedure" ;
+.
+ff:primary-treatment--s-t--repeated-cervical-procedure--date-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "masked-input" ;
+  form:has-input-mask "MM/YYYY" ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:primary-treatment--surgical-treatment--repeated-cervical-procedure-q ;
+    ] ;
+  rdfs:label "Date of procedure (month/year)"@en ;
+.
+ff:primary-treatment--s-t--repeated-cervical-procedure--reason-description-q
+  rdf:type doc:question ;
+  form:has-preceding-question ff:primary-treatment--s-t--repeated-cervical-procedure-reason-q ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value stm:cervical-procedure-reason-other ;
+      form:has-tested-question ff:primary-treatment--s-t--repeated-cervical-procedure-reason-q ;
+    ] ;
+  rdfs:label "Description of other reason"@en ;
+.
+ff:primary-treatment--s-t--repeated-cervical-procedure--type-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "type-ahead" ;
+  form:has-preceding-question ff:primary-treatment--s-t--repeated-cervical-procedure--reason-description-q ;
+  form:has-question-origin stm:type-repeated-procedure ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:primary-treatment--surgical-treatment--repeated-cervical-procedure-q ;
+    ] ;
+  rdfs:label "Type of procedure"@en ;
+.
+ff:primary-treatment--s-t--repeated-cervical-procedure-reason-q
+  rdf:type doc:question ;
+  form-lt:has-layout-class "type-ahead" ;
+  form:has-preceding-question ff:primary-treatment--s-t--repeated-cervical-procedure--date-q ;
+  form:has-question-origin stm:cervical-procedure-reason ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-answer-value "true"^^xsd:boolean ;
+      form:has-tested-question ff:primary-treatment--surgical-treatment--repeated-cervical-procedure-q ;
+    ] ;
+  rdfs:label "Reason" ;
+.
+ff:primary-treatment--surgical-treatment--cerclage-placement-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:primary-treatment--s-t--cerclage-placement--date-q ;
+  doc:has_related_question ff:primary-treatment--s-t--cerclage-placement--timing-of-placement-q ;
+  doc:has_related_question ff:primary-treatment--s-t--cerclage-placement--type-of-cerclage-q ;
+  form-lt:has-layout-class "section" ;
+  form:has-preceding-question ff:primary-treatment--s-t--lymph-node-procedure-q ;
+  rdfs:label "Cerclage placement" ;
+.
+ff:primary-treatment--surgical-treatment--cervical-procedure-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:primary-treatment--s-t--cervical-procedure--date-q ;
+  doc:has_related_question ff:primary-treatment--s-t--cervical-procedure--type-q ;
+#  doc:has_related_question_removed ff:primary-treatment--s-t--cervical-procedure--conisation-q ;
+#  doc:has_related_question_removed ff:primary-treatment--s-t--cervical-procedure--laparoscopic-radical-trachelectomy-q ;
+#  doc:has_related_question_removed ff:primary-treatment--s-t--cervical-procedure--only-diagnostic-procedure-q ;
+#  doc:has_related_question_removed ff:primary-treatment--s-t--cervical-procedure--radical-abdominal-trachelectomy-q ;
+#  doc:has_related_question_removed ff:primary-treatment--s-t--cervical-procedure--radical-vaginal-trachelectomy-q ;
+#  doc:has_related_question_removed ff:primary-treatment--s-t--cervical-procedure--robotic-radical-trachelectomy-q ;
+#  doc:has_related_question_removed ff:primary-treatment--s-t--cervical-procedure--simple-vaginal-trachelectomy-q ;
+  form-lt:has-layout-class "section" ;
+  rdfs:label "Cervical procedure" ;
+.
+ff:primary-treatment--surgical-treatment--repeated-cervical-procedure-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:primary-treatment--s-t--repeated-cervical-procedure--date-q ;
+  doc:has_related_question ff:primary-treatment--s-t--repeated-cervical-procedure--reason-description-q ;
+  doc:has_related_question ff:primary-treatment--s-t--repeated-cervical-procedure--type-q ;
+  doc:has_related_question ff:primary-treatment--s-t--repeated-cervical-procedure-reason-q ;
+  form-lt:has-layout-class "answerable" ;
+  form-lt:has-layout-class "checkbox" ;
+  form-lt:has-layout-class "section" ;
+  form:has-preceding-question ff:primary-treatment--surgical-treatment--cervical-procedure-q ;
+  dc:description "Applicable for current management of invasive cancer; not applicable in patient with a history of previous cervical procedure for another reason" ;
+  rdfs:label "Repeated cervical procedure (after FST)" ;
+.
+ff:primary-treatment--surgical-treatment-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:primary-treatment--s-t--lymph-node-procedure-q ;
+  doc:has_related_question ff:primary-treatment--surgical-treatment--cerclage-placement-q ;
+  doc:has_related_question ff:primary-treatment--surgical-treatment--cervical-procedure-q ;
+  doc:has_related_question ff:primary-treatment--surgical-treatment--repeated-cervical-procedure-q ;
+  form-lt:has-layout-class "section" ;
+  form:has-preceding-question ff:primary-treatment--neoadjuvant-chemotherapy-q ;
+  rdfs:label "Surgical treatment" ;
+.
+ff:primary-treatment-q
+  rdf:type doc:question ;
+  doc:has_related_question ff:primary-treatment--adjuvant-chemotherapy-q ;
+  doc:has_related_question ff:primary-treatment--definitive-histology-q ;
+  doc:has_related_question ff:primary-treatment--neoadjuvant-chemotherapy-q ;
+  doc:has_related_question ff:primary-treatment--surgical-treatment-q ;
+  form-lt:has-layout-class "section" ;
+  form-lt:has-layout-class "wizard-step" ;
+  form:has-preceding-question ff:diagnosis-q ;
+  form:is-relevant-if [
+      rdf:type form:condition ;
+      form:accepts-validation-value "true" ;
+      form:has-tested-question ff:inclusion-criteria-q ;
+    ] ;
+  rdfs:label "Primary treatment" ;
+.
+

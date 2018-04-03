@@ -1,0 +1,2328 @@
+# baseURI: http://vfn.cz/ontologies/fss-form-generation-0.1
+# imports: http://onto.fel.cvut.cz/ontologies/form-layout
+# imports: http://onto.fel.cvut.cz/ontologies/lib/sm-module-adapter
+# imports: http://onto.fel.cvut.cz/ontologies/vfn-form-mod
+# imports: http://vfn.cz/ontologies/fss-form-static
+
+@prefix : <http://vfn.cz/ontologies/fss-form-generation-0.1/> .
+@prefix doc: <http://onto.fel.cvut.cz/ontologies/documentation/> .
+@prefix e-m: <http://onto.fel.cvut.cz/ontologies/eccairs/model/> .
+@prefix e-m-i: <http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#> .
+@prefix ff: <http://vfn.cz/ontologies/fss-form/> .
+@prefix form: <http://onto.fel.cvut.cz/ontologies/form/> .
+@prefix form-fss-gen-0.1: <http://vfn.cz/ontologies/fss-form-generation-0.1/> .
+@prefix form-lt: <http://onto.fel.cvut.cz/ontologies/form-layout/> .
+@prefix fssgen: <http://vfn.cz/ontologies/fss-form-generation-0.1/> .
+@prefix kbss-module: <http://onto.fel.cvut.cz/ontologies/lib/module/> .
+@prefix km-sesame: <http://onto.fel.cvut.cz/ontologies/lib/module/sesame/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sm: <http://topbraid.org/sparqlmotion#> .
+@prefix sml: <http://topbraid.org/sparqlmotionlib#> .
+@prefix sp: <http://spinrdf.org/sp#> .
+@prefix spif: <http://spinrdf.org/spif#> .
+@prefix spin: <http://spinrdf.org/spin#> .
+@prefix spl: <http://spinrdf.org/spl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://onto.fel.cvut.cz/ontologies/vfn-form-mod/bind-root-question>
+  sml:selectQuery [
+      rdf:type sp:Select ;
+      sp:resultVariables (
+          [
+            sp:varName "rootQuestion"^^xsd:string ;
+          ]
+        ) ;
+      sp:text """SELECT ?rootQuestion 
+WHERE {
+    BIND(ff:fertility-saving-study-q as ?rootQuestion)
+}"""^^xsd:string ;
+      sp:where (
+          [
+            rdf:type sp:Bind ;
+            sp:expression ff:fertility-saving-study-q ;
+            sp:variable [
+                sp:varName "rootQuestion"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+.
+<http://onto.fel.cvut.cz/ontologies/vfn-form-mod/form-generator-sink>
+  sm:next fssgen:generate-missing-origins ;
+.
+<http://onto.fel.cvut.cz/ontologies/vfn-form-mod/layout-form>
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object "collapsed" ;
+            sp:predicate form-lt:has-layout-class ;
+            sp:subject [
+                sp:varName "level3plusQ"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:text """CONSTRUCT {
+    ?level3plusQ form-lt:has-layout-class \"collapsed\" .
+}
+WHERE {
+    ?rootQ doc:has_related_question/doc:has_related_question ?level2Q .
+    ?level2Q doc:has_related_question+  ?level3plusQ . 
+}"""^^xsd:string ;
+      sp:where (
+          [
+            rdf:type sp:TriplePath ;
+            sp:object [
+                sp:varName "level2Q"^^xsd:string ;
+              ] ;
+            sp:path [
+                rdf:type sp:SeqPath ;
+                sp:path1 doc:has_related_question ;
+                sp:path2 doc:has_related_question ;
+              ] ;
+            sp:subject [
+                sp:varName "rootQ"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:TriplePath ;
+            sp:object [
+                sp:varName "level3plusQ"^^xsd:string ;
+              ] ;
+            sp:path [
+                rdf:type sp:ModPath ;
+                sp:modMax -2 ;
+                sp:modMin 1 ;
+                sp:subPath doc:has_related_question ;
+              ] ;
+            sp:subject [
+                sp:varName "level2Q"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+.
+<http://onto.fel.cvut.cz/ontologies/vfn-form-mod/merge-form-data>
+  kbss-module:has-output-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """# there a question that has at least 2 sub-questions with same origin
+ASK
+WHERE {
+    ?parentQ doc:has_related_question ?q1 ;
+                     doc:has_related_question ?q2 .
+    FILTER(?q1 != ?q2)  
+    ?q1 form:has-question-origin ?qOrigin1 .
+    ?q2 form:has-question-origin ?qOrigin2 .
+    FILTER(?qOrigin1 = ?qOrigin2)
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object [
+                sp:varName "q1"^^xsd:string ;
+              ] ;
+            sp:predicate doc:has_related_question ;
+            sp:subject [
+                sp:varName "parentQ"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "q2"^^xsd:string ;
+              ] ;
+            sp:predicate doc:has_related_question ;
+            sp:subject [
+                sp:varName "parentQ"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:ne ;
+                sp:arg1 [
+                    sp:varName "q1"^^xsd:string ;
+                  ] ;
+                sp:arg2 [
+                    sp:varName "q2"^^xsd:string ;
+                  ] ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "qOrigin1"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-question-origin ;
+            sp:subject [
+                sp:varName "q1"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "qOrigin2"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-question-origin ;
+            sp:subject [
+                sp:varName "q2"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:eq ;
+                sp:arg1 [
+                    sp:varName "qOrigin1"^^xsd:string ;
+                  ] ;
+                sp:arg2 [
+                    sp:varName "qOrigin2"^^xsd:string ;
+                  ] ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "there a question that has at least 2 sub-questions with same origin"^^xsd:string ;
+    ] ;
+  kbss-module:has-output-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """# there is a question whose url does not end with suffix '-q'
+# TODO enable
+ASK
+WHERE {
+FILTER(false)
+#    ?question a doc:question .
+#    FILTER(! strEnds(str(?question), \"-q\"))
+}"""^^xsd:string ;
+      sp:where (
+          [
+            rdf:type sp:Filter ;
+            sp:expression "false"^^xsd:boolean ;
+          ]
+        ) ;
+      rdfs:comment """there is a question whose url does not end with suffix '-q'
+TODO enable"""^^xsd:string ;
+    ] ;
+  kbss-module:has-output-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """# there is a question with more than one origin
+ASK
+WHERE {
+    ?q a doc:question ;
+            form:has-question-origin ?o1 ; 
+            form:has-question-origin ?o2 .
+   FILTER(?o1 != ?o2)
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "o1"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-question-origin ;
+            sp:subject [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "o2"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-question-origin ;
+            sp:subject [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:ne ;
+                sp:arg1 [
+                    sp:varName "o1"^^xsd:string ;
+                  ] ;
+                sp:arg2 [
+                    sp:varName "o2"^^xsd:string ;
+                  ] ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "there is a question with more than one origin"^^xsd:string ;
+    ] ;
+  kbss-module:has-output-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """# there is a sub-question without asserted type question
+ASK
+WHERE {
+	  ?parentQ doc:has_related_question ?q .  
+      FILTER NOT EXISTS {
+           ?q a doc:question .
+      }
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+            sp:predicate doc:has_related_question ;
+            sp:subject [
+                sp:varName "parentQ"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object doc:question ;
+                      sp:predicate rdf:type ;
+                      sp:subject [
+                          sp:varName "q"^^xsd:string ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "there is a sub-question without asserted type question"^^xsd:string ;
+    ] ;
+.
+<http://vfn.cz/ontologies/fss-form-generation-0.1>
+  rdf:type owl:Ontology ;
+  owl:imports <http://onto.fel.cvut.cz/ontologies/form-layout> ;
+  owl:imports <http://onto.fel.cvut.cz/ontologies/lib/sm-module-adapter> ;
+  owl:imports <http://onto.fel.cvut.cz/ontologies/vfn-form-mod> ;
+  owl:imports <http://vfn.cz/ontologies/fss-form-static> ;
+.
+fssgen:attach-possible-values-hook
+  rdf:type sml:ApplyConstruct ;
+  sm:next <http://onto.fel.cvut.cz/ontologies/vfn-form-mod/form-generator-sink> ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "downloadString"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-possible-values-query ;
+            sp:subject [
+                sp:varName "question"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:text """CONSTRUCT {
+    ?question form:has-possible-values-query ?downloadString .
+#   ?question form-lt:has-layout-class \"type-ahead\" .
+}
+WHERE {
+    ?question a doc:question ;
+               form:has-question-origin ?questionOrigin .
+    BIND(CONCAT(str(?studyModelServiceUrl), \"&query=\") as ?dowloadPrefix)    
+    BIND(replace(?attributePossibleValuesQueryTemplate, \"XXX_QO\", str(?questionOrigin)) as ?downloadSuffixRaw)
+# N/A value
+    OPTIONAL {
+          ?question form:has-possible-na-value ?naValueUri .
+     }
+    BIND(COALESCE(str(?naValueUri), \"http://null\") as ?naValue)
+    BIND(replace(?downloadSuffixRaw, \"XXX_NAValue\", ?naValue) as ?downloadSuffixRaw1)
+# None value
+     OPTIONAL {
+          ?question form:has-possible-none-value ?noneValueUri .
+     }
+    BIND(COALESCE(str(?noneValueUri), \"http://null\") as ?noneValue)
+    BIND(replace(?downloadSuffixRaw1, \"XXX_NoneValue\", ?noneValue) as ?downloadSuffixRaw2)
+    BIND(ENCODE_FOR_URI(?downloadSuffixRaw2) as ?downloadSuffix)
+    BIND(concat(?dowloadPrefix, ?downloadSuffix) as ?downloadString)
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "question"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "questionOrigin"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-question-origin ;
+            sp:subject [
+                sp:varName "question"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:concat ;
+                sp:arg1 [
+                    rdf:type sp:str ;
+                    sp:arg1 [
+                        sp:varName "studyModelServiceUrl"^^xsd:string ;
+                      ] ;
+                  ] ;
+                sp:arg2 "&query=" ;
+              ] ;
+            sp:variable [
+                sp:varName "dowloadPrefix"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:replace ;
+                sp:arg1 [
+                    sp:varName "attributePossibleValuesQueryTemplate"^^xsd:string ;
+                  ] ;
+                sp:arg2 "XXX_QO" ;
+                sp:arg3 [
+                    rdf:type sp:str ;
+                    sp:arg1 [
+                        sp:varName "questionOrigin"^^xsd:string ;
+                      ] ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "downloadSuffixRaw"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Optional ;
+            sp:elements (
+                [
+                  sp:object [
+                      sp:varName "naValueUri"^^xsd:string ;
+                    ] ;
+                  sp:predicate form:has-possible-na-value ;
+                  sp:subject [
+                      sp:varName "question"^^xsd:string ;
+                    ] ;
+                ]
+              ) ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:coalesce ;
+                sp:arg1 [
+                    rdf:type sp:str ;
+                    sp:arg1 [
+                        sp:varName "naValueUri"^^xsd:string ;
+                      ] ;
+                  ] ;
+                sp:arg2 "http://null" ;
+              ] ;
+            sp:variable [
+                sp:varName "naValue"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:replace ;
+                sp:arg1 [
+                    sp:varName "downloadSuffixRaw"^^xsd:string ;
+                  ] ;
+                sp:arg2 "XXX_NAValue" ;
+                sp:arg3 [
+                    sp:varName "naValue"^^xsd:string ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "downloadSuffixRaw1"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Optional ;
+            sp:elements (
+                [
+                  sp:object [
+                      sp:varName "noneValueUri"^^xsd:string ;
+                    ] ;
+                  sp:predicate form:has-possible-none-value ;
+                  sp:subject [
+                      sp:varName "question"^^xsd:string ;
+                    ] ;
+                ]
+              ) ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:coalesce ;
+                sp:arg1 [
+                    rdf:type sp:str ;
+                    sp:arg1 [
+                        sp:varName "noneValueUri"^^xsd:string ;
+                      ] ;
+                  ] ;
+                sp:arg2 "http://null" ;
+              ] ;
+            sp:variable [
+                sp:varName "noneValue"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:replace ;
+                sp:arg1 [
+                    sp:varName "downloadSuffixRaw1"^^xsd:string ;
+                  ] ;
+                sp:arg2 "XXX_NoneValue" ;
+                sp:arg3 [
+                    sp:varName "noneValue"^^xsd:string ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "downloadSuffixRaw2"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:encode_for_uri ;
+                sp:arg1 [
+                    sp:varName "downloadSuffixRaw2"^^xsd:string ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "downloadSuffix"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:concat ;
+                sp:arg1 [
+                    sp:varName "dowloadPrefix"^^xsd:string ;
+                  ] ;
+                sp:arg2 [
+                    sp:varName "downloadSuffix"^^xsd:string ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "downloadString"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  sml:replace "false"^^xsd:boolean ;
+  rdfs:label "Attach possible values hook" ;
+.
+fssgen:bind-attribute-query
+  rdf:type sml:BindWithConstant ;
+  sm:next fssgen:attach-possible-values-hook ;
+  sm:outputVariable "attributePossibleValuesQueryTemplate" ;
+  sml:value """PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX form: <http://onto.fel.cvut.cz/ontologies/form/> 
+PREFIX stm: <http://vfn.cz/ontologies/study-model/> 
+
+CONSTRUCT {
+     ?value rdfs:label ?label ;
+                 rdfs:comment ?explanation .
+     ?ValidNAValue rdfs:label ?NALabel ;
+                 rdfs:comment ?NAExplanation .
+     ?ValidNoneValue rdfs:label ?NoneLabel ;
+                 rdfs:comment ?NoneExplanation .
+      # Ordering within data
+      ?value1 form:has-preceding-value ?value2 . 
+      # Other
+      ?otherValue form:has-preceding-value ?regularValue . 
+      # None
+      ?ValidNoneValue form:has-preceding-value ?value ;
+                      form:has-preceding-value ?otherValue .
+      # N/A
+     ?ValidNAValue form:has-preceding-value  ?value ;
+                      form:has-preceding-value ?otherValue ;
+                      form:has-preceding-value ?ValidNoneValue .
+}
+WHERE {
+        VALUES (?questionOrigin ?NAValue ?NoneValue) {
+     		(<XXX_QO>  <XXX_NAValue> <XXX_NoneValue>)
+		}
+       BIND(IF(?NoneValue != <http://null>, ?NoneValue, ?notBoundVar) as ?ValidNoneValue)
+       BIND(IF(?NAValue != <http://null>, ?NAValue, ?notBoundVar) as ?ValidNAValue)
+        {
+           ?value a ?questionOrigin .
+           ?value rdfs:label ?label .
+           OPTIONAL {
+                ?value rdfs:comment ?explanation .
+           }         
+        } UNION {
+		   ?value1 a ?questionOrigin .
+		   ?value2 a ?questionOrigin .
+		   ?value1 stm:has-fss-preceding-entity ?value2 .
+        }UNION {
+            ?NAValue rdfs:label ?NALabel .
+            OPTIONAL {
+                 ?NAValue rdfs:comment ?NAExplanation .
+            }
+        } UNION {
+            ?NoneValue rdfs:label ?NoneLabel .
+            OPTIONAL {
+                ?NoneValue rdfs:comment ?NoneExplanation .
+            }
+       } UNION {
+                ?otherValue a ?questionOrigin .
+                ?regularValue a ?questionOrigin . 
+			    ?disjClass a  owl:Class .
+                ?disjClass (owl:disjointWith|^owl:disjointWith)?/owl:oneOf ?otherValueList .
+                ?otherValueList rdf:first ?otherValue ;
+    						               rdf:rest rdf:nil .
+                ?disjClass (owl:disjointWith|^owl:disjointWith)?/owl:oneOf ?regularValueList .
+                ?regularValueList rdf:rest*/rdf:first ?regularValue .
+               FILTER NOT EXISTS {
+                      ?regularValueList rdf:rest rdf:nil .
+               }	
+       }
+}"""^^xsd:string ;
+  rdfs:label "bind-attribute-query" ;
+.
+fssgen:bind-fss-endpoint-url
+  rdf:type sml:BindWithConstant ;
+  sm:next <http://onto.fel.cvut.cz/ontologies/vfn-form-mod/bind-study-sample-service-url> ;
+  sm:next fssgen:bind-fss-model-service-url ;
+  sm:next fssgen:bind-fss-model-service-url_Clone ;
+  sm:outputVariable "studyEndpointUrl" ;
+  sml:value [
+      sp:varName "formGenRepositoryUrl"^^xsd:string ;
+    ] ;
+  rdfs:label "Bind FSS endpoint url" ;
+.
+fssgen:bind-fss-model-service-url
+  rdf:type sml:BindWithConstant ;
+  sm:next fssgen:attach-possible-values-hook ;
+  sm:next fssgen:retrieve-model ;
+  sm:outputVariable "studyModelServiceUrl" ;
+  sml:value [
+      rdf:type sp:iri ;
+      sp:arg1 [
+          rdf:type sp:concat ;
+          sp:arg1 [
+              rdf:type sp:str ;
+              sp:arg1 [
+                  sp:varName "studyEndpointUrl"^^xsd:string ;
+                ] ;
+            ] ;
+          sp:arg2 "?default-graph-uri=" ;
+          sp:arg3 [
+              rdf:type sp:encode_for_uri ;
+              sp:arg1 [
+                  rdf:type sp:str ;
+                  sp:arg1 [
+                      sp:varName "studyModelUri"^^xsd:string ;
+                    ] ;
+                ] ;
+            ] ;
+        ] ;
+    ] ;
+  rdfs:label "Bind FSS model service url" ;
+.
+fssgen:bind-fss-model-service-url_Clone
+  rdf:type sml:BindWithConstant ;
+  sm:next fssgen:retrieve-static-form ;
+  sm:outputVariable "studyStaticFormServiceUrl" ;
+  sml:value [
+      rdf:type sp:iri ;
+      sp:arg1 [
+          rdf:type sp:concat ;
+          sp:arg1 [
+              rdf:type sp:str ;
+              sp:arg1 [
+                  sp:varName "studyEndpointUrl" ;
+                ] ;
+            ] ;
+          sp:arg2 "?default-graph-uri=" ;
+          sp:arg3 [
+              rdf:type sp:encode_for_uri ;
+              sp:arg1 [
+                  rdf:type sp:str ;
+                  sp:arg1 [
+                      sp:varName "studyStaticFormUri" ;
+                    ] ;
+                ] ;
+            ] ;
+        ] ;
+    ] ;
+  rdfs:label "Bind FSS static form service url" ;
+.
+fssgen:bind-fss-model-uri
+  rdf:type sml:BindWithConstant ;
+  sm:next fssgen:bind-fss-model-service-url ;
+  sm:outputVariable "studyModelUri"^^xsd:string ;
+  sml:value "http://vfn.cz/ontologies/fss-study-model"^^xsd:string ;
+  rdfs:label "Bind FSS model uri" ;
+.
+fssgen:bind-fss-model-uri_Clone
+  rdf:type sml:BindWithConstant ;
+  sm:next fssgen:bind-fss-model-service-url_Clone ;
+  sm:outputVariable "studyStaticFormUri" ;
+  sml:value "http://vfn.cz/ontologies/fss-form-static"^^xsd:string ;
+  rdfs:label "Bind FSS static form uri" ;
+.
+fssgen:bind-sample-form-uri
+  rdf:type sml:BindWithConstant ;
+  sm:next <http://onto.fel.cvut.cz/ontologies/vfn-form-mod/bind-study-sample-service-url> ;
+  sm:next <http://onto.fel.cvut.cz/ontologies/vfn-form-mod/deploy-sample-form> ;
+  sm:outputVariable "studySampleFormUri"^^xsd:string ;
+  sml:value "http://vfn.cz/ontologies/fss-form-sample"^^xsd:string ;
+  rdfs:label "bind sample form uri"^^xsd:string ;
+.
+fssgen:clone-fss-form
+  rdf:type sm:Function ;
+  sm:returnModule <http://onto.fel.cvut.cz/ontologies/vfn-form-mod/clone-study-form_Return> ;
+  rdfs:subClassOf sm:Functions ;
+.
+fssgen:construct-possible-values
+  rdf:type sml:ApplyConstruct ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "label" ;
+              ] ;
+            sp:predicate rdfs:label ;
+            sp:subject [
+                sp:varName "value" ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "explanation" ;
+              ] ;
+            sp:predicate rdfs:comment ;
+            sp:subject [
+                sp:varName "value" ;
+              ] ;
+          ]
+        ) ;
+      sp:text """prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+CONSTRUCT {
+     ?value rdfs:label ?label .
+     ?value rdfs:comment ?explanation .
+}
+WHERE {
+        ?value a ?questionOrigin .
+         ?value rdfs:label ?label .
+         OPTIONAL {
+             ?value rdfs:comment ?explanation .
+          }
+} VALUES (?questionOrigin) {
+    (<http://vfn.cz/ontologies/study-model/parity>)
+}""" ;
+      sp:values [
+          sp:bindings (
+              (
+                <http://vfn.cz/ontologies/study-model/parity>
+              )
+            ) ;
+          sp:varNames (
+              "questionOrigin"
+            ) ;
+        ] ;
+      sp:where (
+          [
+            sp:object [
+                sp:varName "questionOrigin" ;
+              ] ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "value" ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "label" ;
+              ] ;
+            sp:predicate rdfs:label ;
+            sp:subject [
+                sp:varName "value" ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Optional ;
+            sp:elements (
+                [
+                  sp:object [
+                      sp:varName "explanation" ;
+                    ] ;
+                  sp:predicate rdfs:comment ;
+                  sp:subject [
+                      sp:varName "value" ;
+                    ] ;
+                ]
+              ) ;
+          ]
+        ) ;
+    ] ;
+  sml:replace "true"^^xsd:boolean ;
+  rdfs:label "construct-possible-values" ;
+.
+fssgen:create-delivery
+  rdf:type sml:ApplyConstruct ;
+  sm:next fssgen:attach-possible-values-hook ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "deliveryUri"^^xsd:string ;
+              ] ;
+            sp:predicate doc:has_related_question ;
+            sp:subject [
+                sp:varName "allDeliveriesUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "deliveryUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "deliveryOriginUri"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-question-origin ;
+            sp:subject [
+                sp:varName "deliveryUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "deliveryDateUri"^^xsd:string ;
+              ] ;
+            sp:predicate doc:has_related_question ;
+            sp:subject [
+                sp:varName "deliveryUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "deliveryMethodUri"^^xsd:string ;
+              ] ;
+            sp:predicate doc:has_related_question ;
+            sp:subject [
+                sp:varName "deliveryUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "answerable" ;
+            sp:predicate form-lt:has-layout-class ;
+            sp:subject [
+                sp:varName "deliveryUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "checkbox" ;
+            sp:predicate form-lt:has-layout-class ;
+            sp:subject [
+                sp:varName "deliveryUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "section" ;
+            sp:predicate form-lt:has-layout-class ;
+            sp:subject [
+                sp:varName "deliveryUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "deliveryLabel"^^xsd:string ;
+              ] ;
+            sp:predicate rdfs:label ;
+            sp:subject [
+                sp:varName "deliveryUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object _:b92600 ;
+            sp:predicate form:is-relevant-if ;
+            sp:subject [
+                sp:varName "deliveryUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object form:condition ;
+            sp:predicate rdf:type ;
+            sp:subject _:b92600 ;
+          ]
+          [
+            sp:object "true"^^xsd:boolean ;
+            sp:predicate form:accepts-answer-value ;
+            sp:subject _:b92600 ;
+          ]
+          [
+            sp:object [
+                sp:varName "allDeliveriesUri"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-tested-question ;
+            sp:subject _:b92600 ;
+          ]
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "deliveryMethodUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "type-ahead" ;
+            sp:predicate form-lt:has-layout-class ;
+            sp:subject [
+                sp:varName "deliveryMethodUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object <http://vfn.cz/ontologies/study-model/method-of-delivery> ;
+            sp:predicate form:has-question-origin ;
+            sp:subject [
+                sp:varName "deliveryMethodUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "Method of delivery" ;
+            sp:predicate rdfs:label ;
+            sp:subject [
+                sp:varName "deliveryMethodUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object _:b50553 ;
+            sp:predicate form:is-relevant-if ;
+            sp:subject [
+                sp:varName "deliveryMethodUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object form:condition ;
+            sp:predicate rdf:type ;
+            sp:subject _:b50553 ;
+          ]
+          [
+            sp:object "true"^^xsd:boolean ;
+            sp:predicate form:accepts-answer-value ;
+            sp:subject _:b50553 ;
+          ]
+          [
+            sp:object [
+                sp:varName "deliveryUri"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-tested-question ;
+            sp:subject _:b50553 ;
+          ]
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "deliveryDateUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "masked-input" ;
+            sp:predicate form-lt:has-layout-class ;
+            sp:subject [
+                sp:varName "deliveryDateUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "MM/YYYY" ;
+            sp:predicate form:has-input-mask ;
+            sp:subject [
+                sp:varName "deliveryDateUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "deliveryDateOriginUri"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-question-origin ;
+            sp:subject [
+                sp:varName "deliveryDateUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "deliveryMethodUri"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-preceding-question ;
+            sp:subject [
+                sp:varName "deliveryDateUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "Date of delivery (month/year)" ;
+            sp:predicate rdfs:label ;
+            sp:subject [
+                sp:varName "deliveryDateUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object _:b92105 ;
+            sp:predicate form:is-relevant-if ;
+            sp:subject [
+                sp:varName "deliveryDateUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object form:condition ;
+            sp:predicate rdf:type ;
+            sp:subject _:b92105 ;
+          ]
+          [
+            sp:object "true"^^xsd:boolean ;
+            sp:predicate form:accepts-answer-value ;
+            sp:subject _:b92105 ;
+          ]
+          [
+            sp:object [
+                sp:varName "deliveryUri"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-tested-question ;
+            sp:subject _:b92105 ;
+          ]
+          [
+            sp:object _:b92072 ;
+            sp:predicate form:is-relevant-if ;
+            sp:subject [
+                sp:varName "deliveryUriCopy"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object form:condition ;
+            sp:predicate rdf:type ;
+            sp:subject _:b92072 ;
+          ]
+          [
+            sp:object "true"^^xsd:boolean ;
+            sp:predicate form:accepts-answer-value ;
+            sp:subject _:b92072 ;
+          ]
+          [
+            sp:object [
+                sp:varName "previousDeliveryUri"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-tested-question ;
+            sp:subject _:b92072 ;
+          ]
+        ) ;
+      sp:text """CONSTRUCT {
+   ?allDeliveriesUri doc:has_related_question ?deliveryUri .
+   ?deliveryUri
+        rdf:type doc:question ;
+        form:has-question-origin ?deliveryOriginUri ;
+#        doc:has_related_question ?deliveryTimeUri ;
+        doc:has_related_question ?deliveryDateUri ;
+        doc:has_related_question ?deliveryMethodUri ;
+        form-lt:has-layout-class \"answerable\" ;
+        form-lt:has-layout-class \"checkbox\" ;
+        form-lt:has-layout-class \"section\" ; 
+        rdfs:label ?deliveryLabel ;
+        form:is-relevant-if [
+            rdf:type form:condition ; 
+            form:accepts-answer-value \"true\"^^xsd:boolean ;
+            form:has-tested-question ?allDeliveriesUri ;
+        ] ;
+  .
+#  ?deliveryTimeUri
+#        rdf:type doc:question ;
+#        form-lt:has-layout-class \"type-ahead\" ;
+#        form:has-question-origin stm:delivery-time ;
+#        rdfs:label \"Time\" ;
+#        form:is-relevant-if [
+#             rdf:type form:condition ;
+#             form:accepts-answer-value \"true\"^^xsd:boolean ;
+#             form:has-tested-question ?deliveryUri ;
+#        ] ;
+#  .
+  ?deliveryMethodUri 
+        rdf:type doc:question ;
+        form-lt:has-layout-class \"type-ahead\" ;
+        form:has-question-origin stm:method-of-delivery ;
+        rdfs:label \"Method of delivery\" ;
+        form:is-relevant-if [
+              rdf:type form:condition ;
+              form:accepts-answer-value \"true\"^^xsd:boolean ;
+              form:has-tested-question ?deliveryUri ;
+        ] ;
+  .
+  ?deliveryDateUri
+        rdf:type doc:question ;
+        form-lt:has-layout-class \"masked-input\" ;
+        form:has-input-mask \"MM/YYYY\" ;
+        form:has-question-origin ?deliveryDateOriginUri ;
+        form:has-preceding-question ?deliveryMethodUri ;
+        rdfs:label \"Date of delivery (month/year)\" ;
+        form:is-relevant-if [
+             rdf:type form:condition ;
+             form:accepts-answer-value \"true\"^^xsd:boolean ;
+             form:has-tested-question ?deliveryUri ;
+        ] ;
+  .
+# hiding if not previous year 
+  ?deliveryUriCopy
+        form:is-relevant-if [
+              rdf:type form:condition ;
+              form:accepts-answer-value \"true\"^^xsd:boolean ;
+              form:has-tested-question ?previousDeliveryUri ;
+       ] ;
+  .
+}
+WHERE {
+    { 
+         SELECT ?delivery ?previousDelivery 
+         WHERE { }
+         VALUES (?delivery ?previousDelivery) {
+               (\"1\" UNDEF)
+               (\"2\" \"1\")
+               (\"3\" \"2\")
+               (\"4\" \"3\")
+               (\"5\" \"4\")
+          }
+    }
+    BIND(ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--deliveries as ?allDeliveriesUri) .
+    BIND(str(?allDeliveriesUri) as ?allDeliveriesUriStr) .
+    BIND(concat(?allDeliveriesUriStr, \"--\", ?delivery, \"-delivery\")  as ?deliveryUriStr)
+    BIND(concat(str(?delivery), \". delivery\") as ?deliveryLabel)
+#    BIND(concat(?deliveryUriStr, \"--time\") as ?deliveryTimeUriStr)
+    BIND(concat(?deliveryUriStr, \"--date\") as ?deliveryDateUriStr)
+    BIND(concat(?deliveryUriStr, \"--method\") as ?deliveryMethodUriStr)
+    BIND(concat(?procedureStr, \"--\", ?previousYear, \"-year\") as ?previousYearUriStr)
+    BIND(concat(?allDeliveriesUriStr, \"--\", ?previousDelivery, \"-delivery\")  as ?previousDeliveryUriStr)
+# str -> question uri
+    BIND(URI(concat(?deliveryUriStr, \"-q\")) as ?deliveryUri)
+#    BIND(URI(?deliveryTimeUriStr) as ?deliveryTimeUri)
+    BIND(URI(concat(?deliveryDateUriStr, \"-q\")) as ?deliveryDateUri)
+    BIND(URI(concat(?deliveryMethodUriStr, \"-q\")) as ?deliveryMethodUri)
+    BIND(URI(concat(?previousDeliveryUriStr, \"-q\")) as ?previousDeliveryUri)    
+    BIND(IF (BOUND (?previousDelivery), ?deliveryUri, ?previousDelivery ) as ?deliveryUriCopy)
+# str -> question origin uri
+    BIND(URI(concat(?deliveryUriStr, \"-qo\")) as ?deliveryOriginUri)
+    BIND(URI(concat(?deliveryDateUriStr, \"-qo\")) as ?deliveryDateOriginUri)
+}"""^^xsd:string ;
+      sp:where (
+          [
+            rdf:type sp:SubQuery ;
+            sp:query [
+                rdf:type sp:Select ;
+                sp:resultVariables (
+                    [
+                      sp:varName "delivery"^^xsd:string ;
+                    ]
+                    [
+                      sp:varName "previousDelivery"^^xsd:string ;
+                    ]
+                  ) ;
+                sp:values [
+                    sp:bindings (
+                        (
+                          "1"
+                          sp:undef
+                        )
+                        (
+                          "2"
+                          "1"
+                        )
+                        (
+                          "3"
+                          "2"
+                        )
+                        (
+                          "4"
+                          "3"
+                        )
+                        (
+                          "5"
+                          "4"
+                        )
+                      ) ;
+                    sp:varNames (
+                        "delivery"^^xsd:string
+                        "previousDelivery"^^xsd:string
+                      ) ;
+                  ] ;
+                sp:where () ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression ff:follow-up-and-recurrence--pregnancy-after-primary-treatment--deliveries ;
+            sp:variable [
+                sp:varName "allDeliveriesUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:str ;
+                sp:arg1 [
+                    sp:varName "allDeliveriesUri"^^xsd:string ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "allDeliveriesUriStr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:concat ;
+                sp:arg1 [
+                    sp:varName "allDeliveriesUriStr"^^xsd:string ;
+                  ] ;
+                sp:arg2 "--" ;
+                sp:arg3 [
+                    sp:varName "delivery"^^xsd:string ;
+                  ] ;
+                sp:arg4 "-delivery" ;
+              ] ;
+            sp:variable [
+                sp:varName "deliveryUriStr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:concat ;
+                sp:arg1 [
+                    rdf:type sp:str ;
+                    sp:arg1 [
+                        sp:varName "delivery"^^xsd:string ;
+                      ] ;
+                  ] ;
+                sp:arg2 ". delivery" ;
+              ] ;
+            sp:variable [
+                sp:varName "deliveryLabel"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:concat ;
+                sp:arg1 [
+                    sp:varName "deliveryUriStr"^^xsd:string ;
+                  ] ;
+                sp:arg2 "--date" ;
+              ] ;
+            sp:variable [
+                sp:varName "deliveryDateUriStr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:concat ;
+                sp:arg1 [
+                    sp:varName "deliveryUriStr"^^xsd:string ;
+                  ] ;
+                sp:arg2 "--method" ;
+              ] ;
+            sp:variable [
+                sp:varName "deliveryMethodUriStr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:concat ;
+                sp:arg1 [
+                    sp:varName "procedureStr"^^xsd:string ;
+                  ] ;
+                sp:arg2 "--" ;
+                sp:arg3 [
+                    sp:varName "previousYear"^^xsd:string ;
+                  ] ;
+                sp:arg4 "-year" ;
+              ] ;
+            sp:variable [
+                sp:varName "previousYearUriStr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:concat ;
+                sp:arg1 [
+                    sp:varName "allDeliveriesUriStr"^^xsd:string ;
+                  ] ;
+                sp:arg2 "--" ;
+                sp:arg3 [
+                    sp:varName "previousDelivery"^^xsd:string ;
+                  ] ;
+                sp:arg4 "-delivery" ;
+              ] ;
+            sp:variable [
+                sp:varName "previousDeliveryUriStr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:uri ;
+                sp:arg1 [
+                    rdf:type sp:concat ;
+                    sp:arg1 [
+                        sp:varName "deliveryUriStr"^^xsd:string ;
+                      ] ;
+                    sp:arg2 "-q" ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "deliveryUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:uri ;
+                sp:arg1 [
+                    rdf:type sp:concat ;
+                    sp:arg1 [
+                        sp:varName "deliveryDateUriStr"^^xsd:string ;
+                      ] ;
+                    sp:arg2 "-q" ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "deliveryDateUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:uri ;
+                sp:arg1 [
+                    rdf:type sp:concat ;
+                    sp:arg1 [
+                        sp:varName "deliveryMethodUriStr"^^xsd:string ;
+                      ] ;
+                    sp:arg2 "-q" ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "deliveryMethodUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:uri ;
+                sp:arg1 [
+                    rdf:type sp:concat ;
+                    sp:arg1 [
+                        sp:varName "previousDeliveryUriStr"^^xsd:string ;
+                      ] ;
+                    sp:arg2 "-q" ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "previousDeliveryUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:if ;
+                sp:arg1 [
+                    rdf:type sp:bound ;
+                    sp:arg1 [
+                        sp:varName "previousDelivery"^^xsd:string ;
+                      ] ;
+                  ] ;
+                sp:arg2 [
+                    sp:varName "deliveryUri"^^xsd:string ;
+                  ] ;
+                sp:arg3 [
+                    sp:varName "previousDelivery"^^xsd:string ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "deliveryUriCopy"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:uri ;
+                sp:arg1 [
+                    rdf:type sp:concat ;
+                    sp:arg1 [
+                        sp:varName "deliveryUriStr"^^xsd:string ;
+                      ] ;
+                    sp:arg2 "-qo" ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "deliveryOriginUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:uri ;
+                sp:arg1 [
+                    rdf:type sp:concat ;
+                    sp:arg1 [
+                        sp:varName "deliveryDateUriStr"^^xsd:string ;
+                      ] ;
+                    sp:arg2 "-qo" ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "deliveryDateOriginUri"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  sml:replace "true"^^xsd:boolean ;
+  rdfs:label "create-delivery" ;
+.
+fssgen:create-follow-up-procedure
+  rdf:type sml:ApplyConstruct ;
+  sm:next fssgen:attach-possible-values-hook ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "yearUri"^^xsd:string ;
+              ] ;
+            sp:predicate doc:has_related_question ;
+            sp:subject [
+                sp:varName "procedureUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "yearUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "yearOriginUri"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-question-origin ;
+            sp:subject [
+                sp:varName "yearUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "yearRoutinelyUri"^^xsd:string ;
+              ] ;
+            sp:predicate doc:has_related_question ;
+            sp:subject [
+                sp:varName "yearUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "yearIfClinicalyIndicatedUri"^^xsd:string ;
+              ] ;
+            sp:predicate doc:has_related_question ;
+            sp:subject [
+                sp:varName "yearUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "answerable" ;
+            sp:predicate form-lt:has-layout-class ;
+            sp:subject [
+                sp:varName "yearUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "checkbox" ;
+            sp:predicate form-lt:has-layout-class ;
+            sp:subject [
+                sp:varName "yearUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "section" ;
+            sp:predicate form-lt:has-layout-class ;
+            sp:subject [
+                sp:varName "yearUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "yearLabel"^^xsd:string ;
+              ] ;
+            sp:predicate rdfs:label ;
+            sp:subject [
+                sp:varName "yearUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object _:b5247 ;
+            sp:predicate form:is-relevant-if ;
+            sp:subject [
+                sp:varName "yearUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object form:condition ;
+            sp:predicate rdf:type ;
+            sp:subject _:b5247 ;
+          ]
+          [
+            sp:object "true"^^xsd:boolean ;
+            sp:predicate form:accepts-answer-value ;
+            sp:subject _:b5247 ;
+          ]
+          [
+            sp:object [
+                sp:varName "procedureUri"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-tested-question ;
+            sp:subject _:b5247 ;
+          ]
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "yearRoutinelyUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "yearRoutinelyOriginUri"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-question-origin ;
+            sp:subject [
+                sp:varName "yearRoutinelyUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "yearRoutinelyFrequencyUri"^^xsd:string ;
+              ] ;
+            sp:predicate doc:has_related_question ;
+            sp:subject [
+                sp:varName "yearRoutinelyUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "answerable" ;
+            sp:predicate form-lt:has-layout-class ;
+            sp:subject [
+                sp:varName "yearRoutinelyUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "checkbox" ;
+            sp:predicate form-lt:has-layout-class ;
+            sp:subject [
+                sp:varName "yearRoutinelyUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "section" ;
+            sp:predicate form-lt:has-layout-class ;
+            sp:subject [
+                sp:varName "yearRoutinelyUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "Routinely" ;
+            sp:predicate rdfs:label ;
+            sp:subject [
+                sp:varName "yearRoutinelyUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object _:b7031 ;
+            sp:predicate form:is-relevant-if ;
+            sp:subject [
+                sp:varName "yearRoutinelyUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object form:condition ;
+            sp:predicate rdf:type ;
+            sp:subject _:b7031 ;
+          ]
+          [
+            sp:object "true"^^xsd:boolean ;
+            sp:predicate form:accepts-answer-value ;
+            sp:subject _:b7031 ;
+          ]
+          [
+            sp:object [
+                sp:varName "yearUri"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-tested-question ;
+            sp:subject _:b7031 ;
+          ]
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "yearRoutinelyFrequencyUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "type-ahead" ;
+            sp:predicate form-lt:has-layout-class ;
+            sp:subject [
+                sp:varName "yearRoutinelyFrequencyUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object <http://vfn.cz/ontologies/study-model/follow-up-procedure-frequency> ;
+            sp:predicate form:has-question-origin ;
+            sp:subject [
+                sp:varName "yearRoutinelyFrequencyUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "Frequency every" ;
+            sp:predicate rdfs:label ;
+            sp:subject [
+                sp:varName "yearRoutinelyFrequencyUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object _:b48630 ;
+            sp:predicate form:is-relevant-if ;
+            sp:subject [
+                sp:varName "yearRoutinelyFrequencyUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object form:condition ;
+            sp:predicate rdf:type ;
+            sp:subject _:b48630 ;
+          ]
+          [
+            sp:object "true"^^xsd:boolean ;
+            sp:predicate form:accepts-answer-value ;
+            sp:subject _:b48630 ;
+          ]
+          [
+            sp:object [
+                sp:varName "yearRoutinelyUri"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-tested-question ;
+            sp:subject _:b48630 ;
+          ]
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "yearIfClinicalyIndicatedUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "yearIfClinicalyIndicatedOriginUri"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-question-origin ;
+            sp:subject [
+                sp:varName "yearIfClinicalyIndicatedUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "checkbox" ;
+            sp:predicate form-lt:has-layout-class ;
+            sp:subject [
+                sp:varName "yearIfClinicalyIndicatedUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "If clinically indicated" ;
+            sp:predicate rdfs:label ;
+            sp:subject [
+                sp:varName "yearIfClinicalyIndicatedUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object _:b22929 ;
+            sp:predicate form:is-relevant-if ;
+            sp:subject [
+                sp:varName "yearIfClinicalyIndicatedUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object form:condition ;
+            sp:predicate rdf:type ;
+            sp:subject _:b22929 ;
+          ]
+          [
+            sp:object "true"^^xsd:boolean ;
+            sp:predicate form:accepts-answer-value ;
+            sp:subject _:b22929 ;
+          ]
+          [
+            sp:object [
+                sp:varName "yearUri"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-tested-question ;
+            sp:subject _:b22929 ;
+          ]
+          [
+            sp:object _:b36282 ;
+            sp:predicate form:is-relevant-if ;
+            sp:subject [
+                sp:varName "yearUriCopy"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object form:condition ;
+            sp:predicate rdf:type ;
+            sp:subject _:b36282 ;
+          ]
+          [
+            sp:object "true"^^xsd:boolean ;
+            sp:predicate form:accepts-answer-value ;
+            sp:subject _:b36282 ;
+          ]
+          [
+            sp:object [
+                sp:varName "previousYearUri"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-tested-question ;
+            sp:subject _:b36282 ;
+          ]
+          [
+            sp:object [
+                sp:varName "previousYearUri"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-preceding-question ;
+            sp:subject [
+                sp:varName "yearUriCopy"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:text """CONSTRUCT {
+   ?procedureUri doc:has_related_question ?yearUri .
+   ?yearUri
+        rdf:type doc:question ;
+        form:has-question-origin ?yearOriginUri ;
+        doc:has_related_question ?yearRoutinelyUri ;
+        doc:has_related_question ?yearIfClinicalyIndicatedUri ;
+        form-lt:has-layout-class \"answerable\" ;
+        form-lt:has-layout-class \"checkbox\" ;
+        form-lt:has-layout-class \"section\" ;
+        rdfs:label ?yearLabel ;
+        form:is-relevant-if [
+            rdf:type form:condition ; 
+            form:accepts-answer-value \"true\"^^xsd:boolean ;
+            form:has-tested-question ?procedureUri ;
+        ] ;
+  .
+  ?yearRoutinelyUri
+        rdf:type doc:question ;
+        form:has-question-origin ?yearRoutinelyOriginUri ;
+        doc:has_related_question ?yearRoutinelyFrequencyUri ;
+        form-lt:has-layout-class \"answerable\" ;
+        form-lt:has-layout-class \"checkbox\" ;
+        form-lt:has-layout-class \"section\" ;
+        rdfs:label \"Routinely\" ;
+        form:is-relevant-if [
+             rdf:type form:condition ;
+             form:accepts-answer-value \"true\"^^xsd:boolean ;
+             form:has-tested-question ?yearUri ;
+        ] ;
+  .
+  ?yearRoutinelyFrequencyUri
+        rdf:type doc:question ;
+        form-lt:has-layout-class \"type-ahead\" ;
+        form:has-question-origin stm:follow-up-procedure-frequency ;
+        rdfs:label \"Frequency every\" ;
+        form:is-relevant-if [
+              rdf:type form:condition ;
+              form:accepts-answer-value \"true\"^^xsd:boolean ;
+              form:has-tested-question ?yearRoutinelyUri ;
+        ] ;
+  .
+  ?yearIfClinicalyIndicatedUri 
+        rdf:type doc:question ;
+        form:has-question-origin ?yearIfClinicalyIndicatedOriginUri ;
+        form-lt:has-layout-class \"checkbox\" ;
+        rdfs:label \"If clinically indicated\" ;
+        form:is-relevant-if [
+              rdf:type form:condition ;
+              form:accepts-answer-value \"true\"^^xsd:boolean ;
+              form:has-tested-question ?yearUri ;
+        ] ;
+  .
+# hiding if not previous year 
+  ?yearUriCopy
+        form:is-relevant-if [
+              rdf:type form:condition ;
+              form:accepts-answer-value \"true\"^^xsd:boolean ;
+              form:has-tested-question ?previousYearUri ;
+       ] ;
+# ordering
+       form:has-preceding-question ?previousYearUri ;
+  .
+}
+WHERE {
+    { 
+         SELECT ?year ?previousYear 
+         WHERE { }
+         VALUES (?year ?previousYear) {
+               (\"1\" UNDEF)
+               (\"2\" \"1\")
+               (\"3\" \"2\")
+               (\"4\" \"3\")
+               (\"5\" \"4\")
+          }
+    }
+    ff:follow-up-and-recurrence--follow-up-procedure doc:has_related_question ?procedureUri .
+    FILTER(?procedureUri != ff:follow-up-and-recurrence--follow-up-procedure--others)
+    BIND(concat(str(?year), \". year\") as ?yearLabel)
+    BIND(str(?procedureUri) as ?procedureStr) 
+    BIND(concat(?procedureStr, \"--\", ?year, \"-year\") as ?yearUriStr)
+    BIND(concat(?yearUriStr, \"--routinely\") as ?yearRoutinelyUriStr)
+    BIND(concat(?yearRoutinelyUriStr, \"--frequency\") as ?yearRoutinelyFrequencyUriStr)
+    BIND(concat(?yearUriStr, \"--if-clinically-indicated\") as ?yearIfClinicalyIndicatedUriStr)
+    BIND(concat(?procedureStr, \"--\", ?previousYear, \"-year\") as ?previousYearUriStr)
+# str -> question uri
+    BIND(URI(concat(?yearUriStr, \"-q\")) as ?yearUri)
+    BIND(URI(concat(?yearRoutinelyUriStr, \"-q\")) as ?yearRoutinelyUri)
+    BIND(URI(concat(?yearRoutinelyFrequencyUriStr, \"-q\")) as ?yearRoutinelyFrequencyUri)
+    BIND(URI(concat(?yearIfClinicalyIndicatedUriStr, \"-q\")) as ?yearIfClinicalyIndicatedUri) 
+    BIND(URI(concat(?previousYearUriStr, \"-q\")) as ?previousYearUri)    
+    BIND(IF (BOUND (?previousYear), ?yearUri, ?previousYear ) as ?yearUriCopy)
+# str -> question origin uri
+    BIND(URI(concat(?yearUriStr, \"-qo\")) as ?yearOriginUri)
+    BIND(URI(concat(?yearRoutinelyUriStr, \"-qo\")) as ?yearRoutinelyOriginUri)
+    BIND(URI(concat(?yearIfClinicalyIndicatedUriStr, \"-qo\")) as ?yearIfClinicalyIndicatedOriginUri) 
+
+}"""^^xsd:string ;
+      sp:where (
+          [
+            rdf:type sp:SubQuery ;
+            sp:query [
+                rdf:type sp:Select ;
+                sp:resultVariables (
+                    [
+                      sp:varName "year"^^xsd:string ;
+                    ]
+                    [
+                      sp:varName "previousYear"^^xsd:string ;
+                    ]
+                  ) ;
+                sp:values [
+                    sp:bindings (
+                        (
+                          "1"
+                          sp:undef
+                        )
+                        (
+                          "2"
+                          "1"
+                        )
+                        (
+                          "3"
+                          "2"
+                        )
+                        (
+                          "4"
+                          "3"
+                        )
+                        (
+                          "5"
+                          "4"
+                        )
+                      ) ;
+                    sp:varNames (
+                        "year"^^xsd:string
+                        "previousYear"^^xsd:string
+                      ) ;
+                  ] ;
+                sp:where () ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "procedureUri"^^xsd:string ;
+              ] ;
+            sp:predicate doc:has_related_question ;
+            sp:subject ff:follow-up-and-recurrence--follow-up-procedure ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:ne ;
+                sp:arg1 [
+                    sp:varName "procedureUri"^^xsd:string ;
+                  ] ;
+                sp:arg2 ff:follow-up-and-recurrence--follow-up-procedure--others ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:concat ;
+                sp:arg1 [
+                    rdf:type sp:str ;
+                    sp:arg1 [
+                        sp:varName "year"^^xsd:string ;
+                      ] ;
+                  ] ;
+                sp:arg2 ". year" ;
+              ] ;
+            sp:variable [
+                sp:varName "yearLabel"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:str ;
+                sp:arg1 [
+                    sp:varName "procedureUri"^^xsd:string ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "procedureStr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:concat ;
+                sp:arg1 [
+                    sp:varName "procedureStr"^^xsd:string ;
+                  ] ;
+                sp:arg2 "--" ;
+                sp:arg3 [
+                    sp:varName "year"^^xsd:string ;
+                  ] ;
+                sp:arg4 "-year" ;
+              ] ;
+            sp:variable [
+                sp:varName "yearUriStr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:concat ;
+                sp:arg1 [
+                    sp:varName "yearUriStr"^^xsd:string ;
+                  ] ;
+                sp:arg2 "--routinely" ;
+              ] ;
+            sp:variable [
+                sp:varName "yearRoutinelyUriStr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:concat ;
+                sp:arg1 [
+                    sp:varName "yearRoutinelyUriStr"^^xsd:string ;
+                  ] ;
+                sp:arg2 "--frequency" ;
+              ] ;
+            sp:variable [
+                sp:varName "yearRoutinelyFrequencyUriStr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:concat ;
+                sp:arg1 [
+                    sp:varName "yearUriStr"^^xsd:string ;
+                  ] ;
+                sp:arg2 "--if-clinically-indicated" ;
+              ] ;
+            sp:variable [
+                sp:varName "yearIfClinicalyIndicatedUriStr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:concat ;
+                sp:arg1 [
+                    sp:varName "procedureStr"^^xsd:string ;
+                  ] ;
+                sp:arg2 "--" ;
+                sp:arg3 [
+                    sp:varName "previousYear"^^xsd:string ;
+                  ] ;
+                sp:arg4 "-year" ;
+              ] ;
+            sp:variable [
+                sp:varName "previousYearUriStr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:uri ;
+                sp:arg1 [
+                    rdf:type sp:concat ;
+                    sp:arg1 [
+                        sp:varName "yearUriStr"^^xsd:string ;
+                      ] ;
+                    sp:arg2 "-q" ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "yearUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:uri ;
+                sp:arg1 [
+                    rdf:type sp:concat ;
+                    sp:arg1 [
+                        sp:varName "yearRoutinelyUriStr"^^xsd:string ;
+                      ] ;
+                    sp:arg2 "-q" ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "yearRoutinelyUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:uri ;
+                sp:arg1 [
+                    rdf:type sp:concat ;
+                    sp:arg1 [
+                        sp:varName "yearRoutinelyFrequencyUriStr"^^xsd:string ;
+                      ] ;
+                    sp:arg2 "-q" ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "yearRoutinelyFrequencyUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:uri ;
+                sp:arg1 [
+                    rdf:type sp:concat ;
+                    sp:arg1 [
+                        sp:varName "yearIfClinicalyIndicatedUriStr"^^xsd:string ;
+                      ] ;
+                    sp:arg2 "-q" ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "yearIfClinicalyIndicatedUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:uri ;
+                sp:arg1 [
+                    rdf:type sp:concat ;
+                    sp:arg1 [
+                        sp:varName "previousYearUriStr"^^xsd:string ;
+                      ] ;
+                    sp:arg2 "-q" ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "previousYearUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:if ;
+                sp:arg1 [
+                    rdf:type sp:bound ;
+                    sp:arg1 [
+                        sp:varName "previousYear"^^xsd:string ;
+                      ] ;
+                  ] ;
+                sp:arg2 [
+                    sp:varName "yearUri"^^xsd:string ;
+                  ] ;
+                sp:arg3 [
+                    sp:varName "previousYear"^^xsd:string ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "yearUriCopy"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:uri ;
+                sp:arg1 [
+                    rdf:type sp:concat ;
+                    sp:arg1 [
+                        sp:varName "yearUriStr"^^xsd:string ;
+                      ] ;
+                    sp:arg2 "-qo" ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "yearOriginUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:uri ;
+                sp:arg1 [
+                    rdf:type sp:concat ;
+                    sp:arg1 [
+                        sp:varName "yearRoutinelyUriStr"^^xsd:string ;
+                      ] ;
+                    sp:arg2 "-qo" ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "yearRoutinelyOriginUri"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:uri ;
+                sp:arg1 [
+                    rdf:type sp:concat ;
+                    sp:arg1 [
+                        sp:varName "yearIfClinicalyIndicatedUriStr"^^xsd:string ;
+                      ] ;
+                    sp:arg2 "-qo" ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "yearIfClinicalyIndicatedOriginUri"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  sml:replace "true"^^xsd:boolean ;
+  rdfs:label "create-follow-up-procedure" ;
+.
+fssgen:generate-fss-form
+  rdf:type sm:Function ;
+  sm:returnModule <http://onto.fel.cvut.cz/ontologies/vfn-form-mod/generate-study-form_Return> ;
+  rdfs:subClassOf sm:Functions ;
+.
+fssgen:generate-missing-origins
+  rdf:type sml:ApplyConstruct ;
+  kbss-module:has-input-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """# there is a question without an origin (adjust it manually based on output of this module)
+# TODO enable
+ASK
+WHERE {
+FILTER(false)
+#     ?q a doc:question .
+#    FILTER NOT EXISTS {
+#       ?q form:has-question-origin ?qOriginNotBound .
+#    }
+} """^^xsd:string ;
+      sp:where (
+          [
+            rdf:type sp:Filter ;
+            sp:expression "false"^^xsd:boolean ;
+          ]
+        ) ;
+      rdfs:comment """there is a question without an origin (adjust it manually based on output of this module)
+TODO enable"""^^xsd:string ;
+    ] ;
+  sm:next <http://onto.fel.cvut.cz/ontologies/vfn-form-mod/merge-form-data> ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "qOrigin"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-question-origin ;
+            sp:subject [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:text """# TODO -- this should only work as safety-net form missing origins but it should be done manually instead of this
+CONSTRUCT {
+      ?q form:has-question-origin ?qOrigin .
+}
+WHERE {
+    ?q a doc:question .
+    FILTER NOT EXISTS {
+       ?q form:has-question-origin ?qOriginNotBound .
+    } 
+    BIND(iri(concat(str(?q), \"-qo\")) as  ?qOrigin)
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object [
+                          sp:varName "qOriginNotBound"^^xsd:string ;
+                        ] ;
+                      sp:predicate form:has-question-origin ;
+                      sp:subject [
+                          sp:varName "q"^^xsd:string ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:iri ;
+                sp:arg1 [
+                    rdf:type sp:concat ;
+                    sp:arg1 [
+                        rdf:type sp:str ;
+                        sp:arg1 [
+                            sp:varName "q"^^xsd:string ;
+                          ] ;
+                      ] ;
+                    sp:arg2 "-qo" ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "qOrigin"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "TODO -- this should only work as safety-net form missing origins but it should be done manually instead of this"^^xsd:string ;
+    ] ;
+  sml:replace "true"^^xsd:boolean ;
+  rdfs:label "generate-missing-origins"^^xsd:string ;
+.
+fssgen:retrieve-model
+  rdf:type sml:ApplyConstruct ;
+  sm:next fssgen:construct-possible-values ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "o" ;
+              ] ;
+            sp:predicate [
+                sp:varName "p" ;
+              ] ;
+            sp:subject [
+                sp:varName "s" ;
+              ] ;
+          ]
+        ) ;
+      sp:text """CONSTRUCT {
+    ?s ?p ?o .
+}
+WHERE {
+    SERVICE ?studyModelServiceUrl {
+           ?s ?p ?o .
+    }
+}""" ;
+      sp:where (
+          [
+            rdf:type sp:Service ;
+            sp:elements (
+                [
+                  sp:object [
+                      sp:varName "o" ;
+                    ] ;
+                  sp:predicate [
+                      sp:varName "p" ;
+                    ] ;
+                  sp:subject [
+                      sp:varName "s" ;
+                    ] ;
+                ]
+              ) ;
+            sp:serviceURI [
+                sp:varName "studyModelServiceUrl" ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  sml:replace "true"^^xsd:boolean ;
+  rdfs:label "Retrieve model"^^xsd:string ;
+.
+fssgen:retrieve-static-form
+  rdf:type sml:ApplyConstruct ;
+  sm:next fssgen:attach-possible-values-hook ;
+  sm:next fssgen:create-delivery ;
+  sm:next fssgen:create-follow-up-procedure ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "o" ;
+              ] ;
+            sp:predicate [
+                sp:varName "p" ;
+              ] ;
+            sp:subject [
+                sp:varName "s" ;
+              ] ;
+          ]
+        ) ;
+      sp:text """CONSTRUCT {
+    ?s ?p ?o .
+}
+WHERE {
+    SERVICE ?studyStaticFormServiceUrl {
+           ?s ?p ?o .
+    }
+}""" ;
+      sp:where (
+          [
+            rdf:type sp:Service ;
+            sp:elements (
+                [
+                  sp:object [
+                      sp:varName "o" ;
+                    ] ;
+                  sp:predicate [
+                      sp:varName "p" ;
+                    ] ;
+                  sp:subject [
+                      sp:varName "s" ;
+                    ] ;
+                ]
+              ) ;
+            sp:serviceURI [
+                sp:varName "studyStaticFormServiceUrl" ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  sml:replace "true"^^xsd:boolean ;
+  rdfs:label "retrieve-static-form" ;
+.

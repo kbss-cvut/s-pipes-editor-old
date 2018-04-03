@@ -1,0 +1,14 @@
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+
+<http://vfn.cz/ontologies/fss-form-generation-0.1/retrieve-saved-data>
+        <http://topbraid.org/sparqlmotion#next>
+                <http://vfn.cz/ontologies/fss-form-generation-0.1/bind-sample-form-uri> .
+
+<http://yandoroshenko.github.com/s-pipes-editor/ontologies/scriptPath>
+        a            owl:Ontology ;
+        owl:imports  <http://onto.fel.cvut.cz/ontologies/lib/sm-module-adapter> , <http://spinrdf.org/spl> , <http://spinrdf.org/spif> , <http://spinrdf.org/spr> , <http://topbraid.org/sparqlmotion> , <http://www.topbraid.org/2007/05/composite.owl> , <http://spinrdf.org/sp> , <http://spinrdf.org/spin> , <http://onto.fel.cvut.cz/ontologies/lib/module> , <http://topbraid.org/sparqlmotionlib-core> , <http://vfn.cz/ontologies/fss-form-generation-0.1> .
+
+<http://onto.fel.cvut.cz/s-pipes-editor/3f542da2-2bc0-4fa7-8698-8aa7665ca0ee>
+        a       <http://topbraid.org/sparqlmotion#Modules> , <http://topbraid.org/sparqlmotionlib#BindWithConstant> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "BIND" .
