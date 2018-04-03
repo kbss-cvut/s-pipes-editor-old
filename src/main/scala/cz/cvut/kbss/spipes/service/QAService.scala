@@ -26,7 +26,7 @@ class QAService extends PropertySource with Logger[QAService] with ResourceManag
   private val transformer: Transformer = new TransformerImpl()
 
   def generateForm(scriptPath: String, moduleUri: String, moduleTypeUri: String): Try[Question] = {
-    log.info("Generating form for scriptPath " + scriptPath + ", module " + moduleUri + ", moduleType " + moduleTypeUri)
+    log.info("Generating form for script " + scriptPath + ", module " + moduleUri + ", moduleType " + moduleTypeUri)
     helper.getUnionModel(new File(f"""${getProperty(SCRIPTS_LOCATION)}/$scriptPath""")).map(model => {
       transformer.script2Form(
         model,
@@ -37,7 +37,7 @@ class QAService extends PropertySource with Logger[QAService] with ResourceManag
   }
 
   def mergeForm(scriptPath: String, rootQuestion: Question, moduleType: String): Try[Model] = {
-    log.info("Merging form for scriptPath " + scriptPath)
+    log.info("Merging form for script " + scriptPath)
     val defaultFilePath = f"""${getProperty(SCRIPTS_LOCATION)}/$scriptPath"""
     val ontologyUri =
       if (moduleType.contains("#"))

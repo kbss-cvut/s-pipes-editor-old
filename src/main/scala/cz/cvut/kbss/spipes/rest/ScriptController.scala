@@ -25,16 +25,16 @@ class ScriptController extends Logger[ScriptController] {
   @PostMapping(path = Array("/moduleTypes"), produces = Array(JsonLd.MEDIA_TYPE))
   def getModuleTypes(@RequestBody dto: ScriptDTO): ResponseEntity[Any] = {
     val script = dto.getScriptPath()
-    log.info("Looking for module types of scriptPath " + script)
+    log.info("Looking for module types of script " + script)
     service.getModuleTypes(script) match {
       case Left(e) =>
         log.error(e.getLocalizedMessage(), e)
         new ResponseEntity(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
       case Right(None) =>
-        log.info("No module types found for scriptPath " + script)
+        log.info("No module types found for script " + script)
         new ResponseEntity(HttpStatus.NOT_FOUND)
       case Right(Some(types)) =>
-        log.info("Found module types for scriptPath " + script)
+        log.info("Found module types for script " + script)
         log.trace(types)
         new ResponseEntity(types.toList.sortBy(_.getLabel()).asJava, HttpStatus.OK)
     }

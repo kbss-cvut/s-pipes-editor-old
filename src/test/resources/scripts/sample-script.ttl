@@ -1,13 +1,13 @@
-@prefix : <http://www.semanticweb.org/sample-scriptPath#> .
+@prefix : <http://www.semanticweb.org/sample-script#> .
 @prefix em: <http://onto.fel.cvut.cz/ontologies/s-pipes-view/editor-model/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@base <http://www.semanticweb.org/sample-scriptPath> .
+@base <http://www.semanticweb.org/sample-script> .
 
-<http://www.semanticweb.org/sample-scriptPath> rdf:type owl:Ontology ;
+<http://www.semanticweb.org/sample-script> rdf:type owl:Ontology ;
                                             owl:imports <http://spinrdf.org/spl> .
 
 #################################################################

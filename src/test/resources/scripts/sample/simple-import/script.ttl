@@ -1,5 +1,5 @@
 @prefix ff:    <http://vfn.cz/ontologies/fss-form/> .
-@prefix :      <http://vfn.cz/ontologies/fss-form-generation-0.1/> .
+@prefix :      <http://vfn.cz/ontologies/fss-form-generation-0.123/> .
 @prefix e-m-i: <http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#> .
 @prefix e-m:   <http://onto.fel.cvut.cz/ontologies/eccairs/model/> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
@@ -8,7 +8,7 @@
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix smf:   <http://topbraid.org/sparqlmotionfunctions#> .
 @prefix spif:  <http://spinrdf.org/spif#> .
-@prefix fssgen: <http://vfn.cz/ontologies/fss-form-generation-0.1/> .
+@prefix fssgen: <http://vfn.cz/ontologies/fss-form-generation-0.123/> .
 @prefix sml:   <http://topbraid.org/sparqlmotionlib#> .
 @prefix composite: <http://www.topbraid.org/2007/05/composite.owl#> .
 @prefix arg:   <http://spinrdf.org/arg#> .
@@ -19,7 +19,7 @@
 @prefix afn:   <http://jena.hpl.hp.com/ARQ/function#> .
 @prefix spl:   <http://spinrdf.org/spl#> .
 @prefix form-lt: <http://onto.fel.cvut.cz/ontologies/form-layout/> .
-@prefix form-fss-gen-0.1: <http://vfn.cz/ontologies/fss-form-generation-0.1/> .
+@prefix form-fss-gen-0.1: <http://vfn.cz/ontologies/fss-form-generation-0.123/> .
 @prefix daml:  <http://www.daml.org/2001/03/daml+oil#> .
 @prefix form:  <http://onto.fel.cvut.cz/ontologies/form/> .
 @prefix spr:   <http://spinrdf.org/spr#> .
@@ -30,7 +30,7 @@
 
 sml:CreateSWPDocument
         a                sm:Module ;
-        rdfs:comment     "Evaluates a given SWP document (sml:view) and assigns the resulting document to a given string variable (sm:outputVariable). The new variable can then be saved to a file or processed otherwise. All incoming variables of this SM module will be bound in the SWP expression.\n\nNote that in order to insert an SWP view for a given resource (using ui:instanceView etc), you can use the snippet <ui:resourceView ui:resource=\"{= ?varName }\" />.\n\nAlso note that in order to use HTML or SVG tags in the sml:view, you will need to import the html.ttl or svg.ttl from the SWP ontologies into the scriptPath." ;
+        rdfs:comment     "Evaluates a given SWP document (sml:view) and assigns the resulting document to a given string variable (sm:outputVariable). The new variable can then be saved to a file or processed otherwise. All incoming variables of this SM module will be bound in the SWP expression.\n\nNote that in order to insert an SWP view for a given resource (using ui:instanceView etc), you can use the snippet <ui:resourceView ui:resource=\"{= ?varName }\" />.\n\nAlso note that in order to use HTML or SVG tags in the sml:view, you will need to import the html.ttl or svg.ttl from the SWP ontologies into the script." ;
         rdfs:label       "Create SWP document" ;
         rdfs:subClassOf  sml:TextProcessingModules ;
         spin:constraint  [ a              spl:Argument ;
@@ -347,11 +347,6 @@ spr:cellFunction  a         rdf:Property ;
         rdfs:range          spin:Function ;
         rdfs:subPropertyOf  spr:systemProperty .
 
-<http://www.topbraid.org/2007/05/composite.owl>
-        a                owl:Ontology ;
-        rdfs:comment     "A simple ontology to help representing part-of (parent/child) relationships." ;
-        owl:versionInfo  "Created with TopBraid Composer by Holger Knublauch" .
-
 sp:Filter  a             rdfs:Class ;
         rdfs:comment     "A constraint element that evaluates a given expression to true or false." ;
         rdfs:label       "Filter" ;
@@ -386,7 +381,7 @@ spin:AskTemplate  a      rdfs:Class ;
                          ] .
 
 sml:Merge  a             sm:Module ;
-        rdfs:comment     "This module type can be used to merge the variables and RDF triples from multiple input modules. The same is done by any other SPARQLMotion scriptPath that has multiple input modules. So while the sml:Merge module basically does not do anything at all, it can be useful to create a clean structure in your scriptPath, particularly if you have a case when you want to merge multiple graphs and then have multiple outgoing sm:next links from the merged graph." ;
+        rdfs:comment     "This module type can be used to merge the variables and RDF triples from multiple input modules. The same is done by any other SPARQLMotion script that has multiple input modules. So while the sml:Merge module basically does not do anything at all, it can be useful to create a clean structure in your script, particularly if you have a case when you want to merge multiple graphs and then have multiple outgoing sm:next links from the merged graph." ;
         rdfs:label       "Merge" ;
         rdfs:subClassOf  sml:ControlFlowModules .
 
@@ -780,7 +775,7 @@ spl:instanceOf  a           spin:Function ;
 
 sml:ReturnSWPDocument
         a                sm:Module ;
-        rdfs:comment     "Creates an SWP document using the current variable bindings and returns the resulting document as HTML, XML, SVG or text to the caller of the web service.\n\nNote that in order to insert a SWP view for a given resource (using ui:instanceView etc), you can use the snippet <ui:resourceView ui:resource=\"{= ?varName }\" />.\n\nAlso note that in order to use HTML or SVG tags in the sml:view, you will need to import the html.ttl or svg.ttl from the SWP ontologies into the scriptPath." ;
+        rdfs:comment     "Creates an SWP document using the current variable bindings and returns the resulting document as HTML, XML, SVG or text to the caller of the web service.\n\nNote that in order to insert a SWP view for a given resource (using ui:instanceView etc), you can use the snippet <ui:resourceView ui:resource=\"{= ?varName }\" />.\n\nAlso note that in order to use HTML or SVG tags in the sml:view, you will need to import the html.ttl or svg.ttl from the SWP ontologies into the script." ;
         rdfs:label       "Return SWP document" ;
         rdfs:subClassOf  sml:ExportToRemoteModules ;
         spin:constraint  [ a              spl:Argument ;
@@ -814,7 +809,7 @@ sp:expression  a            rdf:Property ;
         rdfs:subPropertyOf  sp:systemProperty .
 
 sml:IterateWhile  a      sm:Module ;
-        rdfs:comment     "Repeats a sub-scriptPath (specified as body) as long as a SPARQL ASK query returns true. The output of each iteration is the input to the next. The output of the whole module is the result of the last iteration. No variable bindings are passed into or out of the body." ;
+        rdfs:comment     "Repeats a sub-script (specified as body) as long as a SPARQL ASK query returns true. The output of each iteration is the input to the next. The output of the whole module is the result of the last iteration. No variable bindings are passed into or out of the body." ;
         rdfs:label       "Iterate while" ;
         rdfs:subClassOf  sml:ControlFlowModules ;
         spin:constraint  [ a              spl:Attribute ;
@@ -824,7 +819,7 @@ sml:IterateWhile  a      sm:Module ;
                            spl:predicate  sml:askQuery
                          ] ;
         spin:constraint  [ a              spl:Attribute ;
-                           rdfs:comment   "The start of the scriptPath that shall be executed as body in each iteration. The body must end with a single target module." ;
+                           rdfs:comment   "The start of the script that shall be executed as body in each iteration. The body must end with a single target module." ;
                            spl:maxCount   1 ;
                            spl:minCount   1 ;
                            spl:predicate  sm:body
@@ -1143,7 +1138,7 @@ sml:inputVariable  a  rdf:Property ;
         rdfs:range  xsd:string .
 
 sml:BranchByAsk  a       sm:Module ;
-        rdfs:comment     "Runs a SPARQL Ask query and, depending on the resulting boolean, either continues with the sm:if or the sm:else branch. Both branches can be sub-scripts, and the sm:if and sm:else should point to the entry points of those sub-scripts. Those entry modules will be passed the same RDF triples and variable bindings as passed to theBranchByAsk module itself. The result of the execution will be the target module (last module in the sub-scriptPath) of the selected branch. All variable bindings of the result module will also be passed on as output to the next module(s). Both branches must have exactly one target module. If a branch is empty then the module's input will be passed on unchanged." ;
+        rdfs:comment     "Runs a SPARQL Ask query and, depending on the resulting boolean, either continues with the sm:if or the sm:else branch. Both branches can be sub-scripts, and the sm:if and sm:else should point to the entry points of those sub-scripts. Those entry modules will be passed the same RDF triples and variable bindings as passed to theBranchByAsk module itself. The result of the execution will be the target module (last module in the sub-script) of the selected branch. All variable bindings of the result module will also be passed on as output to the next module(s). Both branches must have exactly one target module. If a branch is empty then the module's input will be passed on unchanged." ;
         rdfs:label       "Branch by ask" ;
         rdfs:subClassOf  sml:ControlFlowModules ;
         spin:constraint  [ a              spl:Attribute ;
@@ -1153,13 +1148,13 @@ sml:BranchByAsk  a       sm:Module ;
                            spl:predicate  sml:askQuery
                          ] ;
         spin:constraint  [ a              spl:Attribute ;
-                           rdfs:comment   "The start of the child scriptPath that shall be executed if the ask query evaluates to true." ;
+                           rdfs:comment   "The start of the child script that shall be executed if the ask query evaluates to true." ;
                            spl:maxCount   1 ;
                            spl:minCount   0 ;
                            spl:predicate  sm:if
                          ] ;
         spin:constraint  [ a              spl:Attribute ;
-                           rdfs:comment   "The start of the child scriptPath that shall be executed if the ask query evaluates to false." ;
+                           rdfs:comment   "The start of the child script that shall be executed if the ask query evaluates to false." ;
                            spl:maxCount   1 ;
                            spl:minCount   0 ;
                            spl:predicate  sm:else
@@ -1537,13 +1532,6 @@ form-fss-gen-0.1:bind-fss-endpoint-url
         sm:outputVariable  "studyEndpointUrl" ;
         sml:value          [ sp:varName  "formGenRepositoryUrl" ] .
 
-<http://topbraid.org/sparqlmotion>
-        a                owl:Ontology ;
-        rdfs:comment     "Core ontology of SPARQLMotion: a declarative scripting language for Semantic Web technology. This ontology defines the basic building blocks of SPARQLMotion scripts. Scripts consist of modules, which are instances of (some subclass of) sm:Module. Modules can be chained together using sm:next and the sm:child properties." ;
-        rdfs:seeAlso     <http://sparqlmotion.org> ;
-        owl:imports      <http://spinrdf.org/spl> ;
-        owl:versionInfo  "2.2.0" .
-
 spl:Test-instanceOf-untypedString
         a                   spl:TestCase ;
         spl:testExpression  [ a        spl:instanceOf ;
@@ -1614,11 +1602,11 @@ spin:violationValue  a      rdf:Property ;
         rdfs:subPropertyOf  spin:systemProperty .
 
 sml:CatchExceptions  a   sm:Module ;
-        rdfs:comment     "Runs a sub-scriptPath (sm:body) and catches any errors (Java Exceptions) that happened within it. Normally, the SPARQLMotion engine exits on hitting any Exception, but this module provides a level of error handling. If an error occurs, then the result variable (sm:outputVariable) will contain the error message, and the result graph will be the same as the input of the module itself. Otherwise, the output graph will be the last module of the nested body scriptPath, and any variable bindings from the body will be applied to the next modules. As an option, the full stack trace can be bound to a variable as well." ;
+        rdfs:comment     "Runs a sub-script (sm:body) and catches any errors (Java Exceptions) that happened within it. Normally, the SPARQLMotion engine exits on hitting any Exception, but this module provides a level of error handling. If an error occurs, then the result variable (sm:outputVariable) will contain the error message, and the result graph will be the same as the input of the module itself. Otherwise, the output graph will be the last module of the nested body script, and any variable bindings from the body will be applied to the next modules. As an option, the full stack trace can be bound to a variable as well." ;
         rdfs:label       "Catch exceptions" ;
         rdfs:subClassOf  sml:ControlFlowModules ;
         spin:constraint  [ a              spl:Attribute ;
-                           rdfs:comment   "The head of the scriptPath to execute. Must have a single end module." ;
+                           rdfs:comment   "The head of the script to execute. Must have a single end module." ;
                            spl:maxCount   1 ;
                            spl:minCount   1 ;
                            spl:predicate  sm:body ;
@@ -1760,7 +1748,7 @@ arg:pattern  a              rdf:Property ;
 
 form-fss-gen-0.1:bind-fss-model-service-url_Clone
         a                  sm:Modules , sml:BindWithConstant ;
-        rdfs:label         "Bind FSS static form service url" ;
+        rdfs:label         "Bind FSS static" ;
         sm:next            form-fss-gen-0.1:retrieve-static-form ;
         sm:outputVariable  "studyStaticFormServiceUrl" ;
         sml:value          [ a        sp:iri ;
@@ -1984,7 +1972,7 @@ sml:ImportTextFile  a    sm:Module ;
         rdfs:label       "Import text file" ;
         rdfs:subClassOf  sml:ImportFromLocalModules ;
         spin:constraint  [ a              spl:Argument ;
-                           rdfs:comment   "The path to a text file. The path can be relative to the current scriptPath's folder (e.g., myFolder/test.txt) or absolute to the workspace root /myProject/myFolder/test.txt." ;
+                           rdfs:comment   "The path to a text file. The path can be relative to the current script's folder (e.g., myFolder/test.txt) or absolute to the workspace root /myProject/myFolder/test.txt." ;
                            spl:predicate  sml:sourceFilePath ;
                            spl:valueType  xsd:string
                          ] ;
@@ -2266,11 +2254,6 @@ sp:mul  a                spin:Function ;
                          ] ;
         spin:symbol      "*" .
 
-<http://onto.fel.cvut.cz/ontologies/lib/sm-module-adapter>
-        a                owl:Ontology ;
-        owl:imports      <http://onto.fel.cvut.cz/ontologies/lib/module> , <http://spinrdf.org/spl> , <http://topbraid.org/sparqlmotion> , <http://topbraid.org/sparqlmotionlib-core> ;
-        owl:versionInfo  "Created with TopBraid Composer" .
-
 sml:template  a     rdf:Property ;
         rdfs:label  "template" ;
         rdfs:range  xsd:string .
@@ -2325,13 +2308,6 @@ spin:select  a           spin:MagicProperty ;
         rdfs:comment     "Executes a given SELECT or ASK query (or a corresponding SPIN template call) and binds its result rows to the variables specified on the right hand side. May also pre-bind variables for the query execution, using name-value pairs on the left hand side.\n\nExample:\n\n    (?query \"this\" owl:Thing) spin:select (?a ?b)\n\nwill execute the sp:Select or sp:Ask that ?query points to and pre-bind ?this with the value of owl:Thing for the execution of the query. The first result variable of the query's result set will be bound to ?a, the second to ?b etc. If the nodes on the right are bound (or constants) then it will match with the values from the result set." ;
         rdfs:label       "select" ;
         rdfs:subClassOf  spin:MagicProperties .
-
-<http://spinrdf.org/spr>
-        a                owl:Ontology ;
-        rdfs:comment     "A collection of SPIN functions that can be used to query, traverse and aggregate tabular data." ;
-        rdfs:seeAlso     <http://spinrdf.org/spr.html> ;
-        owl:imports      <http://spinrdf.org/spl> ;
-        owl:versionInfo  "1.0.0" .
 
 sp:Create  a             rdfs:Class ;
         rdfs:comment     "An Update operation that creates a new empty graph with a name specified by sp:graphIRI. May have sp:silent set to true." ;
@@ -2561,7 +2537,7 @@ spl:maxCount  a             rdf:Property ;
         rdfs:subPropertyOf  spl:count .
 
 sm:returnModule  a    rdf:Property ;
-        rdfs:comment  "Can be attached to user-defined SPARQLMotion functions to define the return module of the function's SPARQLMotion scriptPath. The result of the function will depend on the selected return module type." ;
+        rdfs:comment  "Can be attached to user-defined SPARQLMotion functions to define the return module of the function's SPARQLMotion script. The result of the function will depend on the selected return module type." ;
         rdfs:domain   spin:Function ;
         rdfs:label    "return module" ;
         rdfs:range    sm:Modules .
@@ -2771,7 +2747,7 @@ form-fss-gen-0.1:bind-fss-sample-service-url
                            ] .
 
 sm:child  a           rdf:Property ;
-        rdfs:comment  "Links a parent module with a child module that marks the start of a nested sub-scriptPath. This property is not meant to be used directly, but its primary function is to serve as superproperty of sm:body, sm:if and sm:else." ;
+        rdfs:comment  "Links a parent module with a child module that marks the start of a nested sub-script. This property is not meant to be used directly, but its primary function is to serve as superproperty of sm:body, sm:if and sm:else." ;
         rdfs:label    "child" ;
         rdfs:range    spin:Modules .
 
@@ -2790,7 +2766,7 @@ spin:rule  a                spin:RuleProperty ;
         rdfs:subPropertyOf  spin:command .
 
 sm:outputVariable  a  rdf:Property ;
-        rdfs:comment  "The name of the declared output variable of a module. This is typically used by modules to enable scriptPath users to bind the output of a module with matching variables in the target module." ;
+        rdfs:comment  "The name of the declared output variable of a module. This is typically used by modules to enable script users to bind the output of a module with matching variables in the target module." ;
         rdfs:label    "outputVariable" ;
         rdfs:range    xsd:string .
 
@@ -2863,12 +2839,6 @@ spr:aggregateRow  a      spin:Function ;
                            spl:valueType  xsd:integer
                          ] .
 
-<http://spinrdf.org/sp>
-        a                owl:Ontology ;
-        rdfs:comment     "An RDF schema to syntactically represent SPARQL queries and update commands as RDF triples." ;
-        rdfs:label       "SPIN SPARQL Syntax" ;
-        owl:versionInfo  "1.5.0" .
-
 sp:into  a                  rdf:Property ;
         rdfs:comment        "The (optional) target of a LOAD Update operation." ;
         rdfs:domain         sp:Load ;
@@ -2911,7 +2881,7 @@ sml:ControlFlowModules
         spin:abstract    true .
 
 sml:sourceFilePath  a  rdf:Property ;
-        rdfs:comment  "The path to a file relative in the execution context (workspace). Values can be relative to the currently executing scriptPath (e.g., subFolder/file.txt) or absolute to the workspace root (starting with /)." ;
+        rdfs:comment  "The path to a file relative in the execution context (workspace). Values can be relative to the currently executing script (e.g., subFolder/file.txt) or absolute to the workspace root (starting with /)." ;
         rdfs:label    "sourceFilePath" ;
         rdfs:range    xsd:string .
 
@@ -3373,7 +3343,7 @@ sml:cellQuery  a            rdf:Property ;
         rdfs:subPropertyOf  spin:query .
 
 sml:ConvertTextToRDF  a  sm:Module ;
-        rdfs:comment     "Converts a text in one of the RDF serializations into an RDF graph. In a typical scenario, the text would be passed into the scriptPath as external (web service) input. The result of this module is the input RDF triples plus the parsed triples." ;
+        rdfs:comment     "Converts a text in one of the RDF serializations into an RDF graph. In a typical scenario, the text would be passed into the script as external (web service) input. The result of this module is the input RDF triples plus the parsed triples." ;
         rdfs:label       "Convert text to RDF" ;
         rdfs:subClassOf  sml:TextProcessingModules ;
         spin:constraint  [ a              spl:Argument ;
@@ -3947,10 +3917,6 @@ sml:BindBySelect  a      sm:Module ;
                            spl:predicate  sml:selectQuery
                          ] .
 
-spin:LibraryOntology  a  rdfs:Class ;
-        rdfs:comment     "A marker class that can be attached to base URIs (ontologies) to instruct SPIN engines that this ontology only contains a library of SPIN declarations. Library Ontologies should be ignored by SPIN inference engines even if they have been imported by a domain model. For example, a SPIN version of OWL RL may contain all the OWL RL axioms, attached to owl:Thing, but nothing else. However, when executed, these axioms should not be executed over themselves, because we don't want the system to reason about the SPIN triples to speed up things." ;
-        rdfs:label       "Library ontology" ;
-        rdfs:subClassOf  owl:Ontology .
 
 sp:NamedGraph  a         rdfs:Class ;
         rdfs:comment     "A named Graph element such as GRAPH <uri> {...}." ;
@@ -3985,7 +3951,7 @@ spin:ask  a              spin:Function ;
         rdfs:subClassOf  spin:Functions .
 
 sm:source  a                owl:AnnotationProperty ;
-        rdfs:comment        "Can be used to link a resource to the SPARQLMotion scriptPath that generated it. For example, if a file has been automatically generated by a SPARQLMotion scriptPath then the owl:Ontology in the resulting file should point back to the scriptPath, so that others can re-run the generation if the input data has changed." ;
+        rdfs:comment        "Can be used to link a resource to the SPARQLMotion script that generated it. For example, if a file has been automatically generated by a SPARQLMotion script then the owl:Ontology in the resulting file should point back to the script, so that others can re-run the generation if the input data has changed." ;
         rdfs:label          "source" ;
         rdfs:subPropertyOf  rdfs:seeAlso .
 
@@ -4031,7 +3997,7 @@ sp:bindings  a              rdf:Property ;
         rdfs:subPropertyOf  sp:systemProperty .
 
 sml:AssertTrue  a        sm:Module ;
-        rdfs:comment     "Evaluates an ASK condition and stops the execution of the scriptPath and reports an error if the condition is false. This module is particularly useful for web services that simply cannot execute if unexpected situations are encountered. The module will simply pass through all variable bindings and RDF triples if no errors are found." ;
+        rdfs:comment     "Evaluates an ASK condition and stops the execution of the script and reports an error if the condition is false. This module is particularly useful for web services that simply cannot execute if unexpected situations are encountered. The module will simply pass through all variable bindings and RDF triples if no errors are found." ;
         rdfs:label       "Assert true" ;
         rdfs:subClassOf  sml:ControlFlowModules ;
         spin:constraint  [ a              spl:Attribute ;
@@ -4677,7 +4643,7 @@ sml:CreateUISPINDocument
                          ] .
 
 sml:PerformUpdate  a     sm:Module ;
-        rdfs:comment     "Performs a SPARQL UPDATE call to insert and/or delete triples.  This module differs from sml:ApplyConstruct (and other module types) by making persistent changes when the scriptPath runs.  Therefore this module should be used carefully.\n\nThe default graph of the WHERE clause is the input graph of the module, i.e. the result of its predecessors. However, these cannot be modified using INSERT or DELETE. Instead, a named graph needs to be provided there, e.g. using the GRAPH keyword in the INSERT or DELETE clauses.\n\nOnly one instance of sml:updateQuery will be executed.  For multiple SPARQL UPDATE statements use multiple PerformUpdate instances.\n\nEVN/RDM users note that performing an update on a graph under teamwork control (urn:x-evn-...) does not execute EVN-specific side effects: no edit rules will fire and no change history entry may be created. You should always use ui:update in conjunction with sml:CreateSWPDocument to modify such graphs." ;
+        rdfs:comment     "Performs a SPARQL UPDATE call to insert and/or delete triples.  This module differs from sml:ApplyConstruct (and other module types) by making persistent changes when the script runs.  Therefore this module should be used carefully.\n\nThe default graph of the WHERE clause is the input graph of the module, i.e. the result of its predecessors. However, these cannot be modified using INSERT or DELETE. Instead, a named graph needs to be provided there, e.g. using the GRAPH keyword in the INSERT or DELETE clauses.\n\nOnly one instance of sml:updateQuery will be executed.  For multiple SPARQL UPDATE statements use multiple PerformUpdate instances.\n\nEVN/RDM users note that performing an update on a graph under teamwork control (urn:x-evn-...) does not execute EVN-specific side effects: no edit rules will fire and no change history entry may be created. You should always use ui:update in conjunction with sml:CreateSWPDocument to modify such graphs." ;
         rdfs:label       "Perform update" ;
         rdfs:subClassOf  sml:RDFProcessingModules ;
         spin:constraint  [ a              spl:Attribute ;
@@ -4957,13 +4923,6 @@ sml:ReturnSPARQLResults
                            spl:valueType     sm:ValueType
                          ] .
 
-spin:imports  a             owl:OntologyProperty ;
-        rdfs:comment        "Can be used to link an RDF graph (usually the instance of owl:Ontology) with a SPIN library to define constraints. SPIN-aware tools should include the definitions from those libraries for constraint checking. Using such libraries is a simpler alternative than explicitly importing them using owl:imports, because it does not force all the SPIN triples into the RDF model." ;
-        rdfs:domain         owl:Ontology ;
-        rdfs:label          "imports" ;
-        rdfs:range          owl:Ontology ;
-        rdfs:subPropertyOf  spin:systemProperty .
-
 spr:colWidthFunction  a     rdf:Property ;
         rdfs:domain         spr:TableClass ;
         rdfs:label          "colWidth function" ;
@@ -4982,7 +4941,7 @@ sml:ImportSystemTriples
         rdfs:subClassOf  sml:ImportFromVariousModules .
 
 sml:CloneVariable  a     sm:Module ;
-        rdfs:comment     "Clones a given variable value and assigns it to a new output variable. The input variable will keep its value.\n\nThis module can be useful to \"rename\" an existing variable so that it has a matching name that is expected by modules downstream in the scriptPath. For example, if you have a variable ?xmlFile but a next module expects an input argument ?xml (via an argument sml:xml), then you can use sml:CloneVariable to bind ?xml with the value of ?xmlFile. Note that in many (most?) cases, you can achieve the same by using inline SPARQL expressions: in TBC use \"Add SPARQL expression\" from the context menu of the property name and enter an expression such as ?xmlFile at the sml:xml property." ;
+        rdfs:comment     "Clones a given variable value and assigns it to a new output variable. The input variable will keep its value.\n\nThis module can be useful to \"rename\" an existing variable so that it has a matching name that is expected by modules downstream in the script. For example, if you have a variable ?xmlFile but a next module expects an input argument ?xml (via an argument sml:xml), then you can use sml:CloneVariable to bind ?xml with the value of ?xmlFile. Note that in many (most?) cases, you can achieve the same by using inline SPARQL expressions: in TBC use \"Add SPARQL expression\" from the context menu of the property name and enter an expression such as ?xmlFile at the sml:xml property." ;
         rdfs:label       "Clone variable" ;
         rdfs:subClassOf  sml:ControlFlowModules ;
         spin:constraint  [ a              spl:Argument ;
@@ -5049,9 +5008,9 @@ sp:and  a                spin:Function ;
         spin:symbol      "&&" .
 
 sm:bodyScript  a      rdf:Property ;
-        rdfs:comment  "Links a SPARQLMotion Function with the beginning of the linear SM scriptPath that shall be executed when the function is called." ;
+        rdfs:comment  "Links a SPARQLMotion Function with the beginning of the linear SM script that shall be executed when the function is called." ;
         rdfs:domain   sm:Function ;
-        rdfs:label    "body scriptPath" ;
+        rdfs:label    "body script" ;
         rdfs:range    sm:Modules .
 
 spr:colTypeFunction  a      rdf:Property ;
@@ -5718,7 +5677,7 @@ sml:ExportToRDFFile  a   sm:Module ;
                            spl:predicate  sml:baseURI
                          ] ;
         spin:constraint  [ a              spl:Argument ;
-                           rdfs:comment   "The path of the file to create. The path can be relative to the current scriptPath's folder (e.g., myFolder/test.rdf) or absolute to the workspace root /myProject/myFolder/test.rdf. Can be left blank if the base URI already has a representation in the workspace. In that case, the primary file in the workspace will be overwritten." ;
+                           rdfs:comment   "The path of the file to create. The path can be relative to the current script's folder (e.g., myFolder/test.rdf) or absolute to the workspace root /myProject/myFolder/test.rdf. Can be left blank if the base URI already has a representation in the workspace. In that case, the primary file in the workspace will be overwritten." ;
                            spl:optional   true ;
                            spl:predicate  sml:targetFilePath
                          ] .
@@ -6171,7 +6130,7 @@ sp:ne   a                spin:Function ;
 
 sml:IterateOverSelect
         a                sm:Module ;
-        rdfs:comment     "Repeats a given sub-scriptPath for each matching result set for the SPARQL Select query in the module's selectQuery property.\n\nThe start of the sub-scriptPath is specified by the body property. There can only be one body property that invokes a single sub-scriptPath.  The sub-scriptPath must have one target module -- that is, the sub-scriptPath cannot have multiple termination points.\n\nThe input RDF for each iteration is the same as the input of the iteration module itself. The result variables of the Select query will be bound inside the body in each iteration of the sub-scriptPath. Also, if the sml:IterateOverSelect module itself receives input variable bindings, and the value of these variables are changed inside the body sub-scriptPath (e.g. using sml:AppendText or sml:BindLiteralVariable), then the end value of each iteration will be used in the sub-scriptPath itself, and thus also passed into the next iteration's body. This allows scripts to incrementally modify variables.  The property sml:iterationVariable can be used to name a variable that will keep an iteration count.\n\nThe result of this module are the accumulated triples from the end node of the body sub-scriptPath. No internal variable bindings of the body will be used outside of the body, unless they have had values before (see above).\n\nIn many cases, a better alternative to creating \"loops\" is to use SPARQL directly, and embed some of the control logic into the WHERE clause, possibly through a CONSTRUCT or UPDATE query.\n\nIt is possible to run the iterations in separate threads, e.g. to reduce the amount of time spent waiting on external network resources. This mode, activated by setting sml:maxThreadCount > 2, has some limitations (see description of sml:maxThreadCount) and should be considered by experienced users only." ;
+        rdfs:comment     "Repeats a given sub-script for each matching result set for the SPARQL Select query in the module's selectQuery property.\n\nThe start of the sub-script is specified by the body property. There can only be one body property that invokes a single sub-script.  The sub-script must have one target module -- that is, the sub-script cannot have multiple termination points.\n\nThe input RDF for each iteration is the same as the input of the iteration module itself. The result variables of the Select query will be bound inside the body in each iteration of the sub-script. Also, if the sml:IterateOverSelect module itself receives input variable bindings, and the value of these variables are changed inside the body sub-script (e.g. using sml:AppendText or sml:BindLiteralVariable), then the end value of each iteration will be used in the sub-script itself, and thus also passed into the next iteration's body. This allows scripts to incrementally modify variables.  The property sml:iterationVariable can be used to name a variable that will keep an iteration count.\n\nThe result of this module are the accumulated triples from the end node of the body sub-script. No internal variable bindings of the body will be used outside of the body, unless they have had values before (see above).\n\nIn many cases, a better alternative to creating \"loops\" is to use SPARQL directly, and embed some of the control logic into the WHERE clause, possibly through a CONSTRUCT or UPDATE query.\n\nIt is possible to run the iterations in separate threads, e.g. to reduce the amount of time spent waiting on external network resources. This mode, activated by setting sml:maxThreadCount > 2, has some limitations (see description of sml:maxThreadCount) and should be considered by experienced users only." ;
         rdfs:label       "Iterate over select" ;
         rdfs:subClassOf  sml:ControlFlowModules ;
         spin:constraint  [ a              spl:Attribute ;
@@ -6296,7 +6255,7 @@ spl:SPINOverview  a         spin:SelectTemplate ;
         spin:labelTemplate  "SPIN Overview" .
 
 sml:ReturnNode  a        sm:Module ;
-        rdfs:comment     "Returns an RDF node as a result of a scriptPath. This module is typically used as exit point of a user-defined SPIN function and web service. The sm:returnModule of the function will point to this." ;
+        rdfs:comment     "Returns an RDF node as a result of a script. This module is typically used as exit point of a user-defined SPIN function and web service. The sm:returnModule of the function will point to this." ;
         rdfs:label       "Return node" ;
         rdfs:subClassOf  sml:ExportToRemoteModules ;
         spin:constraint  [ a              spl:Argument ;
@@ -6490,12 +6449,6 @@ sml:ImportFromRemoteModules
         rdfs:subClassOf  sml:ImportModules ;
         spin:abstract    true .
 
-<http://spinrdf.org/spif>
-        a                owl:Ontology , spin:LibraryOntology ;
-        rdfs:comment     "A library of \"generally useful\" SPARQL functions defined using SPIN. This library consists of functions that are impossible or difficult to express in terms of other functions, but rather will require a native implementation in languages like Java. In contrast, the SPL (http://spinrdf.org/spl#) namespace is reserved for functions that can be expressed entirely in terms of other SPARQL expressions and standard built-ins." ;
-        owl:imports      <http://spinrdf.org/spin> , <http://spinrdf.org/spl> ;
-        owl:versionInfo  "0.2.0" .
-
 sp:GroupConcat  a        rdfs:Class ;
         rdfs:comment     "Represents GROUP_CONCAT aggregations." ;
         rdfs:label       "GROUP_CONCAT" ;
@@ -6603,7 +6556,7 @@ sml:ValidateXMLAgainstXSD
                            spl:predicate  sml:xml
                          ] ;
         spin:constraint  [ a              spl:Argument ;
-                           rdfs:comment   "The path to an XSD file. The path can be relative to the current scriptPath's folder (e.g., myFolder/test.xsd) or absolute to the workspace root /myProject/myFolder/test.xsd." ;
+                           rdfs:comment   "The path to an XSD file. The path can be relative to the current script's folder (e.g., myFolder/test.xsd) or absolute to the workspace root /myProject/myFolder/test.xsd." ;
                            spl:predicate  sml:schemaFilePath ;
                            spl:valueType  xsd:string
                          ] .
@@ -6857,7 +6810,7 @@ sml:CreateSpreadsheet
                          ] .
 
 sml:ResetSPINCaches  a   sm:Module ;
-        rdfs:comment     "Clears any cached results from SPIN functions marked as spin:cachable. This can be used to reset the cache after \"background data\" has been changed by a scriptPath. If such updates only happen periodically, spin:cachable can improve overall performance." ;
+        rdfs:comment     "Clears any cached results from SPIN functions marked as spin:cachable. This can be used to reset the cache after \"background data\" has been changed by a script. If such updates only happen periodically, spin:cachable can improve overall performance." ;
         rdfs:label       "Reset SPIN caches" ;
         rdfs:subClassOf  sml:ControlFlowModules .
 
@@ -6945,7 +6898,7 @@ sml:rowQuery  a             rdf:Property ;
         rdfs:subPropertyOf  spin:query .
 
 sm:Function  a           rdfs:Class ;
-        rdfs:comment     "A SPIN Function backed by a SPARQLMotion scriptPath. When the function is called, the body scriptPath will be executed. Can also be called as web service using a SM servlet container such as the TopBraid Live.\n\nThere are two ways of defining the body scriptPath:\n- sm:bodyScript for linear scripts (and XML Syntax)\n- sm:returnModule for any other style (and graphical notation)" ;
+        rdfs:comment     "A SPIN Function backed by a SPARQLMotion script. When the function is called, the body script will be executed. Can also be called as web service using a SM servlet container such as the TopBraid Live.\n\nThere are two ways of defining the body script:\n- sm:bodyScript for linear scripts (and XML Syntax)\n- sm:returnModule for any other style (and graphical notation)" ;
         rdfs:label       "Function" ;
         rdfs:subClassOf  spin:Function .
 
@@ -7020,7 +6973,7 @@ sml:ExportToTextFile  a  sm:Module ;
                            spl:predicate  sml:text
                          ] ;
         spin:constraint  [ a              spl:Argument ;
-                           rdfs:comment   "The path to the file that shall be created. The path can be relative to the current scriptPath's folder (e.g., myFolder/test.txt) or absolute to the workspace root /myProject/myFolder/test.txt." ;
+                           rdfs:comment   "The path to the file that shall be created. The path can be relative to the current script's folder (e.g., myFolder/test.txt) or absolute to the workspace root /myProject/myFolder/test.txt." ;
                            spl:predicate  sml:targetFilePath
                          ] ;
         spin:constraint  [ a              spl:Argument ;
@@ -7110,11 +7063,6 @@ sml:url  a          rdf:Property ;
         rdfs:label  "url" ;
         rdfs:range  xsd:string .
 
-<http://onto.fel.cvut.cz/ontologies/lib/module>
-        a                owl:Ontology ;
-        owl:imports      <http://topbraid.org/sparqlmotionlib-core> , <http://topbraid.org/sparqlmotion> , <http://spinrdf.org/spl> ;
-        owl:versionInfo  "Created with TopBraid Composer" .
-
 sp:variable  a              rdf:Property ;
         rdfs:comment        "The variable of a Bind element." ;
         rdfs:domain         sp:Bind ;
@@ -7168,7 +7116,7 @@ sml:ApplyTopSPIN  a      sm:Module ;
                            spl:valueType  xsd:boolean
                          ] ;
         spin:constraint  [ a              spl:Argument ;
-                           rdfs:comment   "If set to true, the engine will copy all input triples into a single in-memory graph, and then operate on that (faster) graph. In some cases, this option has improved performance by a factor of 8. Note that this option may not make sense if one of the input graphs is a (large) database. Setting this option to true will also lead to ignore the value of sml:replace, and only the flattened graph will be forwarded into the next steps of the scriptPath (i.e. sml:replace=true)." ;
+                           rdfs:comment   "If set to true, the engine will copy all input triples into a single in-memory graph, and then operate on that (faster) graph. In some cases, this option has improved performance by a factor of 8. Note that this option may not make sense if one of the input graphs is a (large) database. Setting this option to true will also lead to ignore the value of sml:replace, and only the flattened graph will be forwarded into the next steps of the script (i.e. sml:replace=true)." ;
                            spl:optional   true ;
                            spl:predicate  sml:flatten ;
                            spl:valueType  xsd:boolean
@@ -7251,7 +7199,7 @@ sml:ExportToXMLFile  a   sm:Module ;
                            spl:predicate  sml:xml
                          ] ;
         spin:constraint  [ a              spl:Argument ;
-                           rdfs:comment   "The path to the output file. The path can be relative to the current scriptPath's folder (e.g., myFolder/test.xml) or absolute to the workspace root /myProject/myFolder/test.xml." ;
+                           rdfs:comment   "The path to the output file. The path can be relative to the current script's folder (e.g., myFolder/test.xml) or absolute to the workspace root /myProject/myFolder/test.xml." ;
                            spl:predicate  sml:targetFilePath
                          ] .
 
@@ -7302,12 +7250,6 @@ sp:day  a                spin:Function ;
         spin:returnType  xsd:integer ;
         spin:symbol      "day" .
 
-<http://topbraid.org/sparqlmotionlib-core>
-        a                owl:Ontology ;
-        rdfs:comment     "The library of SPARQLMotion core modules that are available in any SPARQLMotion-compliant engine, including the TopBraid platform and the TopBraid API." ;
-        owl:imports      <http://www.topbraid.org/2007/05/composite.owl> , <http://topbraid.org/sparqlmotion> , <http://spinrdf.org/spr> , <http://spinrdf.org/spif> ;
-        owl:versionInfo  "0.7.0" .
-
 kbss-module:has-debug-mode-flag
         a                   rdf:Property ;
         rdfs:label          "has debug mode flag" ;
@@ -7357,13 +7299,6 @@ sp:isLiteral  a          spin:Function ;
                          ] ;
         spin:returnType  xsd:boolean ;
         spin:symbol      "isLiteral" .
-
-<http://spinrdf.org/spl>
-        a                spin:LibraryOntology , owl:Ontology ;
-        rdfs:comment     "A collection of generally useful SPARQL functions (expressed as SPIN functions), and SPIN templates. Also provides a top-level classification of functions, and definitions of the standard SPARQL functions." ;
-        rdfs:label       "SPIN Standard Library" ;
-        owl:imports      <http://spinrdf.org/spin> ;
-        owl:versionInfo  "1.3.0" .
 
 spl:DateFunctions  a     spin:Function ;
         rdfs:comment     "A collection of functions that operate on date/time literals." ;
@@ -7779,13 +7714,6 @@ spl:PropertyPairConstraintTemplates
                            spl:valueType  rdf:Property
                          ] .
 
-<http://spinrdf.org/spin>
-        a                owl:Ontology ;
-        rdfs:comment     "An RDF Schema that can be used to attach constraints and rules to RDFS classes, and to encapsulate reusable SPARQL queries into functions and templates." ;
-        rdfs:label       "SPIN Modeling Vocabulary" ;
-        owl:imports      <http://spinrdf.org/sp> ;
-        owl:versionInfo  "1.3.2" .
-
 sml:content  a      rdf:Property ;
         rdfs:label  "content" .
 
@@ -7800,7 +7728,7 @@ sml:ImportXMLFile  a     sm:Module ;
         rdfs:seeAlso     sml:ExportToXMLFile ;
         rdfs:subClassOf  sml:ImportFromLocalModules ;
         spin:constraint  [ a              spl:Argument ;
-                           rdfs:comment   "The path to the XML file in the workspace. The path can be relative to the current scriptPath's folder (e.g., myFolder/test.xml) or absolute to the workspace root /myProject/myFolder/test.xml." ;
+                           rdfs:comment   "The path to the XML file in the workspace. The path can be relative to the current script's folder (e.g., myFolder/test.xml) or absolute to the workspace root /myProject/myFolder/test.xml." ;
                            spl:predicate  sml:sourceFilePath ;
                            spl:valueType  xsd:string
                          ] ;

@@ -31,7 +31,7 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
     }) match {
       case Success(Seq(v)) => Some(v)
       case Success(v) if v.nonEmpty => // Fixme Delete this abomination once quality scripts are available
-        log.warn("The scriptPath contains more than one ontology. Taking only the first one")
+        log.warn("The script contains more than one ontology. Taking only the first one")
         v.headOption
       case Failure(e) =>
         log.warn(e.getLocalizedMessage(), e)

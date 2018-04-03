@@ -32,14 +32,14 @@ class QAController extends PropertySource with Logger[QAController] {
     path = Array("/forms"))
   def generateForm(@RequestBody requestDTO: QuestionDTO): ResponseEntity[Any] = {
     val script = requestDTO.getScriptPath()
-    log.info("Generating form for scriptPath " + script + ", module " + requestDTO.getModuleUri() + " of type " + requestDTO.getModuleTypeUri())
+    log.info("Generating form for script " + script + ", module " + requestDTO.getModuleUri() + " of type " + requestDTO.getModuleTypeUri())
     service.generateForm(
       script,
       Option(requestDTO.getModuleUri()).getOrElse(getProperty(DEFAULT_CONTEXT) + UUID.randomUUID().toString()),
       requestDTO.getModuleTypeUri()
     ) match {
       case Success(form) =>
-        log.info("Form generated successfully for scriptPath " + script + ", module " + requestDTO.getModuleUri() + " of type " + requestDTO.getModuleTypeUri())
+        log.info("Form generated successfully for script " + script + ", module " + requestDTO.getModuleUri() + " of type " + requestDTO.getModuleTypeUri())
         log.trace(form)
         new ResponseEntity(form, HttpStatus.OK)
       case Failure(_: FileNotFoundException) =>
@@ -59,7 +59,7 @@ class QAController extends PropertySource with Logger[QAController] {
     val rootQuestion = answerDto.getRootQuestion()
     Option(rootQuestion) match {
       case Some(q) =>
-        log.info("Received answers for scriptPath " + script + ", module " + module + ", module type " + moduleType)
+        log.info("Received answers for script " + script + ", module " + module + ", module type " + moduleType)
         log.trace("Root question:" + (q + ""))
         service.mergeForm(script, q, moduleType) match {
           case Success(_) => new ResponseEntity(HttpStatus.OK)
@@ -68,7 +68,7 @@ class QAController extends PropertySource with Logger[QAController] {
             new ResponseEntity(e.getClass().getSimpleName() + ": " + e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
         }
       case None =>
-        log.warn("No answers received for scriptPath " + script + ", module " + module + ", module type " + moduleType)
+        log.warn("No answers received for script " + script + ", module " + module + ", module type " + moduleType)
         new ResponseEntity("Root question must not be empty", HttpStatus.BAD_REQUEST)
     }
   }
