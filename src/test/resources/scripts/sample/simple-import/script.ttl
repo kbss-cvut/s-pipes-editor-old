@@ -5949,7 +5949,7 @@ sp:serviceURI  a            rdf:Property ;
         rdfs:range          rdfs:Resource ;
         rdfs:subPropertyOf  sp:systemProperty .
 
-<http://vfn.cz/ontologies/fss-form-generation-0.1>
+<http://vfn.cz/ontologies/fss-form-generation-0.123>
         a            owl:Ontology ;
         owl:imports  <http://onto.fel.cvut.cz/ontologies/form-layout> , <http://onto.fel.cvut.cz/ontologies/lib/sm-module-adapter> , <http://onto.fel.cvut.cz/ontologies/vfn-form-mod> , <http://vfn.cz/ontologies/fss-form-static> .
 
