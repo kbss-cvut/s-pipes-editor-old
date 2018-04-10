@@ -3,12 +3,12 @@ package cz.cvut.kbss.spipes.websocket
 import java.io.File
 import java.nio.file._
 
-import cz.cvut.kbss.spipes.util.ConfigParam.SCRIPTS_LOCATION
-import cz.cvut.kbss.spipes.util.Implicits.configParamValue
+import cz.cvut.kbss.spipes.persistence.dao.ScriptDao
 import cz.cvut.kbss.spipes.util.{Logger, PropertySource}
 import javax.websocket._
 import javax.websocket.server.ServerEndpoint
 import org.springframework.beans.factory.InitializingBean
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.socket.server.standard.SpringConfigurator
 
@@ -24,6 +24,9 @@ import scala.util.{Failure, Try}
 @Controller
 @ServerEndpoint(value = "/websocket", configurator = classOf[SpringConfigurator])
 class WebsocketController extends InitializingBean with PropertySource with Logger[WebsocketController] {
+
+  @Autowired
+  private var dao: ScriptDao = _
 
   @OnError
   def onError(t: Throwable): Unit = t match {
@@ -47,11 +50,10 @@ class WebsocketController extends InitializingBean with PropertySource with Logg
   def register(script: String, session: Session): Unit = {
     Try {
       log.info("Session " + session + " registered on " + script)
-      val fileName = getProperty(SCRIPTS_LOCATION) + "/" + script
-      if (WebsocketController.subscribers.keySet.contains(fileName))
-        WebsocketController.subscribers(fileName) = WebsocketController.subscribers(fileName) + session
+      if (WebsocketController.subscribers.keySet.contains(script))
+        WebsocketController.subscribers(script) = WebsocketController.subscribers(script) + session
       else
-        WebsocketController.subscribers(fileName) = Set(session)
+        WebsocketController.subscribers(script) = Set(session)
     } match {
       case Failure(e) =>
         log.warn(e.getLocalizedMessage(), e.getStackTrace().mkString("\n"))
@@ -72,11 +74,13 @@ class WebsocketController extends InitializingBean with PropertySource with Logg
       else
         acc
 
-    find(new File(getProperty(SCRIPTS_LOCATION)), Set()).foreach(f => {
-      val path = Paths.get(f.getAbsolutePath())
-      val service = path.getFileSystem().newWatchService()
-      path.register(service, StandardWatchEventKinds.ENTRY_MODIFY)
-      Future(watchFS(service))
+    dao.discoverLocations.foreach(file => {
+      find(file, Set()).foreach(f => {
+        val path = Paths.get(f.getAbsolutePath())
+        val service = path.getFileSystem().newWatchService()
+        path.register(service, StandardWatchEventKinds.ENTRY_MODIFY)
+        Future(watchFS(service))
+      })
     })
   }
 
