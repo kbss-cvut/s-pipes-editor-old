@@ -55,15 +55,13 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
 
   def appendImports(model: Model): Model = {
     log.info(f"""Appending imports from $model""")
-    model.union(
-      model.listStatements(null, OWL.imports, null).toList().asScala
-        .map(st => getFile(st.getObject().asResource().getURI()))
-        .filter(_.nonEmpty)
-        .map(f => createModel(f.get))
-        .filter(_.isSuccess)
-        .map(_.get)
-        .foldLeft(model)(_.union(_))
-    )
+    ModelFactory.createUnion(model, model.listStatements(null, OWL.imports, null).toList().asScala
+      .map(st => getFile(st.getObject().asResource().getURI()))
+      .filter(_.nonEmpty)
+      .map(f => createModel(f.get))
+      .filter(_.isSuccess)
+      .map(_.get)
+      .foldLeft(model)(ModelFactory.createUnion))
   }
 
   def getUnionModel(file: File): Try[Model] = {
