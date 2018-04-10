@@ -331,11 +331,9 @@ class ViewController extends React.Component {
             this.setState({viewLoaded: true});
             this._renderView(defaultLayout);
             this.state.view.on("addEdge", e => {
-                console.log(e);
                 Actions.createDependency(this._getScript(), e.from.node, e.to.node);
             });
             this.state.view.on("removeEdge", e => {
-                console.log(e);
                 Actions.deleteDependency(this._getScript(), e.from.node, e.to.node);
             });
         }
