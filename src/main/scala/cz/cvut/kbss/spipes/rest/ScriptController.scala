@@ -24,7 +24,7 @@ class ScriptController extends Logger[ScriptController] {
 
   @PostMapping(path = Array("/moduleTypes"), produces = Array(JsonLd.MEDIA_TYPE))
   def getModuleTypes(@RequestBody dto: ScriptDTO): ResponseEntity[Any] = {
-    val script = dto.getScriptPath()
+    val script = dto.getAbsolutePath()
     log.info("Looking for module types of script " + script)
     service.getModuleTypes(script) match {
       case Left(e) =>
@@ -43,7 +43,7 @@ class ScriptController extends Logger[ScriptController] {
   @GetMapping(produces = Array(JsonLd.MEDIA_TYPE))
   def getScripts: ResponseEntity[Any] = {
     log.info("Looking for any scripts")
-    service.getScriptNames match {
+    service.getScripts match {
       case Some(s) =>
         log.info("Scripts found")
         log.trace(s.mkString("[", ",", "]"))

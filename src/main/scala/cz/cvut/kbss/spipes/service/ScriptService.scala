@@ -3,10 +3,9 @@ package cz.cvut.kbss.spipes.service
 import java.io.{File, FileOutputStream}
 
 import cz.cvut.kbss.spipes.model.Vocabulary
+import cz.cvut.kbss.spipes.model.dto.ScriptDTO
 import cz.cvut.kbss.spipes.model.spipes.{Module, ModuleType}
 import cz.cvut.kbss.spipes.persistence.dao.ScriptDao
-import cz.cvut.kbss.spipes.util.ConfigParam.SCRIPTS_LOCATION
-import cz.cvut.kbss.spipes.util.Implicits._
 import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager}
 import cz.cvut.kbss.spipes.websocket.WebsocketController
 import org.apache.jena.rdf.model.ModelFactory
@@ -29,16 +28,16 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
   @Autowired
   private var scriptDao: ScriptDao = _
 
-  def getModules(fileName: String): Either[Throwable, Option[Traversable[Module]]] = {
-    log.info(f"""Looking for modules in $fileName""")
-    helper.createModel(new File(s"""${getProperty(SCRIPTS_LOCATION)}/$fileName""")).flatMap(m => {
+  def getModules(filePath: String): Either[Throwable, Option[Traversable[Module]]] = {
+    log.info(f"""Looking for modules in $filePath""")
+    helper.createModel(new File(filePath)).flatMap(m => {
       scriptDao.getModules(helper.appendImports(m))
     }) match {
       case Success(i) if !i.isEmpty() =>
-        log.info(f"""Modules found in $fileName""")
+        log.info(f"""Modules found in $filePath""")
         Right(Some(i.asScala))
       case Success(_) =>
-        log.warn(f"""Modules not found in $fileName""")
+        log.warn(f"""Modules not found in $filePath""")
         Right(None)
       case Failure(e) =>
         log.error(e.getLocalizedMessage(), e)
@@ -47,16 +46,16 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
   }
 
 
-  def getModuleTypes(fileName: String): Either[Throwable, Option[Traversable[ModuleType]]] = {
-    log.info(f"""Looking for module types in $fileName""")
-    helper.createModel(new File(s"""${getProperty(SCRIPTS_LOCATION)}/$fileName""")).flatMap(m => {
+  def getModuleTypes(filePath: String): Either[Throwable, Option[Traversable[ModuleType]]] = {
+    log.info(f"""Looking for module types in $filePath""")
+    helper.createModel(new File(filePath)).flatMap(m => {
       scriptDao.getModuleTypes(helper.appendImports(m))
     }) match {
       case Success(i) if !i.isEmpty() =>
-        log.info(f"""Module types found in $fileName""")
+        log.info(f"""Module types found in $filePath""")
         Right(Some(i.asScala))
       case Success(_) =>
-        log.warn(f"""Module types not found in $fileName""")
+        log.warn(f"""Module types not found in $filePath""")
         Right(None)
       case Failure(e) =>
         log.error(e.getLocalizedMessage(), e)
@@ -64,28 +63,32 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
     }
   }
 
-  def getScriptNames: Option[Set[String]] = {
-    log.info(f"""Looking for scripts in ${getProperty(SCRIPTS_LOCATION)}""")
-    scriptDao.getScripts(true).map(
-      _.filter(f => f.getName().toLowerCase().endsWith(".ttl"))
-    ) match {
-      case Some(s) if s.nonEmpty =>
-        Some(s.map(f => new File(getProperty(SCRIPTS_LOCATION)).toURI().relativize(f.toURI()).getPath()))
-      case _ =>
-        None
+  def getScripts: Option[Set[ScriptDTO]] = {
+    scriptDao.getScripts(true) match {
+      case Some(i) if i.nonEmpty =>
+        Some(
+          i.flatMap(
+            p => p._2.map(
+              f => new ScriptDTO(
+                p._1.toURI().relativize(f.toURI()).getPath(),
+                f.getAbsolutePath()
+              )
+            )
+          )
+        )
+      case _ => None
     }
   }
 
   def createDependency(scriptPath: String, from: String, to: String): Try[_] = {
     log.info(f"""Creating dependency from $from to $to in $scriptPath""")
-    val fileName = f"""${getProperty(SCRIPTS_LOCATION)}/$scriptPath"""
-    helper.getUnionModel(new File(fileName)).flatMap(model => {
+    helper.getUnionModel(new File(scriptPath)).flatMap(model => {
       model.listSubjects().asScala.find(_.getURI() == from) ->
         model.listSubjects().asScala.find(_.getURI() == to) match {
         case (Some(moduleFrom), Some(moduleTo)) =>
-          val m = ModelFactory.createDefaultModel().read(fileName)
+          val m = ModelFactory.createDefaultModel().read(scriptPath)
           m.add(moduleFrom, new PropertyImpl(Vocabulary.s_p_next), moduleTo)
-          cleanly(new FileOutputStream(fileName))(_.close())(os => {
+          cleanly(new FileOutputStream(scriptPath))(_.close())(os => {
             m.write(os, "TTL")
           })
         case (None, _) =>
@@ -98,15 +101,14 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
 
   def deleteDependency(scriptPath: String, from: String, to: String): Try[_] = {
     log.info(f"""Deleting dependency from $from to $to in $scriptPath""")
-    val defaultFilePath = f"""${getProperty(SCRIPTS_LOCATION)}/$scriptPath"""
     val ontologyUri =
       if (from.contains("#"))
         from.split("#").head
       else
         from.reverse.dropWhile(_ != '/').reverse
     val fileName = helper.getFile(ontologyUri).map(_.getAbsolutePath())
-      .getOrElse(defaultFilePath)
-    helper.getUnionModel(new File(defaultFilePath)).flatMap(model => {
+      .getOrElse(scriptPath)
+    helper.getUnionModel(new File(scriptPath)).flatMap(model => {
       model.listSubjects().asScala.find(_.getURI() == from) ->
         model.listSubjects().asScala.find(_.getURI() == to) match {
         case (Some(moduleFrom), Some(moduleTo)) =>
@@ -115,7 +117,7 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
           cleanly(new FileOutputStream(fileName))(_.close())(os => {
             m.write(os, "TTL")
           })
-            .map(_ => WebsocketController.notify(defaultFilePath))
+            .map(_ => WebsocketController.notify(scriptPath))
         case (None, _) =>
           Failure(new IllegalArgumentException("Source module not found"))
         case (_, None) =>
@@ -126,14 +128,13 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
 
   def deleteModule(scriptPath: String, module: String): Try[_] = {
     log.info(f"""Deleting module $module from $scriptPath""")
-    val defaultFilePath = f"""${getProperty(SCRIPTS_LOCATION)}/$scriptPath"""
     val ontologyUri =
       if (module.contains("#"))
         module.split("#").head
       else
         module.reverse.dropWhile(_ != '/').reverse
     val fileName = helper.getFile(ontologyUri).map(_.getAbsolutePath())
-      .getOrElse(defaultFilePath)
+      .getOrElse(scriptPath)
 
     val m = ModelFactory.createDefaultModel().read(fileName)
     m.removeAll(m.getResource(module), null, null)
@@ -141,6 +142,6 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
     cleanly(new FileOutputStream(fileName))(_.close())(os => {
       m.write(os, "TTL")
     })
-      .map(_ => WebsocketController.notify(defaultFilePath))
+      .map(_ => WebsocketController.notify(scriptPath))
   }
 }

@@ -78,14 +78,20 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManag
         })
       }
 
-  def getScripts(ignore: Boolean): Option[Set[File]] = {
-    val scriptsPath = getProperty(SCRIPTS_LOCATION)
-    log.info("Looking for any scripts in " + scriptsPath)
-    if (ignore)
-      Option(find(new File(scriptsPath), Set()).diff(ignored))
-    else
-      Option(find(new File(scriptsPath), Set()))
+  def getScripts(ignore: Boolean): Option[Set[(File, Set[File])]] = {
+    val scriptsPaths = discoverLocations
+    log.info("Looking for any scripts in " + scriptsPaths.mkString("[", ",", "]"))
+    discoverLocations.toSet.map((f: File) => f -> find(f, Set())).filter(_._2.nonEmpty) match {
+      case i if i.nonEmpty =>
+        if (ignore)
+          Some(i.map(p => p._1 -> p._2.diff(ignored)))
+        else
+          Some(i)
+      case _ => None
+    }
   }
+
+  def discoverLocations: Array[File] = getProperty(SCRIPTS_LOCATION).split(";").map(new File(_))
 
   private def find(root: File, acc: Set[File]): Set[File] =
     if (root.isFile() && root.getName().contains(".ttl"))

@@ -127,6 +127,10 @@ sp:has-script-path a owl:DatatypeProperty ;
     rdfs:domain sp:script-dto ;
     rdfs:range xsd:string .
 
+sp:has-absolute-path a owl:DatatypeProperty ;
+    rdfs:domain sp:script-dto ;
+    rdfs:range xsd:string .
+
 sp:has-module-uri a owl:DatatypeProperty ;
      rdfs:domain sp:module-dto ;
      rdfs:range xsd:string .
