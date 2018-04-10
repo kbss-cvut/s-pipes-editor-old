@@ -2,8 +2,6 @@ package cz.cvut.kbss.spipes.service
 
 import java.io.{File, FileOutputStream}
 
-import cz.cvut.kbss.spipes.util.ConfigParam._
-import cz.cvut.kbss.spipes.util.Implicits.configParamValue
 import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager}
 import cz.cvut.sempipes.transform.{Transformer, TransformerImpl}
 import cz.cvut.sforms.model.Question
@@ -26,7 +24,7 @@ class QAService extends PropertySource with Logger[QAService] with ResourceManag
 
   def generateForm(scriptPath: String, moduleUri: String, moduleTypeUri: String): Try[Question] = {
     log.info("Generating form for script " + scriptPath + ", module " + moduleUri + ", moduleType " + moduleTypeUri)
-    helper.getUnionModel(new File(f"""${getProperty(SCRIPTS_LOCATION)}/$scriptPath""")).map(model => {
+    helper.getUnionModel(new File(scriptPath)).map(model => {
       transformer.script2Form(
         model,
         model.getResource(moduleUri),
@@ -37,7 +35,7 @@ class QAService extends PropertySource with Logger[QAService] with ResourceManag
 
   def mergeForm(scriptPath: String, rootQuestion: Question, moduleType: String): Try[Model] = {
     log.info("Merging form for script " + scriptPath)
-    val fileName = f"""${getProperty(SCRIPTS_LOCATION)}/$scriptPath"""
+    val fileName = scriptPath
     val model = ModelFactory.createDefaultModel().read(fileName)
     cleanly(new FileOutputStream(fileName))(_.close())(os => {
       val res = transformer.form2Script(model, rootQuestion, moduleType)
