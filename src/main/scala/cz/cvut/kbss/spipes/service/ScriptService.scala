@@ -63,7 +63,7 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
     }
   }
 
-  def getScripts: Option[Set[ScriptDTO]] = {
+  def getScripts: Option[Seq[ScriptDTO]] = {
     scriptDao.getScripts(true) match {
       case Some(i) if i.nonEmpty =>
         Some(
@@ -74,7 +74,7 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
                 f.getAbsolutePath()
               )
             )
-          )
+          ).toList.sortWith(_.getScriptPath() < _.getScriptPath())
         )
       case _ => None
     }
