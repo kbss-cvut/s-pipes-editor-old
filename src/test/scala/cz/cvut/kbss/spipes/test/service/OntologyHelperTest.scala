@@ -66,6 +66,7 @@ class OntologyHelperTest {
     union.listStatements()
   }
 
+  @Ignore
   @Test
   def importsTest: Unit = {
     val docManager = OntDocumentManager.getInstance()
