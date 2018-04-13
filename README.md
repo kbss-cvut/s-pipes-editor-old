@@ -1,2 +1,2 @@
 # SPipes Editor
-Semantic Pipeline Editor
+Semantic Pipeline Editor.
