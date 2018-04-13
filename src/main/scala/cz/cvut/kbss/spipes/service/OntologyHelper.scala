@@ -5,8 +5,9 @@ import java.io.{File, FileInputStream}
 import cz.cvut.kbss.spipes.persistence.dao.ScriptDao
 import cz.cvut.kbss.spipes.util.Exceptions._
 import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager}
+import org.apache.jena.atlas.web.HttpException
 import org.apache.jena.ontology.{OntDocumentManager, OntModel, OntModelSpec}
-import org.apache.jena.rdf.model.ModelFactory
+import org.apache.jena.rdf.model.{Model, ModelFactory}
 import org.apache.jena.vocabulary.{OWL, RDF}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -49,10 +50,12 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
     case Some((f, Some(o))) if f.nonEmpty =>
       val docManager = OntDocumentManager.getInstance()
 
-      /*docManager.setReadFailureHandler((s: String, model: Model, e: Exception) => e match {
-        case ex: UnknownHostException =>
-          log.warn("")
-      }) // TODO Add a reasonable failure handler*/
+      docManager.setReadFailureHandler((s: String, model: Model, e: Exception) => e match {
+        case ex: HttpException if ex.getResponseCode() == 404 =>
+          log.warn(f"""Imported ontology $s not found""")
+        case ex =>
+          log.error(f"""Error processing ontology $s: ${ex.getLocalizedMessage()}""", ex)
+      })
 
       val m = collectOntologyUris(f)
       m.foreach(p => docManager.addAltEntry(p._1, p._2.getAbsolutePath()))
