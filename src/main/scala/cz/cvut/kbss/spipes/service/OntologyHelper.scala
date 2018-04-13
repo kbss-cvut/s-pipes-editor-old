@@ -1,12 +1,13 @@
 package cz.cvut.kbss.spipes.service
 
-import java.io.{File, FileInputStream, FileNotFoundException}
+import java.io.{File, FileInputStream}
 
 import cz.cvut.kbss.spipes.persistence.dao.ScriptDao
+import cz.cvut.kbss.spipes.util.Exceptions._
 import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager}
-import org.apache.jena.rdf.model.{Model, ModelFactory}
+import org.apache.jena.ontology.{OntDocumentManager, OntModel, OntModelSpec}
+import org.apache.jena.rdf.model.ModelFactory
 import org.apache.jena.vocabulary.{OWL, RDF}
-import org.eclipse.rdf4j.rio.RDFFormat
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -30,9 +31,6 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
       st.map(_.getSubject().getURI())
     }) match {
       case Success(Seq(v)) => Some(v)
-      case Success(v) if v.nonEmpty => // Fixme Delete this abomination once quality scripts are available
-        log.warn("The script contains more than one ontology. Taking only the first one")
-        v.headOption
       case Failure(e) =>
         log.warn(e.getLocalizedMessage(), e)
         None
@@ -42,31 +40,25 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
   private def collectOntologyUris(files: Set[File]): Map[String, File] =
     files.map(f => getOntologyUri(f) -> f).filter(_._1.nonEmpty).map(p => p._1.get -> p._2).toMap
 
-  def getFile(ontologyUri: String): Option[File] = scriptDao.getScripts(false)
+  def getFile(ontologyUri: String): Option[File] = scriptDao.getScriptsWithImports(false)
     .map(s => collectOntologyUris(s.flatMap(_._2))(ontologyUri))
 
-  def createModel(file: File): Try[Model] = {
-    log.info(f"""Creating model from $file""")
-    if (file.exists())
-      cleanly(new FileInputStream(file))(_.close())(is =>
-        ModelFactory.createDefaultModel().read(is, null, RDFFormat.TURTLE.getDefaultFileExtension()))
-    else
-      Failure(new FileNotFoundException(file + " does not exist"))
-  }
+  def createUnionModel(file: File): Try[OntModel] = scriptDao.getScripts.map(_ -> getOntologyUri(file)) match {
+    case None => Failure(new ScriptsNotFoundException)
+    case Some((_, None)) => Failure(new OntologyNotFoundException(file))
+    case Some((f, Some(o))) if f.nonEmpty =>
+      val docManager = OntDocumentManager.getInstance()
 
-  def appendImports(model: Model): Model = {
-    log.info(f"""Appending imports from $model""")
-    ModelFactory.createUnion(model, model.listStatements(null, OWL.imports, null).toList().asScala
-      .map(st => getFile(st.getObject().asResource().getURI()))
-      .filter(_.nonEmpty)
-      .map(f => createModel(f.get))
-      .filter(_.isSuccess)
-      .map(_.get)
-      .foldLeft(model)(ModelFactory.createUnion))
-  }
+      /*docManager.setReadFailureHandler((s: String, model: Model, e: Exception) => e match {
+        case ex: UnknownHostException =>
+          log.warn("")
+      }) // TODO Add a reasonable failure handler*/
 
-  def getUnionModel(file: File): Try[Model] = {
-    log.info(f"""Creating union model from $file""")
-    createModel(file).map(m => appendImports(m))
+      val m = collectOntologyUris(f)
+      m.foreach(p => docManager.addAltEntry(p._1, p._2.getAbsolutePath()))
+      val model = docManager.getOntology(o, OntModelSpec.OWL_MEM)
+      model.loadImports()
+      Success(model)
+    case _ => Failure(new ScriptsNotFoundException)
   }
 }

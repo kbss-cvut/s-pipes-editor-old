@@ -4,11 +4,13 @@
         <http://topbraid.org/sparqlmotion#next>
                 <http://vfn.cz/ontologies/fss-form-generation-0.1/bind-sample-form-uri> .
 
+<http://onto.fel.cvut.cz/s-pipes-editor/f7ab4d5a-4e0c-4e8a-9851-bc45df2ecc45>
+        a       <http://topbraid.org/sparqlmotionlib#BindWithConstant> , <http://topbraid.org/sparqlmotion#Modules> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "NEW" ;
+        <http://topbraid.org/sparqlmotion#next>
+                <http://vfn.cz/ontologies/fss-form-generation-0.123/bind-saved-data-service-url> .
+
 <http://yandoroshenko.github.com/s-pipes-editor/ontologies/script>
         a            owl:Ontology ;
         owl:imports  <http://vfn.cz/ontologies/fss-form-generation-0.123> .
-
-<http://onto.fel.cvut.cz/s-pipes-editor/3f542da2-2bc0-4fa7-8698-8aa7665ca0ee>
-        a       <http://topbraid.org/sparqlmotion#Modules> , <http://topbraid.org/sparqlmotionlib#BindWithConstant> ;
-        <http://www.w3.org/2000/01/rdf-schema#label>
-                "BIND" .

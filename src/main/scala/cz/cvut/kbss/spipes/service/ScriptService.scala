@@ -30,8 +30,8 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
 
   def getModules(filePath: String): Either[Throwable, Option[Traversable[Module]]] = {
     log.info(f"""Looking for modules in $filePath""")
-    helper.createModel(new File(filePath)).flatMap(m => {
-      scriptDao.getModules(helper.appendImports(m))
+    helper.createUnionModel(new File(filePath)).flatMap(m => {
+      scriptDao.getModules(m)
     }) match {
       case Success(i) if !i.isEmpty() =>
         log.info(f"""Modules found in $filePath""")
@@ -48,8 +48,8 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
 
   def getModuleTypes(filePath: String): Either[Throwable, Option[Traversable[ModuleType]]] = {
     log.info(f"""Looking for module types in $filePath""")
-    helper.createModel(new File(filePath)).flatMap(m => {
-      scriptDao.getModuleTypes(helper.appendImports(m))
+    helper.createUnionModel(new File(filePath)).flatMap(m => {
+      scriptDao.getModuleTypes(m)
     }) match {
       case Success(i) if !i.isEmpty() =>
         log.info(f"""Module types found in $filePath""")
@@ -64,7 +64,7 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
   }
 
   def getScripts: Option[Seq[ScriptDTO]] = {
-    scriptDao.getScripts(true) match {
+    scriptDao.getScriptsWithImports(true) match {
       case Some(i) if i.nonEmpty =>
         Some(
           i.flatMap(
@@ -82,7 +82,7 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
 
   def createDependency(scriptPath: String, from: String, to: String): Try[_] = {
     log.info(f"""Creating dependency from $from to $to in $scriptPath""")
-    helper.getUnionModel(new File(scriptPath)).flatMap(model => {
+    helper.createUnionModel(new File(scriptPath)).flatMap(model => {
       model.listSubjects().asScala.find(_.getURI() == from) ->
         model.listSubjects().asScala.find(_.getURI() == to) match {
         case (Some(moduleFrom), Some(moduleTo)) =>
@@ -101,14 +101,14 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
 
   def deleteDependency(scriptPath: String, from: String, to: String): Try[_] = {
     log.info(f"""Deleting dependency from $from to $to in $scriptPath""")
-    val ontologyUri =
+    val ontologyUri = // FIXME Find a better way to determine the ontologyUri
       if (from.contains("#"))
         from.split("#").head
       else
         from.reverse.dropWhile(_ != '/').reverse
     val fileName = helper.getFile(ontologyUri).map(_.getAbsolutePath())
       .getOrElse(scriptPath)
-    helper.getUnionModel(new File(scriptPath)).flatMap(model => {
+    helper.createUnionModel(new File(scriptPath)).flatMap(model => {
       model.listSubjects().asScala.find(_.getURI() == from) ->
         model.listSubjects().asScala.find(_.getURI() == to) match {
         case (Some(moduleFrom), Some(moduleTo)) =>
@@ -128,7 +128,7 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
 
   def deleteModule(scriptPath: String, module: String): Try[_] = {
     log.info(f"""Deleting module $module from $scriptPath""")
-    val ontologyUri =
+    val ontologyUri = // FIXME Find a better way to determine the ontologyUri
       if (module.contains("#"))
         module.split("#").head
       else

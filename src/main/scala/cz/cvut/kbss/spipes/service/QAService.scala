@@ -24,7 +24,7 @@ class QAService extends PropertySource with Logger[QAService] with ResourceManag
 
   def generateForm(scriptPath: String, moduleUri: String, moduleTypeUri: String): Try[Question] = {
     log.info("Generating form for script " + scriptPath + ", module " + moduleUri + ", moduleType " + moduleTypeUri)
-    helper.getUnionModel(new File(scriptPath)).map(model => {
+    helper.createUnionModel(new File(scriptPath)).map(model => {
       transformer.script2Form(
         model,
         model.getResource(moduleUri),

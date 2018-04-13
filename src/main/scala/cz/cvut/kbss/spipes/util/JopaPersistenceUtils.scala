@@ -1,15 +1,15 @@
 package cz.cvut.kbss.spipes.util
 
 import cz.cvut.kbss.jopa.model.EntityManager
-import org.eclipse.rdf4j.repository.Repository
+import org.apache.jena.query.Dataset
 
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 02.08.2017.
   */
 object JopaPersistenceUtils {
-  def getRepository(entityManager: EntityManager): Repository =
+  def getDataset(entityManager: EntityManager): Dataset =
     try
-      entityManager.unwrap(classOf[Repository])
+      entityManager.unwrap(classOf[Dataset])
     finally
       entityManager.close()
 }
