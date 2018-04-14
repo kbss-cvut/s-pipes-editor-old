@@ -101,47 +101,30 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
 
   def deleteDependency(scriptPath: String, from: String, to: String): Try[_] = {
     log.info(f"""Deleting dependency from $from to $to in $scriptPath""")
-    val ontologyUri = // FIXME Find a better way to determine the ontologyUri
-      if (from.contains("#"))
-        from.split("#").head
-      else
-        from.reverse.dropWhile(_ != '/').reverse
-    val fileName = helper.getFile(ontologyUri).map(_.getAbsolutePath())
-      .getOrElse(scriptPath)
-    helper.createUnionModel(new File(scriptPath)).flatMap(model => {
-      model.listSubjects().asScala.find(_.getURI() == from) ->
-        model.listSubjects().asScala.find(_.getURI() == to) match {
-        case (Some(moduleFrom), Some(moduleTo)) =>
-          val m = ModelFactory.createDefaultModel().read(fileName)
-          m.removeAll(moduleFrom, new PropertyImpl(Vocabulary.s_p_next), moduleTo)
-          cleanly(new FileOutputStream(fileName))(_.close())(os => {
-            m.write(os, "TTL")
-          })
-            .map(_ => WebsocketController.notify(scriptPath))
-        case (None, _) =>
-          Failure(new IllegalArgumentException("Source module not found"))
-        case (_, None) =>
-          Failure(new IllegalArgumentException("Target module not found"))
-      }
-    })
+    helper.getFileDefiningTriple(from, Vocabulary.s_p_next, to)(new File(scriptPath)) match {
+      case Success(file) =>
+        val m = ModelFactory.createDefaultModel().read(file)
+        m.removeAll(m.getResource(from), new PropertyImpl(Vocabulary.s_p_next), m.getResource(to))
+        cleanly(new FileOutputStream(file))(_.close())(os => {
+          m.write(os, "TTL")
+        })
+          .map(_ => WebsocketController.notify(scriptPath))
+      case f => f
+    }
   }
 
   def deleteModule(scriptPath: String, module: String): Try[_] = {
     log.info(f"""Deleting module $module from $scriptPath""")
-    val ontologyUri = // FIXME Find a better way to determine the ontologyUri
-      if (module.contains("#"))
-        module.split("#").head
-      else
-        module.reverse.dropWhile(_ != '/').reverse
-    val fileName = helper.getFile(ontologyUri).map(_.getAbsolutePath())
-      .getOrElse(scriptPath)
-
-    val m = ModelFactory.createDefaultModel().read(fileName)
-    m.removeAll(m.getResource(module), null, null)
-    m.removeAll(null, null, m.getResource(module))
-    cleanly(new FileOutputStream(fileName))(_.close())(os => {
-      m.write(os, "TTL")
-    })
-      .map(_ => WebsocketController.notify(scriptPath))
+    helper.getFileDefiningSubject(module)(new File(scriptPath)) match {
+      case Success(file) =>
+        val m = ModelFactory.createDefaultModel().read(file)
+        m.removeAll(m.getResource(module), null, null)
+        m.removeAll(null, null, m.getResource(module))
+        cleanly(new FileOutputStream(file))(_.close())(os => {
+          m.write(os, "TTL")
+        })
+          .map(_ => WebsocketController.notify(scriptPath))
+      case f => f
+    }
   }
 }
