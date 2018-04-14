@@ -4,7 +4,7 @@ import java.io.File
 import java.nio.file._
 
 import cz.cvut.kbss.spipes.persistence.dao.ScriptDao
-import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager}
+import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager, ScriptManager}
 import javax.websocket._
 import javax.websocket.server.ServerEndpoint
 import org.springframework.beans.factory.InitializingBean
@@ -23,7 +23,7 @@ import scala.util.{Failure, Try}
   */
 @Controller
 @ServerEndpoint(value = "/websocket", configurator = classOf[SpringConfigurator])
-class WebsocketController extends InitializingBean with PropertySource with Logger[WebsocketController] with ResourceManager {
+class WebsocketController extends InitializingBean with PropertySource with Logger[WebsocketController] with ResourceManager with ScriptManager {
 
   @Autowired
   private var dao: ScriptDao = _
@@ -64,7 +64,7 @@ class WebsocketController extends InitializingBean with PropertySource with Logg
 
   override def afterPropertiesSet(): Unit = {
     def find(root: File, acc: Set[File]): Set[File] =
-      if (root.isDirectory())
+      if (root.isDirectory() && !ignored.contains(root))
         root.listFiles() match {
           case s if s.nonEmpty && s.exists(_.isDirectory()) =>
             s.filter(_.isDirectory()).filterNot(_.isHidden()).map(f => find(f, acc)).foldLeft(Set(root))(_ ++ _)
@@ -76,7 +76,7 @@ class WebsocketController extends InitializingBean with PropertySource with Logg
 
     val service = FileSystems.getDefault().newWatchService()
 
-    dao.discoverLocations.flatMap(file => find(file, Set()))
+    discoverLocations.flatMap(file => find(file, Set()))
       .foreach(f => {
         val path = Paths.get(f.getAbsolutePath())
         path.register(service, StandardWatchEventKinds.ENTRY_MODIFY)

@@ -10,22 +10,19 @@ import cz.cvut.kbss.ontodriver.jena.config.JenaOntoDriverProperties
 import cz.cvut.kbss.spipes.model.AbstractEntity
 import cz.cvut.kbss.spipes.model.Vocabulary._
 import cz.cvut.kbss.spipes.model.spipes.{Module, ModuleType}
-import cz.cvut.kbss.spipes.util.ConfigParam._
-import cz.cvut.kbss.spipes.util.Implicits.configParamValue
 import cz.cvut.kbss.spipes.util._
 import javax.annotation.PostConstruct
 import org.apache.jena.rdf.model.{Model, ModelFactory}
 import org.springframework.stereotype.Repository
 
 import scala.collection.JavaConverters._
-import scala.io.Source
 import scala.util.Try
 
 /**
   * Created by Miroslav Blasko on 2.1.17.
   */
 @Repository
-class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManager {
+class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManager with ScriptManager {
 
   var emf: EntityManagerFactory = _
 
@@ -79,67 +76,27 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManag
   def getScriptsWithImports(ignore: Boolean): Option[Set[(File, Set[File])]] = {
     val scriptsPaths = discoverLocations
     log.info("Looking for any scripts in " + scriptsPaths.mkString("[", ",", "]"))
-    scriptsPaths.toSet.map((f: File) => f -> find(f, Set())).filter(_._2.nonEmpty) match {
+    scriptsPaths.toSet.map((f: File) => f -> find(f, Set(), ignore)).filter(_._2.nonEmpty) match {
       case i if i.nonEmpty =>
-        if (ignore)
-          Some(i.map(p => p._1 -> p._2.diff(ignored)))
-        else
-          Some(i)
+        Some(i)
       case _ => None
     }
   }
 
-  lazy val discoverLocations: Array[File] = getProperty(SCRIPTS_LOCATION).split(";").map(new File(_))
-
-  private def find(root: File, acc: Set[File]): Set[File] =
-    if (root.isFile() && root.getName().contains(".ttl"))
-      acc + root
-    else if (root.isDirectory())
-      root.listFiles() match {
-        case s if s.nonEmpty => s.map((f) => find(f, acc)).reduceLeft(_ ++ _)
-        case _ => acc
-      }
-    else
+  private def find(root: File, acc: Set[File], ignore: Boolean = false): Set[File] =
+    if (ignore && ignored.contains(root)) {
+      log.info(f"""Ignoring $root""")
       acc
-
-  private def ignored = {
-    val sc = getProperty(SCRIPTS_LOCATION)
-    val ignoreFileName = sc + "/.spipesignore"
-    if (new File(ignoreFileName).exists()) {
-
-      val ignored = collection.mutable.Set[File]()
-
-      val lines = Source.fromFile(ignoreFileName).getLines().toSeq
-
-      def flatten(file: File)(acc: Set[File]): Set[File] =
-        if (file.isDirectory())
-          file.listFiles().map(f => flatten(f)(acc)).reduceLeft(_ ++ _)
-        else
-          acc + file
-
-      for (l <- lines.filter(_.nonEmpty)) {
-        if (l.startsWith("!")) {
-          if (l.endsWith("*"))
-            if (l.substring(0, l.length() - 1).endsWith("/"))
-              ignored --= flatten(new File(String.format("%s/%s", getProperty(SCRIPTS_LOCATION), l.tail.substring(0, l.length() - 2))))(Set())
-            else
-              ignored --= flatten(new File(String.format("%s/%s", getProperty(SCRIPTS_LOCATION), l.tail.substring(0, l.length() - 1))))(Set())
-          else
-            ignored --= flatten(new File(String.format("%s/%s", getProperty(SCRIPTS_LOCATION), l.tail)))(Set())
-        }
-        else {
-          if (l.endsWith("*"))
-            if (l.substring(0, l.length() - 1).endsWith("/"))
-              ignored ++= flatten(new File(String.format("%s/%s", getProperty(SCRIPTS_LOCATION), l.substring(0, l.length() - 2))))(Set())
-            else
-              ignored ++= flatten(new File(String.format("%s/%s", getProperty(SCRIPTS_LOCATION), l.substring(0, l.length() - 1))))(Set())
-          else
-            ignored ++= flatten(new File(String.format("%s/%s", getProperty(SCRIPTS_LOCATION), l)))(Set())
-        }
-      }
-      ignored
     }
-    else
-      Set[File]()
-  }
+    else {
+      if (root.isFile() && root.getName().contains(".ttl"))
+        acc + root
+      else if (root.isDirectory())
+        root.listFiles() match {
+          case s if s.nonEmpty => s.map((f) => find(f, acc)).reduceLeft(_ ++ _)
+          case _ => acc
+        }
+      else
+        acc
+    }
 }
