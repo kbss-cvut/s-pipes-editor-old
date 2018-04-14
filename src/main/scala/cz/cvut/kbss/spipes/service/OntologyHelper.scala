@@ -49,7 +49,7 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
     case Some((_, None)) => Failure(new OntologyNotFoundException(file))
     case Some((f, Some(o))) if f.nonEmpty =>
       val docManager = OntDocumentManager.getInstance()
-
+      docManager.clearCache()
       docManager.setReadFailureHandler((s: String, model: Model, e: Exception) => e match {
         case ex: HttpException if ex.getResponseCode() == 404 =>
           log.warn(f"""Imported ontology $s not found""")
