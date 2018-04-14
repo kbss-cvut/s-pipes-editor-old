@@ -4,7 +4,7 @@ import java.io.File
 import java.nio.file._
 
 import cz.cvut.kbss.spipes.persistence.dao.ScriptDao
-import cz.cvut.kbss.spipes.util.{Logger, PropertySource}
+import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager}
 import javax.websocket._
 import javax.websocket.server.ServerEndpoint
 import org.springframework.beans.factory.InitializingBean
@@ -23,7 +23,7 @@ import scala.util.{Failure, Try}
   */
 @Controller
 @ServerEndpoint(value = "/websocket", configurator = classOf[SpringConfigurator])
-class WebsocketController extends InitializingBean with PropertySource with Logger[WebsocketController] {
+class WebsocketController extends InitializingBean with PropertySource with Logger[WebsocketController] with ResourceManager {
 
   @Autowired
   private var dao: ScriptDao = _
@@ -67,28 +67,29 @@ class WebsocketController extends InitializingBean with PropertySource with Logg
       if (root.isDirectory())
         root.listFiles() match {
           case s if s.nonEmpty && s.exists(_.isDirectory()) =>
-            s.filter(_.isDirectory()).map(f => find(f, acc)).foldLeft(Set(root))(_ ++ _)
+            s.filter(_.isDirectory()).filterNot(_.isHidden()).map(f => find(f, acc)).foldLeft(Set(root))(_ ++ _)
           case _ =>
             acc + root
         }
       else
         acc
 
-    dao.discoverLocations.foreach(file => {
-      find(file, Set()).foreach(f => {
+    val service = FileSystems.getDefault().newWatchService()
+
+    dao.discoverLocations.flatMap(file => find(file, Set()))
+      .foreach(f => {
         val path = Paths.get(f.getAbsolutePath())
-        val service = path.getFileSystem().newWatchService()
         path.register(service, StandardWatchEventKinds.ENTRY_MODIFY)
-        Future(watchFS(service))
+        log.info(f"""Watch service registered on directory $path""")
       })
-    })
+    Future(watchFS(service))
   }
 
   @tailrec
-  private def watchFS(service: WatchService): Unit = {
-    val wk = service.take()
-    if (wk.isValid) {
-      Try {
+  private def watchFS(service: WatchService): Try[Unit] = {
+    log.info("Watch service is waiting for events")
+    cleanly(service.take())(_.reset())(wk => {
+      if (wk.isValid) {
         val es = wk.pollEvents()
         es.forEach(e => {
           val fileName = wk.watchable().asInstanceOf[Path]
@@ -98,16 +99,15 @@ class WebsocketController extends InitializingBean with PropertySource with Logg
           if (WebsocketController.subscribers.keySet.contains(fileName))
             WebsocketController.notify(fileName, e)
         })
-      } match {
-        case Failure(t) =>
-          wk.reset()
-          log.error(t.getLocalizedMessage())
-          log.error(t.getStackTrace().mkString("\n"))
-        case _ =>
-          wk.reset()
       }
-      watchFS(service)
+    }) match {
+      case Failure(t) =>
+        log.error(t.getLocalizedMessage())
+        log.error(t.getStackTrace().mkString("\n"))
+      case _ =>
+        log.info("Watch service event processed")
     }
+    watchFS(service)
   }
 }
 
