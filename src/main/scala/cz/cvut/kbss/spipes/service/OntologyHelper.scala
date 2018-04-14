@@ -39,8 +39,17 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
     }
   }
 
-  private def collectOntologyUris(files: Set[File]): Map[String, File] =
-    files.map(f => getOntologyUri(f) -> f).filter(_._1.nonEmpty).map(p => p._1.get -> p._2).toMap
+  private def collectOntologyUris(files: Set[File]): Map[String, File] = {
+    files.map(f => getOntologyUri(f) -> f).filter(_._1.nonEmpty).map(p => p._1.get -> p._2)
+      .foldLeft(Map[String, File]())((acc, p) => {
+        if (acc.contains(p._1)) {
+          log.warn(f"""Duplicated ontology URI ${p._1} in file ${p._2}. Using the the one in ${acc(p._1)}.""")
+          acc
+        }
+        else
+          acc + p
+      })
+  }
 
   def getFile(ontologyUri: String): Option[File] = scriptDao.getScriptsWithImports(false)
     .map(s => collectOntologyUris(s.flatMap(_._2))(ontologyUri))
