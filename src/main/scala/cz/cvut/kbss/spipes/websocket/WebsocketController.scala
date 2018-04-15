@@ -1,13 +1,14 @@
 package cz.cvut.kbss.spipes.websocket
 
+import java.io.File
 import java.nio.file._
 
-import cz.cvut.kbss.spipes.util.ConfigParam.SCRIPTS_LOCATION
-import cz.cvut.kbss.spipes.util.Implicits.configParamValue
-import cz.cvut.kbss.spipes.util.{Logger, PropertySource}
+import cz.cvut.kbss.spipes.persistence.dao.ScriptDao
+import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager, ScriptManager}
 import javax.websocket._
 import javax.websocket.server.ServerEndpoint
 import org.springframework.beans.factory.InitializingBean
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.socket.server.standard.SpringConfigurator
 
@@ -22,7 +23,10 @@ import scala.util.{Failure, Try}
   */
 @Controller
 @ServerEndpoint(value = "/websocket", configurator = classOf[SpringConfigurator])
-class WebsocketController extends InitializingBean with PropertySource with Logger[WebsocketController] {
+class WebsocketController extends InitializingBean with PropertySource with Logger[WebsocketController] with ResourceManager with ScriptManager {
+
+  @Autowired
+  private var dao: ScriptDao = _
 
   @OnError
   def onError(t: Throwable): Unit = t match {
@@ -46,11 +50,10 @@ class WebsocketController extends InitializingBean with PropertySource with Logg
   def register(script: String, session: Session): Unit = {
     Try {
       log.info("Session " + session + " registered on " + script)
-      val fileName = getProperty(SCRIPTS_LOCATION) + "/" + script
-      if (WebsocketController.subscribers.keySet.contains(fileName))
-        WebsocketController.subscribers(fileName) = WebsocketController.subscribers(fileName) + session
+      if (WebsocketController.subscribers.keySet.contains(script))
+        WebsocketController.subscribers(script) = WebsocketController.subscribers(script) + session
       else
-        WebsocketController.subscribers(fileName) = Set(session)
+        WebsocketController.subscribers(script) = Set(session)
     } match {
       case Failure(e) =>
         log.warn(e.getLocalizedMessage(), e.getStackTrace().mkString("\n"))
@@ -60,18 +63,33 @@ class WebsocketController extends InitializingBean with PropertySource with Logg
 
 
   override def afterPropertiesSet(): Unit = {
-    val path = Paths.get(getProperty(SCRIPTS_LOCATION))
-    val service = path.getFileSystem().newWatchService()
-    path.register(service, StandardWatchEventKinds.ENTRY_MODIFY)
+    def find(root: File, acc: Set[File]): Set[File] =
+      if (root.isDirectory() && !ignored.contains(root))
+        root.listFiles() match {
+          case s if s.nonEmpty && s.exists(_.isDirectory()) =>
+            s.filter(_.isDirectory()).filterNot(_.isHidden()).map(f => find(f, acc)).foldLeft(Set(root))(_ ++ _)
+          case _ =>
+            acc + root
+        }
+      else
+        acc
 
+    val service = FileSystems.getDefault().newWatchService()
+
+    discoverLocations.flatMap(file => find(file, Set()))
+      .foreach(f => {
+        val path = Paths.get(f.getAbsolutePath())
+        path.register(service, StandardWatchEventKinds.ENTRY_MODIFY)
+        log.info(f"""Watch service registered on directory $path""")
+      })
     Future(watchFS(service))
   }
 
   @tailrec
-  private def watchFS(service: WatchService): Unit = {
-    val wk = service.take()
-    if (wk.isValid) {
-      Try {
+  private def watchFS(service: WatchService): Try[Unit] = {
+    log.info("Watch service is waiting for events")
+    cleanly(service.take())(_.reset())(wk => {
+      if (wk.isValid) {
         val es = wk.pollEvents()
         es.forEach(e => {
           val fileName = wk.watchable().asInstanceOf[Path]
@@ -81,16 +99,15 @@ class WebsocketController extends InitializingBean with PropertySource with Logg
           if (WebsocketController.subscribers.keySet.contains(fileName))
             WebsocketController.notify(fileName, e)
         })
-      } match {
-        case Failure(t) =>
-          wk.reset()
-          log.error(t.getLocalizedMessage())
-          log.error(t.getStackTrace().mkString("\n"))
-        case _ =>
-          wk.reset()
       }
-      watchFS(service)
+    }) match {
+      case Failure(t) =>
+        log.error(t.getLocalizedMessage())
+        log.error(t.getStackTrace().mkString("\n"))
+      case _ =>
+        log.info("Watch service event processed")
     }
+    watchFS(service)
   }
 }
 

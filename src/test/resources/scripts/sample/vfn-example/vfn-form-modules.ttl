@@ -1,0 +1,2945 @@
+# baseURI: http://onto.fel.cvut.cz/ontologies/vfn-form-mod
+# imports: http://onto.fel.cvut.cz/ontologies/form
+# imports: http://onto.fel.cvut.cz/ontologies/form-layout
+# imports: http://onto.fel.cvut.cz/ontologies/lib/sm-module-adapter
+# imports: http://onto.fel.cvut.cz/ontologies/lib/spin-function
+# imports: http://spinrdf.org/spin
+
+@prefix doc: <http://onto.fel.cvut.cz/ontologies/documentation/> .
+@prefix e-a-3.4.0.2: <http://onto.fel.cvut.cz/ontologies/eccairs/aviation-3.4.0.2/> .
+@prefix e-m: <http://onto.fel.cvut.cz/ontologies/eccairs/model/> .
+@prefix e-m-i: <http://onto.fel.cvut.cz/ontologies/eccairs/model/instance#> .
+@prefix e-m-map: <http://onto.fel.cvut.cz/ontologies/eccairs/mapping/model/> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
+@prefix form: <http://onto.fel.cvut.cz/ontologies/form/> .
+@prefix form-ecc: <http://onto.fel.cvut.cz/ontologies/aviation/eccairs-form/> .
+@prefix form-ecc-cfg-0.2: <http://onto.fel.cvut.cz/ontologies/aviation/eccairs-form-config-0.2/> .
+@prefix form-ecc-gen-0.2: <http://onto.fel.cvut.cz/ontologies/aviation/eccairs-form-generation-0.2/> .
+@prefix form-ecc-lib: <http://onto.fel.cvut.cz/ontologies/aviation/eccairs-form-lib/> .
+@prefix form-ecc-map-0.2: <http://onto.fel.cvut.cz/ontologies/aviation/eccairs-form-mapping-0.2/> .
+@prefix form-lt: <http://onto.fel.cvut.cz/ontologies/form-layout/> .
+@prefix kbss-module: <http://onto.fel.cvut.cz/ontologies/lib/module/> .
+@prefix kbss-spif: <http://onto.fel.cvut.cz/ontologies/lib/spin-function/> .
+@prefix km-rdf4j: <http://onto.fel.cvut.cz/ontologies/lib/module/rdf4j/> .
+@prefix km-sesame: <http://onto.fel.cvut.cz/ontologies/lib/module/sesame/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sm: <http://topbraid.org/sparqlmotion#> .
+@prefix sml: <http://topbraid.org/sparqlmotionlib#> .
+@prefix sp: <http://spinrdf.org/sp#> .
+@prefix spin: <http://spinrdf.org/spin#> .
+@prefix spl: <http://spinrdf.org/spl#> .
+@prefix vfn-form-lib: <http://onto.fel.cvut.cz/ontologies/vfn-form-lib/> .
+@prefix vfn-form-mod: <http://onto.fel.cvut.cz/ontologies/vfn-form-mod/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+e-m-i:clear-all
+  rdf:type sml:ApplyConstruct ;
+  sm:next vfn-form-mod:generate-study-form_Return ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates () ;
+      sp:text """CONSTRUCT {
+    
+}
+WHERE {
+    
+}"""^^xsd:string ;
+      sp:where () ;
+    ] ;
+  sml:replace "true"^^xsd:boolean ;
+  rdfs:label "clear-all"^^xsd:string ;
+.
+form:has-context
+  rdf:type rdf:Property ;
+  rdfs:label "has context"^^xsd:string ;
+.
+form:is-cross-form-clone-of-question
+  rdf:type owl:ObjectProperty ;
+  rdfs:comment "Question within subject of this relation is clone of question within object of this relation accross multiple forms."^^xsd:string ;
+  rdfs:domain doc:question ;
+  rdfs:range doc:question ;
+.
+<http://onto.fel.cvut.cz/ontologies/vfn-form-mod>
+  rdf:type owl:Ontology ;
+  owl:imports <http://onto.fel.cvut.cz/ontologies/form> ;
+  owl:imports <http://onto.fel.cvut.cz/ontologies/form-layout> ;
+  owl:imports <http://onto.fel.cvut.cz/ontologies/lib/sm-module-adapter> ;
+  owl:imports <http://onto.fel.cvut.cz/ontologies/lib/spin-function> ;
+  owl:imports <http://spinrdf.org/spin> ;
+.
+vfn-form-mod:annotate-sample-questions
+  rdf:type sml:ApplyConstruct ;
+  sm:next vfn-form-mod:attach-initial-origin-paths ;
+  sm:next vfn-form-mod:attach-origin-metadata ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object "sample-question" ;
+            sp:predicate form:has-context ;
+            sp:subject [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:text """CONSTRUCT {
+   ?q form:has-context \"sample-question\" . 
+}
+WHERE {
+    ?q a doc:question .
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  rdfs:label "annotate-sample-questions"^^xsd:string ;
+.
+vfn-form-mod:attach-answer-origins
+  rdf:type sml:ApplyConstruct ;
+  kbss-module:has-output-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """#  there is an answer without origin
+ASK
+WHERE {
+     ?a a doc:answer .
+     FILTER NOT EXISTS {
+         ?a form:has-answer-origin ?o .
+      }
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object doc:answer ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "a"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object [
+                          sp:varName "o"^^xsd:string ;
+                        ] ;
+                      sp:predicate form:has-answer-origin ;
+                      sp:subject [
+                          sp:varName "a"^^xsd:string ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "there is an answer without origin"^^xsd:string ;
+    ] ;
+  sm:next vfn-form-mod:attach-initial-origin-paths ;
+  sm:next vfn-form-mod:attach-origin-metadata ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "aOrigin"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-answer-origin ;
+            sp:subject [
+                sp:varName "a"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:text """CONSTRUCT {
+    ?a form:has-answer-origin ?aOrigin .
+}
+WHERE {
+     ?a a doc:answer .
+     FILTER NOT EXISTS {
+			?a form:has-answer-origin ?aOriginNotBound . 
+     }    
+     BIND(uri(concat(str(doc:answer), \"/\", ?formKey, \"/\", md5(str(?a)), \"-ao\")) as ?aOrigin)
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object doc:answer ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "a"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object [
+                          sp:varName "aOriginNotBound"^^xsd:string ;
+                        ] ;
+                      sp:predicate form:has-answer-origin ;
+                      sp:subject [
+                          sp:varName "a"^^xsd:string ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:uri ;
+                sp:arg1 [
+                    rdf:type sp:concat ;
+                    sp:arg1 [
+                        rdf:type sp:str ;
+                        sp:arg1 doc:answer ;
+                      ] ;
+                    sp:arg2 "/" ;
+                    sp:arg3 [
+                        sp:varName "formKey"^^xsd:string ;
+                      ] ;
+                    sp:arg4 "/" ;
+                    sp:arg5 [
+                        rdf:type sp:md5 ;
+                        sp:arg1 [
+                            rdf:type sp:str ;
+                            sp:arg1 [
+                                sp:varName "a"^^xsd:string ;
+                              ] ;
+                          ] ;
+                      ] ;
+                    sp:arg6 "-ao" ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "aOrigin"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  rdfs:label "attach-answer-origins"^^xsd:string ;
+.
+vfn-form-mod:attach-cross-form-clones
+  rdf:type sml:ApplyConstruct ;
+  kbss-module:has-output-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """# there is no clone of data question within sample form
+ASK
+WHERE {
+     ?dataQ form:has-origin-path-id ?originPath ;
+     			  a doc:question .
+     FILTER NOT EXISTS {
+         ?dataQ form:has-context \"sample-question\" . 
+     }
+     FILTER NOT EXISTS {
+         ?dataQ  form:is-cross-form-clone-of-question ?sampleQ .
+     }     
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object [
+                sp:varName "originPath"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-origin-path-id ;
+            sp:subject [
+                sp:varName "dataQ"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "dataQ"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object "sample-question" ;
+                      sp:predicate form:has-context ;
+                      sp:subject [
+                          sp:varName "dataQ"^^xsd:string ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object [
+                          sp:varName "sampleQ"^^xsd:string ;
+                        ] ;
+                      sp:predicate form:is-cross-form-clone-of-question ;
+                      sp:subject [
+                          sp:varName "dataQ"^^xsd:string ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "there is no clone of data question within sample form"^^xsd:string ;
+    ] ;
+  sm:next vfn-form-mod:construct-answers ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "sampleQ"^^xsd:string ;
+              ] ;
+            sp:predicate form:is-cross-form-clone-of-question ;
+            sp:subject [
+                sp:varName "dataQ"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:text """CONSTRUCT {
+    ?dataQ form:is-cross-form-clone-of-question ?sampleQ .
+}
+WHERE {
+     ?dataQ form:has-origin-path-id ?originPath .
+     ?sampleQ  form:has-origin-path-id ?originPath ;
+						form:has-context \"sample-question\" .
+     FILTER NOT EXISTS {
+         ?dataQ form:has-context \"sample-question\" . 
+     }
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object [
+                sp:varName "originPath"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-origin-path-id ;
+            sp:subject [
+                sp:varName "dataQ"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "originPath"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-origin-path-id ;
+            sp:subject [
+                sp:varName "sampleQ"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "sample-question" ;
+            sp:predicate form:has-context ;
+            sp:subject [
+                sp:varName "sampleQ"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object "sample-question" ;
+                      sp:predicate form:has-context ;
+                      sp:subject [
+                          sp:varName "dataQ"^^xsd:string ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  rdfs:label "attach-cross-form-clones"^^xsd:string ;
+.
+vfn-form-mod:attach-initial-origin-paths
+  rdf:type sml:ApplyConstruct ;
+  sm:next vfn-form-mod:attach-origin-paths ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "pathNode"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-origin-path ;
+            sp:subject [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:text """CONSTRUCT {
+    ?q form:has-origin-path ?pathNode .
+}
+WHERE {
+    ?q a doc:question .
+    FILTER NOT EXISTS {
+         ?qNotBound doc:has_related_question ?q
+    }
+    ?q form:has-question-origin ?qOrigin .
+    BIND(concat(str(?qOrigin),\"|QO\") as ?pathNode)
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object [
+                          sp:varName "q"^^xsd:string ;
+                        ] ;
+                      sp:predicate doc:has_related_question ;
+                      sp:subject [
+                          sp:varName "qNotBound"^^xsd:string ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "qOrigin"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-question-origin ;
+            sp:subject [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:concat ;
+                sp:arg1 [
+                    rdf:type sp:str ;
+                    sp:arg1 [
+                        sp:varName "qOrigin"^^xsd:string ;
+                      ] ;
+                  ] ;
+                sp:arg2 "|QO" ;
+              ] ;
+            sp:variable [
+                sp:varName "pathNode"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  rdfs:label "attach-initial-origin-paths"^^xsd:string ;
+.
+vfn-form-mod:attach-missing-question-origins
+  rdf:type sml:ApplyConstruct ;
+  kbss-module:has-output-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """# there is a question without specified question origin
+ASK
+WHERE {
+    ?question a doc:question .
+     FILTER NOT EXISTS {
+           ?question form:has-question-origin ?origin . 
+    }
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "question"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object [
+                          sp:varName "origin"^^xsd:string ;
+                        ] ;
+                      sp:predicate form:has-question-origin ;
+                      sp:subject [
+                          sp:varName "question"^^xsd:string ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "there is a question without specified question origin"^^xsd:string ;
+    ] ;
+  sm:next vfn-form-mod:create-required-labels ;
+  sm:next vfn-form-mod:filter-required-labels ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "origin"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-question-origin ;
+            sp:subject [
+                sp:varName "question"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:text """CONSTRUCT {
+   ?question form:has-question-origin ?origin .
+} WHERE {
+    ?question a doc:question .
+     FILTER NOT EXISTS {
+           ?question form:has-question-origin ?originNotBound . 
+    }
+    BIND(uri(concat(str(?question), \"-generated-qo\")) as ?origin)
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "question"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object [
+                          sp:varName "originNotBound"^^xsd:string ;
+                        ] ;
+                      sp:predicate form:has-question-origin ;
+                      sp:subject [
+                          sp:varName "question"^^xsd:string ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:uri ;
+                sp:arg1 [
+                    rdf:type sp:concat ;
+                    sp:arg1 [
+                        rdf:type sp:str ;
+                        sp:arg1 [
+                            sp:varName "question"^^xsd:string ;
+                          ] ;
+                      ] ;
+                    sp:arg2 "-generated-qo" ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "origin"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  sml:replace "false"^^xsd:boolean ;
+  rdfs:label "attach-missing-question-origins"^^xsd:string ;
+.
+vfn-form-mod:attach-origin-metadata
+  rdf:type kbss-module:construct-form-metadata ;
+  kbss-module:has-output-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """# there are two question from sample form that have same origin path
+# TODO remove: same constraint is checked in generate-abrax function
+ASK
+WHERE {
+    ?q1  form:has-context \"sample-question\" ;
+            form:has-origin-path-id ?originPath .
+    ?q2  form:has-context \"sample-question\" ;
+            form:has-origin-path-id ?originPath .
+    FILTER(?q1 != ?q2)
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object "sample-question" ;
+            sp:predicate form:has-context ;
+            sp:subject [
+                sp:varName "q1"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "originPath"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-origin-path-id ;
+            sp:subject [
+                sp:varName "q1"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "sample-question" ;
+            sp:predicate form:has-context ;
+            sp:subject [
+                sp:varName "q2"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "originPath"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-origin-path-id ;
+            sp:subject [
+                sp:varName "q2"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:ne ;
+                sp:arg1 [
+                    sp:varName "q1"^^xsd:string ;
+                  ] ;
+                sp:arg2 [
+                    sp:varName "q2"^^xsd:string ;
+                  ] ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment """there are two question from sample form that have same origin path
+TODO remove: same constraint is checked in generate-abrax function"""^^xsd:string ;
+    ] ;
+  kbss-module:has-output-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """# there is no clone of data question within sample form
+ASK
+WHERE {
+     ?dataQ a doc:question ;
+                   form:has-origin-path-id ?originPath .
+     FILTER NOT EXISTS {
+         ?dataQ form:has-context \"sample-question\" . 
+     }
+     FILTER NOT EXISTS {
+         ?sampleNotBoundQ  form:has-origin-path-id ?originPath .
+         FILTER(?sampleNotBoundQ != ?dataQ)
+     }     
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "dataQ"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "originPath"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-origin-path-id ;
+            sp:subject [
+                sp:varName "dataQ"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object "sample-question" ;
+                      sp:predicate form:has-context ;
+                      sp:subject [
+                          sp:varName "dataQ"^^xsd:string ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object [
+                          sp:varName "originPath"^^xsd:string ;
+                        ] ;
+                      sp:predicate form:has-origin-path-id ;
+                      sp:subject [
+                          sp:varName "sampleNotBoundQ"^^xsd:string ;
+                        ] ;
+                    ]
+                    [
+                      rdf:type sp:Filter ;
+                      sp:expression [
+                          rdf:type sp:ne ;
+                          sp:arg1 [
+                              sp:varName "sampleNotBoundQ"^^xsd:string ;
+                            ] ;
+                          sp:arg2 [
+                              sp:varName "dataQ"^^xsd:string ;
+                            ] ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "there is no clone of data question within sample form"^^xsd:string ;
+    ] ;
+  sm:next vfn-form-mod:attach-cross-form-clones ;
+  sml:replace "false"^^xsd:boolean ;
+  rdfs:label "attach-origin-metadata"^^xsd:string ;
+.
+vfn-form-mod:attach-origin-metadata-to-check-correctness
+  rdf:type kbss-module:construct-form-metadata ;
+  kbss-module:has-output-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """# there are two question that have same origin path
+ASK
+WHERE {
+    ?q1 form:has-origin-path-id ?originPath .
+    ?q2 form:has-origin-path-id ?originPath .
+    FILTER(?q1 != ?q2)
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object [
+                sp:varName "originPath"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-origin-path-id ;
+            sp:subject [
+                sp:varName "q1"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "originPath"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-origin-path-id ;
+            sp:subject [
+                sp:varName "q2"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:ne ;
+                sp:arg1 [
+                    sp:varName "q1"^^xsd:string ;
+                  ] ;
+                sp:arg2 [
+                    sp:varName "q2"^^xsd:string ;
+                  ] ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "there are two question that have same origin path"^^xsd:string ;
+    ] ;
+  sm:next e-m-i:clear-all ;
+  sml:replace "false"^^xsd:boolean ;
+  rdfs:label "attach-origin-metadata-to-check-correctness"^^xsd:string ;
+.
+vfn-form-mod:attach-origin-path-ids
+  rdf:type sml:ApplyConstruct ;
+  kbss-module:has-output-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """# there is no clone of data question within sample form
+ASK
+WHERE {
+     ?dataQ form:has-origin-path-id ?originPath .
+     FILTER NOT EXISTS {
+         ?dataQ form:has-context \"sample-question\" . 
+     }
+     FILTER NOT EXISTS {
+         ?sampleNotBoundQ  form:has-origin-path-id ?originPath .
+         FILTER(?sampleNotBoundQ != ?dataQ)
+     }     
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object [
+                sp:varName "originPath"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-origin-path-id ;
+            sp:subject [
+                sp:varName "dataQ"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object "sample-question" ;
+                      sp:predicate form:has-context ;
+                      sp:subject [
+                          sp:varName "dataQ"^^xsd:string ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object [
+                          sp:varName "originPath"^^xsd:string ;
+                        ] ;
+                      sp:predicate form:has-origin-path-id ;
+                      sp:subject [
+                          sp:varName "sampleNotBoundQ"^^xsd:string ;
+                        ] ;
+                    ]
+                    [
+                      rdf:type sp:Filter ;
+                      sp:expression [
+                          rdf:type sp:ne ;
+                          sp:arg1 [
+                              sp:varName "sampleNotBoundQ"^^xsd:string ;
+                            ] ;
+                          sp:arg2 [
+                              sp:varName "dataQ"^^xsd:string ;
+                            ] ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "there is no clone of data question within sample form"^^xsd:string ;
+    ] ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "originPathId"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-origin-path-id ;
+            sp:subject [
+                sp:varName "formEntity"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:text """CONSTRUCT {
+    ?formEntity form:has-origin-path-id ?originPathId .
+}
+WHERE {
+    ?formEntity form:has-origin-path ?originPath .
+    BIND(md5(?originPath) as ?originPathId)
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object [
+                sp:varName "originPath"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-origin-path ;
+            sp:subject [
+                sp:varName "formEntity"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:md5 ;
+                sp:arg1 [
+                    sp:varName "originPath"^^xsd:string ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "originPathId"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  rdfs:label "attach-origin-path-ids"^^xsd:string ;
+.
+vfn-form-mod:attach-origin-paths
+  rdf:type sml:ApplyConstruct ;
+  kbss-module:has-max-iteration-count "20"^^xsd:string ;
+  sm:next vfn-form-mod:attach-origin-path-ids ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "originPath"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-origin-path ;
+            sp:subject [
+                sp:varName "a"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:text """# 0 - attach answer path
+CONSTRUCT {
+    ?a form:has-origin-path ?originPath .
+}
+WHERE {
+    ?q doc:has_answer ?a ;
+         form:has-origin-path ?qOriginPath .
+    ?a form:has-answer-origin ?aOrigin .
+    BIND(concat(?qOriginPath, \",\", str(?aOrigin), \"|AO\")  as ?originPath)
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object [
+                sp:varName "a"^^xsd:string ;
+              ] ;
+            sp:predicate doc:has_answer ;
+            sp:subject [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "qOriginPath"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-origin-path ;
+            sp:subject [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "aOrigin"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-answer-origin ;
+            sp:subject [
+                sp:varName "a"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:concat ;
+                sp:arg1 [
+                    sp:varName "qOriginPath"^^xsd:string ;
+                  ] ;
+                sp:arg2 "," ;
+                sp:arg3 [
+                    rdf:type sp:str ;
+                    sp:arg1 [
+                        sp:varName "aOrigin"^^xsd:string ;
+                      ] ;
+                  ] ;
+                sp:arg4 "|AO" ;
+              ] ;
+            sp:variable [
+                sp:varName "originPath"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "0 - attach answer path"^^xsd:string ;
+    ] ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "originPath"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-origin-path ;
+            sp:subject [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:text """# 0 - attach question path
+CONSTRUCT {
+    ?q form:has-origin-path ?originPath .
+}
+WHERE {
+    ?parentQ doc:has_related_question ?q ;
+                     form:has-origin-path ?parentOriginPath .
+    ?q form:has-question-origin ?qOrigin .
+    BIND(concat(?parentOriginPath, \",\", str(?qOrigin), \"|QO\")  as ?originPath)
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+            sp:predicate doc:has_related_question ;
+            sp:subject [
+                sp:varName "parentQ"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "parentOriginPath"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-origin-path ;
+            sp:subject [
+                sp:varName "parentQ"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "qOrigin"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-question-origin ;
+            sp:subject [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:concat ;
+                sp:arg1 [
+                    sp:varName "parentOriginPath"^^xsd:string ;
+                  ] ;
+                sp:arg2 "," ;
+                sp:arg3 [
+                    rdf:type sp:str ;
+                    sp:arg1 [
+                        sp:varName "qOrigin"^^xsd:string ;
+                      ] ;
+                  ] ;
+                sp:arg4 "|QO" ;
+              ] ;
+            sp:variable [
+                sp:varName "originPath"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "0 - attach question path"^^xsd:string ;
+    ] ;
+  sml:replace "false"^^xsd:boolean ;
+  rdfs:label "attach-origin-paths"^^xsd:string ;
+.
+vfn-form-mod:bind-execution-id
+  rdf:type sml:BindBySelect ;
+  kbss-module:has-input-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """# input parameter \"isIdempotent\" is invalid ({?isIdempotent})
+ASK {
+  FILTER (
+       bound(?isIdempotent)  
+       &&  (str(?isIdempotent) != \"true\") 
+       && (str(?isIdempotent) != \"false\")
+  )
+}"""^^xsd:string ;
+      sp:where (
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:and ;
+                sp:arg1 [
+                    rdf:type sp:and ;
+                    sp:arg1 [
+                        rdf:type sp:bound ;
+                        sp:arg1 [
+                            sp:varName "isIdempotent"^^xsd:string ;
+                          ] ;
+                      ] ;
+                    sp:arg2 [
+                        rdf:type sp:ne ;
+                        sp:arg1 [
+                            rdf:type sp:str ;
+                            sp:arg1 [
+                                sp:varName "isIdempotent"^^xsd:string ;
+                              ] ;
+                          ] ;
+                        sp:arg2 "true" ;
+                      ] ;
+                  ] ;
+                sp:arg2 [
+                    rdf:type sp:ne ;
+                    sp:arg1 [
+                        rdf:type sp:str ;
+                        sp:arg1 [
+                            sp:varName "isIdempotent"^^xsd:string ;
+                          ] ;
+                      ] ;
+                    sp:arg2 "false" ;
+                  ] ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "input parameter \"isIdempotent\" is invalid ({?isIdempotent})"^^xsd:string ;
+    ] ;
+  kbss-module:has-input-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """# input parameter reportKey is not bound
+ASK {
+  FILTER (
+       ! bound(?formKey)  
+  )
+}"""^^xsd:string ;
+      sp:where (
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:not ;
+                sp:arg1 [
+                    rdf:type sp:bound ;
+                    sp:arg1 [
+                        sp:varName "formKey"^^xsd:string ;
+                      ] ;
+                  ] ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "input parameter reportKey is not bound"^^xsd:string ;
+    ] ;
+  sm:next vfn-form-mod:construct-initial-question-from-templates ;
+  sml:selectQuery [
+      rdf:type sp:Select ;
+      sp:resultVariables (
+          [
+            sp:varName "executionId"^^xsd:string ;
+          ]
+        ) ;
+      sp:text """SELECT ?executionId {
+# default value
+  BIND(str(COALESCE(?isIdempotent, true)) as ?isIdempotentStr) 
+  BIND(IF( ?isIdempotentStr = \"false\", STRUUID(), ?formKey) as ?executionId)   
+}"""^^xsd:string ;
+      sp:where (
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:str ;
+                sp:arg1 [
+                    rdf:type sp:coalesce ;
+                    sp:arg1 [
+                        sp:varName "isIdempotent"^^xsd:string ;
+                      ] ;
+                    sp:arg2 "true"^^xsd:boolean ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "isIdempotentStr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:if ;
+                sp:arg1 [
+                    rdf:type sp:eq ;
+                    sp:arg1 [
+                        sp:varName "isIdempotentStr"^^xsd:string ;
+                      ] ;
+                    sp:arg2 "false" ;
+                  ] ;
+                sp:arg2 [
+                    rdf:type sp:struuid ;
+                  ] ;
+                sp:arg3 [
+                    sp:varName "formKey"^^xsd:string ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "executionId"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  rdfs:label "bind-execution-id"^^xsd:string ;
+.
+vfn-form-mod:bind-form-key
+  rdf:type sml:BindWithConstant ;
+  sm:next vfn-form-mod:attach-answer-origins ;
+  sm:next vfn-form-mod:bind-execution-id ;
+  sm:outputVariable "formKey"^^xsd:string ;
+  sml:value [
+      rdf:type sp:struuid ;
+    ] ;
+  rdfs:label "bind-form-key"^^xsd:string ;
+.
+vfn-form-mod:bind-root-question
+  rdf:type sml:BindBySelect ;
+  sm:next vfn-form-mod:layout-form ;
+  rdfs:label "bind-root-question"^^xsd:string ;
+.
+vfn-form-mod:bind-sample-form-root-question
+  rdf:type sml:BindBySelect ;
+  sml:selectQuery [
+      rdf:type sp:Select ;
+      sp:resultVariables (
+          [
+            sp:varName "sampleRootQuestion"^^xsd:string ;
+          ]
+        ) ;
+      sp:text """SELECT ?sampleRootQuestion 
+WHERE {
+    ?sampleRootQuestion a doc:question .
+    FILTER NOT EXISTS {
+          ?qNotBound doc:has_related_question ?sampleRootQuestion .
+    }
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "sampleRootQuestion"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object [
+                          sp:varName "sampleRootQuestion"^^xsd:string ;
+                        ] ;
+                      sp:predicate doc:has_related_question ;
+                      sp:subject [
+                          sp:varName "qNotBound"^^xsd:string ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  rdfs:label "bind-sample-form-root-question"^^xsd:string ;
+.
+vfn-form-mod:bind-saved-data-root-question
+  rdf:type sml:BindBySelect ;
+  sml:selectQuery [
+      rdf:type sp:Select ;
+      sp:resultVariables (
+          [
+            sp:varName "dataRootQuestion"^^xsd:string ;
+          ]
+        ) ;
+      sp:text """SELECT ?dataRootQuestion 
+WHERE {
+    ?dataRootQuestion a doc:question .
+    FILTER NOT EXISTS {
+          ?qNotBound doc:has_related_question ?dataRootQuestion .
+    }
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "dataRootQuestion"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object [
+                          sp:varName "dataRootQuestion"^^xsd:string ;
+                        ] ;
+                      sp:predicate doc:has_related_question ;
+                      sp:subject [
+                          sp:varName "qNotBound"^^xsd:string ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  rdfs:label "bind-saved-data-root-question"^^xsd:string ;
+.
+vfn-form-mod:bind-saved-data-service-url
+  rdf:type sml:BindWithConstant ;
+  sm:next vfn-form-mod:retrieve-saved-data ;
+  sm:outputVariable "studySavedDataServiceUrl"^^xsd:string ;
+  sml:value [
+      rdf:type sp:iri ;
+      sp:arg1 [
+          rdf:type sp:concat ;
+          sp:arg1 [
+              rdf:type sp:str ;
+              sp:arg1 [
+                  sp:varName "formGenRepositoryUrl"^^xsd:string ;
+                ] ;
+            ] ;
+          sp:arg2 "?default-graph-uri=" ;
+          sp:arg3 [
+              rdf:type sp:encode_for_uri ;
+              sp:arg1 [
+                  rdf:type sp:str ;
+                  sp:arg1 [
+                      sp:varName "recordGraphId"^^xsd:string ;
+                    ] ;
+                ] ;
+            ] ;
+        ] ;
+    ] ;
+  rdfs:label "Bind saved data service url"^^xsd:string ;
+.
+vfn-form-mod:bind-study-sample-service-url
+  rdf:type sml:BindWithConstant ;
+  sm:next vfn-form-mod:retrieve-sample-form ;
+  sm:outputVariable "studySampleFormServiceUrl"^^xsd:string ;
+  sml:value [
+      rdf:type sp:iri ;
+      sp:arg1 [
+          rdf:type sp:concat ;
+          sp:arg1 [
+              rdf:type sp:str ;
+              sp:arg1 [
+                  sp:varName "studyEndpointUrl"^^xsd:string ;
+                ] ;
+            ] ;
+          sp:arg2 "?default-graph-uri=" ;
+          sp:arg3 [
+              rdf:type sp:encode_for_uri ;
+              sp:arg1 [
+                  rdf:type sp:str ;
+                  sp:arg1 [
+                      sp:varName "studySampleFormUri"^^xsd:string ;
+                    ] ;
+                ] ;
+            ] ;
+        ] ;
+    ] ;
+  rdfs:label "Bind sample form service url"^^xsd:string ;
+.
+vfn-form-mod:clone-study-form_Return
+  rdf:type sml:ReturnRDF ;
+  sml:serialization sml:JSONLD ;
+  rdfs:label "Return cloned form"^^xsd:string ;
+.
+vfn-form-mod:construct-answers
+  rdf:type sml:ApplyConstruct ;
+  sm:next vfn-form-mod:rename-form-entities ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "a"^^xsd:string ;
+              ] ;
+            sp:predicate doc:has_answer ;
+            sp:subject [
+                sp:varName "sampleQ"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "o"^^xsd:string ;
+              ] ;
+            sp:predicate [
+                sp:varName "p"^^xsd:string ;
+              ] ;
+            sp:subject [
+                sp:varName "a"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:text """CONSTRUCT {
+    ?sampleQ doc:has_answer ?a .
+    ?a ?p ?o .
+}
+WHERE {
+    ?dataQ form:is-cross-form-clone-of-question ?sampleQ .
+    ?dataQ doc:has_answer ?a .
+    OPTIONAL {
+        ?a ?p ?o .
+    }
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object [
+                sp:varName "sampleQ"^^xsd:string ;
+              ] ;
+            sp:predicate form:is-cross-form-clone-of-question ;
+            sp:subject [
+                sp:varName "dataQ"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "a"^^xsd:string ;
+              ] ;
+            sp:predicate doc:has_answer ;
+            sp:subject [
+                sp:varName "dataQ"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Optional ;
+            sp:elements (
+                [
+                  sp:object [
+                      sp:varName "o"^^xsd:string ;
+                    ] ;
+                  sp:predicate [
+                      sp:varName "p"^^xsd:string ;
+                    ] ;
+                  sp:subject [
+                      sp:varName "a"^^xsd:string ;
+                    ] ;
+                ]
+              ) ;
+          ]
+        ) ;
+    ] ;
+  sml:replace "true"^^xsd:boolean ;
+  rdfs:label "construct-answers"^^xsd:string ;
+.
+vfn-form-mod:construct-initial-question-from-templates
+  rdf:type sml:ApplyConstruct ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "rootQ"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "rootQT"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-template ;
+            sp:subject [
+                sp:varName "rootQ"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:text """# 0 - construct ROOT question if not present 
+CONSTRUCT {
+    ?rootQ a doc:question ;
+#          form:has-origin-type ?rootEntity ;
+#          form:has-question-origin ?rootQT ;
+          form:has-template ?rootQT .   
+} WHERE {
+#    ?rootQT form:has-template-origin  ?rootEntity .    
+    BIND(vfn-form-lib:create-q(concat(str(?rootQT),\"-\", ?executionId)) as ?rootQ)
+    FILTER NOT EXISTS {
+          ?rootQNotBound form:has-template ?rootQT .
+    } .
+}"""^^xsd:string ;
+      sp:where (
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type vfn-form-lib:create-q ;
+                sp:arg1 [
+                    rdf:type sp:concat ;
+                    sp:arg1 [
+                        rdf:type sp:str ;
+                        sp:arg1 [
+                            sp:varName "rootQT"^^xsd:string ;
+                          ] ;
+                      ] ;
+                    sp:arg2 "-" ;
+                    sp:arg3 [
+                        sp:varName "executionId"^^xsd:string ;
+                      ] ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "rootQ"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object [
+                          sp:varName "rootQT"^^xsd:string ;
+                        ] ;
+                      sp:predicate form:has-template ;
+                      sp:subject [
+                          sp:varName "rootQNotBound"^^xsd:string ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "0 - construct ROOT question if not present"^^xsd:string ;
+    ] ;
+  sml:replace "false"^^xsd:boolean ;
+  rdfs:label "attach-initial-question-from-templates"^^xsd:string ;
+.
+vfn-form-mod:construct-questions-from-templates
+  rdf:type sml:ApplyConstruct ;
+  kbss-module:has-max-iteration-count "10"^^xsd:string ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "childQ"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "childQT"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-template ;
+            sp:subject [
+                sp:varName "childQ"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "childQ"^^xsd:string ;
+              ] ;
+            sp:predicate doc:has_related_question ;
+            sp:subject [
+                sp:varName "parentQ"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:text """# 0 - construct questions from templates
+CONSTRUCT {
+       ?childQ a doc:question ;
+            form:has-template ?childQT .   
+       ?parentQ doc:has_related_question ?childQ .
+}
+WHERE {
+# find parent question to attach to 
+    ?parentQ a doc:question ;
+          form:has-template ?parentQT .  
+    ?parentQT  form:has-subtemplate ?childQT .
+
+# filter out if question exist already
+    FILTER NOT EXISTS {
+         ?parentQ doc:has_related_question ?childQNotBound .
+         ?childQNotBound form:has-template ?childQT .
+    }
+
+# bind new question
+    BIND(md5(concat(str(?parentQ), ?executionId)) as ?childId)
+    BIND(vfn-form-lib:create-q(concat(str(?childQT),\"-\", ?childId)) as ?childQ)
+ 
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "parentQ"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "parentQT"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-template ;
+            sp:subject [
+                sp:varName "parentQ"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "childQT"^^xsd:string ;
+              ] ;
+            sp:predicate form:has-subtemplate ;
+            sp:subject [
+                sp:varName "parentQT"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object [
+                          sp:varName "childQNotBound"^^xsd:string ;
+                        ] ;
+                      sp:predicate doc:has_related_question ;
+                      sp:subject [
+                          sp:varName "parentQ"^^xsd:string ;
+                        ] ;
+                    ]
+                    [
+                      sp:object [
+                          sp:varName "childQT"^^xsd:string ;
+                        ] ;
+                      sp:predicate form:has-template ;
+                      sp:subject [
+                          sp:varName "childQNotBound"^^xsd:string ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:md5 ;
+                sp:arg1 [
+                    rdf:type sp:concat ;
+                    sp:arg1 [
+                        rdf:type sp:str ;
+                        sp:arg1 [
+                            sp:varName "parentQ"^^xsd:string ;
+                          ] ;
+                      ] ;
+                    sp:arg2 [
+                        sp:varName "executionId"^^xsd:string ;
+                      ] ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "childId"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type vfn-form-lib:create-q ;
+                sp:arg1 [
+                    rdf:type sp:concat ;
+                    sp:arg1 [
+                        rdf:type sp:str ;
+                        sp:arg1 [
+                            sp:varName "childQT"^^xsd:string ;
+                          ] ;
+                      ] ;
+                    sp:arg2 "-" ;
+                    sp:arg3 [
+                        sp:varName "childId"^^xsd:string ;
+                      ] ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "childQ"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "0 - construct questions from templates"^^xsd:string ;
+    ] ;
+  sml:replace "false"^^xsd:boolean ;
+  rdfs:label "Construct questions from templates"^^xsd:string ;
+.
+vfn-form-mod:create-required-labels
+  rdf:type sml:ApplyConstruct ;
+  sm:next vfn-form-mod:merge-modification ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "requiredLabel"^^xsd:string ;
+              ] ;
+            sp:predicate rdfs:label ;
+            sp:subject [
+                sp:varName "s"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:text """# create required labels
+CONSTRUCT {
+    ?s rdfs:label ?requiredLabel .
+}
+WHERE {
+    ?s rdfs:label ?label ;
+         form:requires-answer ?x .
+    FILTER(str(?x) = \"true\")
+    BIND(concat(str(?label), \"*\") as ?requiredLabel)
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object [
+                sp:varName "label"^^xsd:string ;
+              ] ;
+            sp:predicate rdfs:label ;
+            sp:subject [
+                sp:varName "s"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "x"^^xsd:string ;
+              ] ;
+            sp:predicate form:requires-answer ;
+            sp:subject [
+                sp:varName "s"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:eq ;
+                sp:arg1 [
+                    rdf:type sp:str ;
+                    sp:arg1 [
+                        sp:varName "x"^^xsd:string ;
+                      ] ;
+                  ] ;
+                sp:arg2 "true" ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:concat ;
+                sp:arg1 [
+                    rdf:type sp:str ;
+                    sp:arg1 [
+                        sp:varName "label"^^xsd:string ;
+                      ] ;
+                  ] ;
+                sp:arg2 "*" ;
+              ] ;
+            sp:variable [
+                sp:varName "requiredLabel"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "create required labels"^^xsd:string ;
+    ] ;
+  sml:replace "true"^^xsd:boolean ;
+  rdfs:label "create-required-labels"^^xsd:string ;
+.
+vfn-form-mod:deploy-sample-form
+  rdf:type kbss-module:deploy ;
+  kbss-module:has-input-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """# sample form contains an answer
+ASK
+WHERE {
+    ?a a doc:answer .
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object doc:answer ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "a"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "sample form contains an answer"^^xsd:string ;
+    ] ;
+  km-rdf4j:p-is-replace "true"^^xsd:boolean ;
+  km-rdf4j:p-rdf4j-context-iri [
+      sp:varName "studySampleFormUri"^^xsd:string ;
+    ] ;
+  km-rdf4j:p-rdf4j-repository-name [
+      rdf:type sp:replace ;
+      sp:arg1 [
+          sp:varName "studyEndpointUrl"^^xsd:string ;
+        ] ;
+      sp:arg2 ".*/repositories/" ;
+      sp:arg3 "" ;
+    ] ;
+  km-rdf4j:p-rdf4j-server-url [
+      rdf:type sp:replace ;
+      sp:arg1 [
+          sp:varName "studyEndpointUrl"^^xsd:string ;
+        ] ;
+      sp:arg2 "/repositories/.*" ;
+      sp:arg3 "" ;
+    ] ;
+  sm:next vfn-form-mod:generate-study-form_Return ;
+  rdfs:label "deploy-sample-form"^^xsd:string ;
+.
+vfn-form-mod:filter-irrelevant
+  rdf:type sml:ApplyConstruct ;
+  sm:next vfn-form-mod:merge-form-data ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "o"^^xsd:string ;
+              ] ;
+            sp:predicate [
+                sp:varName "p"^^xsd:string ;
+              ] ;
+            sp:subject [
+                sp:varName "s"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:text """CONSTRUCT {
+    ?s ?p ?o .
+}
+WHERE {
+    ?s ?p ?o .
+    FILTER(?p != form:has-subtemplate)  
+    FILTER(?p != rdf:object)  
+    FILTER(?p != rdf:subject)
+    FILTER(?p != rdf:predicate)
+    FILTER((?p != form:is-relevant-if) || (! isLiteral(?o)) )      
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object [
+                sp:varName "o"^^xsd:string ;
+              ] ;
+            sp:predicate [
+                sp:varName "p"^^xsd:string ;
+              ] ;
+            sp:subject [
+                sp:varName "s"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:ne ;
+                sp:arg1 [
+                    sp:varName "p"^^xsd:string ;
+                  ] ;
+                sp:arg2 form:has-subtemplate ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:ne ;
+                sp:arg1 [
+                    sp:varName "p"^^xsd:string ;
+                  ] ;
+                sp:arg2 rdf:object ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:ne ;
+                sp:arg1 [
+                    sp:varName "p"^^xsd:string ;
+                  ] ;
+                sp:arg2 rdf:subject ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:ne ;
+                sp:arg1 [
+                    sp:varName "p"^^xsd:string ;
+                  ] ;
+                sp:arg2 rdf:predicate ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:or ;
+                sp:arg1 [
+                    rdf:type sp:ne ;
+                    sp:arg1 [
+                        sp:varName "p"^^xsd:string ;
+                      ] ;
+                    sp:arg2 form:is-relevant-if ;
+                  ] ;
+                sp:arg2 [
+                    rdf:type sp:not ;
+                    sp:arg1 [
+                        rdf:type sp:isLiteral ;
+                        sp:arg1 [
+                            sp:varName "o"^^xsd:string ;
+                          ] ;
+                      ] ;
+                  ] ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  sml:replace "true"^^xsd:boolean ;
+  rdfs:label "Filter irrelevant" ;
+.
+vfn-form-mod:filter-required-labels
+  rdf:type sml:ApplyConstruct ;
+  sm:next vfn-form-mod:merge-modification ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "o"^^xsd:string ;
+              ] ;
+            sp:predicate [
+                sp:varName "p"^^xsd:string ;
+              ] ;
+            sp:subject [
+                sp:varName "s"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:text """# filter original labels if they are required labels
+CONSTRUCT {
+    ?s ?p ?o .
+}
+WHERE {
+    ?s ?p ?o .
+    FILTER NOT EXISTS {
+       ?s form:requires-answer ?x .
+       FILTER(?p = rdfs:label)       
+       FILTER(str(?x) = \"true\")
+    }
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object [
+                sp:varName "o"^^xsd:string ;
+              ] ;
+            sp:predicate [
+                sp:varName "p"^^xsd:string ;
+              ] ;
+            sp:subject [
+                sp:varName "s"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object [
+                          sp:varName "x"^^xsd:string ;
+                        ] ;
+                      sp:predicate form:requires-answer ;
+                      sp:subject [
+                          sp:varName "s"^^xsd:string ;
+                        ] ;
+                    ]
+                    [
+                      rdf:type sp:Filter ;
+                      sp:expression [
+                          rdf:type sp:eq ;
+                          sp:arg1 [
+                              sp:varName "p"^^xsd:string ;
+                            ] ;
+                          sp:arg2 rdfs:label ;
+                        ] ;
+                    ]
+                    [
+                      rdf:type sp:Filter ;
+                      sp:expression [
+                          rdf:type sp:eq ;
+                          sp:arg1 [
+                              rdf:type sp:str ;
+                              sp:arg1 [
+                                  sp:varName "x"^^xsd:string ;
+                                ] ;
+                            ] ;
+                          sp:arg2 "true" ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "filter original labels if they are required labels"^^xsd:string ;
+    ] ;
+  sml:replace "true"^^xsd:boolean ;
+  rdfs:label "filter-out-required-labels"^^xsd:string ;
+.
+vfn-form-mod:form-generator-sink
+  rdf:type sml:ApplyConstruct ;
+  kbss-module:has-input-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """# there is a question with two parents
+ASK
+WHERE {
+    ?q a doc:question .
+    ?parentQ1 doc:has_related_question ?q .
+    ?parentQ2 doc:has_related_question ?q .
+    FILTER(?parentQ1 != ?parentQ2)
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+            sp:predicate doc:has_related_question ;
+            sp:subject [
+                sp:varName "parentQ1"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+            sp:predicate doc:has_related_question ;
+            sp:subject [
+                sp:varName "parentQ2"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:ne ;
+                sp:arg1 [
+                    sp:varName "parentQ1"^^xsd:string ;
+                  ] ;
+                sp:arg2 [
+                    sp:varName "parentQ2"^^xsd:string ;
+                  ] ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "there is a question with two parents"^^xsd:string ;
+    ] ;
+  sm:next vfn-form-mod:bind-root-question ;
+  sm:next vfn-form-mod:filter-irrelevant ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "o" ;
+              ] ;
+            sp:predicate [
+                sp:varName "p" ;
+              ] ;
+            sp:subject [
+                sp:varName "s" ;
+              ] ;
+          ]
+        ) ;
+      sp:text """CONSTRUCT {
+    ?s ?p ?o .    
+}
+WHERE {
+    ?s ?p ?o .
+}""" ;
+      sp:where (
+          [
+            sp:object [
+                sp:varName "o" ;
+              ] ;
+            sp:predicate [
+                sp:varName "p" ;
+              ] ;
+            sp:subject [
+                sp:varName "s" ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  sml:replace "false"^^xsd:boolean ;
+  rdfs:label "form-generator-sink"^^xsd:string ;
+.
+vfn-form-mod:generate-study-form_Return
+  rdf:type sml:ReturnRDF ;
+  sml:serialization sml:JSONLD ;
+  rdfs:label "Return generated form" ;
+.
+vfn-form-mod:layout-form
+  rdf:type sml:ApplyConstruct ;
+  sm:next vfn-form-mod:merge-form-data ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object "form" ;
+            sp:predicate form-lt:has-layout-class ;
+            sp:subject [
+                sp:varName "rootQuestion" ;
+              ] ;
+          ]
+        ) ;
+      sp:text """# 0 - create form layout question
+CONSTRUCT {
+    ?rootQuestion    form-lt:has-layout-class \"form\" .
+}
+WHERE {    
+
+}""" ;
+      sp:where () ;
+      rdfs:comment "0 - create form layout question" ;
+    ] ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object "section" ;
+            sp:predicate form-lt:has-layout-class ;
+            sp:subject [
+                sp:varName "sectionQuestion" ;
+              ] ;
+          ]
+        ) ;
+      sp:text """# 1 - create section layout classes
+CONSTRUCT {
+    ?sectionQuestion    form-lt:has-layout-class \"section\" .
+}
+WHERE {    
+    ?sectionQuestion doc:has_related_question ?subQuestion .
+    FILTER(?rootQuestion != ?sectionQuestion)
+}""" ;
+      sp:where (
+          [
+            sp:object [
+                sp:varName "subQuestion" ;
+              ] ;
+            sp:predicate doc:has_related_question ;
+            sp:subject [
+                sp:varName "sectionQuestion" ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:ne ;
+                sp:arg1 [
+                    sp:varName "rootQuestion" ;
+                  ] ;
+                sp:arg2 [
+                    sp:varName "sectionQuestion" ;
+                  ] ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "1 - create section layout classes" ;
+    ] ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object "wizard-step" ;
+            sp:predicate form-lt:has-layout-class ;
+            sp:subject [
+                sp:varName "topSectionQuestion"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "section" ;
+            sp:predicate form-lt:has-layout-class ;
+            sp:subject [
+                sp:varName "topSectionQuestion"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:text """# 2 - create wizard step layout for top level sections
+CONSTRUCT {
+    ?topSectionQuestion    form-lt:has-layout-class \"wizard-step\" .
+# TODO !!! remove asi ??
+    ?topSectionQuestion    form-lt:has-layout-class \"section\" .
+}
+WHERE {    
+    ?rootQuestion doc:has_related_question ?topSectionQuestion .
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object [
+                sp:varName "topSectionQuestion"^^xsd:string ;
+              ] ;
+            sp:predicate doc:has_related_question ;
+            sp:subject [
+                sp:varName "rootQuestion"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "2 - create wizard step layout for top level sections"^^xsd:string ;
+    ] ;
+  sml:replace "true"^^xsd:boolean ;
+  rdfs:label "layout-form"^^xsd:string ;
+.
+vfn-form-mod:merge-form-data
+  rdf:type sml:Merge ;
+  kbss-module:has-output-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """# root question does not have any subquestions
+ASK 
+WHERE {
+     ?rootQuestion form-lt:has-layout-class \"form\" .
+     FILTER NOT EXISTS {
+           ?rootQuestion doc:has_related_question ?subQuestion .
+     }
+}""" ;
+      sp:where (
+          [
+            sp:object "form" ;
+            sp:predicate form-lt:has-layout-class ;
+            sp:subject [
+                sp:varName "rootQuestion" ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object [
+                          sp:varName "subQuestion" ;
+                        ] ;
+                      sp:predicate doc:has_related_question ;
+                      sp:subject [
+                          sp:varName "rootQuestion" ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "root question does not have any subquestions" ;
+    ] ;
+  kbss-module:has-output-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """# there is a question with more than one answer
+ASK
+WHERE {
+    ?q a doc:question ;
+            doc:has_answer ?a1 ; 
+            doc:has_answer ?a2 .
+   FILTER(?a1 != ?a2)
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "a1"^^xsd:string ;
+              ] ;
+            sp:predicate doc:has_answer ;
+            sp:subject [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "a2"^^xsd:string ;
+              ] ;
+            sp:predicate doc:has_answer ;
+            sp:subject [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:ne ;
+                sp:arg1 [
+                    sp:varName "a1"^^xsd:string ;
+                  ] ;
+                sp:arg2 [
+                    sp:varName "a2"^^xsd:string ;
+                  ] ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "there is a question with more than one answer"^^xsd:string ;
+    ] ;
+  kbss-module:has-output-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """# there is a question without a label
+ASK
+WHERE {
+    ?question a doc:question .
+    FILTER  NOT  EXISTS {
+            ?question rdfs:label ?label .
+    }
+}""" ;
+      sp:where (
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "question" ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object [
+                          sp:varName "label" ;
+                        ] ;
+                      sp:predicate rdfs:label ;
+                      sp:subject [
+                          sp:varName "question" ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "there is a question without a label" ;
+    ] ;
+  kbss-module:has-output-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """# there is an empty section within the form
+ASK
+WHERE {    
+    ?sectionQ form-lt:has-layout-class \"section\" .
+    FILTER NOT EXISTS {
+        ?sectionQ doc:has_related_question ?subQ .
+    }
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object "section" ;
+            sp:predicate form-lt:has-layout-class ;
+            sp:subject [
+                sp:varName "sectionQ"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object [
+                          sp:varName "subQ"^^xsd:string ;
+                        ] ;
+                      sp:predicate doc:has_related_question ;
+                      sp:subject [
+                          sp:varName "sectionQ"^^xsd:string ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "there is an empty section within the form"^^xsd:string ;
+    ] ;
+  kbss-module:has-output-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """# there is no \"form\" element
+ASK
+WHERE {
+        FILTER  NOT  EXISTS {
+            ?s form-lt:has-layout-class \"form\" .
+        }
+}""" ;
+      sp:where (
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object "form" ;
+                      sp:predicate form-lt:has-layout-class ;
+                      sp:subject [
+                          sp:varName "s" ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "there is no \"form\" element" ;
+    ] ;
+  sm:next vfn-form-mod:attach-missing-question-origins ;
+  rdfs:label "merge-form-data"^^xsd:string ;
+.
+vfn-form-mod:merge-modification
+  rdf:type sml:Merge ;
+  sm:next vfn-form-mod:attach-origin-metadata-to-check-correctness ;
+  sm:next vfn-form-mod:deploy-sample-form ;
+  sm:next vfn-form-mod:generate-study-form_Return ;
+  rdfs:label "merge-modification"^^xsd:string ;
+.
+vfn-form-mod:rename-form-entities
+  rdf:type sml:ApplyConstruct ;
+  kbss-module:has-output-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """# there are 2 questions that point to same answer
+ASK
+WHERE {
+    ?q1 a doc:question ;
+           doc:has_answer ?a .
+    ?q2 a doc:question ;
+		   doc:has_answer ?a .
+    FILTER(?q1 != ?q2)
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "q1"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "a"^^xsd:string ;
+              ] ;
+            sp:predicate doc:has_answer ;
+            sp:subject [
+                sp:varName "q1"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "q2"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "a"^^xsd:string ;
+              ] ;
+            sp:predicate doc:has_answer ;
+            sp:subject [
+                sp:varName "q2"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:ne ;
+                sp:arg1 [
+                    sp:varName "q1"^^xsd:string ;
+                  ] ;
+                sp:arg2 [
+                    sp:varName "q2"^^xsd:string ;
+                  ] ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "there are 2 questions that point to same answer"^^xsd:string ;
+    ] ;
+  kbss-module:has-output-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """# there is a question with two answers
+ASK
+WHERE {
+    ?q a doc:question .
+    ?q doc:has_answer ?a1 .
+    ?q doc:has_answer ?a2 .
+    FILTER(?a1 != ?a2)
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "a1"^^xsd:string ;
+              ] ;
+            sp:predicate doc:has_answer ;
+            sp:subject [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "a2"^^xsd:string ;
+              ] ;
+            sp:predicate doc:has_answer ;
+            sp:subject [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:ne ;
+                sp:arg1 [
+                    sp:varName "a1"^^xsd:string ;
+                  ] ;
+                sp:arg2 [
+                    sp:varName "a2"^^xsd:string ;
+                  ] ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "there is a question with two answers"^^xsd:string ;
+    ] ;
+  sm:next vfn-form-mod:clone-study-form_Return ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "newO"^^xsd:string ;
+              ] ;
+            sp:predicate [
+                sp:varName "p"^^xsd:string ;
+              ] ;
+            sp:subject [
+                sp:varName "newS"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:text """# 0 - duplicate form entity related data
+CONSTRUCT {
+    ?newS ?p ?newO .
+}
+WHERE {
+    ?s ?p ?o .
+    OPTIONAL {
+        ?s a ?sEntityType .
+        FILTER((?sEntityType = doc:question) || (?sEntityType = doc:answer))
+     }
+    OPTIONAL {
+        ?o a ?oEntityType .
+        FILTER((?oEntityType = doc:question) || (?oEntityType = doc:answer))
+     }
+     BIND(IF(?sEntityType = doc:question, \"-q\", \"-a\") as ?sSufix)
+     BIND(IF(?oEntityType = doc:question, \"-q\", \"-a\") as ?oSufix)
+     BIND(COALESCE(uri(concat(str(?sEntityType), \"/\", ?formKey, \"/\", md5(str(?s)), ?sSufix)), ?s) as ?newS) 
+     BIND(COALESCE(uri(concat(str(?oEntityType), \"/\", ?formKey, \"/\", md5(str(?o)), ?oSufix)), ?o) as ?newO)
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object [
+                sp:varName "o"^^xsd:string ;
+              ] ;
+            sp:predicate [
+                sp:varName "p"^^xsd:string ;
+              ] ;
+            sp:subject [
+                sp:varName "s"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Optional ;
+            sp:elements (
+                [
+                  sp:object [
+                      sp:varName "sEntityType"^^xsd:string ;
+                    ] ;
+                  sp:predicate rdf:type ;
+                  sp:subject [
+                      sp:varName "s"^^xsd:string ;
+                    ] ;
+                ]
+                [
+                  rdf:type sp:Filter ;
+                  sp:expression [
+                      rdf:type sp:or ;
+                      sp:arg1 [
+                          rdf:type sp:eq ;
+                          sp:arg1 [
+                              sp:varName "sEntityType"^^xsd:string ;
+                            ] ;
+                          sp:arg2 doc:question ;
+                        ] ;
+                      sp:arg2 [
+                          rdf:type sp:eq ;
+                          sp:arg1 [
+                              sp:varName "sEntityType"^^xsd:string ;
+                            ] ;
+                          sp:arg2 doc:answer ;
+                        ] ;
+                    ] ;
+                ]
+              ) ;
+          ]
+          [
+            rdf:type sp:Optional ;
+            sp:elements (
+                [
+                  sp:object [
+                      sp:varName "oEntityType"^^xsd:string ;
+                    ] ;
+                  sp:predicate rdf:type ;
+                  sp:subject [
+                      sp:varName "o"^^xsd:string ;
+                    ] ;
+                ]
+                [
+                  rdf:type sp:Filter ;
+                  sp:expression [
+                      rdf:type sp:or ;
+                      sp:arg1 [
+                          rdf:type sp:eq ;
+                          sp:arg1 [
+                              sp:varName "oEntityType"^^xsd:string ;
+                            ] ;
+                          sp:arg2 doc:question ;
+                        ] ;
+                      sp:arg2 [
+                          rdf:type sp:eq ;
+                          sp:arg1 [
+                              sp:varName "oEntityType"^^xsd:string ;
+                            ] ;
+                          sp:arg2 doc:answer ;
+                        ] ;
+                    ] ;
+                ]
+              ) ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:if ;
+                sp:arg1 [
+                    rdf:type sp:eq ;
+                    sp:arg1 [
+                        sp:varName "sEntityType"^^xsd:string ;
+                      ] ;
+                    sp:arg2 doc:question ;
+                  ] ;
+                sp:arg2 "-q" ;
+                sp:arg3 "-a" ;
+              ] ;
+            sp:variable [
+                sp:varName "sSufix"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:if ;
+                sp:arg1 [
+                    rdf:type sp:eq ;
+                    sp:arg1 [
+                        sp:varName "oEntityType"^^xsd:string ;
+                      ] ;
+                    sp:arg2 doc:question ;
+                  ] ;
+                sp:arg2 "-q" ;
+                sp:arg3 "-a" ;
+              ] ;
+            sp:variable [
+                sp:varName "oSufix"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:coalesce ;
+                sp:arg1 [
+                    rdf:type sp:uri ;
+                    sp:arg1 [
+                        rdf:type sp:concat ;
+                        sp:arg1 [
+                            rdf:type sp:str ;
+                            sp:arg1 [
+                                sp:varName "sEntityType"^^xsd:string ;
+                              ] ;
+                          ] ;
+                        sp:arg2 "/" ;
+                        sp:arg3 [
+                            sp:varName "formKey"^^xsd:string ;
+                          ] ;
+                        sp:arg4 "/" ;
+                        sp:arg5 [
+                            rdf:type sp:md5 ;
+                            sp:arg1 [
+                                rdf:type sp:str ;
+                                sp:arg1 [
+                                    sp:varName "s"^^xsd:string ;
+                                  ] ;
+                              ] ;
+                          ] ;
+                        sp:arg6 [
+                            sp:varName "sSufix"^^xsd:string ;
+                          ] ;
+                      ] ;
+                  ] ;
+                sp:arg2 [
+                    sp:varName "s"^^xsd:string ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "newS"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:coalesce ;
+                sp:arg1 [
+                    rdf:type sp:uri ;
+                    sp:arg1 [
+                        rdf:type sp:concat ;
+                        sp:arg1 [
+                            rdf:type sp:str ;
+                            sp:arg1 [
+                                sp:varName "oEntityType"^^xsd:string ;
+                              ] ;
+                          ] ;
+                        sp:arg2 "/" ;
+                        sp:arg3 [
+                            sp:varName "formKey"^^xsd:string ;
+                          ] ;
+                        sp:arg4 "/" ;
+                        sp:arg5 [
+                            rdf:type sp:md5 ;
+                            sp:arg1 [
+                                rdf:type sp:str ;
+                                sp:arg1 [
+                                    sp:varName "o"^^xsd:string ;
+                                  ] ;
+                              ] ;
+                          ] ;
+                        sp:arg6 [
+                            sp:varName "oSufix"^^xsd:string ;
+                          ] ;
+                      ] ;
+                  ] ;
+                sp:arg2 [
+                    sp:varName "o"^^xsd:string ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "newO"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "0 - duplicate form entity related data"^^xsd:string ;
+    ] ;
+  sml:replace "true"^^xsd:boolean ;
+  rdfs:label "rename form entities"^^xsd:string ;
+.
+vfn-form-mod:retrieve-sample-form
+  rdf:type sml:ApplyConstruct ;
+  kbss-module:has-output-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """# 0 -  there is a question without origin
+ASK
+WHERE {
+     ?q a doc:question .
+     FILTER NOT EXISTS {
+         ?q form:has-question-origin ?o .
+      }
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object [
+                          sp:varName "o"^^xsd:string ;
+                        ] ;
+                      sp:predicate form:has-question-origin ;
+                      sp:subject [
+                          sp:varName "q"^^xsd:string ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "0 -  there is a question without origin"^^xsd:string ;
+    ] ;
+  kbss-module:has-output-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """# 1 - there is an answer without origin
+ASK
+WHERE {
+     ?q a doc:answer .
+     FILTER NOT EXISTS {
+         ?q form:has-answer-origin ?o .
+      }
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object doc:answer ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object [
+                          sp:varName "o"^^xsd:string ;
+                        ] ;
+                      sp:predicate form:has-answer-origin ;
+                      sp:subject [
+                          sp:varName "q"^^xsd:string ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "1 - there is an answer without origin"^^xsd:string ;
+    ] ;
+  sm:next vfn-form-mod:annotate-sample-questions ;
+  sm:next vfn-form-mod:bind-sample-form-root-question ;
+  sm:next vfn-form-mod:rename-form-entities ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "o"^^xsd:string ;
+              ] ;
+            sp:predicate [
+                sp:varName "p"^^xsd:string ;
+              ] ;
+            sp:subject [
+                sp:varName "s"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:text """CONSTRUCT {
+    ?s ?p ?o .
+}
+WHERE {
+    SERVICE ?studySampleFormServiceUrl {
+           ?s ?p ?o .
+    }
+}"""^^xsd:string ;
+      sp:where (
+          [
+            rdf:type sp:Service ;
+            sp:elements (
+                [
+                  sp:object [
+                      sp:varName "o"^^xsd:string ;
+                    ] ;
+                  sp:predicate [
+                      sp:varName "p"^^xsd:string ;
+                    ] ;
+                  sp:subject [
+                      sp:varName "s"^^xsd:string ;
+                    ] ;
+                ]
+              ) ;
+            sp:serviceURI [
+                sp:varName "studySampleFormServiceUrl"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  sml:replace "false"^^xsd:boolean ;
+  rdfs:label "retrieve sample form"^^xsd:string ;
+.
+vfn-form-mod:retrieve-saved-data
+  rdf:type sml:ApplyConstruct ;
+  kbss-module:has-output-graph-constraint [
+      rdf:type sp:Ask ;
+      sp:text """# there is a question without origin
+ASK
+WHERE {
+     ?q a doc:question .
+     FILTER NOT EXISTS {
+         ?q form:has-question-origin ?o .
+      }
+}"""^^xsd:string ;
+      sp:where (
+          [
+            sp:object doc:question ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "q"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:notExists ;
+                sp:elements (
+                    [
+                      sp:object [
+                          sp:varName "o"^^xsd:string ;
+                        ] ;
+                      sp:predicate form:has-question-origin ;
+                      sp:subject [
+                          sp:varName "q"^^xsd:string ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+        ) ;
+      rdfs:comment "there is a question without origin"^^xsd:string ;
+    ] ;
+  sm:next vfn-form-mod:attach-answer-origins ;
+  sm:next vfn-form-mod:bind-saved-data-root-question ;
+  sml:constructQuery [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "o"^^xsd:string ;
+              ] ;
+            sp:predicate [
+                sp:varName "p"^^xsd:string ;
+              ] ;
+            sp:subject [
+                sp:varName "s"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:text """CONSTRUCT {
+    ?s ?p ?o .
+}
+WHERE {
+    SERVICE ?studySavedDataServiceUrl {
+           ?s ?p ?o .
+    }
+}"""^^xsd:string ;
+      sp:where (
+          [
+            rdf:type sp:Service ;
+            sp:elements (
+                [
+                  sp:object [
+                      sp:varName "o"^^xsd:string ;
+                    ] ;
+                  sp:predicate [
+                      sp:varName "p"^^xsd:string ;
+                    ] ;
+                  sp:subject [
+                      sp:varName "s"^^xsd:string ;
+                    ] ;
+                ]
+              ) ;
+            sp:serviceURI [
+                sp:varName "studySavedDataServiceUrl"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  sml:replace "true"^^xsd:boolean ;
+  rdfs:label "retrieve saved data"^^xsd:string ;
+.

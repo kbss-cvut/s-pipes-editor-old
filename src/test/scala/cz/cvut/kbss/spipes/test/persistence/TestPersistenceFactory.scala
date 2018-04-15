@@ -1,15 +1,14 @@
 package cz.cvut.kbss.spipes.test.persistence
 
-import javax.annotation.PostConstruct
-
 import cz.cvut.kbss.jopa.Persistence
 import cz.cvut.kbss.jopa.model.JOPAPersistenceProperties._
 import cz.cvut.kbss.jopa.model.PersistenceProperties.JPA_PERSISTENCE_PROVIDER
 import cz.cvut.kbss.jopa.model.{EntityManagerFactory, JOPAPersistenceProvider}
 import cz.cvut.kbss.ontodriver.config.OntoDriverProperties
-import cz.cvut.kbss.ontodriver.sesame.config.SesameOntoDriverProperties
+import cz.cvut.kbss.ontodriver.jena.config.JenaOntoDriverProperties
 import cz.cvut.kbss.spipes.util.ConfigParam._
 import cz.cvut.kbss.spipes.util.Constants
+import javax.annotation.PostConstruct
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.{Bean, Configuration, Primary, PropertySource}
 import org.springframework.core.env.Environment
@@ -42,7 +41,7 @@ class TestPersistenceFactory {
     val properties = DEFAULT_PARAMS +
       (ONTOLOGY_PHYSICAL_URI_KEY -> "local://temp") +
       (DATA_SOURCE_CLASS -> environment.getProperty(DRIVER.value)) +
-      (SesameOntoDriverProperties.SESAME_USE_VOLATILE_STORAGE -> "true")
+      (JenaOntoDriverProperties.IN_MEMORY -> "true")
     emf = Persistence.createEntityManagerFactory("persistenceFactory", properties.asJava)
   }
 

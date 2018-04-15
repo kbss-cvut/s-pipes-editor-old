@@ -127,6 +127,10 @@ sp:has-script-path a owl:DatatypeProperty ;
     rdfs:domain sp:script-dto ;
     rdfs:range xsd:string .
 
+sp:has-absolute-path a owl:DatatypeProperty ;
+    rdfs:domain sp:script-dto ;
+    rdfs:range xsd:string .
+
 sp:has-module-uri a owl:DatatypeProperty ;
      rdfs:domain sp:module-dto ;
      rdfs:range xsd:string .
@@ -180,12 +184,12 @@ sp:answer a owl:Class ;
 foaf:Person a owl:Class ;
     rdfs:label "SPipes Editor Person" .
 
-sp:scriptPath-dto a owl:Class ;
+sp:script-dto a owl:Class ;
     rdfs:label "Script DTO" .
 
 sp:module-dto a owl:Class ;
     rdfs:label "Module DTO" ;
-    rdfs:subClassOf  sp:scriptPath-dto .
+    rdfs:subClassOf  sp:script-dto .
 
 sp:question-dto a owl:Class ;
     rdfs:label "Question DTO" ;

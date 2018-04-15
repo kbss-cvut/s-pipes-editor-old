@@ -24,10 +24,10 @@ class ViewService extends Logger[ViewService] {
   private var spipesService: ScriptService = _
 
   def newViewFromSpipes(script: String): Either[Throwable, Option[View]] = {
-    log.info("Creating a view for scriptPath " + script)
+    log.info("Creating a view for script " + script)
     spipesService.getModules(script) match {
       case Right(Some(modules)) =>
-        log.info("Modules for scriptPath " + script + " found")
+        log.info("Modules for script " + script + " found")
         log.trace(modules)
         val nodes = modules.map(m => new Node(
           m.getUri(),
@@ -46,12 +46,12 @@ class ViewService extends Logger[ViewService] {
               nodes.find(_.getUri == m.getUri).get,
               nodes.find(_.getUri == n.getUri()).get)))
         val view = new View(script, nodes.toSet.asJava, edges.toSet.asJava)
-        log.info("Created view for scriptPath " + script)
+        log.info("Created view for script " + script)
         log.trace(view)
         viewDao.save(view)
         Right(Some(view))
       case Right(None) =>
-        log.info("No modules found for scriptPath " + script)
+        log.info("No modules found for script " + script)
         Right(None)
       case Left(e) =>
         log.error(e.getLocalizedMessage(), e)

@@ -4,6 +4,8 @@ import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
 import cz.cvut.kbss.spipes.model.AbstractEntity;
 
+import java.util.Set;
+
 import static cz.cvut.kbss.spipes.model.Vocabulary.*;
 
 /**
@@ -15,7 +17,7 @@ public class ModuleType extends AbstractEntity {
     @OWLDataProperty(iri = s_p_label)
     private String label;
     @OWLDataProperty(iri = s_p_comment)
-    private String comment;
+    private Set<String> comment;
     @OWLDataProperty(iri = s_p_icon)
     private String icon;
 
@@ -30,11 +32,11 @@ public class ModuleType extends AbstractEntity {
         this.label = label;
     }
 
-    public String getComment() {
+    public Set<String> getComment() {
         return comment;
     }
 
-    public void setComment(String comment) {
+    public void setComment(Set<String> comment) {
         this.comment = comment;
     }
 

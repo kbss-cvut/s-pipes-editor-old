@@ -286,7 +286,7 @@ class ViewController extends React.Component {
             this.setState({view: new TheGraph.fbpGraph.Graph()});
             data.data[NODE].map(n => {
                 if (n[TYPE] !== undefined)
-                    this.state.view.addNode(n["@id"], n[TYPE][0], {
+                    this.state.view.addNode(n["@id"], this._findComponent(n), {
                         label: n[LABEL] === undefined ?
                             n["@id"].toString().split("/").reverse()[0] :
                             n[LABEL],
@@ -298,7 +298,7 @@ class ViewController extends React.Component {
             data.data[EDGE].map(e => {
                 if (e[SOURCE_NODE][TYPE] !== undefined) {
                     let n = e[SOURCE_NODE];
-                    this.state.view.addNode(n["@id"], n[TYPE][0], {
+                    this.state.view.addNode(n["@id"], this._findComponent(n), {
                         label: n[LABEL] === undefined ?
                             n["@id"].toString().split("/").reverse()[0] :
                             n[LABEL],
@@ -309,7 +309,7 @@ class ViewController extends React.Component {
                 }
                 if (e[DESTINATION_NODE][TYPE] !== undefined) {
                     let n = e[DESTINATION_NODE];
-                    this.state.view.addNode(n["@id"], n[TYPE][0], {
+                    this.state.view.addNode(n["@id"], this._findComponent(n), {
                         label: n[LABEL] === undefined ?
                             n["@id"].toString().split("/").reverse()[0] :
                             n[LABEL],
@@ -331,11 +331,9 @@ class ViewController extends React.Component {
             this.setState({viewLoaded: true});
             this._renderView(defaultLayout);
             this.state.view.on("addEdge", e => {
-                console.log(e);
                 Actions.createDependency(this._getScript(), e.from.node, e.to.node);
             });
             this.state.view.on("removeEdge", e => {
-                console.log(e);
                 Actions.deleteDependency(this._getScript(), e.from.node, e.to.node);
             });
         }
@@ -411,6 +409,10 @@ class ViewController extends React.Component {
         this.setState({modalVisible: false});
     };
 
+    _findComponent(node) {
+        return node[TYPE].filter(t => this.state.library[t] !== undefined)[0];
+    }
+
     onMessageReceived() {
         this.setState({modalVisible: true});
     };
@@ -428,11 +430,19 @@ class ViewController extends React.Component {
             y: 0
         };
 
+        const labelLengths = this.state.view.nodes.map(n =>
+            n === undefined ? 0 :
+                n.metadata === undefined ? 0 :
+                    n.metadata.label === undefined ? 0 :
+                        n.metadata.label.length);
+        let maxLabelLength = 0;
+        for (let l in labelLengths)
+            maxLabelLength = (parseInt(labelLengths[l]) > maxLabelLength ? parseInt(labelLengths[l]) : maxLabelLength)
         this.state.view.nodes.map(n => {
             elkGraph.children.push({
                 id: n.id,
                 height: 100,
-                width: 100
+                width: maxLabelLength * 6.5
             });
         });
 

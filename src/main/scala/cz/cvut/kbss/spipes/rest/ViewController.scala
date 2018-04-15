@@ -22,16 +22,16 @@ class ViewController extends Logger[ViewController] {
   @PostMapping(path = Array("/new"), produces = Array(JsonLd.MEDIA_TYPE))
   def newFromSpipes(@RequestBody dto: ScriptDTO): ResponseEntity[Any] = {
     val script = dto.getScriptPath()
-    log.info("Creating a view for scriptPath " + script)
+    log.info("Creating a view for script " + script)
     viewService.newViewFromSpipes(script) match {
       case Left(e) =>
         log.error(e.getLocalizedMessage(), e)
         new ResponseEntity(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
       case Right(None) =>
-        log.info("View can not be created, no modules found for scriptPath " + script)
+        log.info("View can not be created, no modules found for script " + script)
         new ResponseEntity(HttpStatus.NOT_FOUND)
       case Right(Some(v)) =>
-        log.info("View for scriptPath " + script + " created")
+        log.info("View for script " + script + " created")
         log.trace(v)
         new ResponseEntity(v, HttpStatus.OK)
     }

@@ -9,13 +9,19 @@ import Mask from "../Mask";
 import Routing from "../../utils/Routing";
 import Routes from "../../utils/Routes";
 
+const ABSOLUTE_PATH = "http://onto.fel.cvut.cz/ontologies/s-pipes/has-absolute-path";
+const RELATIVE_PATH = "http://onto.fel.cvut.cz/ontologies/s-pipes/has-script-path";
+
+let parent;
+
 class Scripts extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             scripts: null,
             loading: true
-        }
+        };
+        parent = this;
     }
 
     componentWillMount() {
@@ -29,8 +35,9 @@ class Scripts extends React.Component {
             return <p>No scripts found</p>;
         return (
             <Nav bsStyle="pills">
-                {this.state.scripts.map((s) => {
-                    return <NavItem key={s} onSelect={this._showView}>{s}</NavItem>;
+                {Object.keys(this.state.scripts).map(s => {
+                    return <NavItem key={this.state.scripts[s][ABSOLUTE_PATH]}
+                                    onSelect={this._showView}>{this.state.scripts[s][RELATIVE_PATH]}</NavItem>;
                 })}
             </Nav>)
     }
@@ -44,11 +51,16 @@ class Scripts extends React.Component {
     }
 
     _scriptsLoaded(scripts) {
+        Object.keys(scripts).forEach(k => {
+            const newkey = scripts[k][RELATIVE_PATH];
+            scripts[newkey] = scripts[k];
+            delete scripts[k];
+        });
         this.setState({loading: false, scripts: scripts});
     }
 
     _showView() {
-        let options = {state: {script: this.children}};
+        const options = {state: {script: parent.state.scripts[this.children][ABSOLUTE_PATH]}};
         Routing.transitionTo(Routes.views, options);
     }
 }

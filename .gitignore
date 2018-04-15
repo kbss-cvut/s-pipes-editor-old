@@ -10,6 +10,5 @@ src/main/webapp/**/node_modules
 *.log
 src/main/webapp/package-lock.json
 *.sc
-scripts
-!test/resources/scripts/
+/scripts
 profiles

@@ -1,0 +1,5 @@
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+
+<http://ontologies.org/importing>
+        a owl:Ontology ;
+        owl:imports <http://ontologies.org/imported> .
