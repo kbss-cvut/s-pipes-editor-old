@@ -2,10 +2,12 @@ package cz.cvut.kbss.spipes.service
 
 import java.io.{File, FileOutputStream}
 
+import cz.cvut.kbss.spipes.model.Vocabulary
 import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager}
 import cz.cvut.sempipes.transform.{Transformer, TransformerImpl}
 import cz.cvut.sforms.model.Question
-import org.apache.jena.rdf.model.{Model, ModelFactory}
+import org.apache.jena.rdf.model.{Model, ModelFactory, Resource}
+import org.apache.jena.vocabulary.RDF
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -25,10 +27,12 @@ class QAService extends PropertySource with Logger[QAService] with ResourceManag
   def generateForm(scriptPath: String, moduleUri: String, moduleTypeUri: String): Try[Question] = {
     log.info("Generating form for script " + scriptPath + ", module " + moduleUri + ", moduleType " + moduleTypeUri)
     helper.createUnionModel(new File(scriptPath)).map(model => {
+      val moduleType = model.listStatements(model.getResource(moduleUri), RDF.`type`, null)
+        .filterDrop(_.getObject().asResource().getURI() == Vocabulary.s_c_Modules).nextOptional()
       transformer.script2Form(
         model,
         model.getResource(moduleUri),
-        model.getResource(moduleTypeUri)
+        moduleType.map[Resource](_.getObject().asResource()).orElse(model.getResource(moduleTypeUri))
       )
     })
   }
