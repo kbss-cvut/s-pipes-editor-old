@@ -93,7 +93,7 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManag
         acc + root
       else if (root.isDirectory())
         root.listFiles() match {
-          case s if s.nonEmpty => s.map((f) => find(f, acc)).reduceLeft(_ ++ _)
+          case s if s.nonEmpty => s.map((f) => find(f, acc, ignore)).reduceLeft(_ ++ _)
           case _ => acc
         }
       else
