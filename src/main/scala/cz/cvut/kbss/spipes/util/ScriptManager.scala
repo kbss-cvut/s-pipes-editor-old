@@ -18,7 +18,10 @@ trait ScriptManager extends PropertySource {
       val ignoreFileName = f.getAbsolutePath() + "/.spipesignore"
       if (new File(ignoreFileName).exists()) {
         Source.fromFile(ignoreFileName).getLines().toList.distinct
-          .map(new File(_))
+          .map {
+            case a if a.head == '/' => new File(a)
+            case r => new File(f"""${f.getAbsolutePath}/$r""")
+          }
           .filter(_.exists())
       }
       else
