@@ -33,6 +33,15 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
       st.map(_.getSubject().getURI())
     }) match {
       case Success(Seq(v)) => Some(v)
+      case Success(s) if s.nonEmpty =>
+        log.warn(
+          s"""Multiple ontologies defined in $f:\n
+             |$s
+           """.stripMargin)
+        s.headOption
+      case Success(Seq()) =>
+        log.warn(f"""No ontology found in $f""")
+        None
       case Failure(e) =>
         log.warn(e.getLocalizedMessage(), e)
         None
