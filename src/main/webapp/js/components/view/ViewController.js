@@ -58,6 +58,7 @@ const ICON = "http://topbraid.org/sparqlmotion#icon";
 const COMMENT = "http://www.w3.org/2000/01/rdf-schema#comment";
 const ANSWERS = "http://onto.fel.cvut.cz/ontologies/documentation/has_answer";
 const OBJECT_VALUE = "http://onto.fel.cvut.cz/ontologies/documentation/has_object_value";
+const COMPONENT = "http://onto.fel.cvut.cz/ontologies/s-pipes-view/component";
 
 class ViewController extends React.Component {
 
@@ -286,7 +287,7 @@ class ViewController extends React.Component {
             this.setState({view: new TheGraph.fbpGraph.Graph()});
             data.data[NODE].map(n => {
                 if (n[TYPE] !== undefined)
-                    this.state.view.addNode(n["@id"], this._findComponent(n), {
+                    this.state.view.addNode(n["@id"], n[COMPONENT], {
                         label: n[LABEL] === undefined ?
                             n["@id"].toString().split("/").reverse()[0] :
                             n[LABEL],
@@ -298,7 +299,7 @@ class ViewController extends React.Component {
             data.data[EDGE].map(e => {
                 if (e[SOURCE_NODE][TYPE] !== undefined) {
                     let n = e[SOURCE_NODE];
-                    this.state.view.addNode(n["@id"], this._findComponent(n), {
+                    this.state.view.addNode(n["@id"], n[COMPONENT], {
                         label: n[LABEL] === undefined ?
                             n["@id"].toString().split("/").reverse()[0] :
                             n[LABEL],
@@ -309,7 +310,7 @@ class ViewController extends React.Component {
                 }
                 if (e[DESTINATION_NODE][TYPE] !== undefined) {
                     let n = e[DESTINATION_NODE];
-                    this.state.view.addNode(n["@id"], this._findComponent(n), {
+                    this.state.view.addNode(n["@id"], n[COMPONENT], {
                         label: n[LABEL] === undefined ?
                             n["@id"].toString().split("/").reverse()[0] :
                             n[LABEL],
@@ -408,10 +409,6 @@ class ViewController extends React.Component {
     closeModal() {
         this.setState({modalVisible: false});
     };
-
-    _findComponent(node) {
-        return node[TYPE].filter(t => this.state.library[t] !== undefined)[0];
-    }
 
     onMessageReceived() {
         this.setState({modalVisible: true});

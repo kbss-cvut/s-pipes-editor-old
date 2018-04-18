@@ -1,6 +1,6 @@
 package cz.cvut.kbss.spipes.test.service
 
-import cz.cvut.kbss.spipes.model.spipes.Module
+import cz.cvut.kbss.spipes.model.spipes.{Module, ModuleType}
 import cz.cvut.kbss.spipes.model.view.{Edge, Node}
 import cz.cvut.kbss.spipes.persistence.dao.{ScriptDao, ViewDao}
 import cz.cvut.kbss.spipes.service.{ScriptService, ViewService}
@@ -67,6 +67,7 @@ class ViewServiceTest {
     val m = new Module()
     m.setLabel("Label")
     m.setTypes(Set("Type").asJava)
+    m.setSpecificType(new ModuleType())
     when(scriptService.getModules(fileName))
       .thenReturn(Right(Some(List[Module](m))))
     val res = service.newViewFromSpipes(fileName)

@@ -40,6 +40,10 @@ sm:next a owl:ObjectProperty , rdf:Property ;
     rdfs:domain sm:Modules ;
     rdfs:range sm:Modules .
 
+sm:specific-type a owl:ObjectProperty , rdf:Property ;
+    rdfs:domain sm:Modules ;
+    rdfs:range sm:Module .
+
 sp-view:has-author a owl:ObjectProperty ;
     rdfs:domain sp-view:view ;
     rdfs:range foaf:Person .
@@ -122,6 +126,10 @@ sm:icon a owl:DatatypeProperty ;
 sp-view:has-module-type a owl:DatatypeProperty ;
  	rdfs:domain sp-view:node ;
  	rdfs:range xsd:string .
+
+sp-view:component a owl:DatatypeProperty ;
+    rdfs:domain sp-view:node ;
+    rdfs:range xsd:string .
 
 sp:has-script-path a owl:DatatypeProperty ;
     rdfs:domain sp:script-dto ;
