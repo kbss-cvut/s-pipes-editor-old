@@ -51,6 +51,10 @@ class Scripts extends React.Component {
     }
 
     _scriptsLoaded(scripts) {
+        if (scripts == null) {
+            this.setState({loading: false});
+            return;
+        }
         Object.keys(scripts).forEach(k => {
             const newkey = scripts[k][RELATIVE_PATH];
             scripts[newkey] = scripts[k];
