@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
 import org.springframework.web.bind.annotation._
 
-import scala.collection.JavaConverters.{seqAsJavaListConverter, setAsJavaSetConverter}
+import scala.collection.JavaConverters.seqAsJavaListConverter
 import scala.util.{Failure, Success}
 
 /**
@@ -31,8 +31,8 @@ class ScriptController extends Logger[ScriptController] {
         log.error(e.getLocalizedMessage(), e)
         new ResponseEntity(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
       case Right(None) =>
-        log.info("No module types found for script " + script)
-        new ResponseEntity(HttpStatus.NOT_FOUND)
+        log.info(f"""No module types found for script $script""")
+        new ResponseEntity(f"""No module types found for script $script""", HttpStatus.NOT_FOUND)
       case Right(Some(types)) =>
         log.info("Found module types for script " + script)
         log.trace(types)

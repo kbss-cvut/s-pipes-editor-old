@@ -73,13 +73,13 @@ const Ajax = {
                         Routing.transitionTo(Routes.login);
                     }
                     if (onError) {
-                        onError();
+                        onError(err);
                     }
                     return;
                 }
                 try {
                     if (onError) {
-                        onError();
+                        onError(err);
                     }
                     this._handleError(err);
                 } catch (ex) {

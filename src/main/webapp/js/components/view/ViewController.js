@@ -70,6 +70,7 @@ class ViewController extends React.Component {
         super(props);
         this.i18n = this.props.i18n;
         this.state = {
+            error: null,
             moduleTypes: null,
             view: null,
             moduleId: null,
@@ -151,6 +152,8 @@ class ViewController extends React.Component {
             return (
                 <Mask/>
             );
+        if (this.state.error)
+            return <div>{this.state.error}</div>;
         let handlers = {
             onCancel: this._onCancel,
             onChange: this._onChange,
@@ -249,6 +252,10 @@ class ViewController extends React.Component {
 
     _moduleTypesLoaded = (data) => {
         if (data.action === Actions.loadAllModuleTypes) {
+            if (data.data.status) {
+                this.setState({loading: false, error: data.data.status + " " + data.data.response.body});
+                return;
+            }
             this.setState({moduleTypes: data.data});
             this.state.moduleTypes.map((m) => {
                 this.state.library[m["@id"]] = {
