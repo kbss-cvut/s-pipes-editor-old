@@ -69,8 +69,17 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManag
         , classOf[ModuleType])
         .setParameter("module", module.getUri())
       val ts = q.getResultList()
-      if (!ts.isEmpty())
+      if (ts.size() > 1)
+        log.warn(
+          f"""More than one most specific type found for module ${module.getUri()}:
+             |$ts
+           """.stripMargin)
+      if (!ts.isEmpty()) {
         module.setSpecificType(ts.get(0))
+        log.info(f"""Most specific type for module ${module.getUri()} is ${ts.get(0).getUri()}""")
+      }
+      else
+        log.error(f"""Module ${module.getUri()} has no most specific type""")
     })
     modules
   }
