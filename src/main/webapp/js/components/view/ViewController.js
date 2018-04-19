@@ -291,6 +291,9 @@ class ViewController extends React.Component {
 
     _viewLoaded = (data) => {
         if (data.action === Actions.loadView) {
+            if (data.data.status) {
+                this.setState({loading: false, error: data.data.status + " " + data.data.response.body});
+            }
             this.setState({view: new TheGraph.fbpGraph.Graph()});
             data.data[NODE].map(n => {
                 if (n[TYPE] !== undefined)
