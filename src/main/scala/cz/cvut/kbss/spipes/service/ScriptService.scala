@@ -64,7 +64,7 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
   }
 
   def getScripts: Option[Seq[ScriptDTO]] = {
-    scriptDao.getScriptsWithImports(true) match {
+    scriptDao.getScriptsWithImports match {
       case Some(i) if i.nonEmpty =>
         Some(
           i.flatMap(

@@ -104,18 +104,18 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManag
     }
   }
 
-  def getScriptsWithImports(ignore: Boolean): Option[Set[(File, Set[File])]] = {
+  def getScriptsWithImports: Option[Set[(File, Set[File])]] = {
     val scriptsPaths = discoverLocations
     log.info("Looking for any scripts in " + scriptsPaths.mkString("[", ",", "]"))
-    scriptsPaths.toSet.map((f: File) => f -> find(f, Set(), ignore)).filter(_._2.nonEmpty) match {
+    scriptsPaths.toSet.map((f: File) => f -> find(f, Set())).filter(_._2.nonEmpty) match {
       case i if i.nonEmpty =>
         Some(i)
       case _ => None
     }
   }
 
-  private def find(root: File, acc: Set[File], ignore: Boolean = false): Set[File] =
-    if (ignore && ignored.contains(root)) {
+  private def find(root: File, acc: Set[File]): Set[File] =
+    if (ignored.contains(root)) {
       log.info(f"""Ignoring $root""")
       acc
     }
@@ -124,7 +124,7 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManag
         acc + root
       else if (root.isDirectory())
         root.listFiles() match {
-          case s if s.nonEmpty => s.map((f) => find(f, acc, ignore)).reduceLeft(_ ++ _)
+          case s if s.nonEmpty => s.map((f) => find(f, acc)).reduceLeft(_ ++ _)
           case _ => acc
         }
       else

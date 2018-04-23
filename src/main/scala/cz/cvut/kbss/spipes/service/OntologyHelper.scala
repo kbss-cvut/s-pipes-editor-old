@@ -60,7 +60,7 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
       })
   }
 
-  def getFile(ontologyUri: String): Option[File] = scriptDao.getScriptsWithImports(false)
+  def getFile(ontologyUri: String): Option[File] = scriptDao.getScriptsWithImports
     .map(s => collectOntologyUris(s.flatMap(_._2))(ontologyUri))
 
   def createUnionModel(file: File): Try[OntModel] = scriptDao.getScripts.map(_ -> getOntologyUri(file)) match {
