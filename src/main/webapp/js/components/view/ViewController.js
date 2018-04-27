@@ -82,7 +82,7 @@ class ViewController extends React.Component {
             modalVisible: false,
             formVisible: false,
             record: EntityFactory.initNewPatientRecord(),
-            socket: new WebSocket("ws://" + window.location.host + window.location.pathname + "websocket"),
+            fsNotificationSocket: new WebSocket("ws://" + window.location.host + window.location.pathname + "notifications"),
             contextMenus: {
                 main: null,
                 selection: null,
@@ -143,8 +143,8 @@ class ViewController extends React.Component {
         };
         if (!(Object.keys(props.location.query).length === 0))
             this.state.view = JSON.parse(localStorage.getItem(props.location.query["q"]));
-        this.state.socket.onmessage = () => this.onMessageReceived();
-        this.state.socket.onopen = () => this.state.socket.send(this._getScript());
+        this.state.fsNotificationSocket.onmessage = () => this.onNotificationReceived();
+        this.state.fsNotificationSocket.onopen = () => this.state.fsNotificationSocket.send(this._getScript());
     };
 
     render() {
@@ -420,7 +420,7 @@ class ViewController extends React.Component {
         this.setState({modalVisible: false});
     };
 
-    onMessageReceived() {
+    onNotificationReceived() {
         this.setState({modalVisible: true});
     };
 

@@ -7,7 +7,7 @@ import cz.cvut.kbss.spipes.model.dto.ScriptDTO
 import cz.cvut.kbss.spipes.model.spipes.{Module, ModuleType}
 import cz.cvut.kbss.spipes.persistence.dao.ScriptDao
 import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager}
-import cz.cvut.kbss.spipes.websocket.WebsocketController
+import cz.cvut.kbss.spipes.websocket.NotificationController
 import org.apache.jena.rdf.model.ModelFactory
 import org.apache.jena.rdf.model.impl.PropertyImpl
 import org.springframework.beans.factory.annotation.Autowired
@@ -108,7 +108,7 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
         cleanly(new FileOutputStream(file))(_.close())(os => {
           m.write(os, "TTL")
         })
-          .map(_ => WebsocketController.notify(scriptPath))
+          .map(_ => NotificationController.notify(scriptPath))
       case f => f
     }
   }
@@ -123,7 +123,7 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
         cleanly(new FileOutputStream(file))(_.close())(os => {
           m.write(os, "TTL")
         })
-          .map(_ => WebsocketController.notify(scriptPath))
+          .map(_ => NotificationController.notify(scriptPath))
       case f => f
     }
   }

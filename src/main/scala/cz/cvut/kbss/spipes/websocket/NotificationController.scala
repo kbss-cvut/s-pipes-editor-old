@@ -22,8 +22,8 @@ import scala.util.{Failure, Try}
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 16.07.2017.
   */
 @Controller
-@ServerEndpoint(value = "/websocket", configurator = classOf[SpringConfigurator])
-class WebsocketController extends InitializingBean with PropertySource with Logger[WebsocketController] with ResourceManager with ScriptManager {
+@ServerEndpoint(value = "/notifications", configurator = classOf[SpringConfigurator])
+class NotificationController extends InitializingBean with PropertySource with Logger[NotificationController] with ResourceManager with ScriptManager {
 
   @Autowired
   private var dao: ScriptDao = _
@@ -37,11 +37,11 @@ class WebsocketController extends InitializingBean with PropertySource with Logg
   @OnClose
   def onClose(s: Session): Unit = {
     log.info("Session closed: " + s.toString())
-    WebsocketController.subscribers.find(_._2.contains(s)) match {
+    NotificationController.subscribers.find(_._2.contains(s)) match {
       case Some((script, ss)) if ss.size == 1 =>
-        WebsocketController.subscribers.remove(script)
+        NotificationController.subscribers.remove(script)
       case Some((script, ss)) =>
-        WebsocketController.subscribers(script) = ss.filterNot(_ == s)
+        NotificationController.subscribers(script) = ss.filterNot(_ == s)
       case None => ()
     }
   }
@@ -50,10 +50,10 @@ class WebsocketController extends InitializingBean with PropertySource with Logg
   def register(script: String, session: Session): Unit = {
     Try {
       log.info("Session " + session + " registered on " + script)
-      if (WebsocketController.subscribers.keySet.contains(script))
-        WebsocketController.subscribers(script) = WebsocketController.subscribers(script) + session
+      if (NotificationController.subscribers.keySet.contains(script))
+        NotificationController.subscribers(script) = NotificationController.subscribers(script) + session
       else
-        WebsocketController.subscribers(script) = Set(session)
+        NotificationController.subscribers(script) = Set(session)
     } match {
       case Failure(e) =>
         log.warn(e.getLocalizedMessage(), e.getStackTrace().mkString("\n"))
@@ -96,8 +96,8 @@ class WebsocketController extends InitializingBean with PropertySource with Logg
             .resolve(e.asInstanceOf[WatchEvent[Path]].context())
             .toAbsolutePath().toString()
           log.info("Registered FS event on " + fileName)
-          if (WebsocketController.subscribers.keySet.contains(fileName))
-            WebsocketController.notify(fileName, e)
+          if (NotificationController.subscribers.keySet.contains(fileName))
+            NotificationController.notify(fileName, e)
         })
       }
     }) match {
@@ -111,11 +111,11 @@ class WebsocketController extends InitializingBean with PropertySource with Logg
   }
 }
 
-object WebsocketController extends Logger[WebsocketController] {
+object NotificationController extends Logger[NotificationController] {
   private val subscribers = mutable.ParHashMap[String, Set[Session]]()
 
   def notify(filePath: String, e: WatchEvent[_]*): Unit = {
-    WebsocketController.subscribers(filePath).foreach((s) => {
+    NotificationController.subscribers(filePath).foreach((s) => {
       log.info("Sending FS event to " + s.toString())
       s.getBasicRemote().sendText(e.toString())
     })
