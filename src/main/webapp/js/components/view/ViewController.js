@@ -83,6 +83,8 @@ class ViewController extends React.Component {
             formVisible: false,
             record: EntityFactory.initNewPatientRecord(),
             fsNotificationSocket: new WebSocket("ws://" + window.location.host + window.location.pathname + "notifications"),
+            executionRequestSocket: new WebSocket("ws://" + window.location.host + window.location.pathname + "executions/request"),
+            executionNotificationSocket: new WebSocket("ws://" + window.location.host + window.location.pathname + "executions/notify"),
             contextMenus: {
                 main: null,
                 selection: null,
@@ -215,7 +217,10 @@ class ViewController extends React.Component {
                             onClick={() => this._renderView('radial')}>{I18Store.i18n('view.layout.radial')}</Button>
                     <Button bsStyle="primary"
                             onClick={() => this._renderView('force')}>{I18Store.i18n('view.layout.force')}</Button>
-
+                    <Button bsStyle="warning"
+                            onClick={() => this.requestExecution()}>Send execution<br/>message</Button>
+                    <Button bsStyle="warning"
+                            onClick={() => this.notifyExecution()}>Notify execution</Button>
                 </ButtonGroup>
                 <Modal show={this.state.modalVisible}>
                     <Modal.Header>
@@ -419,6 +424,14 @@ class ViewController extends React.Component {
     closeModal() {
         this.setState({modalVisible: false});
     };
+
+    requestExecution() {
+        this.state.executionRequestSocket.send(this._getScript());
+    }
+
+    notifyExecution() {
+        this.state.executionNotificationSocket.send(this._getScript());
+    }
 
     onNotificationReceived() {
         this.setState({modalVisible: true});
