@@ -91,6 +91,7 @@ module.exports = {
         'view.reload': 'Obnovit',
         'view.ignore': 'Ignorovat',
         'view.module-type': 'Typ modulů',
+        'view.pipeline': 'Pipeline',
 
         'records.panel-title': 'Záznamy o pacientech',
         'records.local-name': 'Identifikátor pacienta',
@@ -101,7 +102,7 @@ module.exports = {
         'records.open-tooltip': 'Zobrazit či upravit záznam tohoto pacienta',
         'records.delete-tooltip': 'Smazat tento záznam',
 
-        'record.panel-title': 'Záznam o pacientovi {identifier}',
+        'record.panel-title': 'Konfigurace',
         'record.form-title': 'Details',
         'record.clinic': 'Pacient léčen na klinice',
         'record.created-by-msg': 'Vytvořil(a) {name} {date}.',

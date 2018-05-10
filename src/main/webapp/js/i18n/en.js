@@ -90,6 +90,7 @@ module.exports = {
         'view.reload': 'Reload',
         'view.ignore': 'Ignore',
         'view.module-type': 'Module type',
+        'view.pipeline': 'Pipeline',
 
         'records.panel-title': 'Patient records',
         'records.local-name': 'Patient identifier',
@@ -100,7 +101,7 @@ module.exports = {
         'records.open-tooltip': 'View and edit the record of this patient',
         'records.delete-tooltip': 'Delete this record',
 
-        'record.panel-title': 'Record of patient {identifier}',
+        'record.panel-title': 'Configuration',
         'record.form-title': 'Details',
         'record.clinic': 'Patient treated at',
         'record.created-by-msg': 'Created {date} by {name}.',

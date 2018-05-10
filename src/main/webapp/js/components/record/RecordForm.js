@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import {Panel} from 'react-bootstrap';
 import I18nWrapper from '../../i18n/I18nWrapper';
 import injectIntl from '../../utils/injectIntl';
 import Mask from '../Mask';
@@ -44,9 +43,7 @@ class RecordForm extends React.Component {
         if (!this.state.wizardProperties) {
             return <Mask text={this.i18n('record.form.please-wait')}/>;
         }
-        return <Panel header={<h5>{this.i18n('record.form-title')}</h5>} bsStyle='info'>
-            <Wizard steps={this.state.wizardProperties.steps} enableForwardSkip={true}/>
-        </Panel>;
+        return <Wizard steps={this.state.wizardProperties.steps} enableForwardSkip={true}/>
     }
 }
 
