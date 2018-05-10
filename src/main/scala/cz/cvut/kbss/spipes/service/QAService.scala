@@ -24,7 +24,7 @@ class QAService extends PropertySource with Logger[QAService] with ResourceManag
 
   private val transformer: Transformer = new TransformerImpl()
 
-  def generateForm(scriptPath: String, moduleUri: String, moduleTypeUri: String): Try[Question] = {
+  def generateModuleForm(scriptPath: String, moduleUri: String, moduleTypeUri: String): Try[Question] = {
     log.info("Generating form for script " + scriptPath + ", module " + moduleUri + ", moduleType " + moduleTypeUri)
     helper.createUnionModel(new File(scriptPath)).map(model => {
       val moduleType = model.listStatements(model.getResource(moduleUri), RDF.`type`, null)
@@ -45,6 +45,13 @@ class QAService extends PropertySource with Logger[QAService] with ResourceManag
       val res = transformer.form2Script(model, rootQuestion, moduleType)
       res.write(os, "TTL")
       res
+    })
+  }
+
+  def generateFunctionForm(scriptPath: String, functionUri: String): Try[Question] = {
+    log.info(s"Generating form for script $scriptPath, function $functionUri")
+    helper.createUnionModel(new File(scriptPath)).map(model => {
+      transformer.functionToForm(model, model.getResource(functionUri))
     })
   }
 }

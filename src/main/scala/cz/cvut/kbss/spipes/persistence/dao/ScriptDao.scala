@@ -11,7 +11,8 @@ import cz.cvut.kbss.spipes.model.Vocabulary._
 import cz.cvut.kbss.spipes.model.spipes.{Module, ModuleType}
 import cz.cvut.kbss.spipes.util._
 import javax.annotation.PostConstruct
-import org.apache.jena.rdf.model.{Model, ModelFactory}
+import org.apache.jena.rdf.model._
+import org.apache.jena.vocabulary.RDF
 import org.springframework.stereotype.Repository
 
 import scala.collection.JavaConverters._
@@ -94,6 +95,9 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManag
       .setParameter("type", URI.create(s_c_Module))
     query.getResultList()
   }
+
+  def getFunctionStatements(m: Model): Try[StmtIterator] = Try(
+    m.listStatements(null, RDF.`type`, m.createResource("http://topbraid.org/sparqlmotion#Function")))
 
   def getScripts: Option[Set[File]] = {
     val scriptsPaths = discoverLocations

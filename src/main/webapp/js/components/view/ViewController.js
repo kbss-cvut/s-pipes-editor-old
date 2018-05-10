@@ -2,6 +2,7 @@
  * Created by yan on 19.06.17.
  */
 
+
 'use strict';
 
 import Actions from '../../actions/Actions';
@@ -26,9 +27,11 @@ import Hammer from 'hammerjs';
 import Routes from '../../utils/Routes';
 import Routing from '../../utils/Routing';
 import ModuleTypeStore from '../../stores/ModuleTypeStore';
+import ScriptStore from '../../stores/ScriptStore';
 import ModuleStore from '../../stores/ModuleStore';
 import ViewStore from '../../stores/ViewStore';
 import QAStore from '../../stores/QAStore';
+import FunctionList from '../typeahead/FunctionList';
 
 function fixTheGraphGlobalDependece() {
     window.React = React;
@@ -45,6 +48,7 @@ let defaultLayout = 'layered';
 let that;
 let record;
 let moduleTypeAhead;
+let functionTypeAhead;
 
 const TYPE = "http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-module-type";
 const LABEL = "http://www.w3.org/2000/01/rdf-schema#label";
@@ -59,6 +63,8 @@ const COMMENT = "http://www.w3.org/2000/01/rdf-schema#comment";
 const ANSWERS = "http://onto.fel.cvut.cz/ontologies/documentation/has_answer";
 const OBJECT_VALUE = "http://onto.fel.cvut.cz/ontologies/documentation/has_object_value";
 const COMPONENT = "http://onto.fel.cvut.cz/ontologies/s-pipes-view/component";
+const FUNCTION_LOCAL_NAME = "http://onto.fel.cvut.cz/ontologies/s-pipes/has-function-local-name";
+const FUNCTION_URI = "http://onto.fel.cvut.cz/ontologies/s-pipes/has-function-uri";
 
 class ViewController extends React.Component {
 
@@ -72,8 +78,10 @@ class ViewController extends React.Component {
         this.state = {
             error: null,
             moduleTypes: null,
+            functions: null,
             view: null,
             moduleId: null,
+            functionUri: null,
             type: null,
             coordinates: null,
             loading: true,
@@ -83,8 +91,8 @@ class ViewController extends React.Component {
             formVisible: false,
             record: EntityFactory.initNewPatientRecord(),
             fsNotificationSocket: new WebSocket("ws://" + window.location.host + window.location.pathname + "notifications"),
-            executionRequestSocket: new WebSocket("ws://" + window.location.host + window.location.pathname + "executions/request"),
-            executionNotificationSocket: new WebSocket("ws://" + window.location.host + window.location.pathname + "executions/notify"),
+            // executionRequestSocket: new WebSocket("ws://" + window.location.host + window.location.pathname + "executions/request"),
+            // executionNotificationSocket: new WebSocket("ws://" + window.location.host + window.location.pathname + "executions/notify"),
             contextMenus: {
                 main: null,
                 selection: null,
@@ -159,7 +167,7 @@ class ViewController extends React.Component {
         let handlers = {
             onCancel: this._onCancel,
             onChange: this._onChange,
-            onSave: this._onSave
+            onSave: this.state.functionUri == null ? this._mergeModuleForm : this._mergeFunctionForm
         };
         record = <Record
             ref={(c) => this.recordComponent = c}
@@ -168,6 +176,7 @@ class ViewController extends React.Component {
             script={this._getScript()}
             moduleType={this.state.type}
             module={this.state.moduleId}
+            functionUri={this.state.functionUri}
             loading={this.state.loading}/>;
         moduleTypeAhead = <Typeahead
             allowReset={true}
@@ -179,10 +188,24 @@ class ViewController extends React.Component {
             placeholder={I18Store.i18n('view.module-type')}
             customListComponent={ModuleTypeList}
         />;
+        functionTypeAhead = undefined;
+        if (this.state.functions != null)
+            functionTypeAhead = <Typeahead
+                allowReset={true}
+                options={this.state.functions}
+                displayOption={FUNCTION_LOCAL_NAME}
+                filterOption={FUNCTION_URI}
+                optionsButton={true}
+                placeholder={I18Store.i18n('view.pipeline')}
+                onOptionSelected={o => this.openFunctionDetails(o[FUNCTION_URI])}
+                customListComponent={FunctionList}
+            />;
+
         return (
             <div id="main">
                 <ButtonGroup vertical id="module-typeahead">
                     {moduleTypeAhead}
+                    {functionTypeAhead}
                 </ButtonGroup>
                 <div id="view">
                     <div id="editor"/>
@@ -250,6 +273,7 @@ class ViewController extends React.Component {
     componentDidMount() {
         that = this;
         this.unsubscribeModuleTypes = ModuleTypeStore.listen(this._moduleTypesLoaded);
+        this.unsubscribeFunctions = ScriptStore.listen(this._functionsLoaded);
         this.unsubscribeModules = ModuleStore.listen(this._moduleTypesLoaded);
         this.unsubscribeView = ViewStore.listen(this._viewLoaded);
         this.unsubscribeQA = QAStore.listen(this._onCancel)
@@ -275,12 +299,22 @@ class ViewController extends React.Component {
                     ]
                 };
             });
-            this.setState({loading: false});
-            if (this.state.view === null)
-                Actions.loadView(this._getScript());
-            else
-                this.loadViewFromData(this.state.view);
+            Actions.listFunctions(this._getScript());
         }
+    };
+
+    _functionsLoaded = (data) => {
+        this.setState({loading: false});
+        if (!data.data.status) {
+            this.setState({functions: data.data});
+        }
+        else {
+            this.setState({functions: null});
+        }
+        if (this.state.view === null)
+            Actions.loadView(this._getScript());
+        else
+            this.loadViewFromData(this.state.view);
     };
 
     loadViewFromData(data) {
@@ -355,12 +389,18 @@ class ViewController extends React.Component {
         }
     };
 
-    _onSave = () => {
+    _mergeModuleForm = () => {
         const formData = this.recordComponent.refs.wrappedInstance.getWrappedComponent().getFormData();
         const uriQ = Utils.findByOrigin(formData, "http://www.w3.org/2000/01/rdf-schema#Resource");
         const uri = uriQ[ANSWERS][0][OBJECT_VALUE]["@id"];
-        Actions.saveForm(this._getScript(), uri, this.state.type, formData);
+        Actions.saveModuleForm(this._getScript(), uri, this.state.type, formData);
         this.setState({formVisible: false, type: null, moduleId: null, coordinates: null});
+    };
+
+    _mergeFunctionForm = () => {
+        const formData = this.recordComponent.refs.wrappedInstance.getWrappedComponent().getFormData();
+        Actions.saveFunctionForm(this._getScript(), this.state.functionUri, formData);
+        this.setState({formVisible: false, functionUri: null});
     };
 
     _onCancel = () => {
@@ -379,6 +419,7 @@ class ViewController extends React.Component {
 
     componentWillUnmount() {
         this.unsubscribeModuleTypes();
+        this.unsubscribeFunctions();
         this.unsubscribeModules();
         this.unsubscribeView();
     };
@@ -388,7 +429,17 @@ class ViewController extends React.Component {
         this.setState({
             moduleId: moduleId,
             type: moduleType,
+            functionUri: null,
             coordinates: coordinates,
+            formVisible: true
+        });
+    };
+
+    openFunctionDetails(functionUri) {
+        this.setState({
+            moduleId: null,
+            type: null,
+            functionUri: functionUri,
             formVisible: true
         });
     };
@@ -435,6 +486,11 @@ class ViewController extends React.Component {
 
     onNotificationReceived() {
         this.setState({modalVisible: true});
+    };
+
+
+    onUpdateModules(moduleId) {
+        console.log(moduleId);
     };
 
     // TODO Find some actually usable layouts
@@ -507,6 +563,9 @@ class ViewController extends React.Component {
             TheGraph.thumb.render(context, that.state.view, properties);
 
             ReactDOM.render(element, editor);
+
+            // editor.addErrorNode("http://onto.fel.cvut.cz/ontologies/dataset-descriptor/descriptor-script/construct-descriptor-metadata");
+            // editor.updateErrorNodes();
         }
 
         that.state.view.on('endTransaction', renderEditor); // graph changed

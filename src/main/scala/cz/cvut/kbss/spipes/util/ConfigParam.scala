@@ -12,4 +12,5 @@ object ConfigParam extends Enumeration {
   final val SPIPES_LOCATION = ConfigValue("spipesLocation")
   final val SCRIPTS_LOCATION = ConfigValue("scriptsLocation")
   final val DEFAULT_CONTEXT = ConfigValue("defaultContext")
+  final val EXECUTION_ENDPOINT = ConfigValue("executionEndpoint")
 }

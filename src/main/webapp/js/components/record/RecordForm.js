@@ -22,12 +22,18 @@ class RecordForm extends React.Component {
     }
 
     componentDidMount() {
-        WizardBuilder.generateWizard(this.props.script, this.props.module, this.props.moduleType, this.props.record, this.onWizardReady);
+        if (this.props.functionUri != null)
+            WizardBuilder.generateFunctionWizard(this.props.script, this.props.functionUri, this.props.record, this.onWizardReady);
+        else
+            WizardBuilder.generateWizard(this.props.script, this.props.module, this.props.moduleType, this.props.record, this.onWizardReady);
     }
 
     componentWillReceiveProps(nextProps) {
         if (this.props.record.question !== nextProps.record.question) {
-            WizardBuilder.generateWizard(this.props.script, this.props.module, this.props.moduleType, nextProps.record, this.onWizardReady);
+            if (this.props.functionUri != null)
+                WizardBuilder.generateFunctionWizard(this.props.script, this.props.functionUri, this.props.record, this.onWizardReady);
+            else
+                WizardBuilder.generateWizard(this.props.script, this.props.module, this.props.moduleType, nextProps.record, this.onWizardReady);
         }
     }
 

@@ -33,4 +33,21 @@ export default class WizardBuilder {
             Logger.error('Received no valid wizard.');
         });
     }
+
+    static generateFunctionWizard(script, functionUri, record, renderCallback) {
+        const request = {};
+        request["@type"] = QUESTION_DTO;
+        request[MODULE_URI] = functionUri;
+        request[SCRIPT_PATH] = script;
+        Ajax.post("rest/scripts/functions/forms", request).end((data) => {
+            Configuration.actions = Actions;
+            Configuration.wizardStore = WizardStore;
+            Configuration.optionsStore = FormGenStore;
+            Configuration.intl = I18nStore.getIntl();
+            Configuration.typeaheadResultList = TypeaheadResultList;
+            WizardGenerator.createWizard(data, record.question, null, renderCallback);
+        }, () => {
+            Logger.error('Received no valid wizard.');
+        });
+    }
 };

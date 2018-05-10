@@ -3,7 +3,7 @@ package cz.cvut.kbss.spipes.service
 import java.io.{File, FileOutputStream}
 
 import cz.cvut.kbss.spipes.model.Vocabulary
-import cz.cvut.kbss.spipes.model.dto.ScriptDTO
+import cz.cvut.kbss.spipes.model.dto.{FunctionDTO, ScriptDTO}
 import cz.cvut.kbss.spipes.model.spipes.{Module, ModuleType}
 import cz.cvut.kbss.spipes.persistence.dao.ScriptDao
 import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager}
@@ -27,6 +27,25 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
 
   @Autowired
   private var scriptDao: ScriptDao = _
+
+  def getFunctions(filePath: String): Either[Throwable, Option[Traversable[FunctionDTO]]] = {
+    log.info(f"""Looking for functions in $filePath""")
+    scriptDao.getFunctionStatements(ModelFactory.createDefaultModel().read(filePath)) match {
+      case Success(i) if i.hasNext() =>
+        log.info(f"""Functions found in $filePath""")
+        Right(Some(i.asScala.map(st => {
+          val s = st.getSubject()
+          new FunctionDTO(s.getURI(), s.getLocalName())
+        })
+          .toStream))
+      case Success(_) =>
+        log.warn(f"""Functions not found in $filePath""")
+        Right(None)
+      case Failure(e) =>
+        log.error(e.getLocalizedMessage(), e)
+        Left(e)
+    }
+  }
 
   def getModules(filePath: String): Either[Throwable, Option[Traversable[Module]]] = {
     log.info(f"""Looking for modules in $filePath""")

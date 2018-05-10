@@ -22,6 +22,24 @@ class ScriptController extends Logger[ScriptController] {
   @Autowired
   private var service: ScriptService = _
 
+  @PostMapping(path = Array("/functions"), produces = Array(JsonLd.MEDIA_TYPE))
+  def getFunctions(@RequestBody dto: ScriptDTO): ResponseEntity[Any] = {
+    val script = dto.getAbsolutePath()
+    log.info("Looking for functions of script " + script)
+    service.getFunctions(script) match {
+      case Left(e) =>
+        log.error(e.getLocalizedMessage(), e)
+        new ResponseEntity(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
+      case Right(None) =>
+        log.info(f"""No functions found for script $script""")
+        new ResponseEntity(f"""No functions found for script $script""", HttpStatus.NOT_FOUND)
+      case Right(Some(types)) =>
+        log.info("Found functions for script " + script)
+        log.trace(types)
+        new ResponseEntity(types.toList.sortBy(_.getFunctionLocalName()).asJava, HttpStatus.OK)
+    }
+  }
+
   @PostMapping(path = Array("/moduleTypes"), produces = Array(JsonLd.MEDIA_TYPE))
   def getModuleTypes(@RequestBody dto: ScriptDTO): ResponseEntity[Any] = {
     val script = dto.getAbsolutePath()

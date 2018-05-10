@@ -51,6 +51,7 @@ class Record extends React.Component {
             script={this.props.script}
             moduleType={this.props.moduleType}
             module={this.props.module}
+            functionUri={this.props.functionUri}
             ref={(c) => this.form = c}
             record={this.props.record}/>;
     }

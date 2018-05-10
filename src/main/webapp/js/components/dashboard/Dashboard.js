@@ -67,13 +67,6 @@ let Dashboard = React.createClass({
         return <Grid fluid={true}>
             <Row>
                 <Col xs={3} className='dashboard-sector'>
-                    <Tile onClick={this.props.handlers.createRecord}>{this.i18n('dashboard.create-tile')}</Tile>
-                </Col>
-                {this._renderUsersTile()}
-                <Col xs={3} className='dashboard-sector'>
-                    <Tile onClick={this.props.handlers.showUsers}>{this.i18n('dashboard.users-tile')}</Tile>
-                </Col>
-                <Col xs={3} className='dashboard-sector'>
                     <Tile onClick={this.props.handlers.showScripts}>{this.i18n('dashboard.views-tile')}</Tile>
                 </Col>
             </Row>
