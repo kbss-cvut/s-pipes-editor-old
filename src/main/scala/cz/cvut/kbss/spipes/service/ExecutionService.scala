@@ -41,18 +41,17 @@ class ExecutionService extends PropertySource {
       .toMap
 
     val urlWithQuery = prepareUri(e, params)
-    executionId -> t.exchange(urlWithQuery, HttpMethod.GET, new HttpEntity(), classOf[String]).getStatusCode()
+    executionId -> t.exchange(urlWithQuery, HttpMethod.GET, HttpEntity.EMPTY, classOf[String]).getStatusCode()
   }
 
 
   private def prepareUri(remoteUrl: String, queryParams: Map[String, String]) = {
     val sb = new StringBuilder(remoteUrl)
     var containsQueryString = remoteUrl.matches("^.+\\?.+=.+$")
-    import scala.collection.JavaConversions._
-    for (e <- queryParams.entrySet) {
+    for ((k, v) <- queryParams) {
       sb.append(if (!containsQueryString) '?'
       else '&')
-      sb.append(e.getKey).append('=').append(e.getValue)
+      sb.append(k).append('=').append(v)
       containsQueryString = true
     }
     URI.create(sb.toString)
