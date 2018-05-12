@@ -61,9 +61,9 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
   }
 
   def getFile(ontologyUri: String): Option[File] = scriptDao.getScriptsWithImports
-    .map(s => collectOntologyUris(s.flatMap(_._2))(ontologyUri))
+    .flatMap(s => collectOntologyUris(s.flatMap(_._2)).get(ontologyUri))
 
-  def createUnionModel(file: File): Try[OntModel] = scriptDao.getScripts.map(_ -> getOntologyUri(file)) match {
+  def createOntModel(file: File): Try[OntModel] = scriptDao.getScripts.map(_ -> getOntologyUri(file)) match {
     case None => Failure(new ScriptsNotFoundException)
     case Some((_, None)) => Failure(new OntologyNotFoundException(file))
     case Some((f, Some(o))) if f.nonEmpty =>
@@ -85,7 +85,7 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
 
   private def getFileWithStatementFilter(f: Model => Model) =
     (scriptPath: File) => {
-      createUnionModel(scriptPath).flatMap(m => {
+      createOntModel(scriptPath).flatMap(m => {
         scriptDao.getScripts match {
           case Some(scripts) =>
             val modelUri = f(m)
@@ -98,10 +98,12 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
       })
     }
 
+  def getOntologyURI(m: Model): String = m.listStatements(null, RDF.`type`, OWL.Ontology).next().getSubject().getURI()
+
   private def getOntDocumentManager(scripts: Set[File]) = {
     val docManager = OntDocumentManager.getInstance()
     docManager.clearCache()
-    docManager.setReadFailureHandler((s: String, model: Model, e: Exception) => e match {
+    docManager.setReadFailureHandler((s: String, _: Model, e: Exception) => e match {
       case ex: HttpException if ex.getResponseCode() == 404 =>
         log.warn(f"""Imported ontology $s not found""")
       case ex =>

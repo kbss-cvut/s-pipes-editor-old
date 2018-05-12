@@ -33,7 +33,7 @@ class OntologyHelperTest {
   @Ignore
   @Test
   def createModelFileNotFound: Unit = {
-    val res = helper.createUnionModel(new File(UUID.randomUUID().toString()))
+    val res = helper.createOntModel(new File(UUID.randomUUID().toString()))
     assertTrue(res.isFailure)
     assertEquals(classOf[FileNotFoundException].getCanonicalName(),
       res.recoverWith { case e => Success(e) }.get.getClass().getCanonicalName())
@@ -43,7 +43,7 @@ class OntologyHelperTest {
   @Test
   def createModelCreatesModel: Unit = {
     val script = getClass().getClassLoader().getResource("scripts/sample-script.ttl").getFile()
-    val res = helper.createUnionModel(new File(script))
+    val res = helper.createOntModel(new File(script))
     assertTrue(res.isSuccess)
     assertEquals(9, res.get.size())
   }

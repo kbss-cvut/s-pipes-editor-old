@@ -4,13 +4,15 @@ import java.io.{File, FileOutputStream}
 
 import cz.cvut.kbss.spipes.model.Vocabulary
 import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager}
+import cz.cvut.kbss.spipes.websocket.NotificationController
 import cz.cvut.sempipes.transform.{Transformer, TransformerImpl}
 import cz.cvut.sforms.model.Question
-import org.apache.jena.rdf.model.{Model, ModelFactory, Resource}
+import org.apache.jena.rdf.model.Resource
 import org.apache.jena.vocabulary.RDF
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
+import scala.collection.JavaConverters._
 import scala.util.Try
 
 /**
@@ -26,7 +28,7 @@ class QAService extends PropertySource with Logger[QAService] with ResourceManag
 
   def generateModuleForm(scriptPath: String, moduleUri: String, moduleTypeUri: String): Try[Question] = {
     log.info("Generating form for script " + scriptPath + ", module " + moduleUri + ", moduleType " + moduleTypeUri)
-    helper.createUnionModel(new File(scriptPath)).map(model => {
+    helper.createOntModel(new File(scriptPath)).map(model => {
       val moduleType = model.listStatements(model.getResource(moduleUri), RDF.`type`, null)
         .filterDrop(_.getObject().asResource().getURI() == Vocabulary.s_c_Modules).nextOptional()
       transformer.script2Form(
@@ -37,20 +39,27 @@ class QAService extends PropertySource with Logger[QAService] with ResourceManag
     })
   }
 
-  def mergeForm(scriptPath: String, rootQuestion: Question, moduleType: String): Try[Model] = {
+  def mergeForm(scriptPath: String, rootQuestion: Question, moduleType: String): Try[_] = {
     log.info("Merging form for script " + scriptPath)
-    val fileName = scriptPath
-    val model = ModelFactory.createDefaultModel().read(fileName)
-    cleanly(new FileOutputStream(fileName))(_.close())(os => {
+    helper.createOntModel(new File(scriptPath)).map(model => {
+      log.info(s"Ont model for $scriptPath created")
       val res = transformer.form2Script(model, rootQuestion, moduleType)
-      res.write(os, "TTL")
-      res
+      log.info(s"Created updated ont model for $scriptPath")
+      res.asScala.map(m => {
+        helper.getFile(helper.getOntologyURI(m)).map(f =>
+          cleanly(new FileOutputStream(f))(_.close())(os => {
+            log.info(s"Writing model to file $f")
+            m.write(os, "TTL")
+          }
+          ))
+      })
+        .map(_ => NotificationController.notify(scriptPath))
     })
   }
 
   def generateFunctionForm(scriptPath: String, functionUri: String): Try[Question] = {
     log.info(s"Generating form for script $scriptPath, function $functionUri")
-    helper.createUnionModel(new File(scriptPath)).map(model => {
+    helper.createOntModel(new File(scriptPath)).map(model => {
       transformer.functionToForm(model, model.getResource(functionUri))
     })
   }
