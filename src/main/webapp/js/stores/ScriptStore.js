@@ -40,7 +40,7 @@ const ScriptStore = Reflux.createStore({
     onCreateDependency: function (script, from, to) {
         const request = {};
         request["@type"] = DEPENDENCY_DTO;
-        request[SCRIPT_PATH] = script;
+        request[ABSOLUTE_PATH] = script;
         request[FROM] = from;
         request[TO] = to;
         Ajax.post("rest/scripts/modules/dependency", request).end();
@@ -49,7 +49,7 @@ const ScriptStore = Reflux.createStore({
     onDeleteDependency: function (script, from, to) {
         const request = {};
         request["@type"] = DEPENDENCY_DTO;
-        request[SCRIPT_PATH] = script;
+        request[ABSOLUTE_PATH] = script;
         request[FROM] = from;
         request[TO] = to;
         Ajax.post("rest/scripts/modules/dependencies/delete", request).end();
