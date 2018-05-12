@@ -240,10 +240,10 @@ class ViewController extends React.Component {
                             onClick={() => this._renderView('radial')}>{I18Store.i18n('view.layout.radial')}</Button>
                     <Button bsStyle="primary"
                             onClick={() => this._renderView('force')}>{I18Store.i18n('view.layout.force')}</Button>
-                    <Button bsStyle="warning"
+                    {/*<Button bsStyle="warning"
                             onClick={() => this.requestExecution()}>Send execution<br/>message</Button>
                     <Button bsStyle="warning"
-                            onClick={() => this.notifyExecution()}>Notify execution</Button>
+                            onClick={() => this.notifyExecution()}>Notify execution</Button>*/}
                 </ButtonGroup>
                 <Modal show={this.state.modalVisible}>
                     <Modal.Header>
