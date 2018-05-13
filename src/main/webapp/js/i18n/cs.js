@@ -91,7 +91,7 @@ module.exports = {
         'view.reload': 'Obnovit',
         'view.ignore': 'Ignorovat',
         'view.module-type': 'Typ modulů',
-        'view.pipeline': 'Pipeline',
+        'view.call-function': 'Zavolat funkce',
 
         'records.panel-title': 'Záznamy o pacientech',
         'records.local-name': 'Identifikátor pacienta',

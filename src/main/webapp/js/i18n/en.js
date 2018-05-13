@@ -46,10 +46,10 @@ module.exports = {
         'main.logout': 'Logout',
         'main.my-profile': 'My profile',
 
-        'dashboard.welcome': 'Hello {name}, Welcome to ' + Constants.APP_NAME + '.',
+        'dashboard.welcome': 'Welcome to ' + Constants.APP_NAME + '.',
         'dashboard.create-tile': 'Create record',
         'dashboard.users-tile': 'View users',
-        'dashboard.views-tile': 'Browse views',
+        'dashboard.views-tile': 'Browse scripts',
 
         'notfound.title': 'Not found',
         'notfound.msg-with-id': '{resource} with id {identifier} not found.',
@@ -89,8 +89,8 @@ module.exports = {
         'view.script-changed': 'Script has been changed. Reload view?',
         'view.reload': 'Reload',
         'view.ignore': 'Ignore',
-        'view.module-type': 'Module type',
-        'view.pipeline': 'Pipeline',
+        'view.module-type': 'Add module type',
+        'view.call-function': 'Call function',
 
         'records.panel-title': 'Patient records',
         'records.local-name': 'Patient identifier',

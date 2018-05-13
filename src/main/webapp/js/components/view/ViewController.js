@@ -196,7 +196,7 @@ class ViewController extends React.Component {
                 displayOption={FUNCTION_LOCAL_NAME}
                 filterOption={FUNCTION_URI}
                 optionsButton={true}
-                placeholder={I18Store.i18n('view.pipeline')}
+                placeholder={I18Store.i18n('view.call-function')}
                 onOptionSelected={o => this.openFunctionDetails(o[FUNCTION_URI])}
                 customListComponent={FunctionList}
             />;
