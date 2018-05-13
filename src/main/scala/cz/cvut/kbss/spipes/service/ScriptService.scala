@@ -1,6 +1,7 @@
 package cz.cvut.kbss.spipes.service
 
 import java.io.{File, FileOutputStream}
+import java.util.Collections
 
 import cz.cvut.kbss.spipes.model.Vocabulary
 import cz.cvut.kbss.spipes.model.dto.{FunctionDTO, ScriptDTO}
@@ -10,6 +11,7 @@ import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager}
 import cz.cvut.kbss.spipes.websocket.NotificationController
 import org.apache.jena.rdf.model.ModelFactory
 import org.apache.jena.rdf.model.impl.PropertyImpl
+import org.apache.jena.vocabulary.RDFS
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -35,7 +37,14 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
         log.info(f"""Functions found in $filePath""")
         Right(Some(i.asScala.map(st => {
           val s = st.getSubject()
-          new FunctionDTO(s.getURI(), s.getLocalName())
+          new FunctionDTO(
+            s.getURI(),
+            s.getLocalName(),
+            if (s.listProperties(RDFS.comment).hasNext())
+              Collections.singleton(s.listProperties(RDFS.comment).next().getString())
+            else
+              null
+          )
         })
           .toStream))
       case Success(_) =>

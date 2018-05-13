@@ -4,6 +4,8 @@ import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
 import cz.cvut.kbss.spipes.model.AbstractEntity;
 
+import java.util.Set;
+
 import static cz.cvut.kbss.spipes.model.Vocabulary.*;
 
 /**
@@ -18,12 +20,16 @@ public class FunctionDTO extends AbstractEntity {
     @OWLDataProperty(iri = s_p_has_function_uri)
     private String functionUri;
 
+    @OWLDataProperty(iri = s_p_comment)
+    private Set<String> comment;
+
     public FunctionDTO() {
     }
 
-    public FunctionDTO(String functionUri, String functionLocalName) {
+    public FunctionDTO(String functionUri, String functionLocalName, Set<String> comment) {
         this.functionLocalName = functionLocalName;
         this.functionUri = functionUri;
+        this.comment = comment;
     }
 
     public String getFunctionLocalName() {
@@ -40,5 +46,13 @@ public class FunctionDTO extends AbstractEntity {
 
     public void setFunctionUri(String functionUri) {
         this.functionUri = functionUri;
+    }
+
+    public Set<String> getComment() {
+        return comment;
+    }
+
+    public void setComment(Set<String> comment) {
+        this.comment = comment;
     }
 }
