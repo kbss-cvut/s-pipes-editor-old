@@ -32,6 +32,7 @@ import ModuleStore from '../../stores/ModuleStore';
 import ViewStore from '../../stores/ViewStore';
 import QAStore from '../../stores/QAStore';
 import FunctionList from '../typeahead/FunctionList';
+import ResourceNotFound from "../ResourceNotFound";
 
 function fixTheGraphGlobalDependece() {
     window.React = React;
@@ -89,10 +90,8 @@ class ViewController extends React.Component {
             viewLaidOut: false,
             modalVisible: false,
             formVisible: false,
-            record: EntityFactory.initNewPatientRecord(),
+            record: EntityFactory.initNewRecord(),
             fsNotificationSocket: new WebSocket("ws://" + window.location.host + window.location.pathname + "notifications"),
-            // executionRequestSocket: new WebSocket("ws://" + window.location.host + window.location.pathname + "executions/request"),
-            // executionNotificationSocket: new WebSocket("ws://" + window.location.host + window.location.pathname + "executions/notify"),
             contextMenus: {
                 main: null,
                 selection: null,
@@ -163,7 +162,7 @@ class ViewController extends React.Component {
                 <Mask/>
             );
         if (this.state.error)
-            return <div>{this.state.error}</div>;
+            return <ResourceNotFound resource={this.state.error}/>;
         let handlers = {
             onCancel: this._onCancel,
             onChange: this._onChange,
@@ -240,10 +239,6 @@ class ViewController extends React.Component {
                             onClick={() => this._renderView('radial')}>{I18Store.i18n('view.layout.radial')}</Button>
                     <Button bsStyle="primary"
                             onClick={() => this._renderView('force')}>{I18Store.i18n('view.layout.force')}</Button>
-                    {/*<Button bsStyle="warning"
-                            onClick={() => this.requestExecution()}>Send execution<br/>message</Button>
-                    <Button bsStyle="warning"
-                            onClick={() => this.notifyExecution()}>Notify execution</Button>*/}
                 </ButtonGroup>
                 <Modal show={this.state.modalVisible}>
                     <Modal.Header>
@@ -476,21 +471,8 @@ class ViewController extends React.Component {
         this.setState({modalVisible: false});
     };
 
-    requestExecution() {
-        this.state.executionRequestSocket.send(this._getScript());
-    }
-
-    notifyExecution() {
-        this.state.executionNotificationSocket.send(this._getScript());
-    }
-
     onNotificationReceived() {
         this.setState({modalVisible: true});
-    };
-
-
-    onUpdateModules(moduleId) {
-        console.log(moduleId);
     };
 
     // TODO Find some actually usable layouts
@@ -563,9 +545,6 @@ class ViewController extends React.Component {
             TheGraph.thumb.render(context, that.state.view, properties);
 
             ReactDOM.render(element, editor);
-
-            // editor.addErrorNode("http://onto.fel.cvut.cz/ontologies/dataset-descriptor/descriptor-script/construct-descriptor-metadata");
-            // editor.updateErrorNodes();
         }
 
         that.state.view.on('endTransaction', renderEditor); // graph changed

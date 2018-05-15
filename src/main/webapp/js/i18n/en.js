@@ -52,8 +52,7 @@ module.exports = {
         'dashboard.views-tile': 'Browse scripts',
 
         'notfound.title': 'Not found',
-        'notfound.msg-with-id': '{resource} with id {identifier} not found.',
-        'notfound.msg': '{resource} not found.',
+        'notfound.msg': '{resource}',
 
         'users.panel-title': 'Users',
         'users.create-user': 'Create user',

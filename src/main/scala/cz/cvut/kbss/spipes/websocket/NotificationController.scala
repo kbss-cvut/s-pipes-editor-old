@@ -3,12 +3,10 @@ package cz.cvut.kbss.spipes.websocket
 import java.io.File
 import java.nio.file._
 
-import cz.cvut.kbss.spipes.persistence.dao.ScriptDao
 import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager, ScriptManager}
 import javax.websocket._
 import javax.websocket.server.ServerEndpoint
 import org.springframework.beans.factory.InitializingBean
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.socket.server.standard.SpringConfigurator
 
@@ -24,9 +22,6 @@ import scala.util.{Failure, Try}
 @Controller
 @ServerEndpoint(value = "/notifications", configurator = classOf[SpringConfigurator])
 class NotificationController extends InitializingBean with PropertySource with Logger[NotificationController] with ResourceManager with ScriptManager {
-
-  @Autowired
-  private var dao: ScriptDao = _
 
   @OnError
   def onError(t: Throwable): Unit = t match {
@@ -115,7 +110,7 @@ object NotificationController extends Logger[NotificationController] {
   private val subscribers = mutable.ParHashMap[String, Set[Session]]()
 
   def notify(filePath: String, e: WatchEvent[_]*): Unit = {
-    NotificationController.subscribers(filePath).foreach((s) => {
+    NotificationController.subscribers(filePath).foreach(s => {
       log.info("Sending FS event to " + s.toString())
       s.getBasicRemote().sendText(e.toString())
     })

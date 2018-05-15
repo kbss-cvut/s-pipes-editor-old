@@ -12,15 +12,10 @@ import {IndexRoute, Route, Router} from 'react-router';
 import {addLocaleData as addLocaleData, IntlProvider} from 'react-intl';
 import {history} from './utils/Routing';
 import Routes from './utils/Routes';
-import Login from './components/login/Login';
 import MainView from './components/MainView';
 import DashboardController from './components/dashboard/DashboardController';
-import {RecordController} from './components/record/RecordController';
-import {UserController} from './components/user/UserController';
 import RoutingRules from './utils/RoutingRules';
-import {default as RecordsController} from './components/record/RecordsController';
-import {default as ViewController} from './components/view/ViewController';
-import {default as UsersController} from './components/user/UsersController';
+import ViewController from './components/view/ViewController';
 import Scripts from "./components/scripts/Scripts";
 
 let intlData = null;
@@ -32,12 +27,6 @@ function selectLocalization() {
             addLocaleData(ReactIntlLocaleData[lang]);
         });
     }
-    const lang = navigator.language;
-    // if (lang && lang === 'cs' || lang === 'cs-CZ' || lang === 'sk' || lang === 'sk-SK') {
-    //     intlData = require('./i18n/cs');
-    // } else {
-    //     intlData = require('./i18n/en');
-    // }
     intlData = require('./i18n/en');
 }
 
@@ -55,14 +44,7 @@ const App = React.createClass({
             <Router history={history}>
                 <Route path='/' component={MainView}>
                     <IndexRoute component={DashboardController}/>
-                    <Route path={Routes.login.path} onEnter={onRouteEnter} component={Login}/>
                     <Route path={Routes.dashboard.path} onEnter={onRouteEnter} component={DashboardController}/>
-                    <Route path={Routes.users.path} onEnter={onRouteEnter} component={UsersController}/>
-                    <Route path={Routes.createUser.path} onEnter={onRouteEnter} component={UserController}/>
-                    <Route path={Routes.editUser.path} onEnter={onRouteEnter} component={UserController}/>
-                    <Route path={Routes.records.path} onEnter={onRouteEnter} component={RecordsController}/>
-                    <Route path={Routes.createRecord.path} onEnter={onRouteEnter} component={RecordController}/>
-                    <Route path={Routes.editRecord.path} onEnter={onRouteEnter} component={RecordController}/>
                     <Route path={Routes.views.path} onEnter={onRouteEnter} component={ViewController}/>
                     <Route path={Routes.scripts.path} onEnter={onRouteEnter} component={Scripts}/>
                 </Route>
@@ -70,8 +52,6 @@ const App = React.createClass({
         </IntlProvider>;
     }
 });
-
-// Actions.loadCurrentUser();
 
 // Pass intl data to the top-level component
 ReactDOM.render(<App/>, document.getElementById('content'));
