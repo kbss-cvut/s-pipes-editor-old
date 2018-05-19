@@ -7,8 +7,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @base <http://www.semanticweb.org/sample-script> .
 
-<http://www.semanticweb.org/sample-script> rdf:type owl:Ontology ;
-                                            owl:imports <http://spinrdf.org/spl> .
+<http://www.semanticweb.org/sample-script> rdf:type owl:Ontology .
 
 #################################################################
 #    Individuals

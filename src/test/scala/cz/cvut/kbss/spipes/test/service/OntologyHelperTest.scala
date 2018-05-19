@@ -9,13 +9,12 @@ import cz.cvut.kbss.spipes.test.config.TestServiceConfig
 import org.apache.jena.ontology.{OntDocumentManager, OntModelSpec}
 import org.apache.jena.rdf.model.{ModelFactory, ResourceFactory}
 import org.junit.Assert.{assertEquals, _}
+import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.{Ignore, Test}
+import org.mockito.Mockito.when
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
-
-import scala.util.Success
 
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 20.03.2018.
@@ -30,22 +29,20 @@ class OntologyHelperTest {
   @Autowired
   private var helper: OntologyHelper = _
 
-  @Ignore
-  @Test
+  @Test(expected = classOf[FileNotFoundException])
   def createModelFileNotFound: Unit = {
-    val res = helper.createOntModel(new File(UUID.randomUUID().toString()))
-    assertTrue(res.isFailure)
-    assertEquals(classOf[FileNotFoundException].getCanonicalName(),
-      res.recoverWith { case e => Success(e) }.get.getClass().getCanonicalName())
+    val file = new File(UUID.randomUUID().toString())
+    when(scriptDao.getScripts).thenReturn(Some(Set(file)))
+    helper.createOntModel(file)
   }
 
-  @Ignore
   @Test
   def createModelCreatesModel: Unit = {
     val script = getClass().getClassLoader().getResource("scripts/sample-script.ttl").getFile()
+    when(scriptDao.getScripts).thenReturn(Some(Set(new File(script))))
     val res = helper.createOntModel(new File(script))
     assertTrue(res.isSuccess)
-    assertEquals(9, res.get.size())
+    assertEquals(8, res.get.size())
   }
 
   @Test
@@ -66,7 +63,6 @@ class OntologyHelperTest {
     union.listStatements()
   }
 
-  @Ignore
   @Test
   def importsTest: Unit = {
     val docManager = OntDocumentManager.getInstance()
