@@ -144,7 +144,8 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
 
   def deleteModule(scriptPath: String, module: String): Try[_] = {
     log.info(f"""Deleting module $module from $scriptPath""")
-    helper.getFileDefiningSubject(module)(new File(scriptPath)) match {
+    val f = helper.getFileDefiningSubject(module)(new File(scriptPath))
+    f match {
       case Success(file) =>
         val m = ModelFactory.createDefaultModel().read(file)
         m.removeAll(m.getResource(module), null, null)
