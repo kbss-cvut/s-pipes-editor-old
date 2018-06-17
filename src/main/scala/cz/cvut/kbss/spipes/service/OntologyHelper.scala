@@ -8,7 +8,8 @@ import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager}
 import cz.cvut.sforms.Vocabulary
 import org.apache.jena.atlas.web.HttpException
 import org.apache.jena.ontology.{OntDocumentManager, OntModel, OntModelSpec}
-import org.apache.jena.rdf.model.{Model, ModelFactory, ResourceFactory}
+import org.apache.jena.rdf.model.impl.StatementImpl
+import org.apache.jena.rdf.model.{Model, ModelFactory, ResourceFactory, Statement}
 import org.apache.jena.vocabulary.{OWL, RDF}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -76,12 +77,22 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
   def getFileDefiningSubject(uri: String): File => Try[String] =
     (scriptPath: File) => getFileWithStatementFilter(_.getResource(uri).getModel())(scriptPath)
 
-
-  def getFileDefiningTriple(s: String, p: String, o: String): File => Try[String] =
-    (scriptPath: File) => getFileWithStatementFilter(m => m.listStatements(ResourceFactory.createResource(s),
-      ResourceFactory.createProperty(p),
-      m.getResource(o)).next().getModel())(scriptPath)
-
+  def getFileDefiningTriple(s: String, p: String, o: String): File => Try[String] = {
+    scriptPath: File => {
+      createOntModel(scriptPath).flatMap(m => {
+        val st = new StatementImpl(
+          ResourceFactory.createResource(s),
+          ResourceFactory.createProperty(p),
+          m.getResource(o)
+        )
+        extractOntology(m, st, None) match {
+          case Some(model) =>
+            Success(getFile(model.listStatements(null, RDF.`type`, ResourceFactory.createResource(Vocabulary.s_c_Ontology)).nextStatement().getSubject.getURI()).get.getAbsolutePath())
+          case None => Failure(new OntologyNotFoundException(scriptPath))
+        }
+      })
+    }
+  }
 
   private def getFileWithStatementFilter(f: Model => Model) =
     (scriptPath: File) => {
@@ -113,5 +124,15 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
     val m = collectOntologyUris(scripts)
     m.foreach(p => docManager.addAltEntry(p._1, p._2.getAbsolutePath()))
     docManager
+  }
+
+  private def extractOntology(m: Model, s: Statement, res: Option[Model]): Option[Model] = {
+    if (!m.contains(s))
+      None
+    else m match {
+      case model: OntModel if model.listSubModels(true).hasNext() && model.listSubModels(true).filterKeep(_.contains(s)).hasNext =>
+        extractOntology(model.listSubModels(true).filterKeep(_.contains(s)).next(), s, res)
+      case model => Some(model)
+    }
   }
 }
