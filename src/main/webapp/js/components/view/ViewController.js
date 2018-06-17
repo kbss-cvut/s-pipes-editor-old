@@ -576,4 +576,16 @@ class ViewController extends React.Component {
     };
 }
 
+window.onresize = () => {
+    const svg = document.getElementsByTagName("svg")[0];
+    const canvas = document.getElementsByTagName("canvas")[0];
+    const content = document.getElementById("content");
+    const width = content.clientWidth - 2 * parseInt(window.getComputedStyle(content, null).getPropertyValue("padding-right"));
+    const height = content.clientHeight;
+    svg.style.width = width;
+    svg.style.height = height;
+    canvas.style.width = width;
+    canvas.style.height = height;
+};
+
 export default injectIntl(I18nWrapper(Messager(DragDropContext(HTML5Backend)(ViewController))));
