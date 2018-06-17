@@ -74,34 +74,26 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
     case _ => Failure(new ScriptsNotFoundException)
   }
 
-  def getFileDefiningSubject(uri: String): File => Try[String] = {
-    scriptPath: File => {
-      createOntModel(scriptPath).flatMap(m => {
-        extractOntology(m, None)(_.containsResource(ResourceFactory.createResource(uri))) match {
-          case Some(model) =>
-            Success(getFile(model.listStatements(null, RDF.`type`, ResourceFactory.createResource(Vocabulary.s_c_Ontology)).nextStatement().getSubject.getURI()).get.getAbsolutePath())
-          case None => Failure(new OntologyNotFoundException(scriptPath))
-        }
-      })
-    }
-  }
+  def getFileDefiningSubject(uri: String): File => Try[String] =
+    getFileForStatementFilter(_.containsResource(ResourceFactory.createResource(uri)))
 
-  def getFileDefiningTriple(s: String, p: String, o: String): File => Try[String] = {
-    scriptPath: File => {
-      createOntModel(scriptPath).flatMap(m => {
-        val st = new StatementImpl(
-          ResourceFactory.createResource(s),
-          ResourceFactory.createProperty(p),
-          m.getResource(o)
-        )
-        extractOntology(m, None)(_.contains(st)) match {
-          case Some(model) =>
-            Success(getFile(model.listStatements(null, RDF.`type`, ResourceFactory.createResource(Vocabulary.s_c_Ontology)).nextStatement().getSubject.getURI()).get.getAbsolutePath())
-          case None => Failure(new OntologyNotFoundException(scriptPath))
-        }
-      })
-    }
-  }
+  def getFileDefiningTriple(s: String, p: String, o: String): File => Try[String] =
+    getFileForStatementFilter(m => {
+      m.contains(new StatementImpl(
+        ResourceFactory.createResource(s),
+        ResourceFactory.createProperty(p),
+        m.getResource(o)
+      ))
+    })
+
+  private def getFileForStatementFilter(f: Model => Boolean) = (scriptPath: File) =>
+    createOntModel(scriptPath).flatMap(m => {
+      extractOntology(m, None)(f) match {
+        case Some(model) =>
+          Success(getFile(model.listStatements(null, RDF.`type`, ResourceFactory.createResource(Vocabulary.s_c_Ontology)).nextStatement().getSubject.getURI()).get.getAbsolutePath())
+        case None => Failure(new OntologyNotFoundException(scriptPath))
+      }
+    })
 
   def getOntologyURI(m: Model): String = m.listStatements(null, RDF.`type`, OWL.Ontology).next().getSubject().getURI()
 
@@ -123,10 +115,10 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
   private def extractOntology(m: Model, res: Option[Model]): (Model => Boolean) => Option[Model] =
     (f: Model => Boolean) =>
       if (!f(m))
-      None
-    else m match {
-      case model: OntModel if model.listSubModels(true).hasNext() && model.listSubModels(true).filterKeep(f(_)).hasNext =>
-        extractOntology(model.listSubModels(true).filterKeep(f(_)).next(), res)(f)
-      case model => Some(model)
-  }
+        None
+      else m match {
+        case model: OntModel if model.listSubModels(true).hasNext() && model.listSubModels(true).filterKeep(f(_)).hasNext =>
+          extractOntology(model.listSubModels(true).filterKeep(f(_)).next(), res)(f)
+        case model => Some(model)
+      }
 }

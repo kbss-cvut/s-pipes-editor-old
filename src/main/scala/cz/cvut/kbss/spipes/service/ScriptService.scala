@@ -130,8 +130,7 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
 
   def deleteDependency(scriptPath: String, from: String, to: String): Try[_] = {
     log.info(f"""Deleting dependency from $from to $to in $scriptPath""")
-    val f = helper.getFileDefiningTriple(from, Vocabulary.s_p_next, to)(new File(scriptPath))
-    f match {
+    helper.getFileDefiningTriple(from, Vocabulary.s_p_next, to)(new File(scriptPath)) match {
       case Success(file) =>
         val m = ModelFactory.createDefaultModel().read(file)
         cleanly(new FileOutputStream(file))(_.close())(os => {
@@ -144,8 +143,7 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
 
   def deleteModule(scriptPath: String, module: String): Try[_] = {
     log.info(f"""Deleting module $module from $scriptPath""")
-    val f = helper.getFileDefiningSubject(module)(new File(scriptPath))
-    f match {
+    helper.getFileDefiningSubject(module)(new File(scriptPath)) match {
       case Success(file) =>
         val m = ModelFactory.createDefaultModel().read(file)
         m.removeAll(m.getResource(module), null, null)
