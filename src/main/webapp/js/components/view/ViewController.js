@@ -70,6 +70,8 @@ const FUNCTION_URI = "http://onto.fel.cvut.cz/ontologies/s-pipes/has-function-ur
 class ViewController extends React.Component {
 
     _getScript() {
+        if (this.props.location === undefined || this.props.location.state === undefined || this.props.location.state.script === undefined)
+            return this.props.params.key.replace(/_/g, "/");
         return this.props.location.state.script;
     };
 

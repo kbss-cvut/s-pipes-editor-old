@@ -64,8 +64,10 @@ class Scripts extends React.Component {
     }
 
     _showView() {
-        const options = {state: {script: parent.state.scripts[this.children][ABSOLUTE_PATH]}};
-        Routing.transitionTo(Routes.views, options);
+        Routing.transitionTo(Routes.views, {
+            params: {key: parent.state.scripts[this.children][ABSOLUTE_PATH].replace(/\//g, "_")},
+            state: {script: parent.state.scripts[this.children][ABSOLUTE_PATH]}
+        });
     }
 }
 

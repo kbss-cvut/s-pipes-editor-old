@@ -9,7 +9,7 @@ const Routes = {
     records: {name: 'records', path: 'records'},
     createRecord: {name: 'createRecord', path: 'records/create'},
     editRecord: {name: 'editRecord', path: 'records/:key'},
-    views: {name: 'views', path: 'views'},
+    views: {name: 'views', path: 'views/:key'},
     scripts: {name: 'scripts', path: 'scripts'}
 };
 
