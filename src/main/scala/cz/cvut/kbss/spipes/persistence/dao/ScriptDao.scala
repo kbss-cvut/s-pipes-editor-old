@@ -8,6 +8,7 @@ import cz.cvut.kbss.jopa.Persistence
 import cz.cvut.kbss.jopa.model._
 import cz.cvut.kbss.ontodriver.jena.config.JenaOntoDriverProperties
 import cz.cvut.kbss.spipes.model.Vocabulary._
+import cz.cvut.kbss.spipes.model.dto.filetree.{FileTree, Leaf, Stub, SubTree}
 import cz.cvut.kbss.spipes.model.spipes.{Module, ModuleType}
 import cz.cvut.kbss.spipes.util._
 import javax.annotation.PostConstruct
@@ -134,4 +135,20 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManag
       else
         acc
     }
+
+
+  def getScriptsTree: Array[FileTree] = {
+
+    def toTree(f: File): FileTree =
+      if (f.isFile() && f.getName().toLowerCase().contains(".ttl")) new Leaf(f, f.getName())
+      else if (f.isDirectory()) {
+        f.listFiles().map(toTree).filterNot(_.isInstanceOf[Stub]) match {
+          case s if s.nonEmpty => new SubTree(s, f.getName())
+          case _ => new Stub()
+        }
+      }
+      else new Stub()
+
+    discoverLocations.map(toTree)
+  }
 }

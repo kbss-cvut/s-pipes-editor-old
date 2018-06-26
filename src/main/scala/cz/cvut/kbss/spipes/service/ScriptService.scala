@@ -4,7 +4,8 @@ import java.io.{File, FileOutputStream}
 import java.util.Collections
 
 import cz.cvut.kbss.spipes.model.Vocabulary
-import cz.cvut.kbss.spipes.model.dto.{FunctionDTO, ScriptDTO}
+import cz.cvut.kbss.spipes.model.dto.FunctionDTO
+import cz.cvut.kbss.spipes.model.dto.filetree.{FileTree, SubTree}
 import cz.cvut.kbss.spipes.model.spipes.{Module, ModuleType}
 import cz.cvut.kbss.spipes.persistence.dao.ScriptDao
 import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager}
@@ -91,22 +92,11 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
     }
   }
 
-  def getScripts: Option[Seq[ScriptDTO]] = {
-    scriptDao.getScriptsWithImports match {
-      case Some(i) if i.nonEmpty =>
-        Some(
-          i.flatMap(
-            p => p._2.map(
-              f => new ScriptDTO(
-                p._1.toURI().relativize(f.toURI()).getPath(),
-                f.getAbsolutePath()
-              )
-            )
-          ).toList.sortWith(_.getScriptPath() < _.getScriptPath())
-        )
-      case _ => None
+  def getScripts: FileTree =
+    scriptDao.getScriptsTree match {
+      case Array(r) => r
+      case a => new SubTree(a, "scripts")
     }
-  }
 
   def createDependency(scriptPath: String, from: String, to: String): Try[_] = {
     log.info(f"""Creating dependency from $from to $to in $scriptPath""")

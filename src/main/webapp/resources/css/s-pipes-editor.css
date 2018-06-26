@@ -562,3 +562,22 @@ div.module-type.popover {
 .form-modal.modal-dialog {
     margin: 1% auto auto auto;
 }
+
+#content div div ul {
+    background-color: transparent !important;
+    fill: #337ab7 !important;
+}
+
+#content div div ul div {
+    background-color: transparent !important;
+}
+
+#content div div ul li div div {
+    color: #337ab7 !important;
+    font-size: large;
+    margin-top: 2.5pt;
+}
+
+#content div div ul li div div div svg polygon {
+    fill: #337ab7 !important;
+}

@@ -58,18 +58,10 @@ class ScriptController extends Logger[ScriptController] {
     }
   }
 
-  @GetMapping(produces = Array(JsonLd.MEDIA_TYPE))
-  def getScripts: ResponseEntity[Any] = {
+  @GetMapping
+  def getScripts: ResponseEntity[_] = {
     log.info("Looking for any scripts")
-    service.getScripts match {
-      case Some(s) =>
-        log.info("Scripts found")
-        log.trace(s.mkString("[", ",", "]"))
-        new ResponseEntity(s.asJava, HttpStatus.OK)
-      case None =>
-        log.info("No scripts found")
-        new ResponseEntity("No scripts found", HttpStatus.NOT_FOUND)
-    }
+    new ResponseEntity(service.getScripts, HttpStatus.OK)
   }
 
   @PostMapping(path = Array("/modules/dependency"))
