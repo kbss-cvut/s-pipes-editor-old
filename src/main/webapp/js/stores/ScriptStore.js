@@ -15,7 +15,7 @@ const ScriptStore = Reflux.createStore({
     listenables: [Actions],
 
     onListScripts: function () {
-        Ajax.get('rest/scripts/tree').end(
+        Ajax.get('rest/scripts').end(
             (scripts) => {
                 this.trigger({action: Actions.listScripts, scripts: scripts});
             },
