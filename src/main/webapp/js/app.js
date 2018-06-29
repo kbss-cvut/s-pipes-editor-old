@@ -7,6 +7,7 @@
 import I18nStore from './stores/I18nStore';
 // Have the imports here, so that the I18nStore is initialized before any of the components which might need it
 import React from 'react';
+import Functions from './components/functions/Functions';
 import ReactDOM from 'react-dom';
 import {IndexRoute, Route, Router} from 'react-router';
 import {addLocaleData as addLocaleData, IntlProvider} from 'react-intl';
@@ -47,6 +48,7 @@ const App = React.createClass({
                     <Route path={Routes.dashboard.path} onEnter={onRouteEnter} component={DashboardController}/>
                     <Route path={Routes.views.path} onEnter={onRouteEnter} component={ViewController}/>
                     <Route path={Routes.scripts.path} onEnter={onRouteEnter} component={Scripts}/>
+                    <Route path={Routes.functions.path} onEnter={onRouteEnter} component={Functions}/>
                 </Route>
             </Router>
         </IntlProvider>;

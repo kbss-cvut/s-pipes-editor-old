@@ -52,6 +52,9 @@ let Dashboard = React.createClass({
                 <Col xs={3} className='dashboard-sector'>
                     <Tile onClick={this.props.handlers.showScripts}>{this.i18n('dashboard.views-tile')}</Tile>
                 </Col>
+                <Col xs={3} className='dashboard-sector'>
+                    <Tile onClick={this.props.handlers.showFunctions}>{this.i18n('dashboard.functions-tile')}</Tile>
+                </Col>
             </Row>
         </Grid>;
     },

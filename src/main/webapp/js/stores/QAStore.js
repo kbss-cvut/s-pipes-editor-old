@@ -30,7 +30,7 @@ const QAStore = Reflux.createStore({
         request[MODULE_URI] = functionUri;
         request[ROOT_QUESTION] = rootQuestion;
         request[SCRIPT_PATH] = script;
-        Ajax.post("rest/executions/new", request).end();
+        Ajax.post("rest/functions/execute", request).end();
     }
 });
 

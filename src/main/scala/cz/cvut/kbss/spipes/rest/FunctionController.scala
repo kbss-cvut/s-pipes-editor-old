@@ -1,12 +1,13 @@
 package cz.cvut.kbss.spipes.rest
 
 import cz.cvut.kbss.spipes.model.dto.QuestionDTO
-import cz.cvut.kbss.spipes.service.ExecutionService
+import cz.cvut.kbss.spipes.service.FunctionService
 import cz.cvut.kbss.spipes.util.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
 import org.springframework.web.bind.annotation._
 
+import scala.collection.JavaConverters.asJavaIterableConverter
 import scala.util.{Failure, Success}
 
 /**
@@ -14,25 +15,17 @@ import scala.util.{Failure, Success}
   */
 
 @RestController
-@RequestMapping(path = Array("/executions"))
-class ExecutionController extends Logger[ExecutionController] {
+@RequestMapping(path = Array("/functions"))
+class FunctionController extends Logger[FunctionController] {
 
   @Autowired
-  private var service: ExecutionService = _
+  private var service: FunctionService = _
 
-  /** Unused **/
-  /*@PostMapping
-  def onExecutionEventOccured(@RequestBody dto: ExecutionEventDTO): ResponseEntity[_] = {
-    if (!executions.contains(dto.getExecutionId))
-      new ResponseEntity(s"Execution with id ${dto.getExecutionId()} not found", HttpStatus.BAD_REQUEST)
-    else {
-      ExecutionNotificationController.notify(dto.getExecutionId())
-      new ResponseEntity(HttpStatus.OK)
-    }
-  }*/
+  @GetMapping
+  def listFunctions = new ResponseEntity(service.listFunctions.toSeq.sortBy(_.getScriptPath()).asJava, HttpStatus.OK)
 
-  @PostMapping(path = Array("/new"))
-  def onExecutionRequest(@RequestBody dto: QuestionDTO): ResponseEntity[_] = {
+  @PostMapping(path = Array("/execute"))
+  def executeFunction(@RequestBody dto: QuestionDTO): ResponseEntity[_] = {
     val q = dto.getRootQuestion()
     service.requestExecution(q) match {
       case Success((id, status)) if status == HttpStatus.OK =>

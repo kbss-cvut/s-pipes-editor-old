@@ -10,9 +10,9 @@ import cz.cvut.kbss.spipes.model.spipes.{Module, ModuleType}
 import cz.cvut.kbss.spipes.persistence.dao.ScriptDao
 import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager}
 import cz.cvut.kbss.spipes.websocket.NotificationController
-import org.apache.jena.rdf.model.ModelFactory
 import org.apache.jena.rdf.model.impl.PropertyImpl
-import org.apache.jena.vocabulary.RDFS
+import org.apache.jena.rdf.model.{ModelFactory, ResourceFactory}
+import org.apache.jena.vocabulary.{RDF, RDFS}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -97,6 +97,17 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
       case Array(r) => r
       case a => new SubTree(a, "scripts")
     }
+
+  def getScriptsWithFunctions: Option[Set[File]] = scriptDao.getScripts.map(fs =>
+    fs.filter(
+      helper.createOntModel(_)
+        .map(_.contains(null, RDF.`type`, ResourceFactory.createResource("http://topbraid.org/sparqlmotion#Function")))
+        .getOrElse(false)
+    )
+  ) match {
+    case Some(s) if s.nonEmpty => Some(s)
+    case _ => None
+  }
 
   def createDependency(scriptPath: String, from: String, to: String): Try[_] = {
     log.info(f"""Creating dependency from $from to $to in $scriptPath""")
