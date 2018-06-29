@@ -67,8 +67,8 @@ class OntologyHelperTest {
   def importsTest: Unit = {
     val docManager = OntDocumentManager.getInstance()
     val o = "http://ontologies.org/importing"
-    docManager.addAltEntry("http://ontologies.org/importing", "/home/yan/git/kbss/s-pipes-editor/src/test/resources/scripts/sample/import-test/importing.ttl")
-    docManager.addAltEntry("http://ontologies.org/imported", "/home/yan/git/kbss/s-pipes-editor/src/test/resources/scripts/sample/import-test/imported.ttl")
+    docManager.addAltEntry("http://ontologies.org/importing", getClass().getClassLoader().getResource("scripts/sample/import-test/importing.ttl").getPath())
+    docManager.addAltEntry("http://ontologies.org/imported", getClass().getClassLoader().getResource("scripts/sample/import-test/imported.ttl").getPath())
     val model = docManager.getOntology(o, OntModelSpec.OWL_MEM)
     model.loadImports()
     assertEquals(4, model.listStatements().toList.size())
