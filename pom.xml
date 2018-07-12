@@ -417,6 +417,112 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>jetty</id>
+            <properties>
+                <profile.name>jetty</profile.name>
+            </properties>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>${org.codehaus.mojo.exec-maven-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>copy-webapp</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>compile</phase>
+                                <configuration>
+                                    <workingDirectory>${project.basedir}</workingDirectory>
+                                    <executable>cp</executable>
+                                    <arguments>
+                                        <argument>-r</argument>
+                                        <argument>profiles/production</argument>
+                                        <argument>profiles/jetty</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>copy-index</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>compile</phase>
+                                <configuration>
+                                    <workingDirectory>${project.basedir}</workingDirectory>
+                                    <executable>cp</executable>
+                                    <arguments>
+                                        <argument>src/main/webapp/index.html</argument>
+                                        <argument>profiles/jetty/</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.google.code.maven-replacer-plugin</groupId>
+                        <artifactId>replacer</artifactId>
+                        <version>${com.google.code.maven-replacer-plugin.replacer.version}</version>
+                        <executions>
+                            <execution>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>replace</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <ignoreMissingFile>false</ignoreMissingFile>
+                            <file>${project.basedir}/profiles/jetty/index.html</file>
+                            <replacements>
+                                <replacement>
+                                    <token>title=""</token>
+                                    <value>title="Built at ${maven.build.timestamp}"</value>
+                                </replacement>
+                                <replacement>
+                                    <token>Version: Dev</token>
+                                    <value>Version: ${project.version} Jetty</value>
+                                </replacement>
+                            </replacements>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>${maven-war-plugin.version}</version>
+                        <configuration>
+                            <warName>s-pipes-editor</warName>
+                            <failOnMissingWebXml>false</failOnMissingWebXml>
+                            <webResources>
+                                <resource>
+                                    <directory>profiles/jetty</directory>
+                                </resource>
+                            </webResources>
+                            <warSourceExcludes>
+                                node_modules/**
+                            </warSourceExcludes>
+                            <packagingExcludes>
+                                **/js/actions/,**/js/components/,**/js/constants/,**/js/stores/,**/js/utils/,**/js/model/,
+                                **/js/validation/, **/js/i18n/,
+                                **/js/app.js,**/js/.bundle.js,tests/,node_modules/,
+                                package.json,.babelrc,.eslintrc,**/mapping
+                            </packagingExcludes>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.eclipse.jetty</groupId>
+                        <artifactId>jetty-maven-plugin</artifactId>
+                        <version>9.4.11.v20180605</version>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 
     <build>

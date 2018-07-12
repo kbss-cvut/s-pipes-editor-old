@@ -11,13 +11,17 @@ import scala.io.Source
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 14.04.2018.
   */
 trait ScriptManager extends PropertySource {
-  protected def discoverLocations: Array[File] = getProperty(SCRIPTS_LOCATION).split(",").map(s => {
-    val f = new File(s)
-    if (!f.exists())
-      throw new FileNotFoundException(f"""Scripts location not found: $f""")
-    else
-      f
-  })
+  protected def discoverLocations: Array[File] =
+    Option(System.getProperty("scriptLocations"))
+      .getOrElse(getProperty(SCRIPTS_LOCATION))
+      .split(",")
+      .map(s => {
+        val f = new File(s)
+        if (!f.exists())
+          throw new FileNotFoundException(f"""Scripts location not found: $f""")
+        else
+          f
+      })
 
   protected def ignored: Set[File] =
     discoverLocations.flatMap(f => {
