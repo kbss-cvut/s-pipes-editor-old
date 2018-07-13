@@ -125,7 +125,7 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManag
       acc
     }
     else {
-      if (root.isFile() && root.getName().contains(".ttl"))
+      if (root.isFile() && root.getName().endsWith(".ttl"))
         acc + root
       else if (root.isDirectory())
         root.listFiles() match {
@@ -140,7 +140,7 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManag
   def getScriptsTree: Array[FileTree] = discoverLocations.map(toTree)
 
   def toTree(f: File): FileTree =
-    if (f.isFile() && f.getName().toLowerCase().contains(".ttl")) new Leaf(f, f.getName())
+    if (f.isFile() && f.getName().toLowerCase().endsWith(".ttl")) new Leaf(f, f.getName())
     else if (f.isDirectory()) {
       f.listFiles().map(toTree).filterNot(_.isInstanceOf[Stub]) match {
         case s if s.nonEmpty => new SubTree(s.sortBy(_.getName()), f.getName())
