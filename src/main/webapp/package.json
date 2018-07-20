@@ -33,7 +33,7 @@
     "react-websocket": "~1.1.7",
     "reflux": "~0.4.1",
     "remarkable": "^1.7.1",
-    "semforms": "https://kbss.felk.cvut.cz/dist/semforms-0.1.5.tgz",
+    "s-forms": "https://kbss.felk.cvut.cz/dist/s-forms-0.1.7.tgz",
     "stompjs": "~2.3.3",
     "superagent": "^3.8.3",
     "the-graph": "^0.12.0",

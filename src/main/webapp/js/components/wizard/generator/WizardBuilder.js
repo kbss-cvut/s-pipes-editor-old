@@ -1,6 +1,6 @@
 'use strict';
 
-import {Configuration, WizardGenerator} from 'semforms';
+import {Configuration, WizardGenerator} from 's-forms';
 import Actions from '../../../actions/Actions';
 import Ajax from '../../../utils/Ajax';
 import I18nStore from '../../../stores/I18nStore';

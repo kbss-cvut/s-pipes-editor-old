@@ -5,8 +5,8 @@ import java.io.{File, FileOutputStream}
 import cz.cvut.kbss.spipes.model.Vocabulary
 import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager}
 import cz.cvut.kbss.spipes.websocket.NotificationController
-import cz.cvut.sempipes.transform.{Transformer, TransformerImpl}
 import cz.cvut.sforms.model.Question
+import cz.cvut.spipes.transform.{Transformer, TransformerImpl}
 import org.apache.jena.rdf.model.Resource
 import org.apache.jena.vocabulary.RDF
 import org.springframework.beans.factory.annotation.Autowired

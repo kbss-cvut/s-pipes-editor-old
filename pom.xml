@@ -17,13 +17,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+        <ant.ant.version>1.7.0</ant.ant.version>
         <ch.qos.logback.logback-classic.version>1.2.3</ch.qos.logback.logback-classic.version>
         <com.fasterxml.json.version>2.9.4</com.fasterxml.json.version>
         <com.google.code.maven-replacer-plugin.replacer.version>1.5.3
         </com.google.code.maven-replacer-plugin.replacer.version>
         <cz.cvut.kbss.jsonld.jb4jsonld-jackson.version>0.2.1</cz.cvut.kbss.jsonld.jb4jsonld-jackson.version>
         <cz.cvut.kbss.jopa.version>0.10.0</cz.cvut.kbss.jopa.version>
-        <cz.cvut.kbss.semantic-pipes.forms.version>1.0-SNAPSHOT</cz.cvut.kbss.semantic-pipes.forms.version>
+        <cz.cvut.kbss.s-pipes.forms.version>0.2.0</cz.cvut.kbss.s-pipes.forms.version>
         <javax.servlet.servlet-api.version>3.1.0</javax.servlet.servlet-api.version>
         <junit.junit.version>4.12</junit.junit.version>
         <maven-war-plugin.version>3.2.0</maven-war-plugin.version>
@@ -69,6 +70,13 @@
 
 
     <dependencies>
+
+        <!-- Ant to fix some dependency -->
+        <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant</artifactId>
+            <version>${ant.ant.version}</version>
+        </dependency>
 
         <!-- Apache Commons IO -->
         <dependency>
@@ -224,11 +232,11 @@
             <version>${org.mockito.mockito-all.version}</version>
         </dependency>
 
-        <!-- Semantic Pipes Forms -->
+        <!-- S-Pipes Forms -->
         <dependency>
             <groupId>cz.cvut.kbss</groupId>
-            <artifactId>semantic-pipes-forms</artifactId>
-            <version>${cz.cvut.kbss.semantic-pipes.forms.version}</version>
+            <artifactId>s-pipes-forms</artifactId>
+            <version>${cz.cvut.kbss.s-pipes.forms.version}</version>
         </dependency>
     </dependencies>
 

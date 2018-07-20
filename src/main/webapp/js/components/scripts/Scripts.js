@@ -46,9 +46,11 @@ class Scripts extends React.Component {
         if (this.state.scripts == null)
             return <p>No scripts found</p>;
         return (
-            <Treebeard
-                data={this.state.scripts}
-                onToggle={this.onToggle}/>
+            <div>
+                <Treebeard
+                    data={this.state.scripts}
+                    onToggle={this.onToggle}/>
+            </div>
         );
     }
 
