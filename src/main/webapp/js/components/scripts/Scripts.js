@@ -8,6 +8,9 @@ import Mask from "../Mask";
 import Routing from "../../utils/Routing";
 import Routes from "../../utils/Routes";
 import {Treebeard} from 'react-treebeard';
+import { VirtualizedTreeSelect } from 'intelligent-tree-select';
+import { IntelligentTreeSelect , optionStateEnum } from 'intelligent-tree-select';
+import "./intelligent-styles.css";
 
 const ABSOLUTE_PATH = "http://onto.fel.cvut.cz/ontologies/s-pipes/has-absolute-path";
 const RELATIVE_PATH = "http://onto.fel.cvut.cz/ontologies/s-pipes/has-script-path";
@@ -47,6 +50,7 @@ class Scripts extends React.Component {
             return <p>No scripts found</p>;
         return (
             <div>
+                <IntelligentTreeSelect/>
                 <Treebeard
                     data={this.state.scripts}
                     onToggle={this.onToggle}/>
