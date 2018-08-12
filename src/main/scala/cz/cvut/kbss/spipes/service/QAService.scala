@@ -45,15 +45,15 @@ class QAService extends PropertySource with Logger[QAService] with ResourceManag
       log.info(s"Ont model for $scriptPath created")
       val res = transformer.form2Script(model, rootQuestion, moduleType)
       log.info(s"Created updated ont model for $scriptPath")
-      res.asScala.map(m => {
-        helper.getFile(helper.getOntologyURI(m)).map(f =>
+      res.asScala.foreach(p => {
+        helper.getFile(p._1).map(f =>
           cleanly(new FileOutputStream(f))(_.close())(os => {
             log.info(s"Writing model to file $f")
-            m.write(os, "TTL")
+            p._2.write(os, "TTL")
+            NotificationController.notify(scriptPath)
           }
           ))
       })
-        .map(_ => NotificationController.notify(scriptPath))
     })
   }
 
