@@ -32,7 +32,6 @@ class QAService extends PropertySource with Logger[QAService] with ResourceManag
       val moduleType = model.listStatements(model.getResource(moduleUri), RDF.`type`, null)
         .filterDrop(_.getObject().asResource().getURI() == Vocabulary.s_c_Modules).nextOptional()
       transformer.script2Form(
-        model,
         model.getResource(moduleUri),
         moduleType.map[Resource](_.getObject().asResource()).orElse(model.getResource(moduleTypeUri))
       )
