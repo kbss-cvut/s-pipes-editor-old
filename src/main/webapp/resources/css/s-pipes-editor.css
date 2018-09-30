@@ -581,3 +581,24 @@ div.module-type.popover {
 #content div div ul li div div div svg polygon {
     fill: #337ab7 !important;
 }
+
+div#prefixes.popover {
+    max-width: min-content;
+}
+
+div#prefixes>div.popover-content {
+    padding: 0;
+    height: 200pt;
+    width: max-content;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+div#prefixes>div.popover-content>ul.list-group {
+    margin-bottom: 0;
+}
+
+div#prefixes>div.popover-content>ul>li.list-group-item {
+    padding: 2px 3px;
+    border-radius: 0;
+}
