@@ -602,3 +602,11 @@ div#prefixes>div.popover-content>ul>li.list-group-item {
     padding: 2px 3px;
     border-radius: 0;
 }
+
+div.yate > div.CodeMirror {
+    height: auto !important;
+}
+
+div.svgImg.yate_share {
+    display: none;
+}
