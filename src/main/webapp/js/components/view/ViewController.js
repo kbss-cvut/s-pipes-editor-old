@@ -91,6 +91,7 @@ class ViewController extends React.Component {
             viewLoaded: false,
             viewLaidOut: false,
             modalVisible: false,
+            conflictModalVisible: false,
             formVisible: false,
             record: EntityFactory.initNewRecord(),
             fsNotificationSocket: new WebSocket("ws://" + window.location.host + window.location.pathname + "notifications"),
@@ -260,6 +261,14 @@ class ViewController extends React.Component {
                         {record}
                     </Modal.Body>
                 </Modal>
+                <Modal show={this.state.conflictModalVisible}>
+                    <Modal.Header>
+                        <Modal.Title>{I18Store.i18n('view.conflict')}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Button onClick={() => this.closeConflictModal()}>{I18Store.i18n('view.close')}</Button>
+                    </Modal.Body>
+                </Modal>
             </div>);
     };
 
@@ -273,7 +282,7 @@ class ViewController extends React.Component {
         this.unsubscribeFunctions = ScriptStore.listen(this._functionsLoaded);
         this.unsubscribeModules = ModuleStore.listen(this._moduleTypesLoaded);
         this.unsubscribeView = ViewStore.listen(this._viewLoaded);
-        this.unsubscribeQA = QAStore.listen(this._onCancel)
+        this.unsubscribeQA = QAStore.listen(this._onFormSaved)
     };
 
     _moduleTypesLoaded = (data) => {
@@ -304,8 +313,7 @@ class ViewController extends React.Component {
         this.setState({loading: false});
         if (!data.data.status) {
             this.setState({functions: data.data});
-        }
-        else {
+        } else {
             this.setState({functions: null});
         }
         if (this.state.view === null)
@@ -391,13 +399,19 @@ class ViewController extends React.Component {
         const uriQ = Utils.findByOrigin(formData, "http://www.w3.org/2000/01/rdf-schema#Resource");
         const uri = uriQ[ANSWERS][0][OBJECT_VALUE]["@id"];
         Actions.saveModuleForm(this._getScript(), uri, this.state.type, formData);
-        this.setState({formVisible: false, type: null, moduleId: null, coordinates: null});
     };
 
     _mergeFunctionForm = () => {
         const formData = this.recordComponent.refs.wrappedInstance.getWrappedComponent().getFormData();
         Actions.saveFunctionForm(this._getScript(), this.state.functionUri, formData);
         this.setState({formVisible: false, functionUri: null});
+    };
+
+    _onFormSaved = (response) => {
+        if (response.data && response.data.status === 409)
+            this.setState({conflictModalVisible: true});
+        else
+            this.setState({formVisible: false, type: null, moduleId: null, coordinates: null});
     };
 
     _onCancel = () => {
@@ -464,13 +478,16 @@ class ViewController extends React.Component {
             that.state.view.toJSON = undefined;
             localStorage.setItem(localStorageId, JSON.stringify(that.state.view));
             window.open(location.href + "?q=" + localStorageId, '_blank');
-        }
-        else
+        } else
             window.open(location.href, '_blank');
     }
 
     closeModal() {
         this.setState({modalVisible: false});
+    };
+
+    closeConflictModal() {
+        this.setState({conflictModalVisible: false});
     };
 
     onNotificationReceived() {
@@ -556,8 +573,7 @@ class ViewController extends React.Component {
             that.state.view.startTransaction('loadgraph');
             that.state.view.endTransaction('loadgraph');
             that.setState({viewLaidOut: true});
-        }
-        else {
+        } else {
             let elk = new ELK();
             let options = {
                 'org.eclipse.elk.layered.crossingMinimization.strategy': 'INTERACTIVE',

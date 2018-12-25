@@ -40,9 +40,10 @@ class QAService extends PropertySource with Logger[QAService] with ResourceManag
 
   def mergeForm(scriptPath: String, rootQuestion: Question, moduleType: String): Try[_] = {
     log.info("Merging form for script " + scriptPath)
-    helper.createOntModel(new File(scriptPath)).map(model => {
+    helper.createOntModel(new File(scriptPath)).flatMap(model => {
       log.info(s"Ont model for $scriptPath created")
-      val res = transformer.form2Script(model, rootQuestion, moduleType)
+      Try(transformer.form2Script(model, rootQuestion, moduleType))
+    }).map { res =>
       log.info(s"Created updated ont model for $scriptPath")
       res.asScala.foreach(p => {
         helper.getFile(p._1).map(f =>
@@ -53,7 +54,7 @@ class QAService extends PropertySource with Logger[QAService] with ResourceManag
           }
           ))
       })
-    })
+    }
   }
 
   def generateFunctionForm(scriptPath: String, functionUri: String): Try[Question] = {

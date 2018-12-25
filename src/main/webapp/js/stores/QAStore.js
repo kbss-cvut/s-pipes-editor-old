@@ -21,7 +21,14 @@ const QAStore = Reflux.createStore({
         request[MODULE_URI] = module;
         request[ROOT_QUESTION] = rootQuestion;
         request[SCRIPT_PATH] = script;
-        Ajax.post("rest/scripts/forms/answers", request).end();
+        Ajax.post("rest/scripts/forms/answers", request).end(
+            (data) => {
+                this.trigger({action: Actions.saveModuleForm, data: data});
+            },
+            (error) => {
+                this.trigger({action: Actions.saveModuleForm, data: error});
+            }
+        );
     },
 
     onSaveFunctionForm: function (script, functionUri, rootQuestion) {

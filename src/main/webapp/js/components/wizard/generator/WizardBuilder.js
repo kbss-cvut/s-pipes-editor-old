@@ -5,7 +5,7 @@ import Actions from '../../../actions/Actions';
 import Ajax from '../../../utils/Ajax';
 import I18nStore from '../../../stores/I18nStore';
 import Logger from '../../../utils/Logger';
-import TypeaheadResultList from '../../typeahead/TypeaheadResultList';
+import {TypeaheadResultList} from '../../typeahead/TypeaheadResultList';
 import WizardStore from '../../../stores/WizardStore';
 
 const QUESTION_DTO = "http://onto.fel.cvut.cz/ontologies/s-pipes/question-dto";

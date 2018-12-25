@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
 import org.springframework.web.bind.annotation._
 
+import scala.compat.Platform.ConcurrentModificationException
 import scala.util.{Failure, Success}
 
 /**
@@ -62,6 +63,9 @@ class QAController extends PropertySource with Logger[QAController] {
         log.trace("Root question:" + (q + ""))
         service.mergeForm(script, q, moduleType) match {
           case Success(_) => new ResponseEntity(HttpStatus.OK)
+          case Failure(e: ConcurrentModificationException) =>
+            log.error(e.getLocalizedMessage(), e)
+            new ResponseEntity(e.getClass().getSimpleName() + ": " + e.getLocalizedMessage(), HttpStatus.CONFLICT)
           case Failure(e) =>
             log.error(e.getLocalizedMessage(), e)
             new ResponseEntity(e.getClass().getSimpleName() + ": " + e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)

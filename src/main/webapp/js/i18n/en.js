@@ -87,6 +87,8 @@ module.exports = {
         'view.script-changed': 'Script has been changed. Reload view?',
         'view.reload': 'Reload',
         'view.ignore': 'Ignore',
+        'view.conflict': 'TTL and form can not be edited at the same time',
+        'view.close': 'Close',
         'view.module-type': 'Add module type',
         'view.call-function': 'Call function',
 
