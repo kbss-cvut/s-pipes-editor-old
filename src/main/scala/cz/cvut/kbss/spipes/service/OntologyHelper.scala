@@ -10,6 +10,7 @@ import org.apache.jena.atlas.web.HttpException
 import org.apache.jena.ontology.{OntDocumentManager, OntModel, OntModelSpec}
 import org.apache.jena.rdf.model.impl.StatementImpl
 import org.apache.jena.rdf.model.{Model, ModelFactory, ResourceFactory}
+import org.apache.jena.util.FileUtils
 import org.apache.jena.vocabulary.{OWL, RDF}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -30,7 +31,7 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
     log.info(s"""Looking for an ontology in file ${f.getName()}""")
     cleanly(new FileInputStream(f))(_.close())(is => {
       val model = ModelFactory.createDefaultModel()
-      val st = model.read(is, null, "TTL").listStatements(null, RDF.`type`, OWL.Ontology).toList().asScala
+      val st = model.read(is, null, FileUtils.langTurtle).listStatements(null, RDF.`type`, OWL.Ontology).toList().asScala
       st.map(_.getSubject().getURI())
     }) match {
       case Success(Seq(v)) => Some(v)

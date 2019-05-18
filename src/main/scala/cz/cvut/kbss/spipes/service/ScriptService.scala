@@ -12,6 +12,7 @@ import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager}
 import cz.cvut.kbss.spipes.websocket.NotificationController
 import org.apache.jena.rdf.model.impl.PropertyImpl
 import org.apache.jena.rdf.model.{ModelFactory, ResourceFactory}
+import org.apache.jena.util.FileUtils
 import org.apache.jena.vocabulary.{RDF, RDFS}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -118,7 +119,7 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
           val m = ModelFactory.createDefaultModel().read(scriptPath)
           m.add(moduleFrom, new PropertyImpl(Vocabulary.s_p_next), moduleTo)
           cleanly(new FileOutputStream(scriptPath))(_.close())(os => {
-            m.write(os, "TTL")
+            m.write(os, FileUtils.langTurtle)
           })
             .map(_ => NotificationController.notify(scriptPath))
         case (None, _) =>
@@ -135,7 +136,7 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
       case Success(file) =>
         val m = ModelFactory.createDefaultModel().read(file)
         cleanly(new FileOutputStream(file))(_.close())(os => {
-          m.removeAll(m.getResource(from), new PropertyImpl(Vocabulary.s_p_next), m.getResource(to)).write(os, "TTL")
+          m.removeAll(m.getResource(from), new PropertyImpl(Vocabulary.s_p_next), m.getResource(to)).write(os, FileUtils.langTurtle)
         })
           .map(_ => NotificationController.notify(scriptPath))
       case failure => failure
@@ -150,7 +151,7 @@ class ScriptService extends PropertySource with Logger[ScriptService] with Resou
         m.removeAll(m.getResource(module), null, null)
         m.removeAll(null, null, m.getResource(module))
         cleanly(new FileOutputStream(file))(_.close())(os => {
-          m.write(os, "TTL")
+          m.write(os, FileUtils.langTurtle)
         })
           .map(_ => NotificationController.notify(scriptPath))
       case f => f

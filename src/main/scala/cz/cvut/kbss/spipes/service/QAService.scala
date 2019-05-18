@@ -8,6 +8,7 @@ import cz.cvut.kbss.spipes.websocket.NotificationController
 import cz.cvut.sforms.model.Question
 import cz.cvut.spipes.transform.{Transformer, TransformerImpl}
 import org.apache.jena.rdf.model.Resource
+import org.apache.jena.util.FileUtils
 import org.apache.jena.vocabulary.RDF
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -49,7 +50,7 @@ class QAService extends PropertySource with Logger[QAService] with ResourceManag
         helper.getFile(p._1).map(f =>
           cleanly(new FileOutputStream(f))(_.close())(os => {
             log.info(s"Writing model to file $f")
-            p._2.write(os, "TTL")
+            p._2.write(os, FileUtils.langTurtle)
             NotificationController.notify(scriptPath)
           }
           ))
