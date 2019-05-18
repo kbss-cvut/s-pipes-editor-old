@@ -1,4 +1,6 @@
 @prefix : <http://importing.ttl#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
 
-<http://imported.ttl> a owl: Ontology ;
-owl:imports <http://imported.ttl> .
+<http://imported.ttl>
+    a owl:Ontology ;
+    owl:imports <http://imported.ttl> .
