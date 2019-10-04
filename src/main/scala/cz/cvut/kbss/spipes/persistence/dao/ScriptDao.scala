@@ -92,9 +92,11 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManag
     val dataset = JopaPersistenceUtils.getDataset(em)
     dataset.setDefaultModel(inferredModel)
     emf.getCache().evict(classOf[ModuleType])
-    val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[ModuleType])
+    val query = em.createNativeQuery("select ?s where { ?s a ?type . }", classOf[ModuleType])
       .setParameter("type", URI.create(s_c_Module))
-    query.getResultList()
+    val moduleTypes = query.getResultList();
+    em.close()
+    moduleTypes
   }
 
   def getFunctionStatements(m: Model): Try[StmtIterator] = Try(

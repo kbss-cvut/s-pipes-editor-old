@@ -2,6 +2,7 @@ package cz.cvut.kbss.spipes.model.spipes;
 
 import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
+import cz.cvut.kbss.jopa.model.annotations.ParticipationConstraints;
 import cz.cvut.kbss.spipes.model.AbstractEntity;
 
 import java.net.URI;
@@ -16,6 +17,7 @@ import static cz.cvut.kbss.spipes.model.Vocabulary.*;
 @OWLClass(iri = s_c_Module)
 public class ModuleType extends AbstractEntity {
 
+    @ParticipationConstraints(nonEmpty = true)
     @OWLDataProperty(iri = s_p_label)
     private String label;
     @OWLDataProperty(iri = s_p_comment)

@@ -293,6 +293,7 @@ WHERE {
   rdf:type owl:Ontology ;
   owl:imports <http://onto.fel.cvut.cz/ontologies/vfn-form-mod> ;
   owl:imports <http://vfn.cz/ontologies/fss-form-static> ;
+  owl:imports <http://onto.fel.cvut.cz/ontologies/s-pipes-lib> ;
 .
 fssgen:attach-possible-values-hook
   rdf:type sml:ApplyConstruct ;
