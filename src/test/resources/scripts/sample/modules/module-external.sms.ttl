@@ -21,22 +21,29 @@
 
 sml:ApplyConstruct
   rdfs:label "Apply Construct" ;
-  rdf:type sm:Module .
+  rdf:type sm:Module ;
+  rdfs:subClassOf sm:Modules .
 sml:BindBySelect
   rdfs:label "Bind by select" ;
-  rdf:type sm:Module .
+  rdf:type sm:Module ;
+  rdfs:subClassOf sm:Modules .
 sml:BindWithConstant
   rdfs:label "Bind with constant" ;
-  rdf:type sm:Module .
+  rdf:type sm:Module ;
+  rdfs:subClassOf sm:Modules .
 sml:ExportToRDFFile
   rdfs:label "Export to RDF file" ;
-  rdf:type sm:Module .
+  rdf:type sm:Module ;
+  rdfs:subClassOf sm:Modules .
 sml:Merge
   rdfs:label "Merge" ;
-  rdf:type sm:Module .
+  rdf:type sm:Module ;
+  rdfs:subClassOf sm:Modules .
 sml:PerformUpdate
   rdfs:label "Perform update" ;
-  rdf:type sm:Module .
+  rdf:type sm:Module ;
+  rdfs:subClassOf sm:Modules .
 sml:ReturnRDF
   rdfs:label "Return RDF" ;
-  rdf:type sm:Module .
+  rdf:type sm:Module ;
+  rdfs:subClassOf sm:Modules .

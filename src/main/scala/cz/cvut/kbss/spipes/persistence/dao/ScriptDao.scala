@@ -83,6 +83,7 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManag
       else
         log.error(f"""Module ${module.getUri()} has no most specific type""")
     })
+    em.close()
     modules
   }
 

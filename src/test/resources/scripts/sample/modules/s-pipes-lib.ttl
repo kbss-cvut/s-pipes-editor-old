@@ -11,4 +11,5 @@
   owl:imports <http://onto.fel.cvut.cz/ontologies/lib/module> ;
   owl:imports <http://onto.fel.cvut.cz/ontologies/lib/module-external> ;
   owl:imports <http://onto.fel.cvut.cz/ontologies/lib/spin-function> ;
+  owl:imports <http://onto.fel.cvut.cz/ontologies/lib/sm-module-adapter> ;
 .
