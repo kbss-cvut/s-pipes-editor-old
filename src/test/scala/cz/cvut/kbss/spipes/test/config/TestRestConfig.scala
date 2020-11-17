@@ -1,6 +1,7 @@
 package cz.cvut.kbss.spipes.test.config
 
-import cz.cvut.kbss.spipes.service.{QAService, ScriptService, ViewService}
+import cz.cvut.kbss.spipes.rest.QAController
+import cz.cvut.kbss.spipes.service.{FunctionService, QAService, ScriptService, ViewService}
 import org.mockito.Mockito
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessorAdapter
 import org.springframework.context.annotation.{Bean, ComponentScan, Configuration}
@@ -22,6 +23,12 @@ class TestRestConfig {
 
   @Bean
   def getNodeService: QAService = Mockito.mock(classOf[QAService])
+
+  @Bean
+  def functionalService: FunctionService = Mockito.mock(classOf[FunctionService])
+
+  @Bean
+  def qaController: QAController = Mockito.mock(classOf[QAController])
 
   @Bean
   def mockBeanFactory = new MockBeanFactory

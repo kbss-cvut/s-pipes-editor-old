@@ -103,6 +103,7 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManag
   def getFunctionStatements(m: Model): Try[StmtIterator] = Try(
     m.listStatements(null, RDF.`type`, m.createResource("http://topbraid.org/sparqlmotion#Function")))
 
+  //TODO should return only set, Option not required
   def getScripts: Option[Set[File]] = {
     val scriptsPaths = discoverLocations
     log.info("Looking for any scripts in " + scriptsPaths.mkString("[", ",", "]"))
@@ -142,7 +143,7 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManag
 
   def getScriptsTree: Array[FileTree] = discoverLocations.map(toTree)
 
-  def toTree(f: File): FileTree =
+  private def toTree(f: File): FileTree =
     if (f.isFile() && f.getName().toLowerCase().endsWith(".ttl")) new Leaf(f, f.getName())
     else if (f.isDirectory()) {
       f.listFiles().map(toTree).filterNot(_.isInstanceOf[Stub]) match {
