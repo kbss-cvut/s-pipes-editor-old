@@ -19,8 +19,8 @@ const ViewStore = Reflux.createStore({
             (data) => {
                 this.trigger({action: Actions.loadView, data: data});
             },
-            () => {
-                this.trigger({action: Actions.loadView, data: data});
+            (error) => {
+                this.trigger({action: Actions.loadView, data: error});
             });
     }
 });

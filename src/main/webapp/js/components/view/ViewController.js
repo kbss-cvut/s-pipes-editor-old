@@ -2,6 +2,7 @@
  * Created by yan on 19.06.17.
  */
 
+
 'use strict';
 
 import Actions from '../../actions/Actions';
@@ -26,9 +27,12 @@ import Hammer from 'hammerjs';
 import Routes from '../../utils/Routes';
 import Routing from '../../utils/Routing';
 import ModuleTypeStore from '../../stores/ModuleTypeStore';
+import ScriptStore from '../../stores/ScriptStore';
 import ModuleStore from '../../stores/ModuleStore';
 import ViewStore from '../../stores/ViewStore';
 import QAStore from '../../stores/QAStore';
+import FunctionList from '../typeahead/FunctionList';
+import ResourceNotFound from "../ResourceNotFound";
 
 function fixTheGraphGlobalDependece() {
     window.React = React;
@@ -45,6 +49,7 @@ let defaultLayout = 'layered';
 let that;
 let record;
 let moduleTypeAhead;
+let functionTypeAhead;
 
 const TYPE = "http://onto.fel.cvut.cz/ontologies/s-pipes-view/has-module-type";
 const LABEL = "http://www.w3.org/2000/01/rdf-schema#label";
@@ -58,10 +63,15 @@ const ICON = "http://topbraid.org/sparqlmotion#icon";
 const COMMENT = "http://www.w3.org/2000/01/rdf-schema#comment";
 const ANSWERS = "http://onto.fel.cvut.cz/ontologies/documentation/has_answer";
 const OBJECT_VALUE = "http://onto.fel.cvut.cz/ontologies/documentation/has_object_value";
+const COMPONENT = "http://onto.fel.cvut.cz/ontologies/s-pipes-view/component";
+const FUNCTION_LOCAL_NAME = "http://onto.fel.cvut.cz/ontologies/s-pipes/has-function-local-name";
+const FUNCTION_URI = "http://onto.fel.cvut.cz/ontologies/s-pipes/has-function-uri";
 
 class ViewController extends React.Component {
 
     _getScript() {
+        if (this.props.location === undefined || this.props.location.state === undefined || this.props.location.state.script === undefined)
+            return this.props.params.key.replace(/_/g, "/");
         return this.props.location.state.script;
     };
 
@@ -69,18 +79,22 @@ class ViewController extends React.Component {
         super(props);
         this.i18n = this.props.i18n;
         this.state = {
+            error: null,
             moduleTypes: null,
+            functions: null,
             view: null,
             moduleId: null,
+            functionUri: null,
             type: null,
             coordinates: null,
             loading: true,
             viewLoaded: false,
             viewLaidOut: false,
             modalVisible: false,
+            conflictModalVisible: false,
             formVisible: false,
-            record: EntityFactory.initNewPatientRecord(),
-            socket: new WebSocket("ws://" + window.location.host + window.location.pathname + "websocket"),
+            record: EntityFactory.initNewRecord(),
+            fsNotificationSocket: new WebSocket("ws://" + window.location.host + window.location.pathname + "notifications"),
             contextMenus: {
                 main: null,
                 selection: null,
@@ -141,8 +155,8 @@ class ViewController extends React.Component {
         };
         if (!(Object.keys(props.location.query).length === 0))
             this.state.view = JSON.parse(localStorage.getItem(props.location.query["q"]));
-        this.state.socket.onmessage = () => this.onMessageReceived();
-        this.state.socket.onopen = () => this.state.socket.send(this._getScript());
+        this.state.fsNotificationSocket.onmessage = () => this.onNotificationReceived();
+        this.state.fsNotificationSocket.onopen = () => this.state.fsNotificationSocket.send(this._getScript());
     };
 
     render() {
@@ -150,10 +164,12 @@ class ViewController extends React.Component {
             return (
                 <Mask/>
             );
+        if (this.state.error)
+            return <ResourceNotFound resource={this.state.error}/>;
         let handlers = {
             onCancel: this._onCancel,
             onChange: this._onChange,
-            onSave: this._onSave
+            onSave: this.state.functionUri == null ? this._mergeModuleForm : this._mergeFunctionForm
         };
         record = <Record
             ref={(c) => this.recordComponent = c}
@@ -162,6 +178,7 @@ class ViewController extends React.Component {
             script={this._getScript()}
             moduleType={this.state.type}
             module={this.state.moduleId}
+            functionUri={this.state.functionUri}
             loading={this.state.loading}/>;
         moduleTypeAhead = <Typeahead
             allowReset={true}
@@ -173,10 +190,24 @@ class ViewController extends React.Component {
             placeholder={I18Store.i18n('view.module-type')}
             customListComponent={ModuleTypeList}
         />;
+        functionTypeAhead = undefined;
+        if (this.state.functions != null)
+            functionTypeAhead = <Typeahead
+                allowReset={true}
+                options={this.state.functions}
+                displayOption={FUNCTION_LOCAL_NAME}
+                filterOption={FUNCTION_URI}
+                optionsButton={true}
+                placeholder={I18Store.i18n('view.call-function')}
+                onOptionSelected={o => this.openFunctionDetails(o[FUNCTION_URI])}
+                customListComponent={FunctionList}
+            />;
+
         return (
             <div id="main">
                 <ButtonGroup vertical id="module-typeahead">
                     {moduleTypeAhead}
+                    {functionTypeAhead}
                 </ButtonGroup>
                 <div id="view">
                     <div id="editor"/>
@@ -211,7 +242,6 @@ class ViewController extends React.Component {
                             onClick={() => this._renderView('radial')}>{I18Store.i18n('view.layout.radial')}</Button>
                     <Button bsStyle="primary"
                             onClick={() => this._renderView('force')}>{I18Store.i18n('view.layout.force')}</Button>
-
                 </ButtonGroup>
                 <Modal show={this.state.modalVisible}>
                     <Modal.Header>
@@ -231,6 +261,14 @@ class ViewController extends React.Component {
                         {record}
                     </Modal.Body>
                 </Modal>
+                <Modal show={this.state.conflictModalVisible}>
+                    <Modal.Header>
+                        <Modal.Title>{I18Store.i18n('view.conflict')}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Button onClick={() => this.closeConflictModal()}>{I18Store.i18n('view.close')}</Button>
+                    </Modal.Body>
+                </Modal>
             </div>);
     };
 
@@ -241,13 +279,18 @@ class ViewController extends React.Component {
     componentDidMount() {
         that = this;
         this.unsubscribeModuleTypes = ModuleTypeStore.listen(this._moduleTypesLoaded);
+        this.unsubscribeFunctions = ScriptStore.listen(this._functionsLoaded);
         this.unsubscribeModules = ModuleStore.listen(this._moduleTypesLoaded);
         this.unsubscribeView = ViewStore.listen(this._viewLoaded);
-        this.unsubscribeQA = QAStore.listen(this._onCancel)
+        this.unsubscribeQA = QAStore.listen(this._onFormSaved)
     };
 
     _moduleTypesLoaded = (data) => {
         if (data.action === Actions.loadAllModuleTypes) {
+            if (data.data.status) {
+                this.setState({loading: false, error: data.data.status + " " + data.data.response.body});
+                return;
+            }
             this.setState({moduleTypes: data.data});
             this.state.moduleTypes.map((m) => {
                 this.state.library[m["@id"]] = {
@@ -262,12 +305,21 @@ class ViewController extends React.Component {
                     ]
                 };
             });
-            this.setState({loading: false});
-            if (this.state.view === null)
-                Actions.loadView(this._getScript());
-            else
-                this.loadViewFromData(this.state.view);
+            Actions.listFunctions(this._getScript());
         }
+    };
+
+    _functionsLoaded = (data) => {
+        this.setState({loading: false});
+        if (!data.data.status) {
+            this.setState({functions: data.data});
+        } else {
+            this.setState({functions: null});
+        }
+        if (this.state.view === null)
+            Actions.loadView(this._getScript());
+        else
+            this.loadViewFromData(this.state.view);
     };
 
     loadViewFromData(data) {
@@ -283,10 +335,13 @@ class ViewController extends React.Component {
 
     _viewLoaded = (data) => {
         if (data.action === Actions.loadView) {
+            if (data.data.status) {
+                this.setState({loading: false, error: data.data.status + " " + data.data.response.body});
+            }
             this.setState({view: new TheGraph.fbpGraph.Graph()});
             data.data[NODE].map(n => {
                 if (n[TYPE] !== undefined)
-                    this.state.view.addNode(n["@id"], this._findComponent(n), {
+                    this.state.view.addNode(n["@id"], n[COMPONENT], {
                         label: n[LABEL] === undefined ?
                             n["@id"].toString().split("/").reverse()[0] :
                             n[LABEL],
@@ -298,7 +353,7 @@ class ViewController extends React.Component {
             data.data[EDGE].map(e => {
                 if (e[SOURCE_NODE][TYPE] !== undefined) {
                     let n = e[SOURCE_NODE];
-                    this.state.view.addNode(n["@id"], this._findComponent(n), {
+                    this.state.view.addNode(n["@id"], n[COMPONENT], {
                         label: n[LABEL] === undefined ?
                             n["@id"].toString().split("/").reverse()[0] :
                             n[LABEL],
@@ -309,7 +364,7 @@ class ViewController extends React.Component {
                 }
                 if (e[DESTINATION_NODE][TYPE] !== undefined) {
                     let n = e[DESTINATION_NODE];
-                    this.state.view.addNode(n["@id"], this._findComponent(n), {
+                    this.state.view.addNode(n["@id"], n[COMPONENT], {
                         label: n[LABEL] === undefined ?
                             n["@id"].toString().split("/").reverse()[0] :
                             n[LABEL],
@@ -339,12 +394,24 @@ class ViewController extends React.Component {
         }
     };
 
-    _onSave = () => {
+    _mergeModuleForm = () => {
         const formData = this.recordComponent.refs.wrappedInstance.getWrappedComponent().getFormData();
         const uriQ = Utils.findByOrigin(formData, "http://www.w3.org/2000/01/rdf-schema#Resource");
         const uri = uriQ[ANSWERS][0][OBJECT_VALUE]["@id"];
-        Actions.saveForm(this._getScript(), uri, this.state.type, formData);
-        this.setState({formVisible: false, type: null, moduleId: null, coordinates: null});
+        Actions.saveModuleForm(this._getScript(), uri, this.state.type, formData);
+    };
+
+    _mergeFunctionForm = () => {
+        const formData = this.recordComponent.refs.wrappedInstance.getWrappedComponent().getFormData();
+        Actions.saveFunctionForm(this._getScript(), this.state.functionUri, formData);
+        this.setState({formVisible: false, functionUri: null});
+    };
+
+    _onFormSaved = (response) => {
+        if (response.data && response.data.status === 409)
+            this.setState({conflictModalVisible: true});
+        else
+            this.setState({formVisible: false, type: null, moduleId: null, coordinates: null});
     };
 
     _onCancel = () => {
@@ -363,6 +430,7 @@ class ViewController extends React.Component {
 
     componentWillUnmount() {
         this.unsubscribeModuleTypes();
+        this.unsubscribeFunctions();
         this.unsubscribeModules();
         this.unsubscribeView();
     };
@@ -372,7 +440,17 @@ class ViewController extends React.Component {
         this.setState({
             moduleId: moduleId,
             type: moduleType,
+            functionUri: null,
             coordinates: coordinates,
+            formVisible: true
+        });
+    };
+
+    openFunctionDetails(functionUri) {
+        this.setState({
+            moduleId: null,
+            type: null,
+            functionUri: functionUri,
             formVisible: true
         });
     };
@@ -400,8 +478,7 @@ class ViewController extends React.Component {
             that.state.view.toJSON = undefined;
             localStorage.setItem(localStorageId, JSON.stringify(that.state.view));
             window.open(location.href + "?q=" + localStorageId, '_blank');
-        }
-        else
+        } else
             window.open(location.href, '_blank');
     }
 
@@ -409,11 +486,11 @@ class ViewController extends React.Component {
         this.setState({modalVisible: false});
     };
 
-    _findComponent(node) {
-        return node[TYPE].filter(t => this.state.library[t] !== undefined)[0];
-    }
+    closeConflictModal() {
+        this.setState({conflictModalVisible: false});
+    };
 
-    onMessageReceived() {
+    onNotificationReceived() {
         this.setState({modalVisible: true});
     };
 
@@ -496,8 +573,7 @@ class ViewController extends React.Component {
             that.state.view.startTransaction('loadgraph');
             that.state.view.endTransaction('loadgraph');
             that.setState({viewLaidOut: true});
-        }
-        else {
+        } else {
             let elk = new ELK();
             let options = {
                 'org.eclipse.elk.layered.crossingMinimization.strategy': 'INTERACTIVE',
@@ -517,5 +593,21 @@ class ViewController extends React.Component {
         }
     };
 }
+
+window.onresize = () => {
+    const svg = document.getElementsByTagName("svg")[0];
+    const canvas = document.getElementsByTagName("canvas")[0];
+    const content = document.getElementById("content");
+    const width = content.clientWidth - 2 * parseInt(window.getComputedStyle(content, null).getPropertyValue("padding-right"));
+    const height = content.clientHeight;
+    if (svg !== undefined) {
+        svg.style.width = width;
+        svg.style.height = height;
+    }
+    if (canvas !== undefined) {
+        canvas.style.width = width;
+        canvas.style.height = height;
+    }
+};
 
 export default injectIntl(I18nWrapper(Messager(DragDropContext(HTML5Backend)(ViewController))));

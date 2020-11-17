@@ -14,14 +14,30 @@ const ROOT_QUESTION = "http://onto.fel.cvut.cz/ontologies/s-pipes/has-root-quest
 const QAStore = Reflux.createStore({
     listenables: [Actions],
 
-    onSaveForm: function (script, module, moduleType, rootQuestion) {
+    onSaveModuleForm: function (script, module, moduleType, rootQuestion) {
         const request = {};
         request["@type"] = QUESTION_DTO;
         request[MODULE_TYPE_URI] = moduleType;
         request[MODULE_URI] = module;
         request[ROOT_QUESTION] = rootQuestion;
         request[SCRIPT_PATH] = script;
-        Ajax.post("rest/scripts/forms/answers", request).end();
+        Ajax.post("rest/scripts/forms/answers", request).end(
+            (data) => {
+                this.trigger({action: Actions.saveModuleForm, data: data});
+            },
+            (error) => {
+                this.trigger({action: Actions.saveModuleForm, data: error});
+            }
+        );
+    },
+
+    onSaveFunctionForm: function (script, functionUri, rootQuestion) {
+        const request = {};
+        request["@type"] = QUESTION_DTO;
+        request[MODULE_URI] = functionUri;
+        request[ROOT_QUESTION] = rootQuestion;
+        request[SCRIPT_PATH] = script;
+        Ajax.post("rest/functions/execute", request).end();
     }
 });
 

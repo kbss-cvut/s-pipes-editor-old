@@ -5,6 +5,7 @@ import cz.cvut.kbss.spipes.service.ViewService
 import org.mockito.Mockito
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessorAdapter
 import org.springframework.context.annotation.{Bean, ComponentScan, Configuration}
+import org.springframework.web.client.RestTemplate
 
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 19.01.17.
@@ -21,6 +22,9 @@ class TestServiceConfig {
 
   @Bean
   def mockBeanFactory = new MockBeanFactory
+
+  @Bean
+  def t = new RestTemplate()
 
   class MockBeanFactory extends InstantiationAwareBeanPostProcessorAdapter {
     override def postProcessAfterInstantiation(bean: Any, beanName: String): Boolean =

@@ -5,10 +5,11 @@
   "description": "SPipes Editor",
   "main": "js/app.js",
   "dependencies": {
-    "body-parser": "~1.15.0",
+    "body-parser": "^1.18.3",
     "classnames": "~2.2.3",
+    "directory-tree": "^2.1.0",
     "elkjs": "^0.3.0",
-    "express": "~4.13.4",
+    "express": "^4.16.3",
     "halogen": "~0.2.0",
     "hammerjs": "^2.0.8",
     "history": "~2.0.1",
@@ -28,12 +29,13 @@
     "react-intl": "~2.0.1",
     "react-router": "~3.2.0",
     "react-router-bootstrap": "~0.22.1",
+    "react-treebeard": "^2.1.0",
     "react-websocket": "~1.1.7",
     "reflux": "~0.4.1",
-    "remarkable": "~1.6.2",
-    "semforms": "https://kbss.felk.cvut.cz/dist/semforms-0.1.5.tgz",
+    "remarkable": "^1.7.1",
+    "s-forms": "https://kbss.felk.cvut.cz/dist/s-forms-0.1.7.tgz",
     "stompjs": "~2.3.3",
-    "superagent": "~1.8.3",
+    "superagent": "^3.8.3",
     "the-graph": "^0.12.0",
     "webworker-threads": "^0.7.13"
   },
@@ -59,7 +61,7 @@
     "null-loader": "^0.1.1",
     "rewire": "^2.5.1",
     "uglify-js": "^2.6.2",
-    "watchify": "^3.7.0",
+    "watchify": "^3.11.0",
     "webpack": "^1.12.15"
   },
   "scripts": {
@@ -84,7 +86,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://kbss.felk.cvut.cz/gitblit/summary/students!2017-bachelor-thesis-dorosyan.git"
+    "url": "https://github.com/kbss-cvut/s-pipes-editor.git"
   },
   "private": false
 }

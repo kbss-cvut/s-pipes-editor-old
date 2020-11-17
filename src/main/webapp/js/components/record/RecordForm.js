@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import {Panel} from 'react-bootstrap';
 import I18nWrapper from '../../i18n/I18nWrapper';
 import injectIntl from '../../utils/injectIntl';
 import Mask from '../Mask';
@@ -23,12 +22,18 @@ class RecordForm extends React.Component {
     }
 
     componentDidMount() {
-        WizardBuilder.generateWizard(this.props.script, this.props.module, this.props.moduleType, this.props.record, this.onWizardReady);
+        if (this.props.functionUri != null)
+            WizardBuilder.generateFunctionWizard(this.props.script, this.props.functionUri, this.props.record, this.onWizardReady);
+        else
+            WizardBuilder.generateWizard(this.props.script, this.props.module, this.props.moduleType, this.props.record, this.onWizardReady);
     }
 
     componentWillReceiveProps(nextProps) {
         if (this.props.record.question !== nextProps.record.question) {
-            WizardBuilder.generateWizard(this.props.script, this.props.module, this.props.moduleType, nextProps.record, this.onWizardReady);
+            if (this.props.functionUri != null)
+                WizardBuilder.generateFunctionWizard(this.props.script, this.props.functionUri, this.props.record, this.onWizardReady);
+            else
+                WizardBuilder.generateWizard(this.props.script, this.props.module, this.props.moduleType, nextProps.record, this.onWizardReady);
         }
     }
 
@@ -44,9 +49,7 @@ class RecordForm extends React.Component {
         if (!this.state.wizardProperties) {
             return <Mask text={this.i18n('record.form.please-wait')}/>;
         }
-        return <Panel header={<h5>{this.i18n('record.form-title')}</h5>} bsStyle='info'>
-            <Wizard steps={this.state.wizardProperties.steps} enableForwardSkip={true}/>
-        </Panel>;
+        return <Wizard steps={this.state.wizardProperties.steps} enableForwardSkip={true}/>
     }
 }
 

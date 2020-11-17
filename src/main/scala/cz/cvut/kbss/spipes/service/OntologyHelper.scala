@@ -8,7 +8,9 @@ import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager}
 import cz.cvut.sforms.Vocabulary
 import org.apache.jena.atlas.web.HttpException
 import org.apache.jena.ontology.{OntDocumentManager, OntModel, OntModelSpec}
+import org.apache.jena.rdf.model.impl.StatementImpl
 import org.apache.jena.rdf.model.{Model, ModelFactory, ResourceFactory}
+import org.apache.jena.util.FileUtils
 import org.apache.jena.vocabulary.{OWL, RDF}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -29,10 +31,19 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
     log.info(s"""Looking for an ontology in file ${f.getName()}""")
     cleanly(new FileInputStream(f))(_.close())(is => {
       val model = ModelFactory.createDefaultModel()
-      val st = model.read(is, null, "TTL").listStatements(null, RDF.`type`, OWL.Ontology).toList().asScala
+      val st = model.read(is, null, FileUtils.langTurtle).listStatements(null, RDF.`type`, OWL.Ontology).toList().asScala
       st.map(_.getSubject().getURI())
     }) match {
       case Success(Seq(v)) => Some(v)
+      case Success(s) if s.nonEmpty =>
+        log.warn(
+          s"""Multiple ontologies defined in $f:\n
+             |$s
+           """.stripMargin)
+        s.headOption
+      case Success(Seq()) =>
+        log.warn(f"""No ontology found in $f""")
+        None
       case Failure(e) =>
         log.warn(e.getLocalizedMessage(), e)
         None
@@ -51,10 +62,10 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
       })
   }
 
-  def getFile(ontologyUri: String): Option[File] = scriptDao.getScriptsWithImports(false)
-    .map(s => collectOntologyUris(s.flatMap(_._2))(ontologyUri))
+  def getFile(ontologyUri: String): Option[File] = scriptDao.getScriptsWithImports
+    .flatMap(s => collectOntologyUris(s.flatMap(_._2)).get(ontologyUri))
 
-  def createUnionModel(file: File): Try[OntModel] = scriptDao.getScripts.map(_ -> getOntologyUri(file)) match {
+  def createOntModel(file: File): Try[OntModel] = scriptDao.getScripts.map(_ -> getOntologyUri(file)) match {
     case None => Failure(new ScriptsNotFoundException)
     case Some((_, None)) => Failure(new OntologyNotFoundException(file))
     case Some((f, Some(o))) if f.nonEmpty =>
@@ -65,34 +76,32 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
   }
 
   def getFileDefiningSubject(uri: String): File => Try[String] =
-    (scriptPath: File) => getFileWithStatementFilter(_.getResource(uri).getModel())(scriptPath)
-
+    getFileForStatementFilter(_.containsResource(ResourceFactory.createResource(uri)))
 
   def getFileDefiningTriple(s: String, p: String, o: String): File => Try[String] =
-    (scriptPath: File) => getFileWithStatementFilter(m => m.listStatements(ResourceFactory.createResource(s),
-      ResourceFactory.createProperty(p),
-      m.getResource(o)).next().getModel())(scriptPath)
+    getFileForStatementFilter(m => {
+      m.contains(new StatementImpl(
+        ResourceFactory.createResource(s),
+        ResourceFactory.createProperty(p),
+        m.getResource(o)
+      ))
+    })
 
+  private def getFileForStatementFilter(f: Model => Boolean) = (scriptPath: File) =>
+    createOntModel(scriptPath).flatMap(m => {
+      extractOntology(m, None)(f) match {
+        case Some(model) =>
+          Success(getFile(model.listStatements(null, RDF.`type`, ResourceFactory.createResource(Vocabulary.s_c_Ontology)).nextStatement().getSubject.getURI()).get.getAbsolutePath())
+        case None => Failure(new OntologyNotFoundException(scriptPath))
+      }
+    })
 
-  private def getFileWithStatementFilter(f: Model => Model) =
-    (scriptPath: File) => {
-      createUnionModel(scriptPath).flatMap(m => {
-        scriptDao.getScripts match {
-          case Some(scripts) =>
-            val modelUri = f(m)
-              .listStatements(null, RDF.`type`, ResourceFactory.createResource(Vocabulary.s_c_Ontology))
-              .next().getSubject().getURI()
-            val odm = getOntDocumentManager(scripts)
-            Success(odm.getFileManager.getLocationMapper.getAltEntry(modelUri))
-          case _ => Failure(new ScriptsNotFoundException)
-        }
-      })
-    }
+  def getOntologyURI(m: Model): String = m.listStatements(null, RDF.`type`, OWL.Ontology).next().getSubject().getURI()
 
   private def getOntDocumentManager(scripts: Set[File]) = {
     val docManager = OntDocumentManager.getInstance()
     docManager.clearCache()
-    docManager.setReadFailureHandler((s: String, model: Model, e: Exception) => e match {
+    docManager.setReadFailureHandler((s: String, _: Model, e: Exception) => e match {
       case ex: HttpException if ex.getResponseCode() == 404 =>
         log.warn(f"""Imported ontology $s not found""")
       case ex =>
@@ -103,4 +112,14 @@ class OntologyHelper extends PropertySource with Logger[ScriptService] with Reso
     m.foreach(p => docManager.addAltEntry(p._1, p._2.getAbsolutePath()))
     docManager
   }
+
+  private def extractOntology(m: Model, res: Option[Model]): (Model => Boolean) => Option[Model] =
+    (f: Model => Boolean) =>
+      if (!f(m))
+        None
+      else m match {
+        case model: OntModel if model.listSubModels(true).hasNext() && model.listSubModels(true).filterKeep(f(_)).hasNext =>
+          extractOntology(model.listSubModels(true).filterKeep(f(_)).next(), res)(f)
+        case model => Some(model)
+      }
 }

@@ -8,8 +8,5 @@ import org.apache.jena.query.Dataset
   */
 object JopaPersistenceUtils {
   def getDataset(entityManager: EntityManager): Dataset =
-    try
       entityManager.unwrap(classOf[Dataset])
-    finally
-      entityManager.close()
 }

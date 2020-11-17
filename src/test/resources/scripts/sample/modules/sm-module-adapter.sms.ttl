@@ -1,0 +1,128 @@
+# baseURI: http://onto.fel.cvut.cz/ontologies/lib/sm-module-adapter
+# imports: http://onto.fel.cvut.cz/ontologies/lib/module
+# imports: http://spinrdf.org/spl
+# imports: http://topbraid.org/sparqlmotion
+# imports: http://topbraid.org/sparqlmotionlib-core
+
+@prefix arg: <http://spinrdf.org/arg#> .
+@prefix kbss-module: <http://onto.fel.cvut.cz/ontologies/lib/module/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sm: <http://topbraid.org/sparqlmotion#> .
+@prefix sp: <http://spinrdf.org/sp#> .
+@prefix spin: <http://spinrdf.org/spin#> .
+@prefix spl: <http://spinrdf.org/spl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sml: <http://topbraid.org/sparqlmotionlib#> .
+
+kbss-module:apply-construct-with-chunked-values
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
+kbss-module:apply-construct-with-scrollable-cursor
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
+kbss-module:apply-construct-with-chunked-values-and-scrollable-cursor
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
+kbss-module:improve-spo-with-marginals
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
+kbss-module:bind-rdf-content-hash
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
+kbss-module:cli
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
+kbss-module:construct-form-metadata
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
+kbss-module:deploy
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
+kbss-module:form-generator
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
+kbss-module:import-e5x
+  rdfs:subClassOf sm:inbas-adapter-module ;
+.
+
+kbss-module:external-schemex
+  rdfs:subClassOf sm:inbas-adapter-module ;
+.
+kbss-module:sparql-endpoint-download-graph
+  rdfs:subClassOf sm:inbas-adapter-module ;
+.
+
+
+kbss-module:kbss-modules
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate kbss-module:has-input-graph-constraint ;
+      rdfs:comment "Condition on input graph of this module."^^xsd:string ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate kbss-module:has-output-graph-constraint ;
+      rdfs:comment "Condition on output graph of this module."^^xsd:string ;
+    ] ;
+.
+kbss-module:sparql-endpoint-retrieve-graph
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
+kbss-module:temporal-v1
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
+kbss-module:tarql
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
+kbss-module:void
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
+<http://onto.fel.cvut.cz/ontologies/lib/sm-module-adapter>
+  rdf:type owl:Ontology ;
+  owl:imports <http://onto.fel.cvut.cz/ontologies/lib/module> ;
+  owl:imports <http://spinrdf.org/spl> ;
+  owl:imports <http://topbraid.org/sparqlmotion> ;
+  owl:imports <http://topbraid.org/sparqlmotionlib-core> ;
+.
+sm:Modules
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate kbss-module:has-debug-mode-flag ;
+      spl:valueType xsd:boolean ;
+      rdfs:comment "Indicates whether this module should be in debug mode."^^xsd:string ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate kbss-module:has-input-graph-constraint ;
+      rdfs:comment "Condition on input graph of this module."^^xsd:string ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate kbss-module:has-output-graph-constraint ;
+      rdfs:comment "Condition on output graph of this module."^^xsd:string ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate kbss-module:has-target-module-flag ;
+      spl:valueType xsd:boolean ;
+      rdfs:comment "Indicates whether this module should be executed as target module in debug environment."^^xsd:string ;
+    ] ;
+.
+sm:inbas-adapter-module
+  rdf:type sm:Module ;
+  rdfs:label "INBAS adapter module"^^xsd:string ;
+  rdfs:subClassOf kbss-module:inbas-modules ;
+.
+sm:kbss-adapter-module
+  rdf:type sm:Module ;
+  rdfs:label "KBSS adapter module"^^xsd:string ;
+  rdfs:subClassOf kbss-module:generic-kbss-modules ;
+.

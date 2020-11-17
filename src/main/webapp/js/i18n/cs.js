@@ -47,10 +47,8 @@ module.exports = {
         'main.my-profile': 'Můj profil',
 
         'dashboard.welcome': 'Dobrý den, {name}, vítejte v ' + Constants.APP_NAME + '.',
-        'dashboard.create-tile': 'Vytvořit záznam',
-        'dashboard.users-tile': 'Uživatelé',
-        'dashboard.clinics-tile': 'Kliniky',
-        'dashboard.records-tile': 'Záznamy pacientů',
+        'dashboard.views-tile': 'Prohlížet skripty',
+        'dashboard.functions-tile': 'Prohlížet funkce',
 
         'notfound.title': 'Nenalezeno',
         'notfound.msg-with-id': 'Záznam \'{resource}\' s identifikátorem {identifier} nenalezen.',
@@ -91,6 +89,7 @@ module.exports = {
         'view.reload': 'Obnovit',
         'view.ignore': 'Ignorovat',
         'view.module-type': 'Typ modulů',
+        'view.call-function': 'Zavolat funkce',
 
         'records.panel-title': 'Záznamy o pacientech',
         'records.local-name': 'Identifikátor pacienta',
@@ -101,7 +100,7 @@ module.exports = {
         'records.open-tooltip': 'Zobrazit či upravit záznam tohoto pacienta',
         'records.delete-tooltip': 'Smazat tento záznam',
 
-        'record.panel-title': 'Záznam o pacientovi {identifier}',
+        'record.panel-title': 'Konfigurace',
         'record.form-title': 'Details',
         'record.clinic': 'Pacient léčen na klinice',
         'record.created-by-msg': 'Vytvořil(a) {name} {date}.',

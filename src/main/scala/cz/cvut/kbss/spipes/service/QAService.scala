@@ -4,13 +4,16 @@ import java.io.{File, FileOutputStream}
 
 import cz.cvut.kbss.spipes.model.Vocabulary
 import cz.cvut.kbss.spipes.util.{Logger, PropertySource, ResourceManager}
-import cz.cvut.sempipes.transform.{Transformer, TransformerImpl}
+import cz.cvut.kbss.spipes.websocket.NotificationController
 import cz.cvut.sforms.model.Question
-import org.apache.jena.rdf.model.{Model, ModelFactory, Resource}
+import cz.cvut.spipes.transform.{Transformer, TransformerImpl}
+import org.apache.jena.rdf.model.Resource
+import org.apache.jena.util.FileUtils
 import org.apache.jena.vocabulary.RDF
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
+import scala.collection.JavaConverters._
 import scala.util.Try
 
 /**
@@ -24,27 +27,41 @@ class QAService extends PropertySource with Logger[QAService] with ResourceManag
 
   private val transformer: Transformer = new TransformerImpl()
 
-  def generateForm(scriptPath: String, moduleUri: String, moduleTypeUri: String): Try[Question] = {
+  def generateModuleForm(scriptPath: String, moduleUri: String, moduleTypeUri: String): Try[Question] = {
     log.info("Generating form for script " + scriptPath + ", module " + moduleUri + ", moduleType " + moduleTypeUri)
-    helper.createUnionModel(new File(scriptPath)).map(model => {
+    helper.createOntModel(new File(scriptPath)).map(model => {
       val moduleType = model.listStatements(model.getResource(moduleUri), RDF.`type`, null)
         .filterDrop(_.getObject().asResource().getURI() == Vocabulary.s_c_Modules).nextOptional()
       transformer.script2Form(
-        model,
         model.getResource(moduleUri),
         moduleType.map[Resource](_.getObject().asResource()).orElse(model.getResource(moduleTypeUri))
       )
     })
   }
 
-  def mergeForm(scriptPath: String, rootQuestion: Question, moduleType: String): Try[Model] = {
+  def mergeForm(scriptPath: String, rootQuestion: Question, moduleType: String): Try[_] = {
     log.info("Merging form for script " + scriptPath)
-    val fileName = scriptPath
-    val model = ModelFactory.createDefaultModel().read(fileName)
-    cleanly(new FileOutputStream(fileName))(_.close())(os => {
-      val res = transformer.form2Script(model, rootQuestion, moduleType)
-      res.write(os, "TTL")
-      res
+    helper.createOntModel(new File(scriptPath)).flatMap(model => {
+      log.info(s"Ont model for $scriptPath created")
+      Try(transformer.form2Script(model, rootQuestion, moduleType))
+    }).map { res =>
+      log.info(s"Created updated ont model for $scriptPath")
+      res.asScala.foreach(p => {
+        helper.getFile(p._1).map(f =>
+          cleanly(new FileOutputStream(f))(_.close())(os => {
+            log.info(s"Writing model to file $f")
+            p._2.write(os, FileUtils.langTurtle)
+            NotificationController.notify(scriptPath)
+          }
+          ))
+      })
+    }
+  }
+
+  def generateFunctionForm(scriptPath: String, functionUri: String): Try[Question] = {
+    log.info(s"Generating form for script $scriptPath, function $functionUri")
+    helper.createOntModel(new File(scriptPath)).map(model => {
+      transformer.functionToForm(model, model.getResource(functionUri))
     })
   }
 }

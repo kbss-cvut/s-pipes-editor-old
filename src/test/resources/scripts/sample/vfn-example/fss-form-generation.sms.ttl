@@ -1,6 +1,5 @@
 # baseURI: http://vfn.cz/ontologies/fss-form-generation-0.1
-# imports: http://onto.fel.cvut.cz/ontologies/form-layout
-# imports: http://onto.fel.cvut.cz/ontologies/lib/sm-module-adapter
+# imports: http://onto.fel.cvut.cz/ontologies/s-pipes-lib
 # imports: http://onto.fel.cvut.cz/ontologies/vfn-form-mod
 # imports: http://vfn.cz/ontologies/fss-form-static
 
@@ -292,10 +291,9 @@ WHERE {
 .
 <http://vfn.cz/ontologies/fss-form-generation-0.1>
   rdf:type owl:Ontology ;
-  owl:imports <http://onto.fel.cvut.cz/ontologies/form-layout> ;
-  owl:imports <http://onto.fel.cvut.cz/ontologies/lib/sm-module-adapter> ;
   owl:imports <http://onto.fel.cvut.cz/ontologies/vfn-form-mod> ;
   owl:imports <http://vfn.cz/ontologies/fss-form-static> ;
+  owl:imports <http://onto.fel.cvut.cz/ontologies/s-pipes-lib> ;
 .
 fssgen:attach-possible-values-hook
   rdf:type sml:ApplyConstruct ;

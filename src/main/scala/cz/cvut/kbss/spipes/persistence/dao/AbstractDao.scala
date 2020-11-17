@@ -15,6 +15,9 @@ import scala.util.Try
 
 /**
   * Created by yan on 2/10/17.
+ *
+ * //TODO
+ * Nefunguje myslim - neresit pouzito jen u ViewDao, ktere nema UI
   */
 abstract class AbstractDao[T <: AbstractEntity] extends Logger[AbstractDao[T]] with ResourceManager {
 

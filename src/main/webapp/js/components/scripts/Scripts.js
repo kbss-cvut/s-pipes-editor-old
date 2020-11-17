@@ -1,13 +1,13 @@
 import * as React from 'react';
 import Actions from '../../actions/Actions';
 import ScriptStore from '../../stores/ScriptStore';
-import {Nav, NavItem} from 'react-bootstrap';
 import I18nWrapper from "../../i18n/I18nWrapper";
 import injectIntl from "../../utils/injectIntl";
 import Messager from "../wrapper/Messager";
 import Mask from "../Mask";
 import Routing from "../../utils/Routing";
 import Routes from "../../utils/Routes";
+import {Treebeard} from 'react-treebeard';
 
 const ABSOLUTE_PATH = "http://onto.fel.cvut.cz/ontologies/s-pipes/has-absolute-path";
 const RELATIVE_PATH = "http://onto.fel.cvut.cz/ontologies/s-pipes/has-script-path";
@@ -22,6 +22,18 @@ class Scripts extends React.Component {
             loading: true
         };
         parent = this;
+        this.onToggle = this.onToggle.bind(this);
+    }
+
+    onToggle(node, toggled) {
+        if (this.state.cursor)
+            this.state.cursor.active = false;
+        node.active = true;
+        if (node.children)
+            node.toggled = toggled;
+        else
+            this._showView(node.file);
+        this.setState({cursor: node});
     }
 
     componentWillMount() {
@@ -34,12 +46,12 @@ class Scripts extends React.Component {
         if (this.state.scripts == null)
             return <p>No scripts found</p>;
         return (
-            <Nav bsStyle="pills">
-                {Object.keys(this.state.scripts).map(s => {
-                    return <NavItem key={this.state.scripts[s][ABSOLUTE_PATH]}
-                                    onSelect={this._showView}>{this.state.scripts[s][RELATIVE_PATH]}</NavItem>;
-                })}
-            </Nav>)
+            <div>
+                <Treebeard
+                    data={this.state.scripts}
+                    onToggle={this.onToggle}/>
+            </div>
+        );
     }
 
     componentDidMount() {
@@ -51,17 +63,18 @@ class Scripts extends React.Component {
     }
 
     _scriptsLoaded(scripts) {
-        Object.keys(scripts).forEach(k => {
-            const newkey = scripts[k][RELATIVE_PATH];
-            scripts[newkey] = scripts[k];
-            delete scripts[k];
-        });
+        if (scripts == null) {
+            this.setState({loading: false});
+            return;
+        }
         this.setState({loading: false, scripts: scripts});
     }
 
-    _showView() {
-        const options = {state: {script: parent.state.scripts[this.children][ABSOLUTE_PATH]}};
-        Routing.transitionTo(Routes.views, options);
+    _showView(script) {
+        Routing.transitionTo(Routes.views, {
+            params: {key: script.replace(/\//g, "_")},
+            state: {script: script}
+        });
     }
 }
 
