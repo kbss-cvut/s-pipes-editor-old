@@ -18,7 +18,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <ch.qos.logback.logback-classic.version>1.2.3</ch.qos.logback.logback-classic.version>
-        <com.fasterxml.json.version>2.9.4</com.fasterxml.json.version>
+        <com.fasterxml.json.version>2.9.10.7</com.fasterxml.json.version>
         <com.google.code.maven-replacer-plugin.replacer.version>1.5.3
         </com.google.code.maven-replacer-plugin.replacer.version>
         <cz.cvut.kbss.jsonld.jb4jsonld-jackson.version>0.2.1</cz.cvut.kbss.jsonld.jb4jsonld-jackson.version>
