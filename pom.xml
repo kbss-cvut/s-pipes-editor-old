@@ -35,7 +35,7 @@
         <org.scala-lang.version>2.12.5</org.scala-lang.version>
         <org.slf4j.slf4j-api.version>1.7.25</org.slf4j.slf4j-api.version>
         <org.springframework.security.version>4.2.4.RELEASE</org.springframework.security.version>
-        <org.springframework.version>4.3.14.RELEASE</org.springframework.version>
+        <org.springframework.version>5.3.18</org.springframework.version>
         <commons.io.version>2.6</commons.io.version>
     </properties>
 
