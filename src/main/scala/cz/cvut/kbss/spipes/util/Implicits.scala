@@ -45,7 +45,7 @@ object Implicits {
   implicit def abstractEntity2String(e: AbstractEntity): String =
     s"""
        |${e.getClass().getSimpleName()} {
-       | ${e.getClass().getMethods().filter(_.getName().contains("get")).map((m) => m.getName() + ": " + m.invoke(e)).mkString(",\n ")}
+       | ${e.getClass().getMethods().filter(_.getName().contains("get")).map(m => m.getName() + ": " + m.invoke(e)).mkString(",\n ")}
        |}
      """.stripMargin
 

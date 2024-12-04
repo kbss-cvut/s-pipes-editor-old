@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 03.02.17.
   */
-
+//TODO tohle se nikde nepouziva
 @RunWith(classOf[SpringJUnit4ClassRunner])
 @ContextConfiguration(classes = Array(classOf[TestPersistenceConfig]))
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)

@@ -1,30 +1,8 @@
 'use strict';
 
-import Utils from './Utils';
-
 module.exports = {
 
-    initNewUser: function () {
-        return {
-            firstName: '',
-            lastName: '',
-            username: '',
-            emailAddress: '',
-            password: Utils.generatePassword(),
-            isAdmin: false,
-            isNew: true
-        };
-    },
-
-    initNewClinic: function () {
-        return {
-            name: '',
-            emailAddress: '',
-            isNew: true
-        }
-    },
-
-    initNewPatientRecord: function () {
+    initNewRecord: function () {
         return {
             localName: '',
             complete: false,

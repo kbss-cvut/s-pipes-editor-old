@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {Nav, NavItem} from 'react-bootstrap';
-import {FormUtils} from 'semforms';
+import {FormUtils} from 's-forms';
 
 const HorizontalWizardNav = (props) => {
     let navMenu = props.steps.map((step, index) => {

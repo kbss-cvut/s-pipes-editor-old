@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
 import org.springframework.web.bind.annotation._
 
-import scala.collection.JavaConverters.{seqAsJavaListConverter, setAsJavaSetConverter}
+import scala.collection.JavaConverters.seqAsJavaListConverter
 import scala.util.{Failure, Success}
 
 /**
@@ -22,6 +22,24 @@ class ScriptController extends Logger[ScriptController] {
   @Autowired
   private var service: ScriptService = _
 
+  @PostMapping(path = Array("/functions"), produces = Array(JsonLd.MEDIA_TYPE))
+  def getFunctions(@RequestBody dto: ScriptDTO): ResponseEntity[Any] = {
+    val script = dto.getAbsolutePath()
+    log.info("Looking for functions of script " + script)
+    service.getFunctions(script) match {
+      case Left(e) =>
+        log.error(e.getLocalizedMessage(), e)
+        new ResponseEntity(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
+      case Right(None) =>
+        log.info(f"""No functions found for script $script""")
+        new ResponseEntity(f"""No functions found for script $script""", HttpStatus.NOT_FOUND)
+      case Right(Some(types)) =>
+        log.info("Found functions for script " + script)
+        log.trace(types)
+        new ResponseEntity(types.toList.sortBy(_.getFunctionLocalName()).asJava, HttpStatus.OK)
+    }
+  }
+
   @PostMapping(path = Array("/moduleTypes"), produces = Array(JsonLd.MEDIA_TYPE))
   def getModuleTypes(@RequestBody dto: ScriptDTO): ResponseEntity[Any] = {
     val script = dto.getAbsolutePath()
@@ -31,8 +49,8 @@ class ScriptController extends Logger[ScriptController] {
         log.error(e.getLocalizedMessage(), e)
         new ResponseEntity(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
       case Right(None) =>
-        log.info("No module types found for script " + script)
-        new ResponseEntity(HttpStatus.NOT_FOUND)
+        log.info(f"""No module types found for script $script""")
+        new ResponseEntity(f"""No module types found for script $script""", HttpStatus.NOT_FOUND)
       case Right(Some(types)) =>
         log.info("Found module types for script " + script)
         log.trace(types)
@@ -40,24 +58,16 @@ class ScriptController extends Logger[ScriptController] {
     }
   }
 
-  @GetMapping(produces = Array(JsonLd.MEDIA_TYPE))
-  def getScripts: ResponseEntity[Any] = {
+  @GetMapping
+  def getScripts: ResponseEntity[_] = {
     log.info("Looking for any scripts")
-    service.getScripts match {
-      case Some(s) =>
-        log.info("Scripts found")
-        log.trace(s.mkString("[", ",", "]"))
-        new ResponseEntity(s.asJava, HttpStatus.OK)
-      case None =>
-        log.info("No scripts found")
-        new ResponseEntity("No scripts found", HttpStatus.NOT_FOUND)
-    }
+    new ResponseEntity(service.getScripts, HttpStatus.OK)
   }
 
   @PostMapping(path = Array("/modules/dependency"))
   def createDependency(@RequestBody dto: DependencyDTO): ResponseEntity[Any] = {
-    val script = dto.getScriptPath()
-    log.info(f"""Creating ${dto.getModuleUri()}'s dependency on ${dto.getTargetModuleUri()} in script ${dto.getScriptPath()}""")
+    val script = dto.getAbsolutePath()
+    log.info(f"""Creating ${dto.getModuleUri()}'s dependency on ${dto.getTargetModuleUri()} in script $script""")
     service.createDependency(script, dto.getModuleUri(), dto.getTargetModuleUri()) match {
       case Success(_) =>
         new ResponseEntity[Any](HttpStatus.CREATED)
@@ -69,8 +79,8 @@ class ScriptController extends Logger[ScriptController] {
 
   @PostMapping(path = Array("/modules/dependencies/delete"))
   def deleteDependency(@RequestBody dto: DependencyDTO): ResponseEntity[Any] = {
-    val script = dto.getScriptPath()
-    log.info(f"""Deleting ${dto.getModuleUri()}'s dependency on ${dto.getTargetModuleUri()} in script ${dto.getScriptPath()}""")
+    val script = dto.getAbsolutePath()
+    log.info(f"""Deleting ${dto.getModuleUri()}'s dependency on ${dto.getTargetModuleUri()} in script $script""")
     service.deleteDependency(script, dto.getModuleUri(), dto.getTargetModuleUri()) match {
       case Success(_) =>
         new ResponseEntity[Any](HttpStatus.OK)
@@ -82,7 +92,7 @@ class ScriptController extends Logger[ScriptController] {
 
   @PostMapping(path = Array("/modules/delete"))
   def deleteModule(@RequestBody dto: ModuleDTO): ResponseEntity[Any] = {
-    val scriptPath = dto.getScriptPath()
+    val scriptPath = dto.getAbsolutePath()
     val module = dto.getModuleUri()
     log.info("Deleting module " + module + " from " + scriptPath)
     service.deleteModule(scriptPath, module) match {

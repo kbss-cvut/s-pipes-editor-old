@@ -7,12 +7,13 @@ import java.util.{List => JList}
 import cz.cvut.kbss.jopa.Persistence
 import cz.cvut.kbss.jopa.model._
 import cz.cvut.kbss.ontodriver.jena.config.JenaOntoDriverProperties
-import cz.cvut.kbss.spipes.model.AbstractEntity
 import cz.cvut.kbss.spipes.model.Vocabulary._
+import cz.cvut.kbss.spipes.model.dto.filetree.{FileTree, Leaf, Stub, SubTree}
 import cz.cvut.kbss.spipes.model.spipes.{Module, ModuleType}
 import cz.cvut.kbss.spipes.util._
 import javax.annotation.PostConstruct
-import org.apache.jena.rdf.model.{Model, ModelFactory}
+import org.apache.jena.rdf.model._
+import org.apache.jena.vocabulary.RDF
 import org.springframework.stereotype.Repository
 
 import scala.collection.JavaConverters._
@@ -44,26 +45,65 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManag
     emf = Persistence.createEntityManagerFactory("testPersistenceUnit", props.asJava)
   }
 
-  def getModules(m: Model): Try[JList[Module]] =
-    get(m)(s_c_Modules)(classOf[Module])
-
-  def getModuleTypes(m: Model): Try[JList[ModuleType]] =
-    get(m)(s_c_Module)(classOf[ModuleType])
-
-
-  private def get[T <: AbstractEntity](m: Model) =
-    (owlClass: String) =>
-      (resultClass: Class[T]) => Try {
-        val em = emf.createEntityManager()
-        val inferredModel = ModelFactory.createRDFSModel(m)
-        val dataset = JopaPersistenceUtils.getDataset(em)
-        dataset.setDefaultModel(inferredModel)
-        emf.getCache().evict(resultClass)
-        val query = em.createNativeQuery("select ?s where { ?s a ?type }", resultClass)
-          .setParameter("type", URI.create(owlClass))
-        query.getResultList()
+  def getModules(m: Model): Try[JList[Module]] = Try {
+    val em = emf.createEntityManager()
+    val inferredModel = ModelFactory.createRDFSModel(m)
+    val dataset = JopaPersistenceUtils.getDataset(em)
+    dataset.setDefaultModel(inferredModel)
+    emf.getCache().evict(classOf[Module])
+    val query = em.createNativeQuery("select ?s where { ?s a ?type }", classOf[Module])
+      .setParameter("type", URI.create(s_c_Modules))
+    val modules = query.getResultList()
+    modules.forEach(module => {
+      val q = em.createNativeQuery(
+        f"""
+           |prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+           |
+           |select distinct ?type where {
+           |  ?module a ?type .
+           |  filter not exists {
+           |    ?module  a ?subtype .
+           |    ?subtype rdfs:subClassOf ?type .
+           |    filter ( ?subtype != ?type )
+           |  }
+           |}
+         """.stripMargin
+        , classOf[ModuleType])
+        .setParameter("module", module.getUri())
+      val ts = q.getResultList()
+      if (ts.size() > 1)
+        log.warn(
+          f"""More than one most specific type found for module ${module.getUri()}:
+             |$ts
+           """.stripMargin)
+      if (!ts.isEmpty()) {
+        module.setSpecificType(ts.get(0))
+        log.info(f"""Most specific type for module ${module.getUri()} is ${ts.get(0).getUri()}""")
       }
+      else
+        log.error(f"""Module ${module.getUri()} has no most specific type""")
+    })
+    em.close()
+    modules
+  }
 
+  def getModuleTypes(m: Model): Try[JList[ModuleType]] = Try {
+    val em = emf.createEntityManager()
+    val inferredModel = ModelFactory.createRDFSModel(m)
+    val dataset = JopaPersistenceUtils.getDataset(em)
+    dataset.setDefaultModel(inferredModel)
+    emf.getCache().evict(classOf[ModuleType])
+    val query = em.createNativeQuery("select ?s where { ?s a ?type . }", classOf[ModuleType])
+      .setParameter("type", URI.create(s_c_Module))
+    val moduleTypes = query.getResultList();
+    em.close()
+    moduleTypes
+  }
+
+  def getFunctionStatements(m: Model): Try[StmtIterator] = Try(
+    m.listStatements(null, RDF.`type`, m.createResource("http://topbraid.org/sparqlmotion#Function")))
+
+  //TODO should return only set, Option not required
   def getScripts: Option[Set[File]] = {
     val scriptsPaths = discoverLocations
     log.info("Looking for any scripts in " + scriptsPaths.mkString("[", ",", "]"))
@@ -73,30 +113,43 @@ class ScriptDao extends PropertySource with Logger[ScriptDao] with ResourceManag
     }
   }
 
-  def getScriptsWithImports(ignore: Boolean): Option[Set[(File, Set[File])]] = {
+  def getScriptsWithImports: Option[Set[(File, Set[File])]] = {
     val scriptsPaths = discoverLocations
     log.info("Looking for any scripts in " + scriptsPaths.mkString("[", ",", "]"))
-    scriptsPaths.toSet.map((f: File) => f -> find(f, Set(), ignore)).filter(_._2.nonEmpty) match {
+    scriptsPaths.toSet.map((f: File) => f -> find(f, Set())).filter(_._2.nonEmpty) match {
       case i if i.nonEmpty =>
         Some(i)
       case _ => None
     }
   }
 
-  private def find(root: File, acc: Set[File], ignore: Boolean = false): Set[File] =
-    if (ignore && ignored.contains(root)) {
+  private def find(root: File, acc: Set[File]): Set[File] =
+    if (ignored.contains(root)) {
       log.info(f"""Ignoring $root""")
       acc
     }
     else {
-      if (root.isFile() && root.getName().contains(".ttl"))
+      if (root.isFile() && root.getName().endsWith(".ttl"))
         acc + root
       else if (root.isDirectory())
         root.listFiles() match {
-          case s if s.nonEmpty => s.map((f) => find(f, acc)).reduceLeft(_ ++ _)
+          case s if s.nonEmpty => s.map(f => find(f, acc)).reduceLeft(_ ++ _)
           case _ => acc
         }
       else
         acc
     }
+
+
+  def getScriptsTree: Array[FileTree] = discoverLocations.map(toTree)
+
+  private def toTree(f: File): FileTree =
+    if (f.isFile() && f.getName().toLowerCase().endsWith(".ttl")) new Leaf(f, f.getName())
+    else if (f.isDirectory()) {
+      f.listFiles().map(toTree).filterNot(_.isInstanceOf[Stub]) match {
+        case s if s.nonEmpty => new SubTree(s.sortBy(_.getName()), f.getName())
+        case _ => new Stub()
+      }
+    }
+    else new Stub()
 }

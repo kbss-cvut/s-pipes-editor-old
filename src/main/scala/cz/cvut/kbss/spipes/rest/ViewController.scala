@@ -28,8 +28,8 @@ class ViewController extends Logger[ViewController] {
         log.error(e.getLocalizedMessage(), e)
         new ResponseEntity(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
       case Right(None) =>
-        log.info("View can not be created, no modules found for script " + script)
-        new ResponseEntity(HttpStatus.NOT_FOUND)
+        log.info(f"""View can not be created, no modules found for script $script""")
+        new ResponseEntity(f"""View can not be created, no modules found for script $script""", HttpStatus.NOT_FOUND)
       case Right(Some(v)) =>
         log.info("View for script " + script + " created")
         log.trace(v)

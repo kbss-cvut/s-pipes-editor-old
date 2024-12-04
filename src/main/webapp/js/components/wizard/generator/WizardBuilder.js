@@ -1,12 +1,11 @@
 'use strict';
 
-import {Configuration, WizardGenerator} from 'semforms';
+import {Configuration, WizardGenerator} from 's-forms';
 import Actions from '../../../actions/Actions';
 import Ajax from '../../../utils/Ajax';
-import FormGenStore from '../../../stores/FormGenStore';
 import I18nStore from '../../../stores/I18nStore';
 import Logger from '../../../utils/Logger';
-import TypeaheadResultList from '../../typeahead/TypeaheadResultList';
+import {TypeaheadResultList} from '../../typeahead/TypeaheadResultList';
 import WizardStore from '../../../stores/WizardStore';
 
 const QUESTION_DTO = "http://onto.fel.cvut.cz/ontologies/s-pipes/question-dto";
@@ -25,7 +24,22 @@ export default class WizardBuilder {
         Ajax.post("rest/scripts/forms", request).end((data) => {
             Configuration.actions = Actions;
             Configuration.wizardStore = WizardStore;
-            Configuration.optionsStore = FormGenStore;
+            Configuration.intl = I18nStore.getIntl();
+            Configuration.typeaheadResultList = TypeaheadResultList;
+            WizardGenerator.createWizard(data, record.question, null, renderCallback);
+        }, () => {
+            Logger.error('Received no valid wizard.');
+        });
+    }
+
+    static generateFunctionWizard(script, functionUri, record, renderCallback) {
+        const request = {};
+        request["@type"] = QUESTION_DTO;
+        request[MODULE_URI] = functionUri;
+        request[SCRIPT_PATH] = script;
+        Ajax.post("rest/scripts/functions/forms", request).end((data) => {
+            Configuration.actions = Actions;
+            Configuration.wizardStore = WizardStore;
             Configuration.intl = I18nStore.getIntl();
             Configuration.typeaheadResultList = TypeaheadResultList;
             WizardGenerator.createWizard(data, record.question, null, renderCallback);

@@ -25,13 +25,7 @@ let ResourceNotFound = React.createClass({
     },
 
     render: function () {
-        let text;
-        if (this.props.identifier) {
-            text = <FormattedMessage id='notfound.msg-with-id'
-                                     values={{resource: this.props.resource, identifier: this.props.identifier}}/>;
-        } else {
-            text = <FormattedMessage id='notfound.msg' values={{resource: this.props.resource}}/>;
-        }
+        const text = <FormattedMessage id='notfound.msg' values={{resource: this.props.resource}}/>;
         return (<Alert bsStyle='danger' onDismiss={this.onClose}>
             <h4>{this.i18n('notfound.title')}</h4>
 

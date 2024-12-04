@@ -1,9 +1,5 @@
 # baseURI: http://onto.fel.cvut.cz/ontologies/vfn-form-mod
-# imports: http://onto.fel.cvut.cz/ontologies/form
-# imports: http://onto.fel.cvut.cz/ontologies/form-layout
-# imports: http://onto.fel.cvut.cz/ontologies/lib/sm-module-adapter
 # imports: http://onto.fel.cvut.cz/ontologies/lib/spin-function
-# imports: http://spinrdf.org/spin
 
 @prefix doc: <http://onto.fel.cvut.cz/ontologies/documentation/> .
 @prefix e-a-3.4.0.2: <http://onto.fel.cvut.cz/ontologies/eccairs/aviation-3.4.0.2/> .
@@ -63,11 +59,7 @@ form:is-cross-form-clone-of-question
 .
 <http://onto.fel.cvut.cz/ontologies/vfn-form-mod>
   rdf:type owl:Ontology ;
-  owl:imports <http://onto.fel.cvut.cz/ontologies/form> ;
-  owl:imports <http://onto.fel.cvut.cz/ontologies/form-layout> ;
-  owl:imports <http://onto.fel.cvut.cz/ontologies/lib/sm-module-adapter> ;
   owl:imports <http://onto.fel.cvut.cz/ontologies/lib/spin-function> ;
-  owl:imports <http://spinrdf.org/spin> ;
 .
 vfn-form-mod:annotate-sample-questions
   rdf:type sml:ApplyConstruct ;

@@ -2,10 +2,7 @@
 
 import request from 'superagent';
 import Cookies from 'js-cookie';
-import Routes from './Routes';
-import Routing from './Routing';
 import Logger from './Logger';
-import Utils from './Utils';
 
 const csrfTokenHeader = 'X-CSRF-Token';
 
@@ -66,20 +63,9 @@ const Ajax = {
     end: function (onSuccess, onError) {
         this.req.set(csrfTokenHeader, this.getCsrfToken()).end(function (err, resp) {
             if (err) {
-                if (err.status === 401) {
-                    const currentRoute = Utils.getPathFromLocation();
-                    if (currentRoute !== Routes.login.path) {
-                        Routing.saveOriginalTarget({path: currentRoute});
-                        Routing.transitionTo(Routes.login);
-                    }
-                    if (onError) {
-                        onError();
-                    }
-                    return;
-                }
                 try {
                     if (onError) {
-                        onError();
+                        onError(err);
                     }
                     this._handleError(err);
                 } catch (ex) {

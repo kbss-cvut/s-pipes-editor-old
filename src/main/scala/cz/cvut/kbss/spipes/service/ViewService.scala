@@ -33,6 +33,7 @@ class ViewService extends Logger[ViewService] {
           m.getUri(),
           m.getId(),
           m.getLabel(),
+          m.getSpecificType().getUri().toString(),
           0d,
           0d,
           m.getTypes(),

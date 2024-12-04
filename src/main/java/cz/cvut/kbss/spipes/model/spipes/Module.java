@@ -19,6 +19,10 @@ public class Module extends AbstractEntity {
     private String label;
     @OWLObjectProperty(iri = s_p_next, fetch = FetchType.EAGER)
     private Set<Module> next;
+
+    @OWLObjectProperty(iri = s_p_specific_type)
+    private ModuleType specificType;
+
     @Types
     private Set<String> types;
 
@@ -61,5 +65,13 @@ public class Module extends AbstractEntity {
 
     public void setTypes(Set<String> types) {
         this.types = types;
+    }
+
+    public ModuleType getSpecificType() {
+        return specificType;
+    }
+
+    public void setSpecificType(ModuleType specificType) {
+        this.specificType = specificType;
     }
 }

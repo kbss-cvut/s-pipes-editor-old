@@ -7,7 +7,6 @@ import cz.cvut.kbss.spipes.model.AbstractEntity;
 import java.net.URI;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 import static cz.cvut.kbss.spipes.model.Vocabulary.*;
 
@@ -19,6 +18,8 @@ public class Node extends AbstractEntity {
 
     @OWLDataProperty(iri = s_p_label)
     private String label;
+    @OWLDataProperty(iri = s_p_component)
+    private String component;
     @OWLDataProperty(iri = s_p_has_x_coordinate)
     private Double x = 0.0;
     @OWLDataProperty(iri = s_p_has_y_coordinate)
@@ -37,21 +38,11 @@ public class Node extends AbstractEntity {
     public Node() {
     }
 
-    public Node(String label, double x, double y, Set<String> moduleTypes, Set<String> inParameters, Set<String> outParameters) {
-        this.id = UUID.randomUUID().toString();
-        this.uri = URI.create(s_c_node + "/" + id);
-        this.label = label;
-        this.x = x;
-        this.y = y;
-        this.moduleTypes = moduleTypes;
-        this.inParameters = inParameters;
-        this.outParameters = outParameters;
-    }
-
-    public Node(URI uri, String id, String label, Double x, Double y, Set<String> moduleTypes, Set<String> inParameters, Set<String> outParameters) {
+    public Node(URI uri, String id, String label, String component, Double x, Double y, Set<String> moduleTypes, Set<String> inParameters, Set<String> outParameters) {
         this.uri = uri;
         this.id = id;
         this.label = label;
+        this.component = component;
         this.x = x;
         this.y = y;
         this.moduleTypes = moduleTypes;
@@ -65,6 +56,14 @@ public class Node extends AbstractEntity {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public String getComponent() {
+        return component;
+    }
+
+    public void setComponent(String component) {
+        this.component = component;
     }
 
     public double getX() {
@@ -113,6 +112,7 @@ public class Node extends AbstractEntity {
         if (o == null || getClass() != o.getClass()) return false;
         Node node = (Node) o;
         return Objects.equals(getLabel(), node.getLabel()) &&
+                Objects.equals(getComponent(), node.getComponent()) &&
                 Objects.equals(getX(), node.getX()) &&
                 Objects.equals(getY(), node.getY()) &&
                 Objects.equals(getModuleTypes(), node.getModuleTypes()) &&
@@ -123,6 +123,6 @@ public class Node extends AbstractEntity {
     @Override
     public int hashCode() {
 
-        return Objects.hash(getLabel(), getX(), getY(), getModuleTypes(), getInParameters(), getOutParameters());
+        return Objects.hash(getLabel(), getComponent(), getX(), getY(), getModuleTypes(), getInParameters(), getOutParameters());
     }
 }

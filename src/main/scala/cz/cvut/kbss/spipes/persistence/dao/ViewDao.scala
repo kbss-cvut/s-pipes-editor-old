@@ -10,6 +10,10 @@ import scala.util.Try
 
 /**
   * Created by Yan Doroshenko (yandoroshenko@protonmail.com) on 03.11.16.
+  *
+ * //TODO
+  * V aplikaci se nepouziva, zatim neresit + metody nefunguji - AbstractDao neumi vyhledavat v ontologiich - resp.
+  * existuje jeden endpoint, nicemene nema UI - PODLE ME SE NEPOUZIVA
   */
 @Repository
 class ViewDao extends AbstractDao[View] {
@@ -25,7 +29,7 @@ class ViewDao extends AbstractDao[View] {
   def updateView(uri: URI, other: View): Try[Unit] = {
     log.info("Updating view with URI " + uri + " to " + other)
     val em = emf.createEntityManager()
-    get(uri).map { (v) =>
+    get(uri).map { v =>
       em.getTransaction().begin()
       v.setLabel(other.getLabel)
       v.setNodes(other.getNodes)

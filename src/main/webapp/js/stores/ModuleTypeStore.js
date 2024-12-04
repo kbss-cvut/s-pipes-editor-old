@@ -19,8 +19,8 @@ const ModuleTypeStore = Reflux.createStore({
             (data) => {
                 this.trigger({action: Actions.loadAllModuleTypes, data: data});
             },
-            () => {
-                this.trigger({action: Actions.loadAllModuleTypes, data: data});
+            (error) => {
+                this.trigger({action: Actions.loadAllModuleTypes, data: error});
             });
     }
 });
